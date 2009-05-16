@@ -113,6 +113,7 @@ void
 ProgressDialog::reset() throw()
 {
     progressBar_.set_fraction(0.0);
+    progressBar_.set_text("");
     set_progress_title("");
 }
 
