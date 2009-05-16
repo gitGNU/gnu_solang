@@ -32,7 +32,7 @@ class ProgressDialog :
     public Gtk::Dialog 
 {
     public:
-        ProgressDialog(const ProgressObserverPtr &observer) throw();
+        ProgressDialog(const ProgressObserverPtr & observer) throw();
 
         virtual
         ~ProgressDialog() throw();
@@ -46,8 +46,8 @@ class ProgressDialog :
         void 
         set_progress_title(const Glib::ustring & title);
 
-		void 
-		reset() throw();
+        void 
+        reset() throw();
 
     protected:
         virtual bool

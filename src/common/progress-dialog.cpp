@@ -115,4 +115,5 @@ ProgressDialog::reset() throw()
     progressBar_.set_fraction(0.0);
     set_progress_title("");
 }
+
 } // namespace Solang
