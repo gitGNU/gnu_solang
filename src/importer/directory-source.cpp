@@ -78,7 +78,6 @@ DirectorySource::import(const PhotoList & photos,
                         const ProgressObserverPtr & observer) throw()
 {
     observer->set_num_events(photos.size());
-    observer->set_event_description("Importing photos");
 
     PhotoList imported_photos;
     for (PhotoList::const_iterator it = photos.begin();
