@@ -20,6 +20,8 @@
 #include "config.h"
 #endif // HAVE_CONFIG_H
 
+#include <iostream>
+
 #include "application.h"
 #include "browser-renderer.h"
 #include "engine.h"
@@ -137,6 +139,16 @@ BrowserRenderer::render(const PhotoPtr & photo) throw()
     }
     catch (const Glib::FileError & e)
     {
+        std::cerr << __FILE__ << ":" << __LINE__ << ", "
+                  << __FUNCTION__ << ": " << e.what()
+                  << std::endl;
+        return;
+    }
+    catch (const Gdk::PixbufError & e)
+    {
+        std::cerr << __FILE__ << ":" << __LINE__ << ", "
+                  << __FUNCTION__ << ": " << e.what()
+                  << std::endl;
         return;
     }
 

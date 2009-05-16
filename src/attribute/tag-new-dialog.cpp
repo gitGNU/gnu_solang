@@ -20,6 +20,8 @@
 #include "config.h"
 #endif // HAVE_CONFIG_H
 
+#include <iostream>
+
 #include <glibmm.h>
 #include <glibmm/i18n.h>
 #include <sigc++/sigc++.h>
@@ -158,6 +160,9 @@ TagNewDialog::on_icon_button_clicked() throw()
         }
         catch (const Glib::ConvertError & e)
         {
+            std::cerr << __FILE__ << ":" << __LINE__ << ", "
+                      << __FUNCTION__ << ": " << e.what()
+                      << std::endl;
         }
     }
 
@@ -178,6 +183,9 @@ TagNewDialog::on_icon_button_clicked() throw()
             }
             catch (const Glib::ConvertError & e)
             {
+                std::cerr << __FILE__ << ":" << __LINE__ << ", "
+                          << __FUNCTION__ << ": " << e.what()
+                          << std::endl;
                 break;
             }
 
@@ -194,7 +202,17 @@ TagNewDialog::on_icon_button_clicked() throw()
             }
             catch (const Glib::FileError & e)
             {
-                break;
+                std::cerr << __FILE__ << ":" << __LINE__ << ", "
+                          << __FUNCTION__ << ": " << e.what()
+                          << std::endl;
+                return;
+            }
+            catch (const Gdk::PixbufError & e)
+            {
+                std::cerr << __FILE__ << ":" << __LINE__ << ", "
+                          << __FUNCTION__ << ": " << e.what()
+                          << std::endl;
+                return;
             }
 
             iconImage_.set(pixbuf);

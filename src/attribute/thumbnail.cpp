@@ -259,11 +259,30 @@ Thumbnail::generate_using_gdkpixbuf(const Glib::ustring & path,
     thumbnail.zoom( newSize );
     thumbnail.write( get_path() );
 #endif
-    PixbufPtr thumbnail = Gdk::Pixbuf::create_from_file(
-                                        path,
-                                        -1, //We keep aspect
-                                        new_size_hint.get_y(),
-                                        true);
+    PixbufPtr thumbnail;
+    try
+    {
+        thumbnail = Gdk::Pixbuf::create_from_file(
+                                     path,
+                                     -1, //We keep aspect
+                                     new_size_hint.get_y(),
+                                     true);
+    }
+    catch (const Glib::FileError & e)
+    {
+        std::cerr << __FILE__ << ":" << __LINE__ << ", "
+                  << __FUNCTION__ << ": " << e.what()
+                  << std::endl;
+        return;
+    }
+    catch (const Gdk::PixbufError & e)
+    {
+        std::cerr << __FILE__ << ":" << __LINE__ << ", "
+                  << __FUNCTION__ << ": " << e.what()
+                  << std::endl;
+        return;
+    }
+
     thumbnail->save( get_path(), "jpeg" );    
 
     set_resolution( Resolution( thumbnail->get_width(), thumbnail->get_height() ) );
