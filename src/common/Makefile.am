@@ -1,0 +1,53 @@
+noinst_LTLIBRARIES =	libcommon.la
+
+libcommon_la_SOURCES = \
+	error.cpp \
+	error.h \
+	i-photo-destination.cpp \
+	i-photo-destination.h \
+	i-photo-source.cpp \
+	i-photo-source.h \
+	i-plugin.cpp \
+	i-plugin.h \
+	i-renderer.cpp \
+	i-renderer.h \
+	i-storage.cpp \
+	i-storage.h \
+	non-copyable.cpp \
+	non-copyable.h \
+	photo.cpp \
+	photo.h \
+	photo-search-criteria.cpp \
+	photo-search-criteria.h \
+	plugin.cpp \
+	plugin.h \
+	progress-dialog.cpp \
+	progress-dialog.h \
+	progress-observer.cpp \
+	progress-observer.h \
+	types.h
+
+AM_CPPFLAGS = \
+       	-DPACKAGE_LOCALE_DIR=\"${SOLANG_LOCALE_DIR}\" \
+	-DPACKAGE_SRC_DIR=\""$(srcdir)"\" \
+	-DPACKAGE_DATA_DIR=\""$(datadir)"\" \
+	-I$(top_builddir) \
+	-I$(top_srcdir)/src/application \
+	-I$(top_srcdir)/src/attribute \
+	-I$(top_srcdir)/src/common \
+	-I$(top_srcdir)/src/database \
+	-I$(top_srcdir)/src/importer \
+	-I$(top_srcdir)/src/renderer \
+	-I$(top_srcdir)/src/storage \
+	$(SOLANG_CFLAGS) \
+	$(EXIV2_CFLAGS) \
+	$(GTKMM_CFLAGS) \
+	$(GDAMM_CFLAGS) \
+	$(GIOMM_CFLAGS) \
+	$(GLIBMM_CFLAGS) \
+	$(GDL_CFLAGS) \
+	$(IMAGEMAGICK_CFLAGS) \
+	$(SIGC_CFLAGS)
+
+AM_CXXFLAGS = \
+	 -Wall

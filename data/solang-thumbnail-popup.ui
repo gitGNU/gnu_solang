@@ -1,0 +1,18 @@
+<!--*- xml -*-->
+<ui>
+	<popup name="ThumbnailPopup">
+		<menu action='ActionOpenWithMenu'>
+			<placeholder name="PlaceholderApplications"/>
+		</menu>
+		<separator/>
+		<menuitem action="ActionSave"/>
+		<menuitem action="ActionSaveAs"/>
+		<separator/>
+		<menuitem action="ActionPrint"/>
+		<separator/>
+		<menuitem action="ActionMoveToTrash"/>
+		<separator/>
+		<menuitem action="ActionProperties"/>
+		<menuitem action="ActionSetAsWallpaper"/>
+	</popup>
+</ui>

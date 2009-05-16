@@ -1,0 +1,12 @@
+# List of source files containing translatable strings.
+
+src/application/engine.cpp
+src/application/main-window.cpp
+src/attribute/property-manager.cpp
+src/attribute/tag-manager.cpp
+src/attribute/tag-new-dialog.cpp
+src/common/progress-dialog.cpp
+src/importer/directory-source.cpp
+src/importer/importer.cpp
+src/importer/importer-dialog.cpp
+src/renderer/browser-renderer.cpp

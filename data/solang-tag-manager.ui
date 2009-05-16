@@ -1,0 +1,16 @@
+<!--*- xml -*-->
+<ui>
+	<menubar name="MenuBar">
+		<placeholder name="PlaceHolderTagMenus">
+		<menu action="ActionMenuTags">
+			<menuitem action="ActionTagsNew"/>
+			<separator/>
+			<menuitem action="ActionTagsEdit"/>
+			<menuitem action="ActionTagsDelete"/>
+			<separator/>
+			<menuitem action="ActionTagsAttach"/>
+			<menuitem action="ActionTagsRemove"/>
+		</menu>
+		</placeholder>
+	</menubar>
+</ui>

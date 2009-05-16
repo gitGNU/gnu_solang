@@ -1,0 +1,15 @@
+<!--*- xml -*-->
+<ui>
+	<menubar name="MenuBar">
+		<menu name="MenuPhoto" action="ActionMenuPhoto">
+			<placeholder name="PlaceholderImportMenus">
+			<menuitem name="MenuPhotoImport" action="ActionPhotoImport"/>
+			</placeholder>
+        </menu>
+	</menubar>
+	<toolbar name="ToolBar">
+		<placeholder name="PlaceholderImportToolBar">
+		<toolitem name="ToolPhotoImport" action="ActionPhotoImport"/>
+		</placeholder>
+	</toolbar>
+</ui>

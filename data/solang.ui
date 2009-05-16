@@ -1,0 +1,29 @@
+<!--*- xml -*-->
+<ui>
+	<menubar name="MenuBar">
+		<menu action="ActionPhotoMenu">
+			<placeholder name="PlaceholderImportMenus"/>
+			<placeholder name="PlaceholderExportMenus"/>
+			<separator/>
+			<placeholder name="PlaceholderPrintMenus"/>
+			<separator/>
+			<menuitem action="ActionPhotoQuit"/>
+		</menu>
+		<menu action="ActionViewMenu">
+			<menuitem action="ActionViewToolBar"/>
+			<menuitem action="ActionViewStatusBar"/>
+			<separator/>
+			<menuitem action="ActionViewFullScreen"/>
+		</menu>
+		<placeholder name="PlaceholderViewMenus"/>
+		<placeholder name="PlaceholderFindMenus"/>
+		<placeholder name="PlaceHolderTagMenus"/>
+		<menu action="ActionHelpMenu"/>
+	</menubar>
+	<toolbar name="ToolBar">
+		<placeholder name="PlaceholderImportToolBar"/>
+		<placeholder name="PlaceholderExportToolBar"/>
+		<separator/>
+		<toolitem action="ActionViewFullScreen"/>
+	</toolbar>
+</ui>
