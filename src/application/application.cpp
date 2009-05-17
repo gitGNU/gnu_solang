@@ -174,6 +174,7 @@ Application::Application(int & argc, char ** & argv) throw() :
     progressDialog_(engine_.get_default_observer()),
     modelColumnRecord_(),
     listStore_(Gtk::ListStore::create(modelColumnRecord_)),
+    listStoreIter_(),
     plugins_(),
     renderers_()
 {
@@ -372,6 +373,19 @@ const ListStorePtr &
 Application::get_list_store() throw()
 {
     return listStore_;
+}
+
+const Gtk::TreeModel::iterator &
+Application::get_list_store_iter() const throw()
+{
+    return listStoreIter_;
+}
+
+void
+Application::set_list_store_iter(const Gtk::TreeModel::Path & path)
+                                 throw()
+{
+    listStoreIter_ = listStore_->get_iter(path);
 }
 
 } // namespace Solang

@@ -110,6 +110,14 @@ BrowserRenderer::init(Application & application) throw()
         sigc::mem_fun1<const PhotoSearchCriteriaList &>(
             engine, &Engine::show), criterion));
 
+    // NB: This should not be done in the constructor because if
+    //     'false == application_' then the handler will crash.
+    //     Better safe than sorry.
+    signalItemActivated_
+        = thumbnailView_.signal_item_activated().connect(
+              sigc::mem_fun(*this,
+                            &BrowserRenderer::on_item_activated));
+
     // initialized_.emit(*this);
 }
 
@@ -126,7 +134,15 @@ BrowserRenderer::render(const PhotoList & photos) throw()
 void
 BrowserRenderer::final(Application & application) throw()
 {
+    signalItemActivated_.disconnect();
     // finalized_.emit(*this);
+}
+
+void
+BrowserRenderer::on_item_activated(const Gtk::TreeModel::Path & path)
+                                   throw()
+{
+    application_->set_list_store_iter(path);
 }
 
 } // namespace Solang

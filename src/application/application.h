@@ -22,6 +22,7 @@
 #include <map>
 
 #include <glibmm.h>
+#include <gtkmm.h>
 #include <sigc++/sigc++.h>
 
 #include "browser-model-column-record.h"
@@ -64,6 +65,12 @@ public:
     const ListStorePtr &
     get_list_store() throw();
 
+    const Gtk::TreeModel::iterator &
+    get_list_store_iter() const throw();
+
+    void
+    set_list_store_iter(const Gtk::TreeModel::Path & path) throw();
+
 protected:
 
 private:
@@ -95,6 +102,8 @@ private:
     BrowserModelColumnRecord modelColumnRecord_;
 
     ListStorePtr listStore_;
+
+    Gtk::TreeModel::iterator listStoreIter_;
 
     std::map<std::string, IPluginPtr> plugins_;
 

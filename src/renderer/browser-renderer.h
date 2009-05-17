@@ -57,6 +57,9 @@ class BrowserRenderer :
         final(Application & application) throw();
 
     protected:
+        void
+        on_item_activated(const Gtk::TreeModel::Path & path) throw();
+
         ApplicationPtr application_;
 
         Glib::RefPtr<Gtk::IconFactory> iconFactory_;
@@ -72,6 +75,8 @@ class BrowserRenderer :
         Gtk::ScrolledWindow scrolledWindow_;
 
         ThumbnailView thumbnailView_;
+
+        sigc::connection signalItemActivated_;
 
     private:
 };
