@@ -107,7 +107,7 @@ ProgressObserver::reset() throw()
 {
     Glib::Mutex::Lock lock(mutex_);
 
-    set_event_description("");
+    eventDescription_.clear();
     currentEvents_ = 0;
     numEvents_ = 0;
     stop_ = false;
