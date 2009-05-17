@@ -26,7 +26,6 @@
 #include <gtkmm.h>
 #include <sigc++/sigc++.h>
 
-#include "browser-model-column-record.h"
 #include "renderer.h"
 #include "thumbnail-view.h"
 #include "types.h"
