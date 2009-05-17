@@ -24,6 +24,7 @@
 #include <glibmm.h>
 #include <sigc++/sigc++.h>
 
+#include "browser-model-column-record.h"
 #include "engine.h"
 #include "main-window.h"
 #include "progress-dialog.h"
@@ -60,14 +61,26 @@ public:
     MainWindow &
     get_main_window() throw();
 
+    const ListStorePtr &
+    get_list_store() throw();
+
 protected:
 
 private:
+    void
+    add_photo_to_model(const PhotoPtr & photo) throw();
+
+    void
+    add_photos_to_model(const PhotoList & photos) throw();
+
     void
     on_photo_import_begin() throw();
 
     void
     on_photo_import_end() throw();
+
+    void
+    on_photo_render_begin() throw();
 
     Glib::ThreadPool threadPool_;
 	
@@ -78,6 +91,10 @@ private:
     MainWindow mainWindow_;
 
     ProgressDialog progressDialog_;
+
+    BrowserModelColumnRecord modelColumnRecord_;
+
+    ListStorePtr listStore_;
 
     std::map<std::string, IPluginPtr> plugins_;
 

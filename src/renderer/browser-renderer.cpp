@@ -20,8 +20,6 @@
 #include "config.h"
 #endif // HAVE_CONFIG_H
 
-#include <iostream>
-
 #include "application.h"
 #include "browser-renderer.h"
 #include "engine.h"
@@ -38,16 +36,13 @@ BrowserRenderer::BrowserRenderer() throw() :
     Renderer(),
     sigc::trackable(),
     application_(NULL),
-    modelColumnRecord_(),
-    listStore_(Gtk::ListStore::create(modelColumnRecord_)),
     iconFactory_(Gtk::IconFactory::create()),
     dockItemName_("browser-dock-item"),
     dockItemTitle_("Browser"),
     dockItemBehaviour_(GDL_DOCK_ITEM_BEH_NO_GRIP),
     dockItem_(NULL),
     scrolledWindow_(),
-    thumbnailView_(listStore_),
-    photoRenderBegin_()
+    thumbnailView_()
 {
     Gtk::IconSource icon_source;
     Gtk::IconSet icon_set_mode_browse;
@@ -100,9 +95,10 @@ BrowserRenderer::init(Application & application) throw()
 {
     application_ = &application;
 
+    const ListStorePtr & list_store = application.get_list_store();
+    thumbnailView_.set_model(list_store);
+
     Engine & engine = application.get_engine();
-    photoRenderBegin_ = engine.photo_render_begin().connect(
-        sigc::mem_fun(*this, &BrowserRenderer::on_photo_render_begin));
 
     MainWindow & main_window = application.get_main_window();
     main_window.add_dock_object_center(GDL_DOCK_OBJECT(dockItem_));
@@ -120,78 +116,17 @@ BrowserRenderer::init(Application & application) throw()
 void
 BrowserRenderer::render(const PhotoPtr & photo) throw()
 {
-    const Thumbnail & thumbnail = photo->get_thumbnail();
-    PixbufPtr pixbuf;
-    std::string path;
-
-    try
-    {
-        path = Glib::filename_from_utf8(thumbnail.get_path());
-    }
-    catch (const Glib::ConvertError & e)
-    {
-        return;
-    }
-
-    try
-    {
-        pixbuf = Gdk::Pixbuf::create_from_file(path, -1, 120, true);
-    }
-    catch (const Glib::FileError & e)
-    {
-        std::cerr << __FILE__ << ":" << __LINE__ << ", "
-                  << __FUNCTION__ << ": " << e.what()
-                  << std::endl;
-        return;
-    }
-    catch (const Gdk::PixbufError & e)
-    {
-        std::cerr << __FILE__ << ":" << __LINE__ << ", "
-                  << __FUNCTION__ << ": " << e.what()
-                  << std::endl;
-        return;
-    }
-
-    Gtk::TreeModel::iterator model_iter = listStore_->append();
-    Gtk::TreeModel::Row row = *model_iter;
-
-    row[modelColumnRecord_.get_column_photo()] = photo;
-    row[modelColumnRecord_.get_column_pixbuf()] = pixbuf;
-    row[modelColumnRecord_.get_column_tag_name()] 
-        = photo->get_exif_data().get_picture_taken_time();
 }
 
 void
 BrowserRenderer::render(const PhotoList & photos) throw()
 {
-    PhotoList::const_iterator list_iter;
-
-    listStore_->clear();
-
-    for (list_iter = photos.begin(); list_iter != photos.end();
-         list_iter++)
-    {
-        render(*list_iter);
-        while (true == Gtk::Main::events_pending())
-        {
-            Gtk::Main::iteration();
-        }
-    }
 }
 
 void
 BrowserRenderer::final(Application & application) throw()
 {
-    photoRenderBegin_.disconnect();
     // finalized_.emit(*this);
-}
-
-void
-BrowserRenderer::on_photo_render_begin() throw()
-{
-    Engine & engine = application_->get_engine();
-    PhotoList photos = engine.get_photos();
-    render(photos);
 }
 
 } // namespace Solang

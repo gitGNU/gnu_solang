@@ -57,14 +57,7 @@ class BrowserRenderer :
         final(Application & application) throw();
 
     protected:
-        void
-        on_photo_render_begin() throw();
-
         ApplicationPtr application_;
-
-        BrowserModelColumnRecord modelColumnRecord_;
-
-        ListStorePtr listStore_;
 
         Glib::RefPtr<Gtk::IconFactory> iconFactory_;
 
@@ -79,8 +72,6 @@ class BrowserRenderer :
         Gtk::ScrolledWindow scrolledWindow_;
 
         ThumbnailView thumbnailView_;
-
-        sigc::connection photoRenderBegin_;
 
     private:
 };

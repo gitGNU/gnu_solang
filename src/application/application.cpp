@@ -22,6 +22,7 @@
 
 #include <algorithm>
 #include <functional>
+#include <iostream>
 #include <string>
 #include <utility>
 
@@ -34,9 +35,11 @@
 #include "i-photo-source.h"
 #include "i-plugin.h"
 #include "importer.h"
+#include "photo.h"
 #include "progress-observer.h"
 #include "property-manager.h"
 #include "tag-manager.h"
+#include "thumbnail.h"
 #include "thumbnail-store.h"
 
 namespace Solang
@@ -169,6 +172,8 @@ Application::Application(int & argc, char ** & argv) throw() :
     engine_(argc, argv, observer_),
     mainWindow_(),
     progressDialog_(engine_.get_default_observer()),
+    modelColumnRecord_(),
+    listStore_(Gtk::ListStore::create(modelColumnRecord_)),
     plugins_(),
     renderers_()
 {
@@ -183,6 +188,8 @@ Application::Application(int & argc, char ** & argv) throw() :
         &Application::on_photo_import_begin));
     engine_.photo_import_end().connect(sigc::mem_fun(*this,
         &Application::on_photo_import_end));
+    engine_.photo_render_begin().connect(sigc::mem_fun(*this,
+        &Application::on_photo_render_begin));
 }
 
 Application::~Application() throw()
@@ -255,6 +262,71 @@ Application::final() throw()
 }
 
 void
+Application::add_photo_to_model(const PhotoPtr & photo) throw()
+{
+    const Thumbnail & thumbnail = photo->get_thumbnail();
+    PixbufPtr pixbuf;
+    std::string path;
+
+    try
+    {
+        path = Glib::filename_from_utf8(thumbnail.get_path());
+    }
+    catch (const Glib::ConvertError & e)
+    {
+        std::cerr << __FILE__ << ":" << __LINE__ << ", "
+                  << __FUNCTION__ << ": " << e.what()
+                  << std::endl;
+        return;
+    }
+
+    try
+    {
+        pixbuf = Gdk::Pixbuf::create_from_file(path, -1, 120, true);
+    }
+    catch (const Glib::FileError & e)
+    {
+        std::cerr << __FILE__ << ":" << __LINE__ << ", "
+                  << __FUNCTION__ << ": " << e.what()
+                  << std::endl;
+        return;
+    }
+    catch (const Gdk::PixbufError & e)
+    {
+        std::cerr << __FILE__ << ":" << __LINE__ << ", "
+                  << __FUNCTION__ << ": " << e.what()
+                  << std::endl;
+        return;
+    }
+
+    Gtk::TreeModel::iterator model_iter = listStore_->append();
+    Gtk::TreeModel::Row row = *model_iter;
+
+    row[modelColumnRecord_.get_column_photo()] = photo;
+    row[modelColumnRecord_.get_column_pixbuf()] = pixbuf;
+    row[modelColumnRecord_.get_column_tag_name()] 
+        = photo->get_exif_data().get_picture_taken_time();
+}
+
+void
+Application::add_photos_to_model(const PhotoList & photos) throw()
+{
+    PhotoList::const_iterator list_iter;
+
+    listStore_->clear();
+
+    for (list_iter = photos.begin(); list_iter != photos.end();
+         list_iter++)
+    {
+        add_photo_to_model(*list_iter);
+        while (true == Gtk::Main::events_pending())
+        {
+            Gtk::Main::iteration();
+        }
+    }
+}
+
+void
 Application::on_photo_import_begin() throw()
 {
     progressDialog_.set_progress_title( 
@@ -269,6 +341,13 @@ Application::on_photo_import_end() throw()
     progressDialog_.hide();
     progressDialog_.reset();
 	engine_.get_default_observer()->reset();
+}
+
+void
+Application::on_photo_render_begin() throw()
+{
+    PhotoList photos = engine_.get_photos();
+    add_photos_to_model(photos);
 }
 
 Glib::ThreadPool &
@@ -287,6 +366,12 @@ MainWindow &
 Application::get_main_window() throw()
 {
     return mainWindow_;
+}
+
+const ListStorePtr &
+Application::get_list_store() throw()
+{
+    return listStore_;
 }
 
 } // namespace Solang
