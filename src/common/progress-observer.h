@@ -80,6 +80,8 @@ class ProgressObserver
 
         Glib::Dispatcher progress_;
 
+        mutable Glib::Mutex mutex_;
+
         Glib::ustring eventDescription_;
 
         bool stop_;
@@ -89,30 +91,35 @@ class ProgressObserver
 inline guint64
 ProgressObserver::get_num_events() const throw()
 {
+    Glib::Mutex::Lock lock(mutex_);
     return numEvents_;
 }
 
 inline guint64
 ProgressObserver::get_current_events() const throw()
 {
+    Glib::Mutex::Lock lock(mutex_);
     return currentEvents_;
 }
 
 inline const Glib::ustring &
 ProgressObserver::get_event_description() const throw()
 {
+    Glib::Mutex::Lock lock(mutex_);
     return eventDescription_;
 }
 
 inline bool
 ProgressObserver::get_stop() const throw()
 {
+    Glib::Mutex::Lock lock(mutex_);
     return stop_;
 }
 
 inline Glib::Dispatcher &
 ProgressObserver::progress() throw()
 {
+    Glib::Mutex::Lock lock(mutex_);
     return progress_;
 }
 

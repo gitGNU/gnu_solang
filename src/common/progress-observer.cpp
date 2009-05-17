@@ -28,6 +28,7 @@ ProgressObserver::ProgressObserver() throw() :
     numEvents_(0),
     currentEvents_(0),
     progress_(),
+    mutex_(),
     eventDescription_(),
     stop_()
 {
@@ -65,12 +66,14 @@ ProgressObserver::~ProgressObserver() throw()
 void
 ProgressObserver::set_num_events(guint64 num_events) throw()
 {
+    Glib::Mutex::Lock lock(mutex_);
     numEvents_ = num_events;
 }
 
 void
 ProgressObserver::set_current_events(guint64 current_events) throw()
 {
+    Glib::Mutex::Lock lock(mutex_);
     currentEvents_ = current_events;
 }
 
@@ -78,12 +81,15 @@ void
 ProgressObserver::set_event_description(
     const Glib::ustring & event_description) throw()
 {
+    Glib::Mutex::Lock lock(mutex_);
     eventDescription_ = event_description;
 }
 
 void
 ProgressObserver::receive_event_notifiation() throw()
 {
+    Glib::Mutex::Lock lock(mutex_);
+
     currentEvents_ = (currentEvents_ < numEvents_) ? currentEvents_ + 1
                                                    : numEvents_;
     progress_.emit();
@@ -92,12 +98,15 @@ ProgressObserver::receive_event_notifiation() throw()
 void
 ProgressObserver::set_stop(bool val) throw()
 {
+    Glib::Mutex::Lock lock(mutex_);
     stop_ = val;
 }
 
 void 
 ProgressObserver::reset() throw()
 {
+    Glib::Mutex::Lock lock(mutex_);
+
     set_event_description("");
     currentEvents_ = 0;
     numEvents_ = 0;
