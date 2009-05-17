@@ -17,7 +17,6 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <iostream>
 #include <sstream>
 
 #include "config.h"
@@ -75,8 +74,6 @@ ExifData::ExifData( const Exiv2::ExifData &data )
             std::ostringstream sout;
             print0x829d (sout, (*it).value() );
             aperture_ = sout.str();
-            std::cout<<"AP: ";
-            print0x829d (std::cout, (*it).value() ) <<std::endl;
         }
         
     }
@@ -91,8 +88,6 @@ ExifData::ExifData( const Exiv2::ExifData &data )
             print0x829a( sout, (*it).value() );
             
             shutterSpeed_ = sout.str();
-            std::cout<<"SP: ";
-            print0x829a(std::cout, (*it).value() ) <<std::endl;
         }
         
     }
@@ -105,8 +100,6 @@ ExifData::ExifData( const Exiv2::ExifData &data )
             std::ostringstream sout;
             print0x8822 (sout, (*it).value() );
             exposureProgram_ = sout.str();
-            std::cout<<"EP: ";
-            print0x8822 (std::cout, (*it).value() ) <<std::endl;
         }
         
     }
@@ -117,8 +110,6 @@ ExifData::ExifData( const Exiv2::ExifData &data )
         if( it != data.end() )
         {
             isoSpeed_ = (*it).value().toLong();
-            std::cout<<"ISO: ";
-            print0x8827 (std::cout, (*it).value() ) <<std::endl;
         }
         
     }
@@ -131,8 +122,6 @@ ExifData::ExifData( const Exiv2::ExifData &data )
             std::ostringstream sout;
             print0x9207(sout, (*it).value() );
             exposureMeteringMode_ = sout.str();
-            std::cout<<"EM: ";
-            print0x9207(std::cout, (*it).value() ) <<std::endl;
         }
         
     }
@@ -145,8 +134,6 @@ ExifData::ExifData( const Exiv2::ExifData &data )
             std::ostringstream sout;
             print0x920a (sout, (*it).value() );
             focalLength_ = sout.str();
-            std::cout<<"FL: ";
-            print0x920a (std::cout, (*it).value() ) <<std::endl;
         }
         
     }
@@ -159,8 +146,6 @@ ExifData::ExifData( const Exiv2::ExifData &data )
             std::ostringstream sout;
             print0xa403(sout, (*it).value() );
             whiteBalance_ = sout.str();
-            std::cout<<"WB: ";
-            print0xa403(std::cout, (*it).value() ) <<std::endl;
         }
         
     }
@@ -174,8 +159,6 @@ ExifData::ExifData( const Exiv2::ExifData &data )
             std::ostringstream sout;
             print0xa405(sout, (*it).value() );
             focalLengthInFilm_ = sout.str();
-            std::cout<<"flf: ";
-            print0xa405(std::cout, (*it).value() ) <<std::endl;
         }
         
     }
@@ -187,8 +170,6 @@ ExifData::ExifData( const Exiv2::ExifData &data )
         if( it != data.end() )
         {
             pictureTakenTime_ = (*it).toString();
-            std::cout<<"Picture taken: "
-            <<get_picture_taken_time()<<std::endl;
         }
         
     }
