@@ -1,10 +1,16 @@
 noinst_LTLIBRARIES =	libimporter.la
 
 libimporter_la_SOURCES = \
+	camera-import-widget.cpp \
+	camera-import-widget.h \
+	camera-source.cpp \
+	camera-source.h \
 	directory-source.cpp \
 	directory-source.h \
 	flickr-source.cpp \
 	flickr-source.h \
+	gp-context.cpp \
+	gp-context.h \
 	importer.cpp \
 	importer-dialog.cpp \
 	importer-dialog.h \
@@ -27,6 +33,7 @@ AM_CPPFLAGS = \
 	$(SOLANG_CFLAGS) \
 	$(CAIROMM_CFLAGS) \
 	$(EXIV2_CFLAGS) \
+	$(GPHOTO2_CFLAGS) \
 	$(GTKMM_CFLAGS) \
 	$(GDAMM_CFLAGS) \
 	$(GIOMM_CFLAGS) \

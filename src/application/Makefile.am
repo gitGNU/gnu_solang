@@ -19,6 +19,7 @@ solang_LDADD = \
 	$(top_builddir)/src/attribute/libattribute.la \
 	$(top_builddir)/src/common/libcommon.la \
 	$(EXIV2_LIBS) \
+	$(GPHOTO2_LIBS) \
 	$(GTKMM_LIBS) \
 	$(CAIROMM_LIBS) \
 	$(GDAMM_LIBS) \
@@ -43,6 +44,7 @@ AM_CPPFLAGS = \
 	$(SOLANG_CFLAGS) \
 	$(CAIROMM_CFLAGS) \
 	$(EXIV2_CFLAGS) \
+	$(GPHOTO2_CFLAGS) \
 	$(GTKMM_CFLAGS) \
 	$(GDAMM_CFLAGS) \
 	$(GIOMM_CFLAGS) \

@@ -28,6 +28,7 @@
 
 #include "application.h"
 #include "browser-renderer.h"
+#include "camera-source.h"
 #include "console-renderer.h"
 #include "directory-source.h"
 #include "directory-storage.h"
@@ -216,6 +217,10 @@ Application::init() throw()
     IPluginPtr directory_importer(new Importer(directory_source, true));
     plugins_.insert(std::make_pair("directory-importer",
                                    directory_importer));
+
+    IPhotoSourcePtr camera_source(new CameraSource());
+    IPluginPtr camera_importer(new Importer(camera_source, false));
+    plugins_.insert(std::make_pair("camera-importer", camera_importer));
 
     IPhotoSourcePtr flickr_source(new FlickrSource());
     IPluginPtr flickr_importer(new Importer(flickr_source, false));
