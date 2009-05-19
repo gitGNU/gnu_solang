@@ -29,6 +29,7 @@
 #include "non-copyable.h"
 #include "photo.h"
 #include "photo-search-criteria.h"
+#include "search-criterion-repo.h"
 #include "types.h"
 
 namespace Solang
@@ -93,6 +94,9 @@ class Engine :
                    = ProgressObserverPtr()) throw();
 
         void
+        on_criterion_changed();
+
+        void
         show(const PhotoSearchCriteriaList & criterion) throw();
 
         void
@@ -131,6 +135,12 @@ class Engine :
         Glib::Dispatcher &
         tag_add_end() throw();
 
+        Glib::Dispatcher &
+        criterion_changed() throw();
+
+        sigc::signal<void> &
+        selection_changed() throw();
+
         inline DatabasePtr
         get_db()
         {
@@ -148,6 +158,9 @@ class Engine :
         get_current_storage_system(const Glib::ustring & prefix)
                                    const throw();
 
+        RendererPtr
+        get_current_renderer() throw();
+
         void
         set_current_renderer(const RendererPtr & renderer);
 
@@ -156,6 +169,9 @@ class Engine :
 
         inline const ProgressObserverPtr &
         get_default_observer();
+
+        inline SearchCriterionRepo &
+        get_criterion_repo();
 
     private:
         PhotoList
@@ -178,6 +194,10 @@ class Engine :
 
         Glib::Dispatcher tagAddEnd_;
 
+        Glib::Dispatcher criterionChanged_;
+
+        sigc::signal<void> selectionChanged_;
+
         Glib::Mutex mutex_;
 
         PhotoList photos_;
@@ -190,12 +210,20 @@ class Engine :
         RendererPtr currentRenderer_;
 
         Database database_;
+
+        SearchCriterionRepo criterionRepo_;
 };
 
 inline const ProgressObserverPtr &
 Engine::get_default_observer()
 {
     return observer_;
+}
+
+inline SearchCriterionRepo &
+Engine::get_criterion_repo()
+{
+    return criterionRepo_;
 }
 
 } // namespace Solang

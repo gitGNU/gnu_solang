@@ -1,6 +1,12 @@
 noinst_LTLIBRARIES =	libattribute.la
 
 libattribute_la_SOURCES = \
+	basic-exif-view-model-column-record.cpp \
+	basic-exif-view-model-column-record.h \
+	basic-exif-view.cpp \
+	basic-exif-view.h \
+	exif-data-key.cpp \
+	exif-data-key.h \
 	exif-data.cpp \
 	exif-data.h \
 	modification-date.cpp \
@@ -9,6 +15,10 @@ libattribute_la_SOURCES = \
 	photo-tag.h \
 	property-manager.cpp \
 	property-manager.h \
+	search-criterion-repo.cpp \
+	search-criterion-repo.h \
+	search-criterion-source.cpp \
+	search-criterion-source.h \
 	tag.cpp \
 	tag.h \
 	tag-manager.cpp \
@@ -42,6 +52,7 @@ AM_CPPFLAGS = \
 	$(GLIBMM_CFLAGS) \
 	$(GDL_CFLAGS) \
 	$(IMAGEMAGICK_CFLAGS) \
+	$(LIBXML_CFLAGS) \
 	$(SIGC_CFLAGS)
 
 AM_CXXFLAGS = \

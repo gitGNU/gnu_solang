@@ -26,6 +26,7 @@
 #include <gtkmm.h>
 
 #include "plugin.h"
+#include "basic-exif-view.h"
 
 namespace Solang
 {
@@ -45,7 +46,23 @@ public:
     virtual void
     final(Application & application) throw();
 
+    void
+    apply_selected_keys() throw();
+
+    void
+    clear_key_selection() throw();
+
+    void
+    on_selection_changed() throw();
+
 protected:
+
+    ApplicationPtr application_;
+
+    Glib::RefPtr<Gtk::ActionGroup> actionGroup_;
+
+    Gtk::UIManager::ui_merge_id uiID_;
+
     const std::string dockItemName_;
     
     const Glib::ustring dockItemTitle_;
@@ -55,6 +72,14 @@ protected:
     GtkWidget * dockItem_;
     
     Gtk::Notebook noteBook_;
+
+    //Page 1 of notebook
+    Gtk::VBox   vBox_;
+    Gtk::ScrolledWindow basicInfo_;
+    Gtk::HBox    hBox_;
+    Gtk::Button applyButton_;
+    Gtk::Button clearButton_;
+    BasicExifView basicExifView_;
 
 private:
 };

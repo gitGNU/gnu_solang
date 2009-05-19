@@ -118,7 +118,7 @@ TagView::on_row_activated ( const Gtk::TreeModel::Path& path,
 }
 
 void
-TagView::get_selected_tags(
+TagView::get_criterion(
                 PhotoSearchCriteriaList &selectedTags) const throw()
 {
 

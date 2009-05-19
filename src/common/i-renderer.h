@@ -47,6 +47,9 @@ class IRenderer :
         virtual void
         final(Application & application) throw() = 0;
 
+        virtual PhotoList
+        get_current_selection() throw() = 0;
+
     protected:
         IRenderer() throw();
 

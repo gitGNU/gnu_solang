@@ -171,7 +171,8 @@ PhotoList Database::search(
                                         = criterion.begin();
                                         it != criterion.end(); it++ )
         {
-            sql += ( first ) ? " and ( ": " or ";
+            //sql += ( first ) ? " and ( ": " or ";
+            sql += ( first ) ? " and ( ": " and ";
             sql += (*it)->get_query_criteria();
             first = false;
         }

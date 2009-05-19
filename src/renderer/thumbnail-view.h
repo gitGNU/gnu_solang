@@ -40,12 +40,12 @@ class ThumbnailView :
         virtual
         ~ThumbnailView() throw();
 
+        PhotoList
+        get_selected_photos() throw();
+
     protected:
         PhotoPtr
         get_photo_from_path(const Gtk::TreeModel::Path & path) throw();
-
-        PhotoList
-        get_selected_photos() throw();
 
         virtual bool
         on_button_press_event(GdkEventButton * event) throw();

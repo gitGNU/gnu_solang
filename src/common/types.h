@@ -47,6 +47,10 @@ class DBTable;
 typedef std::tr1::shared_ptr<const DBTable> ConstDBTablePtr;
 typedef std::tr1::shared_ptr<DBTable> DBTablePtr;
 
+class ExifDataKey;
+typedef std::tr1::shared_ptr<ExifDataKey> ExifDataKeyPtr;
+typedef std::list<ExifDataKeyPtr> ExifDataKeyList;
+
 class IPhotoDestination;
 typedef std::tr1::shared_ptr<const IPhotoDestination>
     ConstIPhotoDestinationPtr;
@@ -123,6 +127,10 @@ typedef Glib::RefPtr<Gtk::ListStore> ListStorePtr;
 
 typedef Glib::RefPtr<const Gtk::Menu> ConstMenuPtr;
 typedef Glib::RefPtr<Gtk::Menu> MenuPtr;
+
+class SearchCriterionSource;
+typedef SearchCriterionSource * SearchCriterionSourcePtr;
+typedef std::list<SearchCriterionSourcePtr> SearchCriterionSourceList;
 
 typedef Glib::RefPtr<const Gtk::TreeModel> ConstTreeModelPtr;
 typedef Glib::RefPtr<Gtk::TreeModel> TreeModelPtr;

@@ -118,6 +118,11 @@ BrowserRenderer::init(Application & application) throw()
               sigc::mem_fun(*this,
                             &BrowserRenderer::on_item_activated));
 
+    thumbnailView_.signal_selection_changed().connect(
+              sigc::mem_fun(*this,
+                            &BrowserRenderer::on_selection_changed));
+
+
     // initialized_.emit(*this);
 }
 
@@ -136,6 +141,18 @@ BrowserRenderer::final(Application & application) throw()
 {
     signalItemActivated_.disconnect();
     // finalized_.emit(*this);
+}
+
+PhotoList
+BrowserRenderer::get_current_selection() throw()
+{
+    return thumbnailView_.get_selected_photos();
+}
+
+void
+BrowserRenderer::on_selection_changed() throw()
+{
+    application_->get_engine().selection_changed().emit();
 }
 
 void

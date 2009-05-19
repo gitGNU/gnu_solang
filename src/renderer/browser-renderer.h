@@ -55,6 +55,12 @@ class BrowserRenderer :
         virtual void
         final(Application & application) throw();
 
+        void
+        on_selection_changed() throw();
+
+        virtual PhotoList
+        get_current_selection() throw();
+
     protected:
         void
         on_item_activated(const Gtk::TreeModel::Path & path) throw();

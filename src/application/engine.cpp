@@ -40,12 +40,17 @@ Engine::Engine(int & argc, char ** & argv,
     photoRenderEnd_(),
     tagAddBegin_(),
     tagAddEnd_(),
+    criterionChanged_(),
+    selectionChanged_(),
     mutex_(),
     photos_(),
     currentStorageSystems_(),
     currentRenderer_(),
     database_("/tmp")
 {
+    criterionChanged_.connect(
+                sigc::mem_fun( *this, &Engine::on_criterion_changed));
+
 }
 
 Engine::~Engine() throw()
@@ -84,6 +89,7 @@ Engine::import(const PhotoPtr & photo,
 #endif
     PhotoPtr imp_photo = source->import(photo, selected_storage, 
                                     tags, database_, observer);
+    observer->reset();
     photoImportEnd_.emit();
 
     PhotoList imp_photos;
@@ -125,6 +131,7 @@ Engine::import(const PhotoList & photos,
 #endif
     PhotoList imp_photos = source->import(photos, selected_storage,
                                           tags, database_, observer);
+    observer->reset();
     photoImportEnd_.emit();
 
     {
@@ -163,7 +170,7 @@ Engine::import(const IPhotoSourcePtr & source,
 #endif
     PhotoList imp_photos = source->import(selected_storage, tags,
                                           database_, observer);
-
+    observer->reset();
     photoImportEnd_.emit();
 
     {
@@ -184,9 +191,18 @@ Engine::search(const PhotoSearchCriteriaList & criterion,
 }
 
 void
+Engine::on_criterion_changed()
+{
+    criterionRepo_.update();
+    const PhotoSearchCriteriaList & criterion
+                        = criterionRepo_.get_criterion();
+    show( criterion, observer_ );
+}
+
+void
 Engine::show(const PhotoSearchCriteriaList & criterion) throw()
 {
-    return show(criterion, observer_);
+    return show( criterion, observer_);
 }
 
 void
@@ -345,6 +361,18 @@ Engine::tag_add_end() throw()
     return tagAddEnd_;
 }
 
+Glib::Dispatcher &
+Engine::criterion_changed() throw()
+{
+    return criterionChanged_;
+}
+
+sigc::signal<void> &
+Engine::selection_changed() throw()
+{
+    return selectionChanged_;
+}
+
 void
 Engine::set_current_storage_systems(const Engine::StorageMap & storages)
 {
@@ -356,6 +384,12 @@ Engine::add_current_storage_system(const Glib::ustring & prefix,
                                    const IStoragePtr & storage)
 {
     currentStorageSystems_.insert(std::make_pair(prefix, storage));
+}
+
+RendererPtr
+Engine::get_current_renderer() throw()
+{
+    return currentRenderer_;
 }
 
 void

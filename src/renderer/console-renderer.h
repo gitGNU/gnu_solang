@@ -48,6 +48,12 @@ class ConsoleRenderer :
         virtual void
         final(Application & application) throw();
 
+        virtual PhotoList
+        get_current_selection() throw()
+        {
+            return PhotoList();
+        }
+
     protected:
 
     private:

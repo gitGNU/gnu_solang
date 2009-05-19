@@ -161,9 +161,10 @@ TagManager::init(Application & application)
 {
     application_ = &application;
 
-    const Engine & engine = application.get_engine();
+    Engine & engine = application.get_engine();
     TagList tags = engine.get_tags();
     tagView_.populate(tags);
+    engine.get_criterion_repo().register_source( &tagView_ );
 
     MainWindow & main_window = application.get_main_window();
     main_window.add_dock_object_left(GDL_DOCK_OBJECT(dockItem_));
@@ -201,14 +202,7 @@ TagManager::apply_selected_tags() throw()
 {
     Engine & engine = application_->get_engine();
 
-    Glib::ThreadPool & thread_pool = application_->get_thread_pool(); 
-
-    PhotoSearchCriteriaList tags;
-	tagView_.get_selected_tags( tags );
-
-    thread_pool.push(sigc::bind(
-        sigc::mem_fun1<const PhotoSearchCriteriaList &>(
-            engine, &Engine::show), tags));
+    engine.criterion_changed().emit();
 
     return;
 }
