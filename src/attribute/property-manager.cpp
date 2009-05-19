@@ -34,17 +34,17 @@ PropertyManager::PropertyManager() throw() :
     dockItem_(NULL),
     noteBook_()
 {
-	dockItem_ = gdl_dock_item_new_with_stock(dockItemName_.c_str(),
+    dockItem_ = gdl_dock_item_new_with_stock(dockItemName_.c_str(),
                                              dockItemTitle_.c_str(),
                                              "gtk-properties",
                                              dockItemBehaviour_);
-	gtk_container_add(GTK_CONTAINER(dockItem_),
+    gtk_container_add(GTK_CONTAINER(dockItem_),
                       GTK_WIDGET(noteBook_.gobj()));
 }
 
 PropertyManager::~PropertyManager() throw()
 {
-	//g_object_unref(dockItem_);
+    //g_object_unref(dockItem_);
 }
 
 void

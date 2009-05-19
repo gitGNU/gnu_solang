@@ -78,9 +78,9 @@ Engine::import(const PhotoPtr & photo,
 #if 0
     for (TagList::const_iterator it = tags.begin();
          it != tags.end(); it++)
-	{
+    {
         (*it)->save(database_);
-	}
+    }
 #endif
     PhotoPtr imp_photo = source->import(photo, selected_storage, 
                                     tags, database_, observer);
@@ -119,9 +119,9 @@ Engine::import(const PhotoList & photos,
 #if 0
     for (TagList::const_iterator it = tags.begin(); 
          it != tags.end(); it++)
-	{
+    {
         (*it)->save(database_);
-	}
+    }
 #endif
     PhotoList imp_photos = source->import(photos, selected_storage,
                                           tags, database_, observer);
@@ -151,15 +151,15 @@ Engine::import(const IPhotoSourcePtr & source,
                const TagList & tags,
                const ProgressObserverPtr & observer) throw()
 {
-	observer_->set_event_description("Importing Photos");
+    observer_->set_event_description("Importing Photos");
 
     photoImportBegin_.emit();
 #if 0
     for (TagList::const_iterator it = tags.begin(); 
          it != tags.end(); it++)
-	{
+    {
         (*it)->save(database_);
-	}
+    }
 #endif
     PhotoList imp_photos = source->import(selected_storage, tags,
                                           database_, observer);
@@ -179,8 +179,8 @@ PhotoList
 Engine::search(const PhotoSearchCriteriaList & criterion,
                const ProgressObserverPtr & observer) throw()
 {
-	ProgressObserverPtr obs = (observer) ? observer : observer_;
-	return database_.search(criterion, obs);
+    ProgressObserverPtr obs = (observer) ? observer : observer_;
+    return database_.search(criterion, obs);
 }
 
 void

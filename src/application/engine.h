@@ -154,8 +154,8 @@ class Engine :
         PhotoList
         get_photos() throw();
 
-		inline const ProgressObserverPtr &
-		get_default_observer();
+        inline const ProgressObserverPtr &
+        get_default_observer();
 
     private:
         PhotoList
