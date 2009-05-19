@@ -230,9 +230,9 @@ Application::init() throw()
     renderers_.insert(std::make_pair("browser-renderer",
                                      browser_renderer));
 
-    RendererPtr console_renderer(new ConsoleRenderer());
-    renderers_.insert(std::make_pair("console-renderer",
-                                     console_renderer));
+//    RendererPtr console_renderer(new ConsoleRenderer());
+//    renderers_.insert(std::make_pair("console-renderer",
+//                                     console_renderer));
 
     std::for_each(renderers_.begin(), renderers_.end(),
                   Initializer<RendererPtr>(this));
