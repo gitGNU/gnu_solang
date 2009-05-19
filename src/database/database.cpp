@@ -80,11 +80,9 @@ void Database::open() throw(Error)
     
     const char *tableNames[] = 
     {
-        "exifs",
         "photos",
         "photo_tags",
         "tags",
-        "thumbnails",
         NULL
     };
     for( const char **tableName = tableNames; *tableName != NULL; tableName++ )
@@ -194,9 +192,6 @@ PhotoList Database::search(
         observer->set_num_events( numRows );
         observer->set_event_description( "Generating list of photos" );
 
-        std::cout<<numRows<<std::endl;
-        std::cout<<model->get_n_columns()<<std::endl;
-
         for( gint32 row = 0; row < numRows; row++ )
         {
             if( !observer->get_stop() )
@@ -210,7 +205,9 @@ PhotoList Database::search(
     }
     catch(Glib::Error &e)
     {
-        std::cout<<e.what()<<std::endl;
+        std::cerr << __FILE__ << ":" << __LINE__ << ", "
+                  << __FUNCTION__ << ": " << e.what()
+                  << std::endl;
     }
     return photos;
 
