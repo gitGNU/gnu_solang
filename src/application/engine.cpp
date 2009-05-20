@@ -24,6 +24,7 @@
 #include "engine.h"
 #include "i-photo-destination.h"
 #include "i-photo-source.h"
+#include "photo-tag.h"
 #include "progress-observer.h"
 #include "renderer.h"
 #include "tag.h"
@@ -324,6 +325,19 @@ Engine::get_tags() const throw()
     }
 
     return tags;
+}
+
+void
+Engine::apply_tag_to_photos( PhotoList &photos, const TagPtr &tag )
+{
+    for( PhotoList::iterator photo = photos.begin();
+                            photo != photos.end(); photo++)
+    {
+        PhotoTag pt(
+                (*photo)->get_photo_id(), tag->get_tag_id());
+        pt.save( *get_db() );
+    }
+    return;
 }
 
 Glib::Dispatcher &

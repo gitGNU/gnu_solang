@@ -116,6 +116,9 @@ class Engine :
 
         TagList
         get_tags() const throw();
+
+        void
+        apply_tag_to_photos( PhotoList &photos, const TagPtr &tag );
     
         Glib::Dispatcher &
         photo_import_begin() throw();

@@ -25,6 +25,7 @@
 
 #include "application.h"
 #include "main-window.h"
+#include "renderer.h"
 #include "tag-manager.h"
 #include "tag-new-dialog.h"
 
@@ -111,8 +112,9 @@ TagManager::TagManager() throw() :
 
     actionGroup_->add(
         Gtk::Action::create("ActionTagsAttach", Gtk::Stock::ADD,
-                            "_Attach Tag to Selection"),
-        Gtk::AccelKey("<control>T"));
+                            _("_Attach Tag to Selection")),
+        Gtk::AccelKey("<control>T"),
+        sigc::mem_fun(*this, &TagManager::on_action_apply_tag));
 
     actionGroup_->add(
         Gtk::Action::create(
@@ -310,6 +312,35 @@ TagManager::on_action_tag_edit() throw()
             }
         }
     }
+}
+
+void
+TagManager::on_action_apply_tag() throw()
+{
+    Glib::RefPtr<Gtk::TreeSelection> selected
+                                            = tagView_.get_selection();
+
+    if( 0 == selected->count_selected_rows() )
+        return;
+
+    Gtk::TreeModel::iterator item = selected->get_selected();
+    const TagViewModelColumnRecord &rec
+                                = tagView_.get_column_records();
+
+    if( item != selected->get_model()->children().end() )
+    {
+        Gtk::TreeModel::Row row= (*item);
+        TagPtr tag = row[ rec.get_column_tag() ];
+
+        Engine &engine = application_->get_engine();
+        RendererPtr renderer = engine.get_current_renderer();
+
+        PhotoList photos = renderer->get_current_selection();
+
+        engine.apply_tag_to_photos( photos, tag );
+    }
+
+    return;
 }
 
 void

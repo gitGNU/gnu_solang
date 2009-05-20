@@ -62,6 +62,9 @@ protected:
     on_action_tag_edit() throw();
 
     void
+    on_action_apply_tag() throw();
+
+    void
     populate_view() throw();
 
     ApplicationPtr application_;
