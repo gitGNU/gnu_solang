@@ -207,8 +207,8 @@ void DirectoryStorage::save(const PhotoPtr &photo, bool move) throw(Error)
 Glib::ustring DirectoryStorage::retrieve(
                             const Photo &photo) throw(Error)
 {
-    //Just retrive path from uri and send back
-    return (!photo.get_disk_file_path().empty() ) 
+    //Just retrieve path from uri and send back
+    return (photo.get_disk_file_path().empty() )
                     ? (path_+ "/" + photo.get_uri().substr(
                                      photo.get_uri().find(":") + 1, 
                                      photo.get_uri().length() ) )
