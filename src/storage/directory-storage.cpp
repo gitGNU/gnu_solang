@@ -54,6 +54,19 @@ void DirectoryStorage::init(Application & application) throw(Error)
 
 void DirectoryStorage::save(const PhotoPtr &photo) throw(Error)
 {
+    try
+    {
+        save( photo, false );
+    }
+    catch( Error &e )
+    {
+        e.add_call_info( __FUNCTION__, __FILE__, __LINE__ );
+        throw;
+    }
+}
+
+void DirectoryStorage::save(const PhotoPtr &photo, bool move) throw(Error)
+{
     //Steps:
     // If exif is present
     //Read date and time 
@@ -140,7 +153,18 @@ void DirectoryStorage::save(const PhotoPtr &photo) throw(Error)
     Glib::RefPtr<Gio::Cancellable> canc = Gio::Cancellable::create();
 
     //src->copy_async( dest, NULL, canc );
-    src->copy( dest, Gio::FILE_COPY_OVERWRITE );
+    try
+    {
+        if( true == move )
+            src->move( dest, Gio::FILE_COPY_OVERWRITE );
+        else
+            src->copy( dest, Gio::FILE_COPY_OVERWRITE );
+    }
+    catch( Glib::Error &e )
+    {
+        std::cerr<<"Error:"<<e.what()<<std::endl;
+        //TBD::Error
+    }
 
     Glib::ustring uri = get_storage_uri_prefix() + ":";
     uri += sout.str() + "/";

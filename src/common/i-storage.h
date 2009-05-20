@@ -44,6 +44,9 @@ class IStorage :
 
         virtual void
         save(const PhotoPtr & photo) = 0;
+        virtual void
+        save(const PhotoPtr & photo, bool move) = 0;
+
 
         // The following should return the path of the file in the local
         // disk. If required, it will download from the storage.

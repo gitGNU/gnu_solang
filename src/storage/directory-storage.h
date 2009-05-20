@@ -34,38 +34,39 @@ class Photo;
 class DirectoryStorage :
     public Storage 
 {
-private:
-        Glib::ustring path_;
+    private:
+            Glib::ustring path_;
 
-public:
-        DirectoryStorage(
-                    ThumbnailStore &store, 
-                    const DatabasePtr &db,
-					const Glib::ustring &path);
+    public:
+            DirectoryStorage(
+                        ThumbnailStore &store,
+                        const DatabasePtr &db,
+                        const Glib::ustring &path);
 
-        virtual ~DirectoryStorage() throw();
+            virtual ~DirectoryStorage() throw();
 
-        virtual void init(Application & application) throw(Error);
+            virtual void init(Application & application) throw(Error);
 
-        virtual void save(const PhotoPtr &) throw(Error);
+            virtual void save(const PhotoPtr &) throw(Error);
+            virtual void save(const PhotoPtr &, bool) throw(Error);
 
-        //The following should return the path of the file in the local disk
-        // If required it will download from the storage
-        // For raw files, the thumbnail will be extracted
-        // and path for the same will be returned
-        virtual Glib::ustring retrieve(const Photo &) throw(Error);
+            //The following should return the path of the file in the local disk
+            // If required it will download from the storage
+            // For raw files, the thumbnail will be extracted
+            // and path for the same will be returned
+            virtual Glib::ustring retrieve(const Photo &) throw(Error);
 
-        virtual void downloadToDisk(
-                        const PhotoList &, 
-                        ProgressObserverPtr &observer) throw(Error);
+            virtual void downloadToDisk(
+                            const PhotoList &,
+                            ProgressObserverPtr &observer) throw(Error);
 
-        virtual void remove(const PhotoPtr &photo) throw(Error);
+            virtual void remove(const PhotoPtr &photo) throw(Error);
 
-        virtual void remove(const PhotoList &photos) throw(Error);
+            virtual void remove(const PhotoList &photos) throw(Error);
 
-        virtual std::string get_storage_uri_prefix() throw();
+            virtual std::string get_storage_uri_prefix() throw();
 
-        virtual void final(Application & application) throw(Error);
+            virtual void final(Application & application) throw(Error);
 };
 
 } // namespace Solang

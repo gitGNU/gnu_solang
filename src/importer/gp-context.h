@@ -14,6 +14,8 @@ struct GPhotoContext
     CameraAbilitiesList *abilitiesList_;
     CameraList *cameras_;
 
+	void cleanup();
+
 	GPhotoContext();
 	~GPhotoContext();
 };

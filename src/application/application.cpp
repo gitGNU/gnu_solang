@@ -222,9 +222,9 @@ Application::init() throw()
     IPluginPtr camera_importer(new Importer(camera_source, false));
     plugins_.insert(std::make_pair("camera-importer", camera_importer));
 
-    IPhotoSourcePtr flickr_source(new FlickrSource());
-    IPluginPtr flickr_importer(new Importer(flickr_source, false));
-    plugins_.insert(std::make_pair("flickr-importer", flickr_importer));
+//    IPhotoSourcePtr flickr_source(new FlickrSource());
+//    IPluginPtr flickr_importer(new Importer(flickr_source, false));
+//    plugins_.insert(std::make_pair("flickr-importer", flickr_importer));
 
     std::for_each(plugins_.begin(), plugins_.end(),
                   Initializer<IPluginPtr>(this));

@@ -68,6 +68,7 @@ class CameraSource :
         GPhotoContext gpContext_;
         CameraImportWidget select_;
 
+
     private:
         void
         create_photo_list( PhotoList &files );

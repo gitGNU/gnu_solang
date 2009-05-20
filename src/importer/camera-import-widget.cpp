@@ -1,25 +1,3 @@
-/* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 4; tab-width: 4 -*- */
-/*
- * Copyright (C) 2009 Santanu Sinha <santanu.sinha@gmail.com>
- *
- * Solang is free software: you can redistribute it and/or modify it
- * under the terms of the GNU General Public License as published by the
- * Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * Solang is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
- * See the GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License along
- * with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif // HAVE_CONFIG_H
-
 #include <cstdio>
 #include <cstring>
 #include <cstdlib>
@@ -34,6 +12,16 @@ namespace Solang
 {
 void CameraImportWidget::populate()
 {
+    //Cleanup context
+    gpContext_.cleanup();
+
+    //Cleanup lists
+    camerasModel_->clear();
+    picturesModel_->clear();
+
+    progress_.set_text("");
+    progress_.set_fraction(0.0);
+
     //Load cameras
     gp_camera_new (&gpContext_.camera_);
     gpContext_.context_ = gp_context_new ();
@@ -91,21 +79,12 @@ void CameraImportWidget::populate()
             row[ connectedCameraColumns_.cameraIndex_ ] = i;
             row[ connectedCameraColumns_.camera_ ] = name;
             row[ connectedCameraColumns_.port_ ] = value;
+
         }
-        cmbConnectedCameras_.pack_start(
-                            connectedCameraColumns_.camera_);
+        if( count > 0 )
+            cmbConnectedCameras_.set_active( 0 );
 
     }
-    cameraPhotos_.set_size_request(400,250);
-    cameraPhotos_.set_grid_lines( Gtk::TREE_VIEW_GRID_LINES_BOTH );
-    cameraPhotos_.append_column(
-                "", cameraPhotoColumns_.selected_ );
-    cameraPhotos_.append_column(
-                "Name", cameraPhotoColumns_.pictureName_ );
-    cameraPhotos_.append_column(
-                "Path", cameraPhotoColumns_.picturePath_ );
-    cameraPhotos_.set_headers_clickable( false );
-    imgPreview_.set_size_request( 200, 200 );
     return;
 }
 
@@ -214,8 +193,8 @@ CameraImportWidget::list_pictures(const Glib::ustring &path)
         {
             gp_list_free( files );
         }
-        int fileCount = gp_list_count( files );
 
+        int fileCount = gp_list_count( files );
         for( int file = 0; file < fileCount; file ++ )
         {
             const char *fileName = NULL;
@@ -233,6 +212,7 @@ CameraImportWidget::list_pictures(const Glib::ustring &path)
     }
 }
 
+
 //Signal handlers
 
 void
@@ -243,7 +223,6 @@ CameraImportWidget::on_camera_selection_changed() throw()
     if( cam )
     {
         Gtk::TreeModel::Row row = (*cam);
-
         create_camera(
                 row[connectedCameraColumns_.cameraIndex_],
                 row[connectedCameraColumns_.camera_ ],
@@ -283,6 +262,13 @@ CameraImportWidget::save_thumbnail( const Glib::ustring &folder,
                                         const Glib::ustring &file )
 {
     CameraFile *thumb;
+    Glib::ustring tPath = "/tmp/thumb/" + folder;
+    Glib::RefPtr<Gio::File> tDir = Gio::File::create_for_path( tPath );
+    if( !tDir->query_exists() )
+    {
+        tDir->make_directory_with_parents();
+    }
+
     Glib::ustring thumbPath = "/tmp/thumb/" + folder + "/"+file;
     int fd = open( thumbPath.c_str(), O_CREAT | O_WRONLY, 0644 );
     if( gp_file_new_from_fd( &thumb, fd  ) )
@@ -297,6 +283,7 @@ CameraImportWidget::save_thumbnail( const Glib::ustring &folder,
         gp_file_unref( thumb );
     }
     gp_file_free( thumb );
+
 }
 
 void
@@ -308,7 +295,7 @@ CameraImportWidget::show_thumbnail( const Gtk::TreeModel::Path& path,
     Gtk::TreeModel::Row row = (*current);
     std::ostringstream sout;
     sout<<"/tmp/thumb"<<row[cameraPhotoColumns_.picturePath_]
-    <<"/"<<row[cameraPhotoColumns_.pictureName_];
+        <<"/"<<row[cameraPhotoColumns_.pictureName_];
     imgPreview_.clear();
     imgPreview_.set( sout.str() );
 }
@@ -405,6 +392,8 @@ CameraImportWidget::CameraImportWidget(GPhotoContext &context)
     cameraBox_.pack_start( lblCamera_, Gtk::PACK_SHRINK );
     cameraBox_.pack_start(cmbConnectedCameras_, Gtk::PACK_SHRINK);
     cmbConnectedCameras_.set_model( camerasModel_ );
+    cmbConnectedCameras_.pack_start(
+                        connectedCameraColumns_.camera_);
     cmbConnectedCameras_.set_size_request( 400, -1 );
     cameraBox_.pack_start( getPhotos_, Gtk::PACK_SHRINK );
     add( selectionBox_ );
@@ -414,10 +403,20 @@ CameraImportWidget::CameraImportWidget(GPhotoContext &context)
     buttonArea_.pack_end( selectNone_, Gtk::PACK_SHRINK );
     buttonArea_.pack_end( selectAll_, Gtk::PACK_SHRINK );
     buttonArea_.pack_start(chkEnablePreview_);
-    photos_.add( cameraPhotos_ ),
+    photos_.add( cameraPhotos_ );
     selectionBox_.pack_start( previewArea_ );
     previewArea_.add(imgPreview_);
     add( progress_ );
+    cameraPhotos_.set_size_request(400,250);
+    cameraPhotos_.set_grid_lines( Gtk::TREE_VIEW_GRID_LINES_BOTH );
+    cameraPhotos_.append_column(
+                "", cameraPhotoColumns_.selected_ );
+    cameraPhotos_.append_column(
+                "Name", cameraPhotoColumns_.pictureName_ );
+    cameraPhotos_.append_column(
+                "Path", cameraPhotoColumns_.picturePath_ );
+    cameraPhotos_.set_headers_clickable( false );
+    imgPreview_.set_size_request( 200, 200 );
 
     //Setup
     getPhotos_.set_label("Load Pictures");
@@ -430,7 +429,6 @@ CameraImportWidget::CameraImportWidget(GPhotoContext &context)
     selectAll_.set_size_request( 90, -1 );
     selectNone_.set_size_request( 90, -1 );
     chkEnablePreview_.set_active( false );
-
 
     //Bind signal handlers
     getPhotos_.signal_clicked().connect(
@@ -454,10 +452,6 @@ CameraImportWidget::CameraImportWidget(GPhotoContext &context)
     chkEnablePreview_.signal_toggled().connect(
         sigc::mem_fun( *this,
             &CameraImportWidget::on_preview_enabled));
-
-    populate();
-
-    //show_all_children();
 }
 
 CameraImportWidget::~CameraImportWidget()
@@ -466,3 +460,4 @@ CameraImportWidget::~CameraImportWidget()
 }
 
 } //namespace Solang
+

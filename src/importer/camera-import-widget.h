@@ -104,6 +104,8 @@ class CameraImportWidget
         CameraImportWidget(GPhotoContext &context);
         ~CameraImportWidget();
 
+        void populate();
+
         inline const Gtk::TreeView &
         get_camera_photos() const throw();
 
@@ -112,7 +114,6 @@ class CameraImportWidget
 
     protected:
 
-        void populate();
         void create_camera( int index,
                 const Glib::ustring &name,
                 const Glib::ustring &port );

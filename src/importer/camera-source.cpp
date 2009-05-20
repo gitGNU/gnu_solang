@@ -43,6 +43,8 @@ CameraSource::CameraSource() throw()
     gpContext_(),
     select_( gpContext_ )
 {
+    select_.signal_show().connect(
+            sigc::mem_fun( &select_, &CameraImportWidget::populate ));
 }
 
 CameraSource::~CameraSource() throw()
@@ -59,7 +61,8 @@ CameraSource::import(const PhotoPtr & photo,
     {
         Glib::ustring path = photo->get_disk_file_path();
         download_file_from_camera( photo );
-        storage->save(photo);
+        storage->save(photo, true);
+#if 0
         try
         {
             Glib::RefPtr<Gio::File> file
@@ -70,6 +73,7 @@ CameraSource::import(const PhotoPtr & photo,
         {
             std::cout<<"Error::"<<e.what()<<std::endl;
         }
+#endif
         for( TagList::const_iterator it = tags.begin();
                             it != tags.end(); it++ )
         {
@@ -120,6 +124,7 @@ CameraSource::import(const IStoragePtr & storage, const TagList &tags,
     PhotoList files;
     create_photo_list( files );
     return import(files, storage, tags, db, observer);
+    gpContext_.cleanup(); //So that this can be recreated
 }
 
 void
