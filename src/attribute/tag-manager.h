@@ -58,6 +58,12 @@ protected:
     void
     on_action_tag_new() throw();
 
+    void
+    on_action_tag_edit() throw();
+
+    void
+    populate_view() throw();
+
     ApplicationPtr application_;
 
     Glib::RefPtr<Gtk::IconFactory> iconFactory_;
@@ -67,15 +73,15 @@ protected:
     Gtk::UIManager::ui_merge_id uiID_;
 
     const std::string dockItemName_;
-    
+
     const Glib::ustring dockItemTitle_;
-    
+
     GdlDockItemBehavior dockItemBehaviour_;
 
     GtkWidget * dockItem_;
 
     Gtk::VBox vBox_;
-	
+
     Gtk::ScrolledWindow scrolledWindow_;
 
     Gtk::HBox hBox_;

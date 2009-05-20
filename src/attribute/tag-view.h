@@ -57,7 +57,12 @@ class TagView :
 
         void
         clear_tag_selection() throw();
-     
+
+        inline const ListStorePtr &
+        get_store() const throw();
+
+        inline const TagViewModelColumnRecord &
+        get_column_records() const throw();
 
     protected:
         TagViewModelColumnRecord modelColumnRecord_;
@@ -68,6 +73,18 @@ class TagView :
         void
         configure() throw();
 };
+
+inline const ListStorePtr &
+TagView::get_store() const throw()
+{
+    return listStore_;
+}
+
+inline const TagViewModelColumnRecord &
+TagView::get_column_records() const throw()
+{
+    return modelColumnRecord_;
+}
 
 } // namespace Solang
 

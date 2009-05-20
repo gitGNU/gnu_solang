@@ -22,6 +22,7 @@
 #include <string>
 
 #include <gtkmm.h>
+#include "types.h"
 
 namespace Solang
 {
@@ -31,9 +32,19 @@ class TagNewDialog :
 {
     public:
         TagNewDialog() throw();
+        TagNewDialog( const TagPtr &tag ) throw();
 
         virtual
         ~TagNewDialog() throw();
+
+        inline Glib::ustring
+        get_name() const;
+
+        inline const std::string &
+        get_icon_path() const;
+
+        inline const Glib::ustring
+        get_description();
 
     protected:
         virtual bool
@@ -44,6 +55,12 @@ class TagNewDialog :
 
         void
         on_icon_button_clicked() throw();
+
+        void
+        setup_gui() throw();
+
+        void
+        set_icon( const Glib::ustring &iconPath);
 
         std::string iconPath_;
 
@@ -69,6 +86,26 @@ class TagNewDialog :
 
     private:
 };
+
+inline Glib::ustring
+TagNewDialog::get_name() const
+{
+    return nameEntry_.get_text();
+}
+
+inline const std::string &
+TagNewDialog::get_icon_path() const
+{
+    return iconPath_;
+}
+
+inline const Glib::ustring
+TagNewDialog::get_description()
+{
+    Glib::RefPtr<Gtk::TextBuffer> buf
+                = descriptionTextView_.get_buffer();
+    return buf->get_slice( buf->begin(), buf->end());
+}
 
 } // namespace Solang
 

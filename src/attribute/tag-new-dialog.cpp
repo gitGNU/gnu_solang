@@ -27,7 +27,7 @@
 #include <sigc++/sigc++.h>
 
 #include "tag-new-dialog.h"
-#include "types.h"
+#include "tag.h"
 
 namespace Solang
 {
@@ -56,62 +56,49 @@ TagNewDialog::TagNewDialog() throw() :
     descriptionTextView_()
 {
     set_title(_("Create New Tag"));
-    set_border_width(12);
-    set_default_size(320, 200);
-    set_has_separator(false);
 
-    Gtk::VBox * const dialog_vbox = get_vbox();
-    dialog_vbox->set_spacing(18);
+    setup_gui();
 
-    mainTable_.set_col_spacings(12);
-    mainTable_.set_row_spacings(6);
-    dialog_vbox->pack_start(mainTable_, Gtk::PACK_EXPAND_WIDGET, 0);
+    show_all_children();
+}
 
-    iconButton_.set_image(iconImage_);
-    iconButton_.set_size_request(64, 64);
-    iconButton_.signal_clicked().connect(sigc::mem_fun(*this,
-        &TagNewDialog::on_icon_button_clicked));
-    mainTable_.attach(iconButton_, 0, 1, 0, 2,
-                      Gtk::FILL | Gtk::EXPAND,
-                      Gtk::FILL | Gtk::EXPAND,
-                      0, 0);
+TagNewDialog::TagNewDialog( const TagPtr &tag ) throw() :
+    Gtk::Dialog(),
+    iconPath_( ),
+    mainTable_(3, 3, false),
+    iconButton_(),
+    iconImage_(Gtk::Stock::MISSING_IMAGE, Gtk::ICON_SIZE_BUTTON),
+    parentLabel_(_("Parent:"),
+                 Gtk::ALIGN_LEFT,
+                 Gtk::ALIGN_CENTER,
+                 false),
+    parentComboBox_(),
+    nameLabel_(_("Name:"),
+               Gtk::ALIGN_LEFT,
+               Gtk::ALIGN_CENTER,
+               false),
+    nameEntry_(),
+    descriptionLabel_(_("Description"),
+                      Gtk::ALIGN_LEFT,
+                      Gtk::ALIGN_CENTER,
+                      false),
+    descriptionScrolledWindow_(),
+    descriptionTextView_()
+{
+    Glib::ustring title = "Edit Tag:" + tag->get_name();
+    set_title(_( title.c_str() ));
 
-    mainTable_.attach(parentLabel_, 1, 2, 0, 1,
-                      Gtk::FILL | Gtk::EXPAND,
-                      Gtk::FILL | Gtk::EXPAND,
-                      0, 0);
+    setup_gui();
 
-    mainTable_.attach(parentComboBox_, 2, 3, 0, 1,
-                      Gtk::FILL | Gtk::EXPAND,
-                      Gtk::FILL | Gtk::EXPAND,
-                      0, 0);
-
-    mainTable_.attach(nameLabel_, 1, 2, 1, 2,
-                      Gtk::FILL | Gtk::EXPAND,
-                      Gtk::FILL | Gtk::EXPAND,
-                      0, 0);
-
-    mainTable_.attach(nameEntry_, 2, 3, 1, 2,
-                      Gtk::FILL | Gtk::EXPAND,
-                      Gtk::FILL | Gtk::EXPAND,
-                      0, 0);
-
-    mainTable_.attach(descriptionLabel_, 1, 2, 2, 3,
-                      Gtk::FILL | Gtk::EXPAND,
-                      Gtk::FILL | Gtk::EXPAND,
-                      0, 0);
-
-    descriptionScrolledWindow_.set_policy(Gtk::POLICY_AUTOMATIC,
-                                          Gtk::POLICY_AUTOMATIC);
-    mainTable_.attach(descriptionScrolledWindow_, 2, 3, 2, 3,
-                      Gtk::FILL | Gtk::EXPAND,
-                      Gtk::FILL | Gtk::EXPAND,
-                      0, 0);
-
-    descriptionScrolledWindow_.add(descriptionTextView_);
-
-    add_button(Gtk::Stock::CANCEL, Gtk::RESPONSE_CANCEL);
-    add_button(Gtk::Stock::OK, Gtk::RESPONSE_OK);
+    //populate
+    if( tag )
+    {
+        nameEntry_.set_text(tag->get_name());
+        Glib::RefPtr<Gtk::TextBuffer> description = Gtk::TextBuffer::create();
+        description->set_text( tag->get_description() );
+        descriptionTextView_.set_buffer(description);
+        set_icon(tag->get_icon_path());
+    }
 
     show_all_children();
 }
@@ -126,7 +113,7 @@ TagNewDialog::on_delete_event(GdkEventAny * event)
     bool return_value = Gtk::Dialog::on_delete_event(event);
 
     hide();
-    return return_value;	
+    return return_value;
 }
 
 void
@@ -193,29 +180,7 @@ TagNewDialog::on_icon_button_clicked() throw()
             {
                 break;
             }
-            iconPath_ = path;
-
-            PixbufPtr pixbuf;
-            try
-            {
-                pixbuf = Gdk::Pixbuf::create_from_file(iconPath_);
-            }
-            catch (const Glib::FileError & e)
-            {
-                std::cerr << __FILE__ << ":" << __LINE__ << ", "
-                          << __FUNCTION__ << ": " << e.what()
-                          << std::endl;
-                return;
-            }
-            catch (const Gdk::PixbufError & e)
-            {
-                std::cerr << __FILE__ << ":" << __LINE__ << ", "
-                          << __FUNCTION__ << ": " << e.what()
-                          << std::endl;
-                return;
-            }
-
-            iconImage_.set(pixbuf);
+            set_icon( path );
             break;
         }
 
@@ -231,6 +196,103 @@ TagNewDialog::on_icon_button_clicked() throw()
             break;
         }
     }
+}
+
+void
+TagNewDialog::setup_gui() throw()
+{
+    set_border_width(12);
+    set_default_size(320, 200);
+    set_has_separator(false);
+
+    Gtk::VBox * const dialog_vbox = get_vbox();
+    dialog_vbox->set_spacing(18);
+
+    mainTable_.set_col_spacings(12);
+    mainTable_.set_row_spacings(6);
+    dialog_vbox->pack_start(mainTable_, Gtk::PACK_EXPAND_WIDGET, 0);
+
+    iconButton_.set_image(iconImage_);
+    iconButton_.set_size_request(64, 64);
+    iconButton_.signal_clicked().connect(sigc::mem_fun(*this,
+        &TagNewDialog::on_icon_button_clicked));
+    mainTable_.attach(iconButton_, 0, 1, 0, 2,
+                      Gtk::FILL | Gtk::EXPAND,
+                      Gtk::FILL | Gtk::EXPAND,
+                      0, 0);
+
+    mainTable_.attach(parentLabel_, 1, 2, 0, 1,
+                      Gtk::FILL | Gtk::EXPAND,
+                      Gtk::FILL | Gtk::EXPAND,
+                      0, 0);
+
+    mainTable_.attach(parentComboBox_, 2, 3, 0, 1,
+                      Gtk::FILL | Gtk::EXPAND,
+                      Gtk::FILL | Gtk::EXPAND,
+                      0, 0);
+
+    mainTable_.attach(nameLabel_, 1, 2, 1, 2,
+                      Gtk::FILL | Gtk::EXPAND,
+                      Gtk::FILL | Gtk::EXPAND,
+                      0, 0);
+
+    mainTable_.attach(nameEntry_, 2, 3, 1, 2,
+                      Gtk::FILL | Gtk::EXPAND,
+                      Gtk::FILL | Gtk::EXPAND,
+                      0, 0);
+
+    mainTable_.attach(descriptionLabel_, 1, 2, 2, 3,
+                      Gtk::FILL | Gtk::EXPAND,
+                      Gtk::FILL | Gtk::EXPAND,
+                      0, 0);
+
+    descriptionScrolledWindow_.set_policy(Gtk::POLICY_AUTOMATIC,
+                                          Gtk::POLICY_AUTOMATIC);
+    mainTable_.attach(descriptionScrolledWindow_, 2, 3, 2, 3,
+                      Gtk::FILL | Gtk::EXPAND,
+                      Gtk::FILL | Gtk::EXPAND,
+                      0, 0);
+
+    descriptionScrolledWindow_.add(descriptionTextView_);
+
+    add_button(Gtk::Stock::CANCEL, Gtk::RESPONSE_CANCEL);
+    add_button(Gtk::Stock::OK, Gtk::RESPONSE_OK);
+
+    return;
+
+}
+
+void
+TagNewDialog::set_icon(const Glib::ustring &iconPath)
+{
+    iconPath_ = iconPath;
+
+    if( iconPath_.empty() )
+        return;
+
+    PixbufPtr pixbuf;
+    try
+    {
+        pixbuf = Gdk::Pixbuf::create_from_file(iconPath_);
+    }
+    catch (const Glib::FileError & e)
+    {
+        std::cerr << __FILE__ << ":" << __LINE__ << ", "
+                  << __FUNCTION__ << ": " << e.what()
+                  << std::endl;
+        return;
+    }
+    catch (const Gdk::PixbufError & e)
+    {
+        std::cerr << __FILE__ << ":" << __LINE__ << ", "
+                  << __FUNCTION__ << ": " << e.what()
+                  << std::endl;
+        return;
+    }
+
+    iconImage_.set(pixbuf);
+
+    return;
 }
 
 } // namespace Solang

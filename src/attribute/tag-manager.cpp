@@ -100,7 +100,9 @@ TagManager::TagManager() throw() :
     actionGroup_->add(
         Gtk::Action::create(
             "ActionTagsEdit", Gtk::Stock::EDIT,
-            _("_Edit Selected Tag...")));
+            _("_Edit Selected Tag...")),
+        Gtk::AccelKey(""),
+        sigc::mem_fun(*this, &TagManager::on_action_tag_edit));
 
     actionGroup_->add(
         Gtk::Action::create(
@@ -161,10 +163,9 @@ TagManager::init(Application & application)
 {
     application_ = &application;
 
-    Engine & engine = application.get_engine();
-    TagList tags = engine.get_tags();
-    tagView_.populate(tags);
+    Engine & engine = application_->get_engine();
     engine.get_criterion_repo().register_source( &tagView_ );
+    populate_view();
 
     MainWindow & main_window = application.get_main_window();
     main_window.add_dock_object_left(GDL_DOCK_OBJECT(dockItem_));
@@ -237,6 +238,13 @@ TagManager::on_action_tag_new() throw()
     {
         case Gtk::RESPONSE_OK:
         {
+            TagPtr tag( new Tag() );
+            tag->set_name( tag_new_dialog.get_name() );
+            tag->set_description( tag_new_dialog.get_description() );
+            tag->set_icon_path( tag_new_dialog.get_icon_path() );
+            DatabasePtr db = application_->get_engine().get_db();
+            tag->save( *db );
+            populate_view();
             break;
         }
 
@@ -253,4 +261,62 @@ TagManager::on_action_tag_new() throw()
     }
 }
 
+void
+TagManager::on_action_tag_edit() throw()
+{
+    Glib::RefPtr<Gtk::TreeSelection> selected
+                                            = tagView_.get_selection();
+
+    if( 0 == selected->count_selected_rows() )
+        return;
+
+    Gtk::TreeModel::iterator item = selected->get_selected();
+    const TagViewModelColumnRecord &rec
+                                = tagView_.get_column_records();
+
+    if( item != selected->get_model()->children().end() )
+    {
+        Gtk::TreeModel::Row row= (*item);
+        TagPtr tag = row[ rec.get_column_tag() ];
+
+        TagNewDialog tag_new_dialog( tag );
+        tag_new_dialog.set_transient_for(
+                                application_->get_main_window());
+
+        const gint response = tag_new_dialog.run();
+
+        switch (response)
+        {
+            case Gtk::RESPONSE_OK:
+            {
+                tag->set_name( tag_new_dialog.get_name() );
+                tag->set_description( tag_new_dialog.get_description() );
+                tag->set_icon_path( tag_new_dialog.get_icon_path() );
+                DatabasePtr db = application_->get_engine().get_db();
+                tag->save( *db );
+                populate_view();
+                break;
+            }
+
+            case Gtk::RESPONSE_CANCEL:
+            case Gtk::RESPONSE_DELETE_EVENT:
+            {
+                break;
+            }
+
+            default:
+            {
+                break;
+            }
+        }
+    }
+}
+
+void
+TagManager::populate_view() throw()
+{
+    Engine & engine = application_->get_engine();
+    TagList tags = engine.get_tags();
+    tagView_.populate(tags);
+}
 } // namespace Solang

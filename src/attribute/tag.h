@@ -43,7 +43,7 @@ class Tag :
         static const gint32 ICONPATH_COL;
 
     private:
-        guint64        tagId_;
+        gint        tagId_;
         Glib::ustring  name_;
         Glib::ustring  description_;
         Glib::ustring  iconPath_;
@@ -51,15 +51,15 @@ class Tag :
     public:
         Tag() throw();
 
-        Tag(guint64 tag_id, const Glib::ustring & name) throw();
+        Tag(gint tag_id, const Glib::ustring & name) throw();
 
         ~Tag() throw();
 
-        inline guint64
+        inline gint
         get_tag_id() const throw();
 
         void
-        set_tag_id(guint64 tag_id) throw();
+        set_tag_id(gint tag_id) throw();
 
         inline const Glib::ustring &
         get_name() const throw();
@@ -95,7 +95,7 @@ class Tag :
         get_query_criteria() const throw();
 };
 
-inline guint64
+inline gint
 Tag::get_tag_id() const throw()
 {
     return tagId_;

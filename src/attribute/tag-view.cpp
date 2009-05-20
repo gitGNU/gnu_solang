@@ -69,6 +69,7 @@ TagView::configure() throw()
 void
 TagView::populate(const TagList & tags) throw()
 {
+    listStore_->clear();
     TagList::const_iterator list_iter;
 
     for (list_iter = tags.begin(); list_iter != tags.end();

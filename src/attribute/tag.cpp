@@ -38,7 +38,7 @@ Tag::Tag() throw() :
 {
 }
 
-Tag::Tag(guint64 tagId, const Glib::ustring & name) throw() :
+Tag::Tag(gint tagId, const Glib::ustring & name) throw() :
     tagId_(tagId),
     name_(name)
 {
@@ -49,7 +49,7 @@ Tag::~Tag() throw()
 }
 
 void
-Tag::set_tag_id(guint64 tag_id) throw()
+Tag::set_tag_id(gint tag_id) throw()
 {
     tagId_ = tag_id;
 }
@@ -71,7 +71,7 @@ void Tag::insert(
 {
     std::list<Gnome::Gda::Value> values;
     values.push_back( Gnome::Gda::Value( lastIndex + 1 ) ); //tagid
-	std::cout<<"Tagid= "<<lastIndex + 1<<std::endl;
+    std::cout<<"Tagid= "<<lastIndex + 1<<std::endl;
     values.push_back( Gnome::Gda::Value( get_name() ) );
     values.push_back( Gnome::Gda::Value( get_description() ) ); 
     values.push_back( Gnome::Gda::Value( get_icon_path() ) ); 
@@ -82,38 +82,29 @@ void Tag::insert(
     {
         //TBD::Error
     }
-	set_tag_id( lastIndex + 1 );
-	set_row_( row );
+    set_tag_id( lastIndex + 1 );
+    set_row_( row );
 
-	return ;
+    return ;
 
 }
 
 void Tag::update(
             DataModelPtr &model, gint32 row) throw(Error)
 {
-    if( get_name().length() > 0 
-            && get_name() != model->get_value_at( 
-                                NAME_COL, row ).get_string() )
+    try
     {
-        model->set_value_at( 
-                NAME_COL, row, Gnome::Gda::Value( get_name()));
+        std::cout<<get_tag_id()<<"<--TID R--> "<<row<<std::endl;
+        std::list<Gnome::Gda::Value> values;
+        values.push_back( Gnome::Gda::Value( get_tag_id() ) );
+        values.push_back( Gnome::Gda::Value( get_name() ) );
+        values.push_back( Gnome::Gda::Value( get_description() ) );
+        values.push_back( Gnome::Gda::Value( get_icon_path() ) );
+        model->set_values( row, values );
     }
-    if( get_description().length() > 0 
-            && get_description() != model->get_value_at( 
-						DESCRIPTION_COL, row ).get_string() ) 
+    catch(Glib::Error &e)
     {
-        model->set_value_at( 
-                DESCRIPTION_COL, row, 
-							Gnome::Gda::Value( get_description() ) ); 
-    }
-    if( get_icon_path().length() > 0 
-            && get_icon_path() != model->get_value_at( 
-							ICONPATH_COL, row ).get_string() )
-    {
-        model->set_value_at( 
-                ICONPATH_COL, row, 
-								Gnome::Gda::Value( get_icon_path() ) );
+        std::cerr<<"Error::Could not save: "<<e.what()<<std::endl;
     }
 
     return;    
@@ -122,15 +113,15 @@ void Tag::update(
 
 void Tag::create( DataModelPtr& dataModel, gint32 row) throw(Error)
 {
-	set_row_( row );
+    set_row_( row );
     set_tag_id( dataModel->get_value_at( 
-						TAGID_COL, row ).get_int() );
+                        TAGID_COL, row ).get_int() );
     set_name( dataModel->get_value_at( 
-						NAME_COL, row ).get_string() );
+                        NAME_COL, row ).get_string() );
     set_description( dataModel->get_value_at( 
-						DESCRIPTION_COL, row ).get_string() );
+                        DESCRIPTION_COL, row ).get_string() );
     set_icon_path( dataModel->get_value_at( 
-						ICONPATH_COL, row ).get_string() );
+                        ICONPATH_COL, row ).get_string() );
     return;
 }
 
@@ -150,23 +141,23 @@ Glib::ustring Tag::getCreateSQL() throw(Error)
 Glib::ustring
 Tag::get_db_object_type_name() const throw()
 {
-	return "tags";
+    return "tags";
 }
 
 Glib::ustring
 Tag::get_query_criteria() const throw()
 {
-	std::ostringstream sout;
+    std::ostringstream sout;
 
-	sout << " photo_tags.tagid ="<<get_tag_id() << " ";
+    sout << " photo_tags.tagid ="<<get_tag_id() << " ";
 
-	return sout.str();
+    return sout.str();
 }
 
 void
 Tag::set_icon_path(Glib::ustring const & value)
 {
-	iconPath_ = value;
+    iconPath_ = value;
 }
 
 

@@ -319,6 +319,7 @@ Engine::get_tags() const throw()
     {
         TagPtr tag(new Tag());
         tag->create(model, i);
+        tag->set_table_( tagsTable );
         tags.push_back(tag);
     }
 
