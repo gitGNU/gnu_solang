@@ -40,6 +40,7 @@
 #include "photo.h"
 #include "progress-observer.h"
 #include "property-manager.h"
+#include "search-basket.h"
 #include "tag-manager.h"
 #include "thumbnail.h"
 #include "thumbnail-store.h"
@@ -210,6 +211,9 @@ Application::init() throw()
     IPluginPtr property_manager(new PropertyManager());
     plugins_.insert(std::make_pair("property-manager",
                                    property_manager));
+
+    IPluginPtr search_basket(new SearchBasket());
+    plugins_.insert(std::make_pair("search-basket", search_basket));
 
     IPluginPtr tag_manager(new TagManager( ));
     plugins_.insert(std::make_pair("tag-manager", tag_manager));

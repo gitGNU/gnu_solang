@@ -15,6 +15,10 @@ libattribute_la_SOURCES = \
 	photo-tag.h \
 	property-manager.cpp \
 	property-manager.h \
+	search-basket.cpp \
+	search-basket.h \
+	search-basket-column-record.cpp \
+	search-basket-column-record.h \
 	search-criterion-repo.cpp \
 	search-criterion-repo.h \
 	search-criterion-source.cpp \
