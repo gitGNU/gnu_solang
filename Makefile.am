@@ -12,6 +12,7 @@ solangdocdir = ${prefix}/doc/solang
 solangdoc_DATA = \
 	README\
 	COPYING\
+	COPYING.GPLv2\
 	AUTHORS\
 	ChangeLog\
 	INSTALL\
