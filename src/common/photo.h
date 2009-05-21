@@ -96,7 +96,7 @@ class Photo :
         generate_thumbnail(
                         const Exiv2::ExifData & exifData) throw(Error);
 #endif
-        void   set_disk_file_path(Storage &storage);
+        void   set_disk_file_path(const IStoragePtr & storage);
         void   set_disk_file_path(const Glib::ustring &disk_file_path);
         
 

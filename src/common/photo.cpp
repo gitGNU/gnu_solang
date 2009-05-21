@@ -24,7 +24,7 @@
 
 #include "database.h"
 #include "photo.h"
-#include "storage.h"
+#include "i-storage.h"
 
 namespace Solang
 {
@@ -84,9 +84,9 @@ void Photo::set_exif_data( const ExifData &exifData ) throw()
     exifData_ = exifData;
 }
 
-void Photo::set_disk_file_path(Storage & storage)
+void Photo::set_disk_file_path(const IStoragePtr & storage)
 {
-    diskFilePath_ = storage.retrieve(*this);
+    diskFilePath_ = storage->retrieve(*this);
 }
 
 void Photo::set_disk_file_path(const Glib::ustring & disk_file_path)
