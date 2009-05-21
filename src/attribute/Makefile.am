@@ -5,6 +5,8 @@ libattribute_la_SOURCES = \
 	basic-exif-view-model-column-record.h \
 	basic-exif-view.cpp \
 	basic-exif-view.h \
+	date-photo-info.cpp \
+	date-photo-info.h \
 	exif-data-key.cpp \
 	exif-data-key.h \
 	exif-data.cpp \
