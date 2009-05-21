@@ -43,6 +43,7 @@ Engine::Engine(int & argc, char ** & argv,
     tagAddBegin_(),
     tagAddEnd_(),
     criterionChanged_(),
+    itemActivated_(),
     selectionChanged_(),
     mutex_(),
     photos_(),
@@ -388,6 +389,12 @@ Glib::Dispatcher &
 Engine::criterion_changed() throw()
 {
     return criterionChanged_;
+}
+
+sigc::signal<void, const Gtk::TreeIter &> &
+Engine::item_activated() throw()
+{
+    return itemActivated_;
 }
 
 sigc::signal<void> &

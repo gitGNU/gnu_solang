@@ -159,7 +159,11 @@ void
 BrowserRenderer::on_item_activated(const Gtk::TreeModel::Path & path)
                                    throw()
 {
-    application_->set_list_store_iter(path);
+    const TreeModelPtr & model = thumbnailView_.get_model();
+    g_object_ref(model->gobj());
+
+    Gtk::TreeModel::iterator model_iter = model->get_iter(path);
+    application_->get_engine().item_activated().emit(model_iter);
 }
 
 } // namespace Solang
