@@ -5,6 +5,8 @@ librenderer_la_SOURCES = \
 	browser-renderer.h \
 	console-renderer.cpp \
 	console-renderer.h \
+	enlarged-renderer.cpp \
+	enlarged-renderer.h \
 	renderer.cpp \
 	renderer.h \
 	browser-model-column-record.cpp \
@@ -31,6 +33,7 @@ AM_CPPFLAGS = \
 	$(SOLANG_CFLAGS) \
 	$(CAIROMM_CFLAGS) \
 	$(EXIV2_CFLAGS) \
+	$(GTKIMAGEVIEW_CFLAGS) \
 	$(GTKMM_CFLAGS) \
 	$(GDAMM_CFLAGS) \
 	$(GIOMM_CFLAGS) \

@@ -5,6 +5,9 @@ pixmap_DATA = \
     mode-browse-24.png \
     mode-browse-32.png \
     mode-browse.svg \
+    mode-image-edit-16.png \
+    mode-image-edit-22.png \
+    mode-image-edit-24.png \
     tag-16.png \
     tag-22.png \
     tag-new-16.png \

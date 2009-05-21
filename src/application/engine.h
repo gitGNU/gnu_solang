@@ -23,6 +23,7 @@
 #include <map>
 
 #include <glibmm.h>
+#include <gtkmm.h>
 
 #include "database.h"
 #include "i-storage.h"
@@ -141,6 +142,9 @@ class Engine :
         Glib::Dispatcher &
         criterion_changed() throw();
 
+        sigc::signal<void, const Gtk::TreeIter &> &
+        item_activated() throw();
+
         sigc::signal<void> &
         selection_changed() throw();
 
@@ -198,6 +202,8 @@ class Engine :
         Glib::Dispatcher tagAddEnd_;
 
         Glib::Dispatcher criterionChanged_;
+
+        sigc::signal<void, const Gtk::TreeIter &> itemActivated_;
 
         sigc::signal<void> selectionChanged_;
 

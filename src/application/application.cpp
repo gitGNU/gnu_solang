@@ -32,6 +32,7 @@
 #include "console-renderer.h"
 #include "directory-source.h"
 #include "directory-storage.h"
+#include "enlarged-renderer.h"
 #include "flickr-source.h"
 #include "i-photo-source.h"
 #include "i-plugin.h"
@@ -238,6 +239,10 @@ Application::init() throw()
 //    RendererPtr console_renderer(new ConsoleRenderer());
 //    renderers_.insert(std::make_pair("console-renderer",
 //                                     console_renderer));
+
+    RendererPtr enlarged_renderer(new EnlargedRenderer());
+    renderers_.insert(std::make_pair("enlarged-renderer",
+                                     enlarged_renderer));
 
     std::for_each(renderers_.begin(), renderers_.end(),
                   Initializer<RendererPtr>(this));
