@@ -21,6 +21,7 @@
 #include "config.h"
 #endif // HAVE_CONFIG_H
 
+#include "date-photo-info.h"
 #include "engine.h"
 #include "i-photo-destination.h"
 #include "i-photo-source.h"
@@ -339,6 +340,13 @@ Engine::apply_tag_to_photos( PhotoList &photos, const TagPtr &tag )
         pt.save( *get_db() );
     }
     return;
+}
+
+DatePhotoInfoList
+Engine::get_dates_with_picture_count(gint year, gint month, gint day)
+{
+    return database_.get_dates_with_picture_count(
+                                year, month, day, observer_ );
 }
 
 Glib::Dispatcher &

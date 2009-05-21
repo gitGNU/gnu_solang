@@ -26,6 +26,7 @@
 #include "db-table-factory.h"
 #include "progress-observer.h"
 #include "thumbnail.h"
+#include "date-photo-info.h"
 
 namespace Solang
 {
@@ -211,7 +212,70 @@ PhotoList Database::search(
                   << std::endl;
     }
     return photos;
+}
 
+DatePhotoInfoList
+Database::get_dates_with_picture_count(
+                gint year, gint month, gint day,
+                const ProgressObserverPtr &observer)
+{
+    Glib::ustring sql
+        = "select mod_year, mod_month, mod_day, count(*) from photos ";
+    if( -1 != year )
+    {
+        std::ostringstream sout;
+        sout<<" and mod_year="<<year;
+        if( -1 != month )
+        {
+            sout<<" and mod_month="<<month;
+            if( -1 != day )
+            {
+                sout<<" and mod_day="<<month;
+            }
+        }
+        sql += sout.str();
+    }
+    sql += " group by mod_year, mod_month, mod_day";
+
+    DatePhotoInfoList infos;
+
+    try
+    {
+        std::cout<<sql<<std::endl;
+        Glib::RefPtr<Gnome::Gda::Query> query
+                            = Gnome::Gda::Query::create( gdaDict_ );
+        query->set_sql_text( sql );
+        Glib::RefPtr<Gnome::Gda::DataModelQuery> model
+                        =  Gnome::Gda::DataModelQuery::create( query );
+
+        gint32 numRows = model->get_n_rows();
+        observer->set_num_events( numRows );
+        observer->set_event_description(
+                            "Generating summary of photos" );
+
+        for( gint32 row = 0; row < numRows; row++ )
+        {
+            if( !observer->get_stop() )
+            {
+                infos.push_back(
+                    DatePhotoInfo(
+                        ModificationDate(
+                            model->get_value_at( 0, row ).get_int(),
+                            model->get_value_at( 1, row ).get_int(),
+                            model->get_value_at( 2, row ).get_int()),
+                        model->get_value_at( 3, row ).get_int()));
+                observer->receive_event_notifiation();
+            }
+        }
+    }
+    catch(Glib::Error &e)
+    {
+        std::cerr << __FILE__ << ":" << __LINE__ << ", "
+                  << __FUNCTION__ << ": " << e.what()
+                  << std::endl;
+    }
+
+    return infos;
 
 }
 

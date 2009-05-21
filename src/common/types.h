@@ -68,6 +68,9 @@ class IPlugin;
 typedef std::tr1::shared_ptr<const IPlugin> ConstIPluginPtr;
 typedef std::tr1::shared_ptr<IPlugin> IPluginPtr;
 
+class DatePhotoInfo;
+typedef std::list<DatePhotoInfo> DatePhotoInfoList;
+
 class Photo;
 typedef std::tr1::shared_ptr<const Photo> ConstPhotoPtr;
 typedef std::tr1::shared_ptr<Photo> PhotoPtr;

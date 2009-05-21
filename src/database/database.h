@@ -38,12 +38,12 @@ namespace Solang
 class Database
 {
     private:
-		static const Glib::ustring DB_NAME;
+        static const Glib::ustring DB_NAME;
         Glib::ustring path_; //Path to SQLLite database
-		Glib::RefPtr<Gnome::Gda::Client> gdaClient_;
-		Glib::RefPtr<Gnome::Gda::Connection> gdaConnection_;
-		Glib::RefPtr<Gnome::Gda::Dict> gdaDict_;
-		std::map<Glib::ustring, DBTablePtr> tables_;
+        Glib::RefPtr<Gnome::Gda::Client> gdaClient_;
+        Glib::RefPtr<Gnome::Gda::Connection> gdaConnection_;
+        Glib::RefPtr<Gnome::Gda::Dict> gdaDict_;
+        std::map<Glib::ustring, DBTablePtr> tables_;
 
     public:
         Database(
@@ -58,28 +58,33 @@ class Database
         inline const Glib::ustring &get_path() const;
         void set_path(const Glib::ustring &path);
 
-		void open() throw(Error);
+        void open() throw(Error);
 
-		//Base functions
+        //Base functions
 
-		//Save DBObject(s) to table
-		void save( DBObject &object ) throw(Error);
-		void save( const DBObjectList &objects,
+        //Save DBObject(s) to table
+        void save( DBObject &object ) throw(Error);
+        void save( const DBObjectList &objects,
                         ProgressObserverPtr &observer ) throw(Error);
 
-		//Get table object
-		DBTablePtr getTable(const Glib::ustring &tableName) const;
+        //Get table object
+        DBTablePtr getTable(const Glib::ustring &tableName) const;
 
-		void close() throw(Error);
+        void close() throw(Error);
 
-		//Utility functions
-		//The following function list of valid photo id's
-		PhotoList search(
-				const PhotoSearchCriteriaList &criterion,
-				const ProgressObserverPtr & observer) throw(Error);
+        //Utility functions
+        //The following function list of valid photo id's
+        PhotoList search(
+                const PhotoSearchCriteriaList &criterion,
+                const ProgressObserverPtr & observer) throw(Error);
 
-//		TagList getTags(const PhotoPtr &photo) const throw(Error);
-//		void saveTags(const PhotoPtr &photo) throw(Error);
+        DatePhotoInfoList
+        get_dates_with_picture_count(
+                            gint year, gint month, gint day,
+                            const ProgressObserverPtr &);
+
+//      TagList getTags(const PhotoPtr &photo) const throw(Error);
+//      void saveTags(const PhotoPtr &photo) throw(Error);
 
 };
 
