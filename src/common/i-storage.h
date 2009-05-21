@@ -20,8 +20,6 @@
 #ifndef SOLANG_I_STORAGE_H
 #define SOLANG_I_STORAGE_H
 
-#include <list>
-
 #include <glibmm.h>
 
 #include "error.h"
@@ -76,8 +74,6 @@ class IStorage :
 
     private:
 };
-
-typedef std::list<IStoragePtr> IStorageList;
 
 } // namespace Solang
 

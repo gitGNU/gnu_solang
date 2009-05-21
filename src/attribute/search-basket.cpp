@@ -20,7 +20,7 @@
 #include "config.h"
 #endif // HAVE_CONFIG_H
 
-#include <list>
+#include <vector>
 
 #include <glibmm/i18n.h>
 
@@ -66,7 +66,7 @@ SearchBasket::SearchBasket() throw() :
     gtk_container_add(GTK_CONTAINER(dockItem_),
                       GTK_WIDGET(scrolledWindow_.gobj()));
 
-    std::list<Gtk::TargetEntry> targets;
+    std::vector<Gtk::TargetEntry> targets;
     targets.push_back(Gtk::TargetEntry("STRING",
                                        Gtk::TARGET_SAME_APP, 0));
     targets.push_back(Gtk::TargetEntry("UTF8_STRING",

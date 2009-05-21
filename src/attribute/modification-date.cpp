@@ -22,7 +22,7 @@ ModificationDate::get_query_criteria() const throw()
 }
 
 void
-ModificationDate::insert(std::list<Gnome::Gda::Value> &values)
+ModificationDate::insert(std::vector<Gnome::Gda::Value> &values)
 {
     values.push_back( Gnome::Gda::Value( get_day() ) ); 
     values.push_back( Gnome::Gda::Value( get_month() ) ); 

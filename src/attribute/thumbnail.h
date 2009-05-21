@@ -20,7 +20,7 @@
 #ifndef SOLANG_THUMBNAIL_H
 #define SOLANG_THUMBNAIL_H
 
-#include <list>
+#include <vector>
 #include <tr1/memory>
 
 #include <exiv2/exif.hpp>
@@ -149,7 +149,7 @@ class Thumbnail
                  const Photo &photo) throw(Error);
 
         void
-        insert(std::list<Gnome::Gda::Value> &values);
+        insert(std::vector<Gnome::Gda::Value> &values);
 
         void
         update(DataModelPtr & model, gint32 row) throw(Glib::Error);

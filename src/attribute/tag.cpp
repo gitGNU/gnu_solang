@@ -69,7 +69,7 @@ Tag::set_description(const Glib::ustring & description) throw()
 void Tag::insert(
         DataModelPtr &model, gint32 lastIndex) throw(Error)
 {
-    std::list<Gnome::Gda::Value> values;
+    std::vector<Gnome::Gda::Value> values;
     values.push_back( Gnome::Gda::Value( lastIndex + 1 ) ); //tagid
     std::cout<<"Tagid= "<<lastIndex + 1<<std::endl;
     values.push_back( Gnome::Gda::Value( get_name() ) );
@@ -95,7 +95,7 @@ void Tag::update(
     try
     {
         std::cout<<get_tag_id()<<"<--TID R--> "<<row<<std::endl;
-        std::list<Gnome::Gda::Value> values;
+        std::vector<Gnome::Gda::Value> values;
         values.push_back( Gnome::Gda::Value( get_tag_id() ) );
         values.push_back( Gnome::Gda::Value( get_name() ) );
         values.push_back( Gnome::Gda::Value( get_description() ) );

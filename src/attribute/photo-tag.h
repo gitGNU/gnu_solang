@@ -21,7 +21,6 @@
 #define SOLANG_PHOTO_TAG_H
 
 #include <exception>
-#include  <list>
 
 #include <glibmm.h>
 

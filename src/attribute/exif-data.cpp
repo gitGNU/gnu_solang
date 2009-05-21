@@ -210,7 +210,7 @@ ExifData &ExifData::operator =(const ExifData &rhs)
 }
 
 
-void ExifData::insert( std::list<Gnome::Gda::Value> &values )
+void ExifData::insert( std::vector<Gnome::Gda::Value> &values )
 {
     values.push_back( Gnome::Gda::Value( get_aperture() ) );
     values.push_back( Gnome::Gda::Value( get_shutter_speed() ) ); 

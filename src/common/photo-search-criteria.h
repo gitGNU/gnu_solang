@@ -20,7 +20,6 @@
 #ifndef SOLANG_PHOTO_SEARCH_CRITERIA_H
 #define SOLANG_PHOTO_SEARCH_CRITERIA_H
 
-#include <list>
 #include <tr1/memory>
 
 #include <glibmm.h>

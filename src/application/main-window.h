@@ -19,7 +19,7 @@
 #ifndef SOLANG_MAIN_WINDOW_H
 #define SOLANG_MAIN_WINDOW_H
 
-#include <list>
+#include <vector>
 
 #include <gdl/gdl.h>
 #include <gtkmm.h>
@@ -93,9 +93,9 @@ protected:
 
     bool showStatusBar_;
 
-    std::list<GdlDockObject *> dockObjectsLeft_;
+    std::vector<GdlDockObject *> dockObjectsLeft_;
 
-    std::list<GdlDockObject *> dockObjectsCenter_;
+    std::vector<GdlDockObject *> dockObjectsCenter_;
 
 private:
 };

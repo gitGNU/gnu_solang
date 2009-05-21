@@ -106,7 +106,7 @@ Glib::ustring Photo::getCreateSQL() throw(Error)
 
 void Photo::insert( DataModelPtr &model, gint32 lastIndex) throw(Error)
 {
-    std::list<Gnome::Gda::Value> values;
+    std::vector<Gnome::Gda::Value> values;
 
     values.push_back( Gnome::Gda::Value( lastIndex + 1 ) ); //photoid
     values.push_back( Gnome::Gda::Value( get_uri() ) ); 

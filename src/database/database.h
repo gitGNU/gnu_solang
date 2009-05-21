@@ -20,7 +20,6 @@
 #ifndef SOLANG_DATABASE_H
 #define SOLANG_DATABASE_H
 
-#include <list>
 #include <set>
 
 #include <tr1/memory>

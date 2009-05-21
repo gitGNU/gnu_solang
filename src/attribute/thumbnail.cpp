@@ -289,7 +289,7 @@ Thumbnail::generate_using_gdkpixbuf(const Glib::ustring & path,
     return;
 }
 
-void Thumbnail::insert( std::list<Gnome::Gda::Value> &values )
+void Thumbnail::insert( std::vector<Gnome::Gda::Value> &values )
 {
     values.push_back(Gnome::Gda::Value( get_path() ) );
     values.push_back(Gnome::Gda::Value( get_resolution().get_x()));

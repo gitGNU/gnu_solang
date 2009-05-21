@@ -150,7 +150,7 @@ class ModificationDate
         get_query_criteria() const throw();
 
         void
-        insert(std::list<Gnome::Gda::Value> &values);
+        insert(std::vector<Gnome::Gda::Value> &values);
 
         void
         update(DataModelPtr & model, gint32 row) throw(Glib::Error);

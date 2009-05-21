@@ -82,8 +82,6 @@ class DBObject :
 
 };
 
-typedef std::list<DBObjectPtr> DBObjectList;
-
 inline gint32 DBObject::get_row_() const throw()
 {
     return row_;

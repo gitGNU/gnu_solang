@@ -21,7 +21,7 @@
 #define SOLANG_EXIFDATA_H
 
 #include <exception>
-#include <list>
+#include <vector>
 
 #include <glibmm.h>
 #include <exiv2/exif.hpp>
@@ -120,7 +120,7 @@ class ExifData
             return pictureTakenTime_;
         }    
 
-        void insert( std::list<Gnome::Gda::Value> &values );
+        void insert( std::vector<Gnome::Gda::Value> &values );
         void update( DataModelPtr &model, gint32 row );
         void create( DataModelPtr &model, gint32 row );
 

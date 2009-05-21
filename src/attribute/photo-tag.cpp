@@ -56,7 +56,7 @@ void PhotoTag::set_photoId_(  gint32 photoId )
 void PhotoTag::insert(
         DataModelPtr &model, gint32 lastIndex) throw(Error)
 {
-    std::list<Gnome::Gda::Value> values;
+    std::vector<Gnome::Gda::Value> values;
     values.push_back( Gnome::Gda::Value( get_photoId_() ) );
     values.push_back( Gnome::Gda::Value( get_tagId_() ) ); 
 

@@ -20,7 +20,7 @@
 #include "config.h"
 #endif // HAVE_CONFIG_H
 
-#include <list>
+#include <vector>
 #include <gtk/gtk.h>
 
 #include "browser-model-column-record.h"
@@ -130,8 +130,8 @@ ThumbnailView::configure() throw()
     rendererInfo_.property_height().set_value(20);
     rendererInfo_.property_rise().set_value(2);
 
-    std::list<Gtk::TargetEntry> targets;
-    targets.push_back(Gtk::TargetEntry("text/uri-list",
+    std::vector<Gtk::TargetEntry> targets;
+    targets.push_back(Gtk::TargetEntry("text/uri-vector",
                                        Gtk::TARGET_OTHER_APP, 0));
     enable_model_drag_source(targets, Gdk::MODIFIER_MASK,
                              Gdk::ACTION_COPY);
@@ -162,8 +162,8 @@ PhotoList
 ThumbnailView::get_selected_photos() throw()
 {
     PhotoList photos;
-    std::list<Gtk::TreeModel::Path> items = get_selected_items();
-    std::list<Gtk::TreeModel::Path>::iterator iter;
+    std::vector<Gtk::TreeModel::Path> items = get_selected_items();
+    std::vector<Gtk::TreeModel::Path>::iterator iter;
 
     for (iter = items.begin(); items.end() != iter; iter++)
     {
@@ -214,7 +214,7 @@ ThumbnailView::on_drag_data_get_cb(const DragContextPtr & drag_context,
 
     PhotoList photos = get_selected_photos();
     PhotoList::iterator photo_iter;
-    std::list<std::string> uris;
+    std::vector<std::string> uris;
 
     for (photo_iter = photos.begin(); photos.end() != photo_iter;
          photo_iter++)

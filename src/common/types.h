@@ -41,6 +41,7 @@ typedef Database * DatabasePtr;
 class DBObject;
 typedef std::tr1::shared_ptr<const DBObject> ConstDBObjectPtr;
 typedef std::tr1::shared_ptr<DBObject> DBObjectPtr;
+typedef std::vector<DBObjectPtr> DBObjectList;
 
 class DBTable;
 typedef std::tr1::shared_ptr<const DBTable> ConstDBTablePtr;
@@ -48,13 +49,13 @@ typedef std::tr1::shared_ptr<DBTable> DBTablePtr;
 
 class ExifDataKey;
 typedef std::tr1::shared_ptr<ExifDataKey> ExifDataKeyPtr;
-typedef std::list<ExifDataKeyPtr> ExifDataKeyList;
+typedef std::vector<ExifDataKeyPtr> ExifDataKeyList;
 
 class IPhotoDestination;
 typedef std::tr1::shared_ptr<const IPhotoDestination>
     ConstIPhotoDestinationPtr;
 typedef std::tr1::shared_ptr<IPhotoDestination> IPhotoDestinationPtr;
-typedef std::list<IPhotoDestinationPtr> IPhotoDestinationList;
+typedef std::vector<IPhotoDestinationPtr> IPhotoDestinationList;
 
 class ExifData;
 typedef std::tr1::shared_ptr<ExifData> ExifDataPtr;
@@ -62,27 +63,27 @@ typedef std::tr1::shared_ptr<ExifData> ExifDataPtr;
 class IPhotoSource;
 typedef std::tr1::shared_ptr<const IPhotoSource> ConstIPhotoSourcePtr;
 typedef std::tr1::shared_ptr<IPhotoSource> IPhotoSourcePtr;
-typedef std::list<IPhotoSourcePtr> IPhotoSourceList;
+typedef std::vector<IPhotoSourcePtr> IPhotoSourceList;
 
 class IPlugin;
 typedef std::tr1::shared_ptr<const IPlugin> ConstIPluginPtr;
 typedef std::tr1::shared_ptr<IPlugin> IPluginPtr;
 
 class DatePhotoInfo;
-typedef std::list<DatePhotoInfo> DatePhotoInfoList;
+typedef std::vector<DatePhotoInfo> DatePhotoInfoList;
 
 class Photo;
 typedef std::tr1::shared_ptr<const Photo> ConstPhotoPtr;
 typedef std::tr1::shared_ptr<Photo> PhotoPtr;
 typedef Photo * UnrefPhotoPtr;
-typedef std::list<PhotoPtr> PhotoList;
+typedef std::vector<PhotoPtr> PhotoList;
 
 class PhotoSearchCriteria;
 typedef std::tr1::shared_ptr<const PhotoSearchCriteria>
     ConstPhotoSearchCriteriaPtr;
 typedef std::tr1::shared_ptr<PhotoSearchCriteria>
     PhotoSearchCriteriaPtr;
-typedef std::list<PhotoSearchCriteriaPtr> PhotoSearchCriteriaList;
+typedef std::vector<PhotoSearchCriteriaPtr> PhotoSearchCriteriaList;
 
 class ProgressDialog;
 typedef Glib::RefPtr<const ProgressDialog> ConstProgressDialogPtr;
@@ -96,16 +97,17 @@ typedef std::tr1::shared_ptr<ProgressObserver> ProgressObserverPtr;
 class Renderer;
 typedef std::tr1::shared_ptr<const Renderer> ConstRendererPtr;
 typedef std::tr1::shared_ptr<Renderer> RendererPtr;
-typedef std::list<RendererPtr> RendererList;
+typedef std::vector<RendererPtr> RendererList;
 
 class IStorage;
 typedef std::tr1::shared_ptr<const IStorage> ConstIStoragePtr;
 typedef std::tr1::shared_ptr<IStorage> IStoragePtr;
+typedef std::vector<IStoragePtr> IStorageList;
 
 class Tag;
 typedef std::tr1::shared_ptr<const Tag> ConstTagPtr;
 typedef std::tr1::shared_ptr<Tag> TagPtr;
-typedef std::list<TagPtr> TagList;
+typedef std::vector<TagPtr> TagList;
 
 class Thumbnail;
 typedef std::tr1::shared_ptr<const Thumbnail> ConstThumbnailPtr;
@@ -132,14 +134,14 @@ typedef Glib::RefPtr<Gtk::Menu> MenuPtr;
 
 class SearchCriterionSource;
 typedef SearchCriterionSource * SearchCriterionSourcePtr;
-typedef std::list<SearchCriterionSourcePtr> SearchCriterionSourceList;
+typedef std::vector<SearchCriterionSourcePtr> SearchCriterionSourceList;
 
 typedef Glib::RefPtr<const Gtk::TreeModel> ConstTreeModelPtr;
 typedef Glib::RefPtr<Gtk::TreeModel> TreeModelPtr;
 
 typedef Glib::RefPtr<const Gtk::TreePath> ConstTreePathPtr;
 typedef Glib::RefPtr<Gtk::TreePath> TreePathPtr;
-typedef std::list<TreePathPtr> TreePathList;
+typedef std::vector<TreePathPtr> TreePathList;
 
 typedef Glib::RefPtr<const Gtk::UIManager> ConstUIManagerPtr;
 typedef Glib::RefPtr<Gtk::UIManager> UIManagerPtr;
