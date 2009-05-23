@@ -22,6 +22,7 @@
 
 #include <algorithm>
 #include <functional>
+#include <iostream>
 
 #include <glibmm/i18n.h>
 #include <sigc++/sigc++.h>
@@ -215,6 +216,7 @@ MainWindow::init() throw()
                           dockObjectsCenter_.end(),
                           Docker(dockObjectsCenter_.front(),
                                  GDL_DOCK_CENTER));
+            present_dock_object(dockObjectsCenter_.front());
         }
     }
 }
@@ -234,6 +236,29 @@ void
 MainWindow::add_dock_object_center(GdlDockObject * dock_object) throw()
 {
     dockObjectsCenter_.push_back(dock_object);
+}
+
+void
+MainWindow::present_dock_object(GdlDockObject * dock_object) throw()
+{
+    if (0 == dock_object)
+    {
+        std::cerr << __FILE__ << ":" << __LINE__ << ", "
+                  << __FUNCTION__ << ": " << "0 == dock_object"
+                  << std::endl;
+        return;
+    }
+
+    Gtk::Container * dock_container
+        = Glib::wrap(GTK_CONTAINER(dock_object), false);
+    Gtk::Notebook * parent
+        = dynamic_cast<Gtk::Notebook *>(dock_container->get_parent());
+
+    if (0 != parent)
+    {
+        const gint page_num = parent->page_num(*dock_container);
+        parent->set_current_page(page_num);
+    }
 }
 
 const Glib::RefPtr<Gtk::UIManager> &

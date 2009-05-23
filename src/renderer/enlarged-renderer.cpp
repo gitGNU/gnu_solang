@@ -47,9 +47,8 @@ EnlargedRenderer::EnlargedRenderer() throw() :
     dockItemTitle_("Enlarged"),
     dockItemBehaviour_(GDL_DOCK_ITEM_BEH_NO_GRIP),
     dockItem_(NULL),
-    imageView_(gtk_image_view_new()),
-    imageScrollWin_(gtk_image_scroll_win_new(
-                        GTK_IMAGE_VIEW(imageView_))),
+    imageView_(0),
+    imageScrollWin_(0),
     modelIter_(),
     signalItemActivated_()
 {
@@ -82,7 +81,6 @@ EnlargedRenderer::EnlargedRenderer() throw() :
                     dockItemTitle_.c_str(),
                     PACKAGE_NAME"-mode-image-edit",
                     dockItemBehaviour_);
-    gtk_container_add(GTK_CONTAINER(dockItem_), imageScrollWin_);
 }
 
 EnlargedRenderer::~EnlargedRenderer() throw()
@@ -190,8 +188,33 @@ EnlargedRenderer::on_item_activated(const Gtk::TreeIter & iter)
         return;
     }
 
+    if (0 == imageView_)
+    {
+        imageView_ = gtk_image_view_new();
+        if (0 == imageView_)
+        {
+            return;
+        }
+    }
+
+    if (0 == imageScrollWin_)
+    {
+        imageScrollWin_ = gtk_image_scroll_win_new(
+                              GTK_IMAGE_VIEW(imageView_));
+        if (0 == imageScrollWin_)
+        {
+            return;
+        }
+
+        gtk_container_add(GTK_CONTAINER(dockItem_), imageScrollWin_);
+        gtk_widget_show_all(GTK_WIDGET(imageScrollWin_));
+    }
+
     gtk_image_view_set_pixbuf(GTK_IMAGE_VIEW(imageView_),
                               pixbuf->gobj(), TRUE);
+
+    MainWindow & main_window = application_->get_main_window();
+    main_window.present_dock_object(GDL_DOCK_OBJECT(dockItem_));
 }
 
 } // namespace Solang

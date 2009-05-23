@@ -52,6 +52,9 @@ public:
     void
     add_dock_object_center(GdlDockObject * dock_object) throw();
 
+    void
+    present_dock_object(GdlDockObject * dock_object) throw();
+
     const UIManagerPtr &
     get_ui_manager() throw();
 
