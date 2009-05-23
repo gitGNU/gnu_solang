@@ -21,6 +21,7 @@
 
 #include <iostream>
 #include <sstream>
+#include <vector>
 
 #include "database.h"
 #include "db-table-factory.h"
@@ -30,6 +31,16 @@
 
 namespace Solang
 {
+
+class Comparator
+{
+    public:
+        bool operator()  ( const PhotoSearchCriteriaPtr &lhs,
+                            const PhotoSearchCriteriaPtr &rhs )
+        {
+            return lhs->get_id() < rhs->get_id();
+        }
+};
 
 const Glib::ustring Database::DB_NAME="solang.db";
 
@@ -158,6 +169,8 @@ PhotoList Database::search(
 
     //Selection from views not supported? WTF?!!
     //Glib::ustring sql = "select * from photo_data ";
+    std::vector<PhotoSearchCriteriaPtr> tmpList( criterion.begin(), criterion.end() );
+    std::sort( tmpList.begin(), tmpList.end(), Comparator() );
 
     Glib::ustring sql = "select distinct photos.* \
             from photos, photo_tags \
@@ -166,16 +179,44 @@ PhotoList Database::search(
 
     if( ! criterion.empty() )
     {
-        //sql += " where ";
         bool first = true;
-        for( PhotoSearchCriteriaList::const_iterator it 
-                                        = criterion.begin();
-                                        it != criterion.end(); it++ )
+        gint32 lastId = -1;
+        PhotoSearchCriteria::ClubbingOperationType lastOp;
+        for( std::vector<PhotoSearchCriteriaPtr>::const_iterator it
+                                        = tmpList.begin();
+                                        it != tmpList.end(); it++ )
         {
-            //sql += ( first ) ? " and ( ": " or ";
-            sql += ( first ) ? " and ( ": " and ";
+            if( !first )
+            {
+                if( lastId == (*it)->get_id() )
+                {
+                    switch( (*it)->get_clubbing_type() )
+                    {
+                        case PhotoSearchCriteria::CLUB_AND:
+                        {
+                            sql += " and ";
+                            break;
+                        }
+                        case PhotoSearchCriteria::CLUB_OR:
+                        {
+                            sql += " or ";
+                            break;
+                        }
+                    }
+                }
+                else
+                {
+                    sql += " ) and ( ";
+                    //first = true;
+                }
+            }
+            else
+            {
+                sql += " and ( ";
+                first = false;
+            }
             sql += (*it)->get_query_criteria();
-            first = false;
+            lastId = (*it)->get_id();
         }
         sql += " )";    
     }

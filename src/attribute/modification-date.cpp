@@ -1,5 +1,6 @@
 #include <sstream>
 
+#include "id-base.h"
 #include "modification-date.h"
 
 
@@ -19,6 +20,35 @@ ModificationDate::get_query_criteria() const throw()
         <<" and mod_year="<<get_year()
         <<" )";
     return sout.str();
+}
+
+PhotoSearchCriteria::ClubbingOperationType
+ModificationDate::get_clubbing_type() const throw()
+{
+    return PhotoSearchCriteria::CLUB_OR;
+}
+
+gint32
+ModificationDate::get_id() const throw()
+{
+    return IDBase<ModificationDate>::get_id();
+}
+
+Glib::ustring
+ModificationDate::get_criteria_description() const throw()
+{
+    std::ostringstream sout;
+    sout<<get_day()
+        <<"/"<<get_month()
+        <<"/"<<get_year();
+    return "Date: "+sout.str();
+}
+
+Glib::ustring
+ModificationDate::get_criteria_icon_path() const throw()
+{
+    //TBD::CORRECT
+    return PACKAGE_DATA_DIR"/"PACKAGE_NAME"/pixmaps/tag-16.png";
 }
 
 void

@@ -22,6 +22,7 @@
 #include <iostream>
 #include <sstream>
 
+#include "id-base.h"
 #include "tag.h"
 
 namespace Solang
@@ -160,6 +161,28 @@ Tag::set_icon_path(Glib::ustring const & value)
     iconPath_ = value;
 }
 
+PhotoSearchCriteria::ClubbingOperationType
+Tag::get_clubbing_type() const throw()
+{
+    return PhotoSearchCriteria::CLUB_OR;
+}
 
+gint32
+Tag::get_id() const throw()
+{
+    return IDBase<Tag>::get_id();
+}
+
+Glib::ustring
+Tag::get_criteria_description() const throw()
+{
+    return "Tag: " + get_name();
+}
+
+Glib::ustring
+Tag::get_criteria_icon_path() const throw()
+{
+    return PACKAGE_DATA_DIR"/"PACKAGE_NAME"/pixmaps/tag-16.png";
+}
 
 } //namespace Solang

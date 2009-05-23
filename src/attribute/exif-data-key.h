@@ -28,13 +28,16 @@ class ExifDataKey :
     public PhotoSearchCriteria
 {
     private:
+        Glib::ustring title_;
         Glib::ustring key_;
         Glib::ustring value_;
 
     public:
-        ExifDataKey( const Glib::ustring & key,
-                        const Glib::ustring & value )
-            :key_( key ),
+        ExifDataKey( const Glib::ustring &title,
+                     const Glib::ustring & key,
+                     const Glib::ustring & value )
+            :title_( title ),
+            key_( key ),
             value_( value )
         {
         }
@@ -45,6 +48,19 @@ class ExifDataKey :
 
         Glib::ustring
         get_query_criteria() const throw();
+
+        virtual ClubbingOperationType
+        get_clubbing_type() const throw();
+
+        virtual gint32
+        get_id() const throw();
+
+        virtual Glib::ustring
+        get_criteria_description() const throw();
+
+        virtual Glib::ustring
+        get_criteria_icon_path() const throw();
+
 };
 
 } // namespace Solang

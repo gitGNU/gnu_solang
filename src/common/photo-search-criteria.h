@@ -33,17 +33,39 @@ namespace Solang
 class PhotoSearchCriteria :
     public NonCopyable
 {
+    public:
+        enum ClubbingOperationType
+        {
+            CLUB_AND,   // All criterions of this type will be
+                        //clubbed using "AND"
+            CLUB_OR     // All criterions of this type will be
+                        //clubbed using "OR"
+        };
     protected:
-		PhotoSearchCriteria();
+        PhotoSearchCriteria();
 
     public:
-		virtual
+        virtual
         ~PhotoSearchCriteria() throw();
-		
-		//Returns SQL formatted string that can be appended 
-		//in the where clause
-		virtual Glib::ustring
+
+        //Returns SQL formatted string that can be appended
+        //in the where clause
+        virtual Glib::ustring
         get_query_criteria() const throw() = 0;
+
+        virtual ClubbingOperationType
+        get_clubbing_type() const throw() = 0;
+
+        virtual gint32
+        get_id() const throw() = 0; //Each class should keep a static
+                                    //constant and return the
+                                    //value here
+        virtual Glib::ustring
+        get_criteria_description() const throw() = 0;
+
+        virtual Glib::ustring
+        get_criteria_icon_path() const throw() = 0;
+
 };
 
 } // namespace Solang

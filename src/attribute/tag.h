@@ -92,6 +92,20 @@ class Tag :
 
         virtual Glib::ustring
         get_query_criteria() const throw();
+
+        virtual ClubbingOperationType
+        get_clubbing_type() const throw();
+
+        virtual gint32
+        get_id() const throw();
+
+        virtual Glib::ustring
+        get_criteria_description() const throw();
+
+        virtual Glib::ustring
+        get_criteria_icon_path() const throw();
+
+
 };
 
 inline gint
