@@ -71,6 +71,14 @@ public:
     void
     set_list_store_iter(const Gtk::TreeModel::Path & path) throw();
 
+    DragDropCriteriaMap &
+    get_drag_drop_map() throw();
+
+    void
+    set_drag_item(const Glib::ustring &, //key
+                    const PhotoSearchCriteriaPtr &) throw();
+
+
 protected:
 
 private:
@@ -90,8 +98,8 @@ private:
     on_photo_render_begin() throw();
 
     Glib::ThreadPool threadPool_;
-	
-	ProgressObserverPtr observer_;
+
+    ProgressObserverPtr observer_;
 
     Engine engine_;
 
@@ -108,6 +116,8 @@ private:
     std::map<std::string, IPluginPtr> plugins_;
 
     std::map<std::string, RendererPtr> renderers_;
+
+    DragDropCriteriaMap  dragItemMap_;
 };
 
 } // namespace Solang

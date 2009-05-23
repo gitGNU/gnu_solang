@@ -41,9 +41,6 @@ PropertyManager::PropertyManager() throw() :
     noteBook_(),
     vBox_(false, 6),
     basicInfo_(),
-    hBox_(),
-    applyButton_(Gtk::Stock::APPLY),
-    clearButton_(Gtk::Stock::CLEAR),
     basicExifView_()
 {
     dockItem_ = gdl_dock_item_new_with_stock(dockItemName_.c_str(),
@@ -58,20 +55,7 @@ PropertyManager::PropertyManager() throw() :
     basicInfo_.add(basicExifView_);
 
     noteBook_.append_page( vBox_, "Basic" );
-    vBox_.pack_start( hBox_, Gtk::PACK_SHRINK, 0 );
-    hBox_.pack_start( applyButton_, Gtk::PACK_SHRINK, 0 );
-    hBox_.pack_start( clearButton_, Gtk::PACK_SHRINK, 0 );
     vBox_.pack_start( basicInfo_, Gtk::PACK_EXPAND_WIDGET,0 );
-    applyButton_.set_size_request( -1, 32 );
-    applyButton_.set_relief( Gtk::RELIEF_HALF);
-    applyButton_.signal_clicked().connect(
-                    sigc::mem_fun(
-                        *this, &PropertyManager::apply_selected_keys));
-    clearButton_.set_size_request( -1, 32 );
-    clearButton_.set_relief( Gtk::RELIEF_HALF);
-    clearButton_.signal_clicked().connect(
-                    sigc::mem_fun(
-                        *this, &PropertyManager::clear_key_selection));
 
 }
 
@@ -85,10 +69,11 @@ PropertyManager::init(Application & application)
     throw()
 {
     application_ = &application;
+    basicExifView_.set_application( application_ );
     Engine & engine = application.get_engine();
-    engine.get_criterion_repo().register_source( &basicExifView_);
-	engine.selection_changed().connect(
-			sigc::mem_fun(*this, &PropertyManager::on_selection_changed ) );
+    engine.selection_changed().connect(
+            sigc::mem_fun(*this,
+                    &PropertyManager::on_selection_changed ) );
 
     MainWindow & main_window = application.get_main_window();
     main_window.add_dock_object_left(GDL_DOCK_OBJECT(dockItem_));
@@ -101,27 +86,6 @@ PropertyManager::final(Application & application)
     throw()
 {
     finalized_.emit(*this);
-}
-
-void
-PropertyManager::apply_selected_keys() throw()
-{
-    Engine & engine = application_->get_engine();
-
-    engine.criterion_changed().emit();
-
-    return;
-}
-
-void
-PropertyManager::clear_key_selection() throw()
-{
-    basicExifView_.clear_selection();
-
-    Engine & engine = application_->get_engine();
-    engine.criterion_changed().emit();
-
-    return;
 }
 
 void

@@ -47,10 +47,7 @@ TagManager::TagManager() throw() :
     dockItem_(NULL),
     vBox_( false, 6 ),
     scrolledWindow_(),
-    hBox_(),
-    applyButton_(Gtk::Stock::APPLY),
-    clearButton_(Gtk::Stock::CLEAR),
-    tagView_()
+    tagView_( )
 {
     Gtk::IconSource icon_source;
     Gtk::IconSet icon_set_tag;
@@ -136,20 +133,7 @@ TagManager::TagManager() throw() :
     
     gtk_container_add(GTK_CONTAINER(dockItem_),
                       GTK_WIDGET(vBox_.gobj()));
-    vBox_.pack_start( hBox_, Gtk::PACK_SHRINK, 0 );
-    hBox_.pack_start( applyButton_, Gtk::PACK_SHRINK, 0 );
-    hBox_.pack_start( clearButton_, Gtk::PACK_SHRINK, 0 );
-    vBox_.pack_start( scrolledWindow_, Gtk::PACK_EXPAND_WIDGET,0 );
-    applyButton_.set_size_request( -1, 32 );
-    applyButton_.set_relief( Gtk::RELIEF_HALF);
-    applyButton_.signal_clicked().connect(
-                    sigc::mem_fun(
-                        *this, &TagManager::apply_selected_tags));
-    clearButton_.set_size_request( -1, 32 );
-    clearButton_.set_relief( Gtk::RELIEF_HALF);
-    clearButton_.signal_clicked().connect(
-                    sigc::mem_fun(
-                        *this, &TagManager::clear_tag_selection));
+    vBox_.pack_start( scrolledWindow_ );
 
 }
 
@@ -164,9 +148,8 @@ TagManager::init(Application & application)
     throw()
 {
     application_ = &application;
+    tagView_.set_application( &application );
 
-    Engine & engine = application_->get_engine();
-    engine.get_criterion_repo().register_source( &tagView_ );
     populate_view();
 
     MainWindow & main_window = application.get_main_window();
@@ -198,34 +181,6 @@ TagManager::final(Application & application)
     ui_manager->remove_ui(uiID_);
 
     finalized_.emit(*this);
-}
-
-void
-TagManager::apply_selected_tags() throw()
-{
-    Engine & engine = application_->get_engine();
-
-    engine.criterion_changed().emit();
-
-    return;
-}
-
-void 
-TagManager::clear_tag_selection() throw()
-{
-    Engine & engine = application_->get_engine();
-
-    Glib::ThreadPool & thread_pool = application_->get_thread_pool(); 
-
-    tagView_.clear_tag_selection();
-
-    PhotoSearchCriteriaList tags;
-
-    thread_pool.push(sigc::bind(
-        sigc::mem_fun1<const PhotoSearchCriteriaList &>(
-            engine, &Engine::show), tags));
-
-    return;
 }
 
 void

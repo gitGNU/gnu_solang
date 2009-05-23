@@ -47,12 +47,6 @@ public:
     final(Application & application) throw();
 
     void
-    apply_selected_keys() throw();
-
-    void
-    clear_key_selection() throw();
-
-    void
     on_selection_changed() throw();
 
 protected:
@@ -76,9 +70,6 @@ protected:
     //Page 1 of notebook
     Gtk::VBox   vBox_;
     Gtk::ScrolledWindow basicInfo_;
-    Gtk::HBox    hBox_;
-    Gtk::Button applyButton_;
-    Gtk::Button clearButton_;
     BasicExifView basicExifView_;
 
 private:

@@ -21,7 +21,7 @@
 
 #include<iostream>
 
-
+#include "application.h"
 #include "tag.h"
 #include "tag-view.h"
 
@@ -30,17 +30,21 @@ namespace Solang
 
 TagView::TagView() throw() :
     Gtk::TreeView(),
+    application_( NULL ),
     modelColumnRecord_(),
-    listStore_(Gtk::ListStore::create(modelColumnRecord_))
+    listStore_(Gtk::ListStore::create(modelColumnRecord_)),
+    isSelectionAllowed_( false )
 {
     configure();
 }
 
 
-TagView::TagView(const TagList & tags) throw() :
+TagView::TagView( const TagList & tags ) throw() :
     Gtk::TreeView(),
+    application_( NULL ),
     modelColumnRecord_(),
-    listStore_(Gtk::ListStore::create(modelColumnRecord_))
+    listStore_(Gtk::ListStore::create(modelColumnRecord_)),
+    isSelectionAllowed_( true )
 {
     configure();
     populate(tags);
@@ -55,7 +59,11 @@ void
 TagView::configure() throw()
 {
     set_model(listStore_);
-    append_column("Selected", modelColumnRecord_.get_column_selected());
+    if( isSelectionAllowed_ )
+    {
+        append_column(
+            "Selected", modelColumnRecord_.get_column_selected());
+    }
     append_column("Icon", modelColumnRecord_.get_column_pixbuf());
     append_column("Name", modelColumnRecord_.get_column_name());
     set_enable_search(true);
@@ -63,7 +71,16 @@ TagView::configure() throw()
     set_grid_lines(Gtk::TREE_VIEW_GRID_LINES_NONE);
     set_headers_clickable(false);
     set_headers_visible(false);
-    set_tooltip_column(modelColumnRecord_.get_column_description_num());
+    set_tooltip_column(
+                    modelColumnRecord_.get_column_description_num());
+    std::vector<Gtk::TargetEntry> targets;
+    targets.push_back(Gtk::TargetEntry("STRING",
+                                       Gtk::TARGET_SAME_APP, 0));
+    targets.push_back(Gtk::TargetEntry("UTF8_STRING",
+                                       Gtk::TARGET_SAME_APP, 0));
+    enable_model_drag_source(targets,
+                            Gdk::MODIFIER_MASK, Gdk::ACTION_COPY);
+    return;
 }
 
 void
@@ -80,7 +97,10 @@ TagView::populate(const TagList & tags) throw()
         const TagPtr & tag = *list_iter;
 
         row[modelColumnRecord_.get_column_tag()] = tag;
-        row[modelColumnRecord_.get_column_selected()] = false;
+        if( isSelectionAllowed_ )
+        {
+            row[modelColumnRecord_.get_column_selected()] = false;
+        }
 
         PixbufPtr pixbuf;
         std::string path;
@@ -108,6 +128,9 @@ void
 TagView::on_row_activated ( const Gtk::TreeModel::Path& path,
                             Gtk::TreeViewColumn* column )
 {
+    if( ! isSelectionAllowed_ )
+        return;
+
     TreeView::on_row_activated( path, column);
 
     Gtk::TreeModel::iterator current = listStore_->get_iter( path );
@@ -119,29 +142,11 @@ TagView::on_row_activated ( const Gtk::TreeModel::Path& path,
 }
 
 void
-TagView::get_criterion(
-                PhotoSearchCriteriaList &selectedTags) const throw()
-{
-
-    Gtk::TreeModel::Children children = listStore_->children();
-    for( Gtk::TreeModel::const_iterator current = children.begin();
-                                current != children.end(); current++) 
-    {
-        Gtk::TreeModel::Row row = (*current);
-
-        if( row[modelColumnRecord_.get_column_selected()] )
-        {
-            TagPtr tag = row[modelColumnRecord_.get_column_tag()];
-
-            selectedTags.push_back( tag );
-        }
-    }
-    return ;
-}
-
-void
 TagView::get_selected_tags(TagList  &selectedTags) const throw()
 {
+    if( !isSelectionAllowed_ )
+        return;
+
     Gtk::TreeModel::Children children = listStore_->children();
     for( Gtk::TreeModel::const_iterator current = children.begin();
                                 current != children.end(); current++) 
@@ -158,18 +163,33 @@ TagView::get_selected_tags(TagList  &selectedTags) const throw()
     return;
 }
 
-void 
-TagView::clear_tag_selection() throw()
+void
+TagView::set_application( ApplicationPtr application ) throw()
 {
-    Gtk::TreeModel::Children children = listStore_->children();
+    application_ = application;
+}
 
-    for( Gtk::TreeModel::const_iterator current = children.begin();
-                                current != children.end(); current++) 
+void
+TagView::on_drag_data_get(
+          const Glib::RefPtr<Gdk::DragContext>& context,
+          Gtk::SelectionData& selection_data, guint info, guint time)
+{
+    if( !application_ )
     {
-        Gtk::TreeModel::Row row = (*current);
-
-        row[modelColumnRecord_.get_column_selected()] = false;
+        return;
     }
+    Glib::RefPtr<Gtk::TreeSelection> selected = get_selection();
+    if( 0 == selected->count_selected_rows() )
+        return;
+
+    Gtk::TreeModel::iterator item = selected->get_selected();
+
+    Gtk::TreeModel::Row row= (*item);
+    TagPtr tag = row[ modelColumnRecord_.get_column_tag() ];
+    Glib::ustring criteria = tag->get_query_criteria();
+    application_->set_drag_item( criteria, tag );
+    selection_data.set_text( criteria );
+
     return;
 
 }

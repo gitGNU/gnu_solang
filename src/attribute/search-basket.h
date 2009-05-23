@@ -28,6 +28,7 @@
 #include <sigc++/sigc++.h>
 
 #include "plugin.h"
+#include "search-criterion-source.h"
 
 namespace Solang
 {
@@ -36,7 +37,8 @@ class Application;
 
 class SearchBasket :
     public Plugin,
-    public sigc::trackable
+    public sigc::trackable,
+    public SearchCriterionSource
 {
     public:
         SearchBasket() throw();
@@ -50,7 +52,22 @@ class SearchBasket :
         virtual void
         final(Application & application) throw();
 
+        bool
+        add_item_to_list( const Glib::ustring &key );
+
+        virtual void
+        get_criterion(PhotoSearchCriteriaList &) const throw();
+
     protected:
+        void
+        remove_selected();
+
+        void
+        apply_criterion();
+
+        void
+        clear_criterion();
+
         void
         on_drag_data_received(const DragContextPtr & drag_context,
                               gint x, gint y,
@@ -65,11 +82,28 @@ class SearchBasket :
 
         GtkWidget * dockItem_;
 
+        Gtk::VBox vBox_;
+
+        Gtk::CheckButton autoApplyCheck_;
+
+        Gtk::HBox hBox_;
+
+        Gtk::Button applyButton_;
+        Gtk::Image  applyImage_;
+
+        Gtk::Button clearButton_;
+        Gtk::Image  clearImage_;
+
+        Gtk::Button trashButton_;
+        Gtk::Image  trashImage_;
+
         Gtk::ScrolledWindow scrolledWindow_;
 
         ListStorePtr listStore_;
 
         Gtk::TreeView treeView_;
+
+        ApplicationPtr application_;
 
     private:
 };

@@ -29,16 +29,19 @@ enum
 {
     COLUMN_PIXBUF = 0,
     COLUMN_DESCRIPTION,
+    COLUMN_CRITERIA,
     COLUMN_COUNT
 };
 
 SearchBasketColumnRecord::SearchBasketColumnRecord() throw() :
     Gtk::TreeModelColumnRecord(),
     columnPixbuf_(),
-    columnDescription_()
+    columnDescription_(),
+    criteria_()
 {
     add(columnPixbuf_);
     add(columnDescription_);
+    add(criteria_);
 }
 
 SearchBasketColumnRecord::~SearchBasketColumnRecord() throw()
@@ -67,6 +70,18 @@ gint
 SearchBasketColumnRecord::get_column_description_num() const throw()
 {
     return COLUMN_DESCRIPTION;
+}
+
+const Gtk::TreeModelColumn<PhotoSearchCriteriaPtr> &
+SearchBasketColumnRecord::get_column_criteria() const throw()
+{
+    return criteria_;
+}
+
+gint
+SearchBasketColumnRecord::get_column_criteria_num() const throw()
+{
+    return COLUMN_CRITERIA;
 }
 
 } // namespace Solang

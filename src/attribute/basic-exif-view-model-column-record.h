@@ -43,12 +43,6 @@ class BasicExifViewModelColumnRecord :
         gint
         get_column_key_num() const throw();
 
-        const Gtk::TreeModelColumn<bool> &
-        get_column_selected() const throw();
-
-        gint
-        get_column_selected_num() const throw();
-
         const Gtk::TreeModelColumn<Glib::ustring> &
         get_column_description() const throw();
 
@@ -63,7 +57,6 @@ class BasicExifViewModelColumnRecord :
 
     protected:
         Gtk::TreeModelColumn<ExifDataKeyPtr> key_;
-        Gtk::TreeModelColumn<bool> selected_;
         Gtk::TreeModelColumn<Glib::ustring> description_;
         Gtk::TreeModelColumn<Glib::ustring> value_;
 

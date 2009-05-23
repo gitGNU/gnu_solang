@@ -49,10 +49,18 @@ class SearchBasketColumnRecord :
         gint
         get_column_description_num() const throw();
 
+        const Gtk::TreeModelColumn<PhotoSearchCriteriaPtr> &
+        get_column_criteria() const throw();
+
+        gint
+        get_column_criteria_num() const throw();
+
     protected:
         Gtk::TreeModelColumn<PixbufPtr> columnPixbuf_;
 
         Gtk::TreeModelColumn<Glib::ustring> columnDescription_;
+
+        Gtk::TreeModelColumn<PhotoSearchCriteriaPtr> criteria_;
 
     private:
 };

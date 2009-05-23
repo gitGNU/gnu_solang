@@ -48,12 +48,6 @@ public:
     virtual void
     final(Application & application) throw();
 
-    void
-    apply_selected_tags() throw();
-
-    void
-    clear_tag_selection() throw();
-
 protected:
     void
     on_action_tag_new() throw();
@@ -86,12 +80,6 @@ protected:
     Gtk::VBox vBox_;
 
     Gtk::ScrolledWindow scrolledWindow_;
-
-    Gtk::HBox hBox_;
-
-    Gtk::Button applyButton_;
-
-    Gtk::Button clearButton_;
 
     TagView tagView_;
 

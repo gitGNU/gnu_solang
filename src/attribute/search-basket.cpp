@@ -23,6 +23,7 @@
 #include <vector>
 
 #include <glibmm/i18n.h>
+#include <gdkmm.h>
 
 #include "application.h"
 #include "main-window.h"
@@ -39,9 +40,19 @@ SearchBasket::SearchBasket() throw() :
     dockItemTitle_("Search"),
     dockItemBehaviour_(GDL_DOCK_ITEM_BEH_NORMAL),
     dockItem_(NULL),
+    vBox_( false, 6 ),
+    autoApplyCheck_("Auto"),
+    hBox_( false, 2 ),
+    applyButton_(),
+    applyImage_( Gtk::Stock::APPLY, Gtk::ICON_SIZE_SMALL_TOOLBAR ),
+    clearButton_(),
+    clearImage_( Gtk::Stock::CLEAR, Gtk::ICON_SIZE_SMALL_TOOLBAR ),
+    trashButton_(), //Container
+    trashImage_( Gtk::Stock::DELETE, Gtk::ICON_SIZE_SMALL_TOOLBAR ),
     scrolledWindow_(),
     listStore_(Gtk::ListStore::create(SearchBasketColumnRecord())),
-    treeView_(listStore_)
+    treeView_(listStore_),
+    application_( NULL )
 {
     scrolledWindow_.set_policy(Gtk::POLICY_AUTOMATIC,
                                Gtk::POLICY_AUTOMATIC);
@@ -56,6 +67,8 @@ SearchBasket::SearchBasket() throw() :
     treeView_.set_grid_lines(Gtk::TREE_VIEW_GRID_LINES_NONE);
     treeView_.set_headers_clickable(false);
     treeView_.set_headers_visible(false);
+    SearchBasketColumnRecord tmp;
+    treeView_.set_tooltip_column( tmp.get_column_description_num() );
 
     scrolledWindow_.add(treeView_);
 
@@ -64,7 +77,37 @@ SearchBasket::SearchBasket() throw() :
                                              GTK_STOCK_FIND,
                                              dockItemBehaviour_);
     gtk_container_add(GTK_CONTAINER(dockItem_),
-                      GTK_WIDGET(scrolledWindow_.gobj()));
+                      GTK_WIDGET(vBox_.gobj()));
+
+    vBox_.pack_start( hBox_, Gtk::PACK_SHRINK, 0 );
+    autoApplyCheck_.set_active( true );
+    hBox_.pack_start( autoApplyCheck_, Gtk::PACK_SHRINK, 0 );
+    hBox_.pack_start( applyButton_, Gtk::PACK_SHRINK, 0 );
+    hBox_.pack_start( clearButton_, Gtk::PACK_SHRINK, 0 );
+    hBox_.pack_start( trashButton_, Gtk::PACK_SHRINK, 0 );
+    vBox_.pack_start( scrolledWindow_, Gtk::PACK_EXPAND_WIDGET,0 );
+    applyButton_.set_size_request( 32, 32 );
+    applyButton_.add( applyImage_ );
+    applyButton_.set_relief( Gtk::RELIEF_HALF);
+    applyButton_.signal_clicked().connect(
+                    sigc::mem_fun(
+                        *this, &SearchBasket::apply_criterion));
+    applyButton_.set_tooltip_text( "Apply filters" );
+    clearButton_.set_size_request( 32, 32 );
+    clearButton_.add( clearImage_ );
+    clearButton_.set_relief( Gtk::RELIEF_HALF);
+    clearButton_.signal_clicked().connect(
+                    sigc::mem_fun(
+                        *this, &SearchBasket::clear_criterion));
+    clearButton_.set_tooltip_text( "Clear filters" );
+    trashButton_.set_size_request( 32, 32 );
+    trashButton_.add( trashImage_ );
+    trashButton_.set_relief( Gtk::RELIEF_HALF);
+    trashButton_.signal_clicked().connect(
+                    sigc::mem_fun(
+                        *this, &SearchBasket::remove_selected));
+    trashButton_.set_tooltip_text( "Clear selected filter" );
+
 
     std::vector<Gtk::TargetEntry> targets;
     targets.push_back(Gtk::TargetEntry("STRING",
@@ -73,8 +116,9 @@ SearchBasket::SearchBasket() throw() :
                                        Gtk::TARGET_SAME_APP, 0));
     treeView_.enable_model_drag_dest(targets, Gdk::ACTION_COPY);
 
-    treeView_.signal_drag_data_received().connect(sigc::mem_fun(
-        *this, &SearchBasket::on_drag_data_received));
+    treeView_.signal_drag_data_received().connect_notify(
+        sigc::mem_fun(
+            *this, &SearchBasket::on_drag_data_received));
 }
 
 SearchBasket::~SearchBasket() throw()
@@ -86,6 +130,9 @@ SearchBasket::~SearchBasket() throw()
 void
 SearchBasket::init(Application & application) throw()
 {
+    application_ = &application;
+    Engine & engine = application.get_engine();
+    engine.get_criterion_repo().register_source( this );
     MainWindow & main_window = application.get_main_window();
     main_window.add_dock_object_left(GDL_DOCK_OBJECT(dockItem_));
 
@@ -105,15 +152,117 @@ SearchBasket::on_drag_data_received(
                   const Gtk::SelectionData & data,
                   guint info, guint time) throw()
 {
-    Gtk::TreeModel::iterator model_iter = listStore_->append();
-    Gtk::TreeModel::Row row = *model_iter;
+    Glib::ustring key = data.get_data_as_string();
+    bool status = add_item_to_list( key );
+    drag_context->drag_finish(status, false, 0);
+    return;
+}
+
+bool
+SearchBasket::add_item_to_list( const Glib::ustring &key )
+{
+    DragDropCriteriaMap &dragItemMap
+                    = application_->get_drag_drop_map();
+    DragDropCriteriaMap::iterator it = dragItemMap.find( key );
+
+    if( it == dragItemMap.end() )
+        return false;
 
     SearchBasketColumnRecord model_column_record;
-    // row[model_column_record.get_column_pixbuf()] = ;
-    row[model_column_record.get_column_description()]
-        = data.get_text();
 
-    drag_context->drop_finish(true, 0);
+    PhotoSearchCriteriaPtr criteria = (*it).second;
+    Glib::ustring iconPath = criteria->get_criteria_icon_path();
+    Glib::ustring description
+                    = criteria->get_criteria_description();
+
+    //Check for duplicate
+    Gtk::TreeModel::Children children = listStore_->children();
+    for( Gtk::TreeModel::const_iterator current = children.begin();
+                                current != children.end(); current++)
+    {
+        Gtk::TreeModel::Row row = (*current);
+        PhotoSearchCriteriaPtr tag
+                = row[ model_column_record.get_column_criteria()];
+
+        if( tag->get_criteria_description() == description )
+        {
+            return false;
+        }
+    }
+
+    //Add
+    Gtk::TreeModel::iterator model_iter = listStore_->append();
+    Gtk::TreeModel::Row row = *model_iter;
+    PixbufPtr icon = Gdk::Pixbuf::create_from_file( iconPath );
+
+    row[ model_column_record.get_column_pixbuf() ] = icon;
+    row[ model_column_record.get_column_description() ] = description;
+    row[ model_column_record.get_column_criteria() ] = criteria;
+
+    //remove this entry from the map
+    dragItemMap.erase( it );
+
+    if( true == autoApplyCheck_.get_active() )
+    {
+        apply_criterion();
+    }
+
+    return true;
+}
+
+void
+SearchBasket::apply_criterion()
+{
+    Engine & engine = application_->get_engine();
+    engine.criterion_changed().emit();
+    return;
+
+}
+
+void
+SearchBasket::clear_criterion()
+{
+    listStore_->clear();
+    apply_criterion();
+    return;
+
+}
+
+void
+SearchBasket::remove_selected()
+{
+    Glib::RefPtr<Gtk::TreeSelection> selected
+                                        = treeView_.get_selection();
+
+    if( 0 == selected->count_selected_rows() )
+        return;
+
+    Gtk::TreeModel::iterator item = selected->get_selected();
+    listStore_->erase( item );
+
+    if( true == autoApplyCheck_.get_active() )
+    {
+        apply_criterion();
+    }
+
+    return;
+}
+
+void
+SearchBasket::get_criterion(
+                    PhotoSearchCriteriaList &criterion) const throw()
+{
+    SearchBasketColumnRecord model_column_record;
+    Gtk::TreeModel::Children children = listStore_->children();
+    for( Gtk::TreeModel::const_iterator current = children.begin();
+                                current != children.end(); current++)
+    {
+        Gtk::TreeModel::Row row = (*current);
+        PhotoSearchCriteriaPtr tag
+                = row[ model_column_record.get_column_criteria()];
+        criterion.push_back( tag );
+    }
+    return;
 }
 
 } // namespace Solang

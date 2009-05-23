@@ -22,7 +22,7 @@
 
 #include<iostream>
 
-#include "tag.h"
+#include "application.h"
 #include "basic-exif-view.h"
 #include "exif-data.h"
 #include "exif-data-key.h"
@@ -32,6 +32,7 @@ namespace Solang
 
 BasicExifView::BasicExifView() throw() :
     Gtk::TreeView(),
+    application_(),
     modelColumnRecord_(),
     listStore_(Gtk::ListStore::create(modelColumnRecord_))
 {
@@ -58,7 +59,6 @@ void
 BasicExifView::configure() throw()
 {
     set_model(listStore_);
-    append_column("Selected", modelColumnRecord_.get_column_selected());
     append_column("Description",
                   modelColumnRecord_.get_column_description());
     append_column("Value", modelColumnRecord_.get_column_value());
@@ -67,7 +67,15 @@ BasicExifView::configure() throw()
     set_grid_lines(Gtk::TREE_VIEW_GRID_LINES_NONE);
     set_headers_clickable(false);
     set_headers_visible(false);
-    //set_tooltip_column(modelColumnRecord_.get_column_description_num());
+
+    std::vector<Gtk::TargetEntry> targets;
+    targets.push_back(Gtk::TargetEntry("STRING",
+                                       Gtk::TARGET_SAME_APP, 0));
+    targets.push_back(Gtk::TargetEntry("UTF8_STRING",
+                                       Gtk::TARGET_SAME_APP, 0));
+    enable_model_drag_source(targets,
+                            Gdk::MODIFIER_MASK, Gdk::ACTION_COPY);
+
 }
 
 void
@@ -83,7 +91,6 @@ BasicExifView::populate(const ExifData& data) throw()
                                     "aperture", data.get_aperture()));
 
         row[modelColumnRecord_.get_column_key()] = key;
-        row[modelColumnRecord_.get_column_selected()] = false;
         row[modelColumnRecord_.get_column_description()] = "Aperture";
         row[modelColumnRecord_.get_column_value()] = data.get_aperture();
     }
@@ -96,7 +103,6 @@ BasicExifView::populate(const ExifData& data) throw()
                                 "shutter_speed",
                                 data.get_shutter_speed()));
         row[modelColumnRecord_.get_column_key()] = key;
-        row[modelColumnRecord_.get_column_selected()] = false;
         row[modelColumnRecord_.get_column_description()] = "Shutter Speed";
         row[modelColumnRecord_.get_column_value()] = data.get_shutter_speed();
     }
@@ -109,7 +115,6 @@ BasicExifView::populate(const ExifData& data) throw()
                                 "exposure_program" ,
                                 data.get_exposure_program()));
         row[modelColumnRecord_.get_column_key()] = key;
-        row[modelColumnRecord_.get_column_selected()] = false;
         row[modelColumnRecord_.get_column_description()] = "Exposure Program";
         row[modelColumnRecord_.get_column_value()] = data.get_exposure_program();
     }
@@ -123,7 +128,6 @@ BasicExifView::populate(const ExifData& data) throw()
                 new ExifDataKey("ISO Rating",
                                 "iso_speed", sout.str() ) );
         row[modelColumnRecord_.get_column_key()] = key;
-        row[modelColumnRecord_.get_column_selected()] = false;
         row[modelColumnRecord_.get_column_description()] = "ISO Rating";
         row[modelColumnRecord_.get_column_value()] = sout.str();
     }
@@ -136,7 +140,6 @@ BasicExifView::populate(const ExifData& data) throw()
                                 "metering_mode" ,
                                 data.get_exposure_metering_mode()));
         row[modelColumnRecord_.get_column_key()] = key;
-        row[modelColumnRecord_.get_column_selected()] = false;
         row[modelColumnRecord_.get_column_description()]
                                 = "Exposure Metering Mode";
         row[modelColumnRecord_.get_column_value()]
@@ -151,7 +154,6 @@ BasicExifView::populate(const ExifData& data) throw()
                                 "focal_length" ,
                                 data.get_focal_length()));
         row[modelColumnRecord_.get_column_key()] = key;
-        row[modelColumnRecord_.get_column_selected()] = false;
         row[modelColumnRecord_.get_column_description()]
                                 = "Actual Focal Length";
         row[modelColumnRecord_.get_column_value()]
@@ -166,7 +168,6 @@ BasicExifView::populate(const ExifData& data) throw()
                                 "white_balance" ,
                                 data.get_white_balance()));
         row[modelColumnRecord_.get_column_key()] = key;
-        row[modelColumnRecord_.get_column_selected()] = false;
         row[modelColumnRecord_.get_column_description()]
                                 = "White Balance";
         row[modelColumnRecord_.get_column_value()]
@@ -181,7 +182,6 @@ BasicExifView::populate(const ExifData& data) throw()
                                 "focal_length_in_film" ,
                                 data.get_focal_length_film()));
         row[modelColumnRecord_.get_column_key()] = key;
-        row[modelColumnRecord_.get_column_selected()] = false;
         row[modelColumnRecord_.get_column_description()]
                                 = "35mm Camera Focal Length";
         row[modelColumnRecord_.get_column_value()]
@@ -190,54 +190,34 @@ BasicExifView::populate(const ExifData& data) throw()
 }
 
 void
-BasicExifView::on_row_activated ( const Gtk::TreeModel::Path& path,
-                            Gtk::TreeViewColumn* column )
+BasicExifView::on_drag_data_get(
+          const Glib::RefPtr<Gdk::DragContext>& context,
+          Gtk::SelectionData& selection_data, guint info, guint time)
 {
-    TreeView::on_row_activated( path, column);
-
-    Gtk::TreeModel::iterator current = listStore_->get_iter( path );
-    Gtk::TreeModel::Row row = (*current);
-
-    row[modelColumnRecord_.get_column_selected()]
-            = !( row[modelColumnRecord_.get_column_selected()] ) ;
-}
-
-void
-BasicExifView::get_criterion(
-                PhotoSearchCriteriaList &selectedTags) const throw()
-{
-
-    Gtk::TreeModel::Children children = listStore_->children();
-    for( Gtk::TreeModel::const_iterator current = children.begin();
-                                current != children.end(); current++)
+    if( !application_ )
     {
-        Gtk::TreeModel::Row row = (*current);
-
-        if( row[modelColumnRecord_.get_column_selected()] )
-        {
-            ExifDataKeyPtr key
-                = row[modelColumnRecord_.get_column_key()];
-
-            selectedTags.push_back( key );
-        }
+        return;
     }
-    return ;
-}
+    Glib::RefPtr<Gtk::TreeSelection> selected = get_selection();
+    if( 0 == selected->count_selected_rows() )
+        return;
 
-void
-BasicExifView::clear_selection() throw()
-{
-    Gtk::TreeModel::Children children = listStore_->children();
+    Gtk::TreeModel::iterator item = selected->get_selected();
 
-    for( Gtk::TreeModel::const_iterator current = children.begin();
-                                current != children.end(); current++)
-    {
-        Gtk::TreeModel::Row row = (*current);
+    Gtk::TreeModel::Row row= (*item);
+    ExifDataKeyPtr key = row[modelColumnRecord_.get_column_key()];
+    Glib::ustring criteria = key->get_query_criteria();
+    application_->set_drag_item( criteria, key );
+    selection_data.set_text( criteria );
 
-        row[modelColumnRecord_.get_column_selected()] = false;
-    }
     return;
 
+}
+
+void
+BasicExifView::set_application( ApplicationPtr application ) throw()
+{
+    application_ = application;
 }
 
 } // namespace Solang

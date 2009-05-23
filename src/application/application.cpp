@@ -355,7 +355,7 @@ Application::on_photo_import_end() throw()
 {
     progressDialog_.hide();
     progressDialog_.reset();
-	engine_.get_default_observer()->reset();
+    engine_.get_default_observer()->reset();
 }
 
 void
@@ -400,6 +400,22 @@ Application::set_list_store_iter(const Gtk::TreeModel::Path & path)
                                  throw()
 {
     listStoreIter_ = listStore_->get_iter(path);
+}
+
+DragDropCriteriaMap &
+Application::get_drag_drop_map() throw()
+{
+    return dragItemMap_;
+}
+
+void
+Application::set_drag_item(const Glib::ustring & key,
+                const PhotoSearchCriteriaPtr &criteria) throw()
+{
+    //Existing item will be replaced
+    //This handles double dragging of same criteria
+    dragItemMap_[ key ] = criteria;
+    return;
 }
 
 } // namespace Solang

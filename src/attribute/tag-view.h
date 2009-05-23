@@ -22,7 +22,6 @@
 
 #include <gtkmm.h>
 
-#include "search-criterion-source.h"
 #include "tag-view-model-column-record.h"
 #include "types.h"
 
@@ -30,33 +29,23 @@ namespace Solang
 {
 
 class TagView :
-    public Gtk::TreeView,
-    public SearchCriterionSource
+    public Gtk::TreeView
 {
     public:
         TagView() throw();
 
-        TagView(const TagList & tags) throw();
+        TagView( const TagList & tags ) throw();
 
         ~TagView() throw();
 
         void
         populate(const TagList & tags) throw();
 
-        //Signal handlers
-        void 
-        on_row_activated (     
-                const Gtk::TreeModel::Path& path,
-                Gtk::TreeViewColumn*      column );
-
-        void
-        get_criterion(PhotoSearchCriteriaList &) const throw();
-
         void 
         get_selected_tags(TagList &) const throw();
 
         void
-        clear_tag_selection() throw();
+        set_application( ApplicationPtr application ) throw();
 
         inline const ListStorePtr &
         get_store() const throw();
@@ -64,10 +53,25 @@ class TagView :
         inline const TagViewModelColumnRecord &
         get_column_records() const throw();
 
+        virtual void on_drag_data_get(
+          const Glib::RefPtr<Gdk::DragContext>& context,
+          Gtk::SelectionData& selection_data, guint info, guint time);
+
+
     protected:
+        //Signal handlers
+        void
+        on_row_activated (
+                const Gtk::TreeModel::Path& path,
+                Gtk::TreeViewColumn*      column );
+
+        ApplicationPtr application_;
+
         TagViewModelColumnRecord modelColumnRecord_;
 
         ListStorePtr listStore_;
+
+        bool isSelectionAllowed_;
 
     private:
         void

@@ -21,7 +21,6 @@
 
 #include <gtkmm.h>
 
-#include "search-criterion-source.h"
 #include "basic-exif-view-model-column-record.h"
 #include "types.h"
 
@@ -29,33 +28,26 @@ namespace Solang
 {
 
 class BasicExifView :
-    public Gtk::TreeView,
-	public SearchCriterionSource
+    public Gtk::TreeView
 {
     public:
         BasicExifView() throw();
 
-#if 0
-        BasicExifView(const TagList & tags) throw();
-#endif
         ~BasicExifView() throw();
 
         void
         populate(const ExifData & data) throw();
 
-        //Signal handlers
         void
-        on_row_activated(
-                const Gtk::TreeModel::Path& path,
-                Gtk::TreeViewColumn*      column );
-
-        void
-        get_criterion(PhotoSearchCriteriaList &) const throw();
-
-        void
-        clear_selection() throw();
+        set_application( ApplicationPtr application ) throw();
 
     protected:
+        virtual void on_drag_data_get(
+          const Glib::RefPtr<Gdk::DragContext>& context,
+          Gtk::SelectionData& selection_data, guint info, guint time);
+
+        ApplicationPtr application_;
+
         BasicExifViewModelColumnRecord modelColumnRecord_;
 
         ListStorePtr listStore_;

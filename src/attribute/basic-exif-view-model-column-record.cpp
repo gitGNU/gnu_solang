@@ -28,7 +28,6 @@ namespace Solang
 enum
 {
     COLUMN_KEY = 0,
-    COLUMN_SELECTED,
     COLUMN_DESCRIPTION,
     COLUMN_VALUE,
     COLUMN_COUNT
@@ -37,12 +36,10 @@ enum
 BasicExifViewModelColumnRecord::BasicExifViewModelColumnRecord() throw() :
     Gtk::TreeModelColumnRecord(),
     key_(),
-    selected_(),
     description_(),
     value_()
 {
     add(key_);
-    add(selected_);
     add(description_);
     add(value_);
 }
@@ -61,18 +58,6 @@ gint
 BasicExifViewModelColumnRecord::get_column_key_num() const throw()
 {
     return COLUMN_KEY;
-}
-
-const Gtk::TreeModelColumn<bool> &
-BasicExifViewModelColumnRecord::get_column_selected() const throw()
-{
-    return selected_;
-}
-
-gint
-BasicExifViewModelColumnRecord::get_column_selected_num() const throw()
-{
-    return COLUMN_SELECTED;
 }
 
 const Gtk::TreeModelColumn<Glib::ustring> &

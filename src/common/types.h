@@ -20,6 +20,8 @@
 #ifndef SOLANG_TYPES_H
 #define SOLANG_TYPES_H
 
+#include <map>
+#include <vector>
 #include <tr1/memory>
 
 #include <gdkmm.h>
@@ -84,6 +86,7 @@ typedef std::tr1::shared_ptr<const PhotoSearchCriteria>
 typedef std::tr1::shared_ptr<PhotoSearchCriteria>
     PhotoSearchCriteriaPtr;
 typedef std::vector<PhotoSearchCriteriaPtr> PhotoSearchCriteriaList;
+typedef std::map<Glib::ustring,PhotoSearchCriteriaPtr> DragDropCriteriaMap;
 
 class ProgressDialog;
 typedef Glib::RefPtr<const ProgressDialog> ConstProgressDialogPtr;
