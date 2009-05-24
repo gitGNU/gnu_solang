@@ -198,7 +198,7 @@ MainWindow::init() throw()
                           GDL_DOCK_LEFT);
         if (1 < dockObjectsLeft_.size())
         {
-            std::for_each(dockObjectsLeft_.begin()++,
+            std::for_each(++dockObjectsLeft_.begin(),
                           dockObjectsLeft_.end(),
                           Docker(dockObjectsLeft_.front(),
                                  GDL_DOCK_CENTER));
@@ -212,7 +212,7 @@ MainWindow::init() throw()
                           GDL_DOCK_RIGHT);
         if (1 < dockObjectsCenter_.size())
         {
-            std::for_each(dockObjectsCenter_.begin()++,
+            std::for_each(++dockObjectsCenter_.begin(),
                           dockObjectsCenter_.end(),
                           Docker(dockObjectsCenter_.front(),
                                  GDL_DOCK_CENTER));
