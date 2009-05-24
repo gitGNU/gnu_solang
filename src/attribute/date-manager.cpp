@@ -75,7 +75,7 @@ DateManager::init(Application & application) throw()
                     &DateManager::on_photos_changed) );
 
     MainWindow & main_window = application.get_main_window();
-    main_window.add_dock_object_left(GDL_DOCK_OBJECT(dockItem_));
+    main_window.add_dock_object_left_top(GDL_DOCK_OBJECT(dockItem_));
     dateView_.populate();
 
     initialized_.emit(*this);

@@ -134,7 +134,8 @@ SearchBasket::init(Application & application) throw()
     Engine & engine = application.get_engine();
     engine.get_criterion_repo().register_source( this );
     MainWindow & main_window = application.get_main_window();
-    main_window.add_dock_object_left(GDL_DOCK_OBJECT(dockItem_));
+    main_window.add_dock_object_left_bottom(
+                    GDL_DOCK_OBJECT(dockItem_));
 
     initialized_.emit(*this);
 }

@@ -153,7 +153,7 @@ TagManager::init(Application & application)
     populate_view();
 
     MainWindow & main_window = application.get_main_window();
-    main_window.add_dock_object_left(GDL_DOCK_OBJECT(dockItem_));
+    main_window.add_dock_object_left_top(GDL_DOCK_OBJECT(dockItem_));
 
     const Glib::RefPtr<Gtk::UIManager> & ui_manager
         = main_window.get_ui_manager();

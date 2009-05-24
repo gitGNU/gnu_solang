@@ -109,7 +109,8 @@ MainWindow::MainWindow() throw() :
     layout_(gdl_dock_layout_new(GDL_DOCK(dock_))),
     showToolBar_(true),
     showStatusBar_(true),
-    dockObjectsLeft_(),
+    dockObjectsLeftTop_(),
+    dockObjectsLeftBottom_(),
     dockObjectsCenter_()
 {
     set_title("Solang");
@@ -191,20 +192,6 @@ MainWindow::~MainWindow() throw()
 void
 MainWindow::init() throw()
 {
-    if (false == dockObjectsLeft_.empty())
-    {
-        gdl_dock_add_item(GDL_DOCK(dock_),
-                          GDL_DOCK_ITEM(dockObjectsLeft_.front()),
-                          GDL_DOCK_LEFT);
-        if (1 < dockObjectsLeft_.size())
-        {
-            std::for_each(++dockObjectsLeft_.begin(),
-                          dockObjectsLeft_.end(),
-                          Docker(dockObjectsLeft_.front(),
-                                 GDL_DOCK_CENTER));
-        }
-    }
-
     if (false == dockObjectsCenter_.empty())
     {
         gdl_dock_add_item(GDL_DOCK(dock_),
@@ -219,6 +206,34 @@ MainWindow::init() throw()
             present_dock_object(dockObjectsCenter_.front());
         }
     }
+
+    if (false == dockObjectsLeftTop_.empty())
+    {
+        gdl_dock_add_item(GDL_DOCK(dock_),
+                          GDL_DOCK_ITEM(dockObjectsLeftTop_.front()),
+                          GDL_DOCK_LEFT);
+        if (1 < dockObjectsLeftTop_.size())
+        {
+            std::for_each(++dockObjectsLeftTop_.begin(),
+                          dockObjectsLeftTop_.end(),
+                          Docker(dockObjectsLeftTop_.front(),
+                                 GDL_DOCK_CENTER));
+        }
+    }
+
+    if (false == dockObjectsLeftBottom_.empty())
+    {
+        gdl_dock_add_item(GDL_DOCK(dock_),
+            GDL_DOCK_ITEM(dockObjectsLeftBottom_.front()),
+            GDL_DOCK_BOTTOM);
+        if (1 < dockObjectsLeftBottom_.size())
+        {
+            std::for_each(++dockObjectsLeftBottom_.begin(),
+                          dockObjectsLeftBottom_.end(),
+                          Docker(dockObjectsLeftBottom_.front(),
+                                 GDL_DOCK_CENTER));
+        }
+    }
 }
 
 void
@@ -227,9 +242,17 @@ MainWindow::final() throw()
 }
 
 void
-MainWindow::add_dock_object_left(GdlDockObject * dock_object) throw()
+MainWindow::add_dock_object_left_top(GdlDockObject * dock_object)
+                                     throw()
 {
-    dockObjectsLeft_.push_back(dock_object);
+    dockObjectsLeftTop_.push_back(dock_object);
+}
+
+void
+MainWindow::add_dock_object_left_bottom(GdlDockObject * dock_object)
+                                        throw()
+{
+    dockObjectsLeftBottom_.push_back(dock_object);
 }
 
 void

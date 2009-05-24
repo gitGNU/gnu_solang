@@ -47,7 +47,10 @@ public:
     final() throw();
 
     void
-    add_dock_object_left(GdlDockObject * dock_object) throw();
+    add_dock_object_left_top(GdlDockObject * dock_object) throw();
+
+    void
+    add_dock_object_left_bottom(GdlDockObject * dock_object) throw();
 
     void
     add_dock_object_center(GdlDockObject * dock_object) throw();
@@ -99,7 +102,9 @@ protected:
 
     bool showStatusBar_;
 
-    std::vector<GdlDockObject *> dockObjectsLeft_;
+    std::vector<GdlDockObject *> dockObjectsLeftTop_;
+
+    std::vector<GdlDockObject *> dockObjectsLeftBottom_;
 
     std::vector<GdlDockObject *> dockObjectsCenter_;
 
