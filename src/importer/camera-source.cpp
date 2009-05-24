@@ -123,8 +123,8 @@ CameraSource::import(const IStoragePtr & storage, const TagList &tags,
 {
     PhotoList files;
     create_photo_list( files );
-    return import(files, storage, tags, db, observer);
     gpContext_.cleanup(); //So that this can be recreated
+    return import(files, storage, tags, db, observer);
 }
 
 void
