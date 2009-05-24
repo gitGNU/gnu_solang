@@ -49,8 +49,10 @@ EnlargedRenderer::EnlargedRenderer() throw() :
     dockItem_(NULL),
     imageView_(0),
     imageScrollWin_(0),
-    modelIter_(),
-    signalItemActivated_()
+    pageNum_(-1),
+    signalInitEnd_(),
+    signalItemActivated_(),
+    signalSwitchPage_()
 {
     Gtk::IconSource icon_source;
     Gtk::IconSet icon_set_mode_image_edit;
@@ -104,54 +106,20 @@ EnlargedRenderer::init(Application & application) throw()
     MainWindow & main_window = application.get_main_window();
     main_window.add_dock_object_center(GDL_DOCK_OBJECT(dockItem_));
 
+    signalInitEnd_
+        = application.init_end().connect(
+              sigc::mem_fun(*this,
+                            &EnlargedRenderer::on_init_end));
+
     // initialized_.emit(*this);
 }
 
 void
 EnlargedRenderer::render(const PhotoPtr & photo) throw()
 {
-}
-
-void
-EnlargedRenderer::render(const PhotoList & photos) throw()
-{
-}
-
-void
-EnlargedRenderer::final(Application & application) throw()
-{
-    signalItemActivated_.disconnect();
-    // finalized_.emit(*this);
-}
-
-PhotoList
-EnlargedRenderer::get_current_selection() throw()
-{
-    Gtk::TreeModel::Row row = *modelIter_;
-
-    BrowserModelColumnRecord model_column_record;
-    const PhotoPtr photo = row[model_column_record.get_column_photo()];
-
-    PhotoList photos;
-    photos.push_back(photo);
-
-    return photos;
-}
-
-void
-EnlargedRenderer::on_item_activated(const Gtk::TreeIter & iter)
-                                    throw()
-{
-    modelIter_ = iter;
-
     Engine & engine = application_->get_engine();
     const IStoragePtr & storage = engine.get_current_storage_system(
                                       "file");
-
-    Gtk::TreeModel::Row row = *iter;
-
-    BrowserModelColumnRecord model_column_record;
-    const PhotoPtr photo = row[model_column_record.get_column_photo()];
     photo->set_disk_file_path(storage);
 
     PixbufPtr pixbuf;
@@ -195,6 +163,26 @@ EnlargedRenderer::on_item_activated(const Gtk::TreeIter & iter)
         {
             return;
         }
+
+        GtkBindingSet * binding_set = gtk_binding_set_by_class(
+            GTK_IMAGE_VIEW_GET_CLASS(imageView_));
+
+        // Get rid of some of the default keybindings.
+
+        gtk_binding_entry_remove(binding_set, GDK_Right,
+                                 static_cast<GdkModifierType>(0));
+        gtk_binding_entry_remove(binding_set, GDK_Left,
+                                 static_cast<GdkModifierType>(0));
+        gtk_binding_entry_remove(binding_set, GDK_Down,
+                                 static_cast<GdkModifierType>(0));
+        gtk_binding_entry_remove(binding_set, GDK_Up,
+                                 static_cast<GdkModifierType>(0));
+
+        Gtk::Widget * image_view = Glib::wrap(GTK_WIDGET(imageView_),
+                                              false);
+        image_view->signal_key_press_event().connect(
+            sigc::mem_fun(*this,
+                          &EnlargedRenderer::on_key_press_event));
     }
 
     if (0 == imageScrollWin_)
@@ -212,9 +200,118 @@ EnlargedRenderer::on_item_activated(const Gtk::TreeIter & iter)
 
     gtk_image_view_set_pixbuf(GTK_IMAGE_VIEW(imageView_),
                               pixbuf->gobj(), TRUE);
+}
+
+void
+EnlargedRenderer::render(const PhotoList & photos) throw()
+{
+}
+
+void
+EnlargedRenderer::final(Application & application) throw()
+{
+    signalItemActivated_.disconnect();
+    signalSwitchPage_.disconnect();
+    // finalized_.emit(*this);
+}
+
+PhotoList
+EnlargedRenderer::get_current_selection() throw()
+{
+    const Gtk::TreeModel::iterator & iter
+        = application_->get_list_store_iter();
+    Gtk::TreeModel::Row row = *iter;
+
+    BrowserModelColumnRecord model_column_record;
+    const PhotoPtr photo = row[model_column_record.get_column_photo()];
+
+    PhotoList photos;
+    photos.push_back(photo);
+
+    return photos;
+}
+
+bool
+EnlargedRenderer::on_key_press_event(GdkEventKey * event) throw()
+{
+    const ListStorePtr & list_store = application_->get_list_store();
+    Gtk::TreeModel::iterator & iter
+        = application_->get_list_store_iter();
+
+    switch (event->keyval)
+    {
+        case GDK_Right:
+            iter++;
+            if (false == iter)
+            {
+                iter = list_store->children().begin();
+            }
+            break;
+
+        case GDK_Left:
+            if (true == iter.equal(list_store->children().begin()))
+            {
+                iter = list_store->children().end();
+            }
+            iter--;
+            break;
+
+        default:
+            break;
+    }
+
+    Gtk::TreeModel::Row row = *iter;
+    BrowserModelColumnRecord model_column_record;
+    const PhotoPtr photo = row[model_column_record.get_column_photo()];
+
+    render(photo);
+    return true;
+}
+
+void
+EnlargedRenderer::on_init_end(Application & application) throw()
+{
+    MainWindow & main_window = application.get_main_window();
+    Gtk::Notebook * notebook = main_window.get_notebook_center();
+
+    if (0 == notebook)
+    {
+        std::cerr << __FILE__ << ":" << __LINE__ << ", "
+                  << __FUNCTION__ << ": " << "0 == notebook"
+                  << std::endl;
+        return;
+    }
+
+    pageNum_ = notebook->page_num(*Glib::wrap(dockItem_, false));
+
+    signalSwitchPage_
+        = notebook->signal_switch_page().connect(
+              sigc::mem_fun(*this,
+                            &EnlargedRenderer::on_switch_page));
+
+    signalInitEnd_.disconnect();
+}
+
+void
+EnlargedRenderer::on_item_activated(const Gtk::TreeIter & iter)
+                                    throw()
+{
+    application_->set_list_store_iter(iter);
+
+    Gtk::TreeModel::Row row = *iter;
+    BrowserModelColumnRecord model_column_record;
+    const PhotoPtr photo = row[model_column_record.get_column_photo()];
+
+    render(photo);
 
     MainWindow & main_window = application_->get_main_window();
     main_window.present_dock_object(GDL_DOCK_OBJECT(dockItem_));
+}
+
+void
+EnlargedRenderer::on_switch_page(GtkNotebookPage * notebook_page,
+                                 guint page_num) throw()
+{
 }
 
 } // namespace Solang

@@ -55,6 +55,9 @@ public:
     void
     present_dock_object(GdlDockObject * dock_object) throw();
 
+    Gtk::Notebook *
+    get_notebook_center() throw();
+
     const UIManagerPtr &
     get_ui_manager() throw();
 

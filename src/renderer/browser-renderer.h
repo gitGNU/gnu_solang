@@ -56,6 +56,9 @@ class BrowserRenderer :
         final(Application & application) throw();
 
         void
+        on_init_end(Application & application) throw();
+
+        void
         on_selection_changed() throw();
 
         virtual PhotoList
@@ -64,6 +67,10 @@ class BrowserRenderer :
     protected:
         void
         on_item_activated(const Gtk::TreeModel::Path & path) throw();
+
+        void
+        on_switch_page(GtkNotebookPage * notebook_page, guint page_num)
+                       throw();
 
         ApplicationPtr application_;
 
@@ -81,7 +88,13 @@ class BrowserRenderer :
 
         ThumbnailView thumbnailView_;
 
+        gint pageNum_;
+
+        sigc::connection signalInitEnd_;
+
         sigc::connection signalItemActivated_;
+
+        sigc::connection signalSwitchPage_;
 
     private:
 };

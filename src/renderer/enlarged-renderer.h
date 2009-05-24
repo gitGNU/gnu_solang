@@ -55,12 +55,22 @@ class EnlargedRenderer :
         virtual void
         final(Application & application) throw();
 
+        void
+        on_init_end(Application & application) throw();
+
         virtual PhotoList
         get_current_selection() throw();
 
     protected:
+        bool
+        on_key_press_event(GdkEventKey * event) throw();
+
         void
         on_item_activated(const Gtk::TreeIter & iter) throw();
+
+        void
+        on_switch_page(GtkNotebookPage * notebook_page, guint page_num)
+                       throw();
 
         ApplicationPtr application_;
 
@@ -78,9 +88,13 @@ class EnlargedRenderer :
 
         GtkWidget * imageScrollWin_;
 
-        Gtk::TreeModel::iterator modelIter_;
+        gint pageNum_;
+
+        sigc::connection signalInitEnd_;
 
         sigc::connection signalItemActivated_;
+
+        sigc::connection signalSwitchPage_;
 
     private:
 };

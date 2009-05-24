@@ -261,6 +261,17 @@ MainWindow::present_dock_object(GdlDockObject * dock_object) throw()
     }
 }
 
+Gtk::Notebook *
+MainWindow::get_notebook_center() throw()
+{
+    Gtk::Container * dock_container
+        = Glib::wrap(GTK_CONTAINER(dockObjectsCenter_.front()), false);
+    Gtk::Notebook * parent
+        = dynamic_cast<Gtk::Notebook *>(dock_container->get_parent());
+
+    return parent;
+}
+
 const Glib::RefPtr<Gtk::UIManager> &
 MainWindow::get_ui_manager() throw()
 {

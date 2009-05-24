@@ -20,6 +20,8 @@
 #include "config.h"
 #endif // HAVE_CONFIG_H
 
+#include <iostream>
+
 #include "application.h"
 #include "browser-renderer.h"
 #include "engine.h"
@@ -42,7 +44,10 @@ BrowserRenderer::BrowserRenderer() throw() :
     dockItemBehaviour_(GDL_DOCK_ITEM_BEH_NO_GRIP),
     dockItem_(NULL),
     scrolledWindow_(),
-    thumbnailView_()
+    thumbnailView_(),
+    pageNum_(-1),
+    signalInitEnd_(),
+    signalSwitchPage_()
 {
     Gtk::IconSource icon_source;
     Gtk::IconSet icon_set_mode_browse;
@@ -110,6 +115,11 @@ BrowserRenderer::init(Application & application) throw()
         sigc::mem_fun1<const PhotoSearchCriteriaList &>(
             engine, &Engine::show), criterion));
 
+    signalInitEnd_
+        = application.init_end().connect(
+              sigc::mem_fun(*this,
+                            &BrowserRenderer::on_init_end));
+
     // NB: This should not be done in the constructor because if
     //     'false == application_' then the handler will crash.
     //     Better safe than sorry.
@@ -140,6 +150,7 @@ void
 BrowserRenderer::final(Application & application) throw()
 {
     signalItemActivated_.disconnect();
+    signalSwitchPage_.disconnect();
     // finalized_.emit(*this);
 }
 
@@ -147,6 +158,30 @@ PhotoList
 BrowserRenderer::get_current_selection() throw()
 {
     return thumbnailView_.get_selected_photos();
+}
+
+void
+BrowserRenderer::on_init_end(Application & application) throw()
+{
+    MainWindow & main_window = application.get_main_window();
+    Gtk::Notebook * notebook = main_window.get_notebook_center();
+
+    if (0 == notebook)
+    {
+        std::cerr << __FILE__ << ":" << __LINE__ << ", "
+                  << __FUNCTION__ << ": " << "0 == notebook"
+                  << std::endl;
+        return;
+    }
+
+    pageNum_ = notebook->page_num(*Glib::wrap(dockItem_, false));
+
+    signalSwitchPage_
+        = notebook->signal_switch_page().connect(
+              sigc::mem_fun(*this,
+                            &BrowserRenderer::on_switch_page));
+
+    signalInitEnd_.disconnect();
 }
 
 void
@@ -164,6 +199,25 @@ BrowserRenderer::on_item_activated(const Gtk::TreeModel::Path & path)
 
     Gtk::TreeModel::iterator model_iter = model->get_iter(path);
     application_->get_engine().item_activated().emit(model_iter);
+}
+
+void
+BrowserRenderer::on_switch_page(GtkNotebookPage * notebook_page,
+                                guint page_num) throw()
+{
+    if (pageNum_ != static_cast<gint>(page_num))
+    {
+        return;
+    }
+
+    const ListStorePtr & list_store = application_->get_list_store();
+    const Gtk::TreeModel::iterator & iter
+        = application_->get_list_store_iter();
+    const Gtk::TreeModel::Path path = list_store->get_path(iter);
+
+    thumbnailView_.unselect_all();
+    thumbnailView_.scroll_to_path(path, false, 0, 0);
+    thumbnailView_.select_path(path);
 }
 
 } // namespace Solang

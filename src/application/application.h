@@ -53,6 +53,9 @@ public:
     void
     final() throw();
 
+    sigc::signal<void, Application &> &
+    init_end() throw();
+
     Glib::ThreadPool &
     get_thread_pool() throw();
 
@@ -65,8 +68,12 @@ public:
     const ListStorePtr &
     get_list_store() throw();
 
-    const Gtk::TreeModel::iterator &
-    get_list_store_iter() const throw();
+    Gtk::TreeModel::iterator &
+    get_list_store_iter() throw();
+
+    void
+    set_list_store_iter(const Gtk::TreeModel::iterator & iter)
+                        throw();
 
     void
     set_list_store_iter(const Gtk::TreeModel::Path & path) throw();
@@ -118,6 +125,8 @@ private:
     std::map<std::string, RendererPtr> renderers_;
 
     DragDropCriteriaMap  dragItemMap_;
+
+    sigc::signal<void, Application &> initEnd_;
 };
 
 } // namespace Solang

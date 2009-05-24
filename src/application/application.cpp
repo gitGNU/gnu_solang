@@ -179,7 +179,8 @@ Application::Application(int & argc, char ** & argv) throw() :
     listStore_(Gtk::ListStore::create(modelColumnRecord_)),
     listStoreIter_(),
     plugins_(),
-    renderers_()
+    renderers_(),
+    initEnd_()
 {
     ThumbnailStore thumbnail_store("/tmp/solang/thumbnails");
     IStoragePtr directory_storage(new DirectoryStorage(thumbnail_store,
@@ -254,6 +255,8 @@ Application::init() throw()
     engine_.set_current_renderer(browser_renderer);
 
     mainWindow_.init();
+
+    initEnd_.emit(*this);
 }
 
 void
@@ -341,6 +344,12 @@ Application::add_photos_to_model(const PhotoList & photos) throw()
     }
 }
 
+sigc::signal<void, Application &> &
+Application::init_end() throw()
+{
+    return initEnd_;
+}
+
 void
 Application::on_photo_import_begin() throw()
 {
@@ -389,10 +398,17 @@ Application::get_list_store() throw()
     return listStore_;
 }
 
-const Gtk::TreeModel::iterator &
-Application::get_list_store_iter() const throw()
+Gtk::TreeModel::iterator &
+Application::get_list_store_iter() throw()
 {
     return listStoreIter_;
+}
+
+void
+Application::set_list_store_iter(
+                 const Gtk::TreeModel::iterator & iter) throw()
+{
+    listStoreIter_ = iter;
 }
 
 void
