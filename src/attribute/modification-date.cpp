@@ -15,10 +15,19 @@ Glib::ustring
 ModificationDate::get_query_criteria() const throw()
 {
     std::ostringstream sout;
-    sout<<" ( mod_day="<<get_day()
-        <<" and mod_month="<<get_month()
-        <<" and mod_year="<<get_year()
-        <<" )";
+    if( get_year() > 0 )
+    {
+        sout<<" ( mod_year="<<get_year();
+        if( get_month() > 0 )
+        {
+            sout<<" and mod_month="<<get_month();
+            if( get_day() > 0 )
+            {
+                sout<<" and mod_day="<<get_day();
+            }
+        }
+        sout<<" )";
+    }
     return sout.str();
 }
 
@@ -38,10 +47,25 @@ Glib::ustring
 ModificationDate::get_criteria_description() const throw()
 {
     std::ostringstream sout;
-    sout<<get_day()
-        <<"/"<<get_month()
-        <<"/"<<get_year();
-    return "Date: "+sout.str();
+    if( get_day() == 0 )
+    {
+        if( get_month() != 0 )
+        {
+            sout<<"Month: "<<get_month()<<" ";
+        }
+        if( get_year() != 0 )
+        {
+            sout<<"Year: "<<get_year();
+        }
+    }
+    else
+    {
+        sout<<"Date: "<<get_day()
+            <<"/"<<get_month()
+            <<"/"<<get_year();
+    }
+
+    return sout.str();
 }
 
 Glib::ustring

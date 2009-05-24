@@ -27,6 +27,7 @@
 #include <gtkimageview/gtkimageview.h>
 
 #include "application.h"
+#include "browser-model-column-record.h"
 #include "enlarged-renderer.h"
 #include "engine.h"
 #include "main-window.h"

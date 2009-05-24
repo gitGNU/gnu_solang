@@ -27,9 +27,11 @@
 #include <utility>
 
 #include "application.h"
+#include "browser-model-column-record.h"
 #include "browser-renderer.h"
 #include "camera-source.h"
 #include "console-renderer.h"
+#include "date-manager.h"
 #include "directory-source.h"
 #include "directory-storage.h"
 #include "enlarged-renderer.h"
@@ -175,8 +177,7 @@ Application::Application(int & argc, char ** & argv) throw() :
     engine_(argc, argv, observer_),
     mainWindow_(),
     progressDialog_(engine_.get_default_observer()),
-    modelColumnRecord_(),
-    listStore_(Gtk::ListStore::create(modelColumnRecord_)),
+    listStore_(Gtk::ListStore::create(BrowserModelColumnRecord())),
     listStoreIter_(),
     plugins_(),
     renderers_(),
@@ -208,6 +209,10 @@ Application::init() throw()
     engine_.init("");
 
     // Plugins.
+
+    IPluginPtr date_manager(new DateManager());
+    plugins_.insert(std::make_pair("date-manager",
+                                   date_manager));
 
     IPluginPtr property_manager(new PropertyManager());
     plugins_.insert(std::make_pair("property-manager",
@@ -320,9 +325,11 @@ Application::add_photo_to_model(const PhotoPtr & photo) throw()
     Gtk::TreeModel::iterator model_iter = listStore_->append();
     Gtk::TreeModel::Row row = *model_iter;
 
-    row[modelColumnRecord_.get_column_photo()] = photo;
-    row[modelColumnRecord_.get_column_pixbuf()] = pixbuf;
-    row[modelColumnRecord_.get_column_tag_name()] 
+    BrowserModelColumnRecord model_column_record;
+
+    row[model_column_record.get_column_photo()] = photo;
+    row[model_column_record.get_column_pixbuf()] = pixbuf;
+    row[model_column_record.get_column_tag_name()]
         = photo->get_exif_data().get_picture_taken_time();
 }
 

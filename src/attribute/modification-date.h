@@ -20,8 +20,6 @@
 #ifndef SOLANG_MODIFICATION_DATE_H
 #define SOLANG_MODIFICATION_DATE_H
 
-#include "config.h"
-
 #include "photo-search-criteria.h"
 
 namespace Solang

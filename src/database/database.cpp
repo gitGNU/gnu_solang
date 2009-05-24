@@ -255,39 +255,54 @@ PhotoList Database::search(
     return photos;
 }
 
+//Group by year
 DatePhotoInfoList
-Database::get_dates_with_picture_count(
-                gint year, gint month, gint day,
-                const ProgressObserverPtr &observer)
+Database::get_dates_with_picture_count( const ProgressObserverPtr &observer)
 {
     Glib::ustring sql
-        = "select mod_year, mod_month, mod_day, count(*) from photos ";
-    if( -1 != year )
-    {
-        std::ostringstream sout;
-        sout<<" and mod_year="<<year;
-        if( -1 != month )
-        {
-            sout<<" and mod_month="<<month;
-            if( -1 != day )
-            {
-                sout<<" and mod_day="<<month;
-            }
-        }
-        sql += sout.str();
-    }
-    sql += " group by mod_year, mod_month, mod_day";
+        = "select 0, 0, mod_year, count(*) from photos ";
+    sql += "group by mod_year";
+    return get_dates_with_picture_count( sql, observer );
+}
 
+//Group by year, month
+DatePhotoInfoList
+Database::get_dates_with_picture_count( gint year,
+                                        const ProgressObserverPtr &observer)
+{
+    std::ostringstream sout;
+    sout<<"select 0, mod_month, mod_year, count(*) from photos ";
+    sout<<"where mod_year="<<year<<" ";
+    sout<<"group by mod_year,mod_month ";
+//    sout<<"order by mod_year desc, mod_month desc";
+    return get_dates_with_picture_count( sout.str(), observer );
+}
+
+//Group by year, month, day
+DatePhotoInfoList
+Database::get_dates_with_picture_count( gint year, gint month,
+                    const ProgressObserverPtr &observer)
+{
+    std::ostringstream sout;
+    sout<<"select mod_day, mod_month, mod_year, count(*) from photos ";
+    sout<<"where mod_year="<<year<<" ";
+    sout<<"and mod_month="<<month<<" ";
+    sout<<"group by mod_year,mod_month,mod_day ";
+//    sout<<"order by mod_year desc, mod_month desc, mod_day desc";
+    return get_dates_with_picture_count( sout.str(), observer );
+}
+
+DatePhotoInfoList
+Database::get_dates_with_picture_count( const Glib::ustring &sql,
+                    const ProgressObserverPtr &observer)
+{
     DatePhotoInfoList infos;
 
     try
     {
         std::cout<<sql<<std::endl;
-        Glib::RefPtr<Gnome::Gda::Query> query
-                            = Gnome::Gda::Query::create( gdaDict_ );
-        query->set_sql_text( sql );
-        Glib::RefPtr<Gnome::Gda::DataModelQuery> model
-                        =  Gnome::Gda::DataModelQuery::create( query );
+        Glib::RefPtr<Gnome::Gda::DataModel> model
+                    = gdaConnection_->execute_select_command( sql );
 
         gint32 numRows = model->get_n_rows();
         observer->set_num_events( numRows );

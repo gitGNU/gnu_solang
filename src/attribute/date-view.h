@@ -16,45 +16,52 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef SOLANG_SEARCH_CRITERION_REPO_H
-#define SOLANG_SEARCH_CRITERION_REPO_H
+#ifndef SOLANG_DATE_VIEW_H
+#define SOLANG_DATE_VIEW_H
 
-#include <glibmm.h>
+#include <gtkmm.h>
+
+#include "date-view-model-column-record.h"
 #include "types.h"
 
 namespace Solang
 {
 
-class SearchCriterionRepo
+class DateView :
+    public Gtk::TreeView
 {
-    private:
-        Glib::Mutex mutex_;
-        PhotoSearchCriteriaList criterion_;
-        SearchCriterionSourceList sources_;
-
     public:
-        SearchCriterionRepo();
-        ~SearchCriterionRepo();
+        DateView() throw();
 
-        inline const PhotoSearchCriteriaList &
-        get_criterion() const throw();
+        ~DateView() throw();
 
         void
-        register_source(
-                    const SearchCriterionSourcePtr & source) throw();
+        populate() throw();
 
         void
-        update() throw();
+        set_application( ApplicationPtr application ) throw();
 
+    protected:
+        virtual void on_drag_data_get(
+          const Glib::RefPtr<Gdk::DragContext>& context,
+          Gtk::SelectionData& selection_data, guint info, guint time);
+
+        ApplicationPtr application_;
+
+        DateViewModelColumnRecord modelColumnRecord_;
+
+        TreeStorePtr treeStore_;
+
+        Gtk::CellRendererProgress percentage_;
+
+    private:
+        void
+        configure() throw();
+
+        Glib::ustring
+        map_month_to_name(gint month) const throw();
 };
-
-
-inline const PhotoSearchCriteriaList &
-SearchCriterionRepo::get_criterion() const throw()
-{
-    return criterion_;
-}
 
 } // namespace Solang
 
-#endif //SOLANG_SEARCH_CRITERION_REPO_H
+#endif // SOLANG_DATE_VIEW_H
