@@ -25,7 +25,6 @@
 #include <gtkmm.h>
 #include <sigc++/sigc++.h>
 
-#include "browser-model-column-record.h"
 #include "engine.h"
 #include "main-window.h"
 #include "progress-dialog.h"
@@ -106,8 +105,6 @@ private:
     MainWindow mainWindow_;
 
     ProgressDialog progressDialog_;
-
-    BrowserModelColumnRecord modelColumnRecord_;
 
     ListStorePtr listStore_;
 
