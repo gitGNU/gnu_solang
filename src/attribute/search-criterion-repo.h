@@ -19,8 +19,6 @@
 #ifndef SOLANG_SEARCH_CRITERION_REPO_H
 #define SOLANG_SEARCH_CRITERION_REPO_H
 
-#include "config.h"
-
 #include <glibmm.h>
 #include "types.h"
 
