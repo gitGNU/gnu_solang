@@ -77,9 +77,24 @@ class Database
                 const PhotoSearchCriteriaList &criterion,
                 const ProgressObserverPtr & observer) throw(Error);
 
+        //Group by year
         DatePhotoInfoList
-        get_dates_with_picture_count(
-                            gint year, gint month, gint day,
+        get_dates_with_picture_count( const ProgressObserverPtr &);
+
+        //Group by year, month
+        DatePhotoInfoList
+        get_dates_with_picture_count( gint year,
+                            const ProgressObserverPtr &);
+
+        //Group by year, month, day
+        DatePhotoInfoList
+        get_dates_with_picture_count( gint year, gint month,
+                            const ProgressObserverPtr &);
+
+    private:
+
+        DatePhotoInfoList
+        get_dates_with_picture_count( const Glib::ustring &sql,
                             const ProgressObserverPtr &);
 
 //      TagList getTags(const PhotoPtr &photo) const throw(Error);

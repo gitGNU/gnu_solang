@@ -121,9 +121,17 @@ class Engine :
         void
         apply_tag_to_photos( PhotoList &photos, const TagPtr &tag );
 
+        //Group by year
         DatePhotoInfoList
-        get_dates_with_picture_count(
-                    gint year = -1, gint month = -1, gint day = -1);
+        get_dates_with_picture_count();
+
+        //Group by year, month
+        DatePhotoInfoList
+        get_dates_with_picture_count( gint year );
+
+        //Group by year, month, day
+        DatePhotoInfoList
+        get_dates_with_picture_count( gint year, gint month );
     
         Glib::Dispatcher &
         photo_import_begin() throw();

@@ -74,6 +74,10 @@ typedef std::tr1::shared_ptr<IPlugin> IPluginPtr;
 class DatePhotoInfo;
 typedef std::vector<DatePhotoInfo> DatePhotoInfoList;
 
+class ModificationDate;
+typedef std::tr1::shared_ptr<const ModificationDate> ConstModificationDatePtr;
+typedef std::tr1::shared_ptr<ModificationDate> ModificationDatePtr;
+
 class Photo;
 typedef std::tr1::shared_ptr<const Photo> ConstPhotoPtr;
 typedef std::tr1::shared_ptr<Photo> PhotoPtr;
@@ -138,6 +142,9 @@ typedef Glib::RefPtr<Gtk::Menu> MenuPtr;
 class SearchCriterionSource;
 typedef SearchCriterionSource * SearchCriterionSourcePtr;
 typedef std::vector<SearchCriterionSourcePtr> SearchCriterionSourceList;
+
+typedef Glib::RefPtr<const Gtk::TreeStore> ConstTreeStorePtr;
+typedef Glib::RefPtr<Gtk::TreeStore> TreeStorePtr;
 
 typedef Glib::RefPtr<const Gtk::TreeModel> ConstTreeModelPtr;
 typedef Glib::RefPtr<Gtk::TreeModel> TreeModelPtr;

@@ -343,10 +343,23 @@ Engine::apply_tag_to_photos( PhotoList &photos, const TagPtr &tag )
 }
 
 DatePhotoInfoList
-Engine::get_dates_with_picture_count(gint year, gint month, gint day)
+Engine::get_dates_with_picture_count()
+{
+    return database_.get_dates_with_picture_count( observer_ );
+}
+
+DatePhotoInfoList
+Engine::get_dates_with_picture_count( gint year )
 {
     return database_.get_dates_with_picture_count(
-                                year, month, day, observer_ );
+                                year, observer_ );
+}
+
+DatePhotoInfoList
+Engine::get_dates_with_picture_count( gint year, gint month )
+{
+    return database_.get_dates_with_picture_count(
+                                year, month, observer_ );
 }
 
 Glib::Dispatcher &

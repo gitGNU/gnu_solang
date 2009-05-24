@@ -30,6 +30,7 @@
 #include "browser-renderer.h"
 #include "camera-source.h"
 #include "console-renderer.h"
+#include "date-manager.h"
 #include "directory-source.h"
 #include "directory-storage.h"
 #include "enlarged-renderer.h"
@@ -207,6 +208,10 @@ Application::init() throw()
     engine_.init("");
 
     // Plugins.
+
+    IPluginPtr date_manager(new DateManager());
+    plugins_.insert(std::make_pair("date-manager",
+                                   date_manager));
 
     IPluginPtr property_manager(new PropertyManager());
     plugins_.insert(std::make_pair("property-manager",

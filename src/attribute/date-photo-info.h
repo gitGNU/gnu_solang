@@ -10,7 +10,7 @@ class DatePhotoInfo
 {
     public:
         DatePhotoInfo();
-		DatePhotoInfo( const ModificationDate &, gint);
+        DatePhotoInfo( const ModificationDate &, gint);
         DatePhotoInfo( const DatePhotoInfo & );
         ~DatePhotoInfo();
 
@@ -34,6 +34,18 @@ class DatePhotoInfo
         gint count_;
 
 };
+
+inline const ModificationDate &
+DatePhotoInfo::get_date() const throw()
+{
+    return date_;
+}
+
+inline gint
+DatePhotoInfo::get_count() const throw()
+{
+    return count_;
+}
 
 } //namespace Solang
 
