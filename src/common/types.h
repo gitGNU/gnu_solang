@@ -130,6 +130,9 @@ typedef Glib::RefPtr<const Gnome::Gda::DataModelQuery>
     ConstDataModelPtr;
 typedef Glib::RefPtr<Gnome::Gda::DataModelQuery> DataModelPtr;
 
+typedef Glib::RefPtr<const Gtk::Action> ConstActionPtr;
+typedef Glib::RefPtr<Gtk::Action> ActionPtr;
+
 typedef Glib::RefPtr<const Gtk::ActionGroup> ConstActionGroupPtr;
 typedef Glib::RefPtr<Gtk::ActionGroup> ActionGroupPtr;
 

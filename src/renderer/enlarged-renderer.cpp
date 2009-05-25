@@ -23,6 +23,7 @@
 #include <iostream>
 
 #include <gdkmm.h>
+#include <glibmm/i18n.h>
 #include <gtkimageview/gtkimagescrollwin.h>
 #include <gtkimageview/gtkimageview.h>
 
@@ -39,11 +40,17 @@
 namespace Solang
 {
 
+static const std::string uiFile
+    = PACKAGE_DATA_DIR"/"PACKAGE_NAME"/ui/"
+          PACKAGE_NAME"-enlarged-renderer.ui";
+
 EnlargedRenderer::EnlargedRenderer() throw() :
     Renderer(),
     sigc::trackable(),
     application_(NULL),
     iconFactory_(Gtk::IconFactory::create()),
+    actionGroup_(Gtk::ActionGroup::create()),
+    uiID_(0),
     dockItemName_("enlarged-dock-item"),
     dockItemTitle_("Enlarged"),
     dockItemBehaviour_(GDL_DOCK_ITEM_BEH_NO_GRIP),
@@ -79,6 +86,54 @@ EnlargedRenderer::EnlargedRenderer() throw() :
     iconFactory_->add(Gtk::StockID(PACKAGE_NAME"-mode-image-edit"),
                       icon_set_mode_image_edit);
     iconFactory_->add_default();
+
+    actionGroup_->add(
+        Gtk::Action::create(
+            "ActionMenuGo", _("_Go")));
+
+    {
+        ActionPtr action = Gtk::Action::create(
+            "ActionGoPrevious", Gtk::Stock::GO_BACK,
+            _("_Previous Photo"),
+            _("Go to the previous photo in the collection"));
+
+        action->property_short_label().set_value(_("Previous"));
+        action->property_is_important().set_value(true);
+        actionGroup_->add(
+            action, Gtk::AccelKey("<alt>Left"),
+            sigc::mem_fun(*this,
+                          &EnlargedRenderer::on_action_go_previous));
+    }
+
+    {
+        ActionPtr action = Gtk::Action::create(
+            "ActionGoNext", Gtk::Stock::GO_FORWARD,
+            _("_Next Photo"),
+            _("Go to the next photo in the collection"));
+
+        action->property_short_label().set_value(_("Next"));
+        action->property_is_important().set_value(true);
+        actionGroup_->add(
+            action, Gtk::AccelKey("<alt>Right"),
+            sigc::mem_fun(*this,
+                          &EnlargedRenderer::on_action_go_next));
+    }
+
+    actionGroup_->add(
+        Gtk::Action::create(
+            "ActionGoFirst", Gtk::Stock::GOTO_FIRST,
+            _("_First Photo"),
+            _("Go to the first photo in the collection")),
+        Gtk::AccelKey("<alt>Home"),
+        sigc::mem_fun(*this, &EnlargedRenderer::on_action_go_first));
+
+    actionGroup_->add(
+        Gtk::Action::create(
+            "ActionGoLast", Gtk::Stock::GOTO_LAST,
+            _("_Last Photo"),
+            _("Go to the last photo in the collection")),
+        Gtk::AccelKey("<alt>End"),
+        sigc::mem_fun(*this, &EnlargedRenderer::on_action_go_last));
 
     dockItem_ = gdl_dock_item_new_with_stock(dockItemName_.c_str(),
                     dockItemTitle_.c_str(),
@@ -213,6 +268,18 @@ EnlargedRenderer::final(Application & application) throw()
 {
     signalItemActivated_.disconnect();
     signalSwitchPage_.disconnect();
+
+    MainWindow & main_window = application.get_main_window();
+    const Glib::RefPtr<Gtk::UIManager> & ui_manager
+        = main_window.get_ui_manager();
+
+    if (0 != uiID_)
+    {
+        ui_manager->remove_action_group(actionGroup_);
+        ui_manager->remove_ui(uiID_);
+        uiID_ = 0;
+    }
+
     // finalized_.emit(*this);
 }
 
@@ -232,33 +299,37 @@ EnlargedRenderer::get_current_selection() throw()
     return photos;
 }
 
-bool
-EnlargedRenderer::on_key_press_event(GdkEventKey * event) throw()
+void
+EnlargedRenderer::on_action_go_previous() throw()
 {
     const ListStorePtr & list_store = application_->get_list_store();
     Gtk::TreeModel::iterator & iter
         = application_->get_list_store_iter();
 
-    switch (event->keyval)
+    if (true == iter.equal(list_store->children().begin()))
     {
-        case GDK_Right:
-            iter++;
-            if (false == iter)
-            {
-                iter = list_store->children().begin();
-            }
-            break;
+        iter = list_store->children().end();
+    }
+    iter--;
 
-        case GDK_Left:
-            if (true == iter.equal(list_store->children().begin()))
-            {
-                iter = list_store->children().end();
-            }
-            iter--;
-            break;
+    Gtk::TreeModel::Row row = *iter;
+    BrowserModelColumnRecord model_column_record;
+    const PhotoPtr photo = row[model_column_record.get_column_photo()];
 
-        default:
-            break;
+    render(photo);
+}
+
+void
+EnlargedRenderer::on_action_go_next() throw()
+{
+    const ListStorePtr & list_store = application_->get_list_store();
+    Gtk::TreeModel::iterator & iter
+        = application_->get_list_store_iter();
+
+    iter++;
+    if (false == iter)
+    {
+        iter = list_store->children().begin();
     }
 
     Gtk::TreeModel::Row row = *iter;
@@ -266,6 +337,66 @@ EnlargedRenderer::on_key_press_event(GdkEventKey * event) throw()
     const PhotoPtr photo = row[model_column_record.get_column_photo()];
 
     render(photo);
+}
+
+void
+EnlargedRenderer::on_action_go_first() throw()
+{
+    const ListStorePtr & list_store = application_->get_list_store();
+    Gtk::TreeModel::iterator & iter
+        = application_->get_list_store_iter();
+
+    iter = list_store->children().begin();
+
+    Gtk::TreeModel::Row row = *iter;
+    BrowserModelColumnRecord model_column_record;
+    const PhotoPtr photo = row[model_column_record.get_column_photo()];
+
+    render(photo);
+}
+
+void
+EnlargedRenderer::on_action_go_last() throw()
+{
+    const ListStorePtr & list_store = application_->get_list_store();
+    Gtk::TreeModel::iterator & iter
+        = application_->get_list_store_iter();
+
+    iter = list_store->children().end();
+    iter--;
+
+    Gtk::TreeModel::Row row = *iter;
+    BrowserModelColumnRecord model_column_record;
+    const PhotoPtr photo = row[model_column_record.get_column_photo()];
+
+    render(photo);
+}
+
+bool
+EnlargedRenderer::on_key_press_event(GdkEventKey * event) throw()
+{
+    switch (event->keyval)
+    {
+        case GDK_Right:
+            on_action_go_next();
+            break;
+
+        case GDK_Left:
+            on_action_go_previous();
+            break;
+
+        case GDK_Home:
+            on_action_go_first();
+            break;
+
+        case GDK_End:
+            on_action_go_last();
+            break;
+
+        default:
+            break;
+    }
+
     return true;
 }
 
@@ -313,6 +444,35 @@ void
 EnlargedRenderer::on_switch_page(GtkNotebookPage * notebook_page,
                                  guint page_num) throw()
 {
+    MainWindow & main_window = application_->get_main_window();
+    const Glib::RefPtr<Gtk::UIManager> & ui_manager
+        = main_window.get_ui_manager();
+
+    // NB: Sometimes this gets invoked more than once consecutively
+    //     -- no idea why (FIXME). Better safe than sorry.
+
+    if (pageNum_ == static_cast<gint>(page_num))
+    {
+        if (0 == uiID_)
+        {
+            uiID_ = ui_manager->add_ui_from_file(uiFile);
+            if (0 == uiID_)
+            {
+                // FIXME: error condition.
+            }
+
+            ui_manager->insert_action_group(actionGroup_);
+        }
+    }
+    else
+    {
+        if (0 != uiID_)
+        {
+            ui_manager->remove_action_group(actionGroup_);
+            ui_manager->remove_ui(uiID_);
+            uiID_ = 0;
+        }
+    }
 }
 
 } // namespace Solang

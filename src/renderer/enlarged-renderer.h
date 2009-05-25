@@ -62,6 +62,18 @@ class EnlargedRenderer :
         get_current_selection() throw();
 
     protected:
+        void
+        on_action_go_previous() throw();
+
+        void
+        on_action_go_next() throw();
+
+        void
+        on_action_go_first() throw();
+
+        void
+        on_action_go_last() throw();
+
         bool
         on_key_press_event(GdkEventKey * event) throw();
 
@@ -75,6 +87,10 @@ class EnlargedRenderer :
         ApplicationPtr application_;
 
         Glib::RefPtr<Gtk::IconFactory> iconFactory_;
+
+        ActionGroupPtr actionGroup_;
+
+        Gtk::UIManager::ui_merge_id uiID_;
 
         const std::string dockItemName_;
 

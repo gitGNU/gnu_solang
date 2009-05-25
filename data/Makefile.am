@@ -17,6 +17,7 @@ pixmap_DATA = \
 uidir = $(datadir)/$(PACKAGE_NAME)/ui
 ui_DATA = \
     solang.ui \
+    solang-enlarged-renderer.ui \
     solang-tag-manager.ui \
     solang-importer.ui \
     solang-thumbnail-popup.ui

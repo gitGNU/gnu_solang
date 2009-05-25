@@ -1,0 +1,20 @@
+<!--*- xml -*-->
+<ui>
+	<menubar name="MenuBar">
+		<placeholder name="PlaceholderGoMenus">
+		<menu action="ActionMenuGo">
+			<menuitem action="ActionGoPrevious"/>
+			<menuitem action="ActionGoNext"/>
+			<separator/>
+			<menuitem action="ActionGoFirst"/>
+			<menuitem action="ActionGoLast"/>
+		</menu>
+		</placeholder>
+	</menubar>
+	<toolbar name="ToolBar">
+		<placeholder name="PlaceholderGoToolBar">
+		<toolitem action="ActionGoPrevious"/>
+		<toolitem action="ActionGoNext"/>
+		</placeholder>
+	</toolbar>
+</ui>

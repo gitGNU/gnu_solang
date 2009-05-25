@@ -17,12 +17,15 @@
 		</menu>
 		<placeholder name="PlaceholderViewMenus"/>
 		<placeholder name="PlaceholderFindMenus"/>
+		<placeholder name="PlaceholderGoMenus"/>
 		<placeholder name="PlaceHolderTagMenus"/>
 		<menu action="ActionHelpMenu"/>
 	</menubar>
 	<toolbar name="ToolBar">
 		<placeholder name="PlaceholderImportToolBar"/>
 		<placeholder name="PlaceholderExportToolBar"/>
+		<separator/>
+		<placeholder name="PlaceholderGoToolBar"/>
 		<separator/>
 		<toolitem action="ActionViewFullScreen"/>
 	</toolbar>
