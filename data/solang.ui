@@ -14,6 +14,8 @@
 			<menuitem action="ActionViewStatusBar"/>
 			<separator/>
 			<menuitem action="ActionViewFullScreen"/>
+			<separator/>
+			<placeholder name="PlaceholderToolMenus"/>
 		</menu>
 		<placeholder name="PlaceholderViewMenus"/>
 		<placeholder name="PlaceholderFindMenus"/>

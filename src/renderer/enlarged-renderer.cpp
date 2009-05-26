@@ -93,6 +93,20 @@ EnlargedRenderer::EnlargedRenderer() throw() :
 
     {
         ActionPtr action = Gtk::Action::create(
+            "ActionViewReload", Gtk::Stock::REFRESH,
+            _("_Reload Photo"),
+            _("Reload current photo"));
+
+        action->property_short_label().set_value(_("Reload"));
+        action->property_is_important().set_value(true);
+        actionGroup_->add(
+            action, Gtk::AccelKey("<control>R"),
+            sigc::mem_fun(*this,
+                          &EnlargedRenderer::on_action_view_reload));
+    }
+
+    {
+        ActionPtr action = Gtk::Action::create(
             "ActionGoPrevious", Gtk::Stock::GO_BACK,
             _("_Previous Photo"),
             _("Go to the previous photo in the collection"));
@@ -364,6 +378,19 @@ EnlargedRenderer::on_action_go_last() throw()
 
     iter = list_store->children().end();
     iter--;
+
+    Gtk::TreeModel::Row row = *iter;
+    BrowserModelColumnRecord model_column_record;
+    const PhotoPtr photo = row[model_column_record.get_column_photo()];
+
+    render(photo);
+}
+
+void
+EnlargedRenderer::on_action_view_reload() throw()
+{
+    Gtk::TreeModel::iterator & iter
+        = application_->get_list_store_iter();
 
     Gtk::TreeModel::Row row = *iter;
     BrowserModelColumnRecord model_column_record;

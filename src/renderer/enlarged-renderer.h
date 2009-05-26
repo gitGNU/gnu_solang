@@ -74,6 +74,9 @@ class EnlargedRenderer :
         void
         on_action_go_last() throw();
 
+        void
+        on_action_view_reload() throw();
+
         bool
         on_key_press_event(GdkEventKey * event) throw();
 
