@@ -123,8 +123,9 @@ CameraSource::import(const IStoragePtr & storage, const TagList &tags,
 {
     PhotoList files;
     create_photo_list( files );
+    PhotoList tmpList = import(files, storage, tags, db, observer);
     gpContext_.cleanup(); //So that this can be recreated
-    return import(files, storage, tags, db, observer);
+    return tmpList;
 }
 
 void
@@ -198,8 +199,9 @@ CameraSource::download_file_from_camera( const PhotoPtr &photo )
                     cImg, gpContext_.context_ ) )
     {
         gp_file_unref( cImg );
+        return;
     }
-    gp_file_free( cImg );
+    gp_file_unref( cImg );
 
     photo->set_disk_file_path( cImgPath );
 }
