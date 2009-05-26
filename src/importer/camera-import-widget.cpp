@@ -269,7 +269,14 @@ CameraImportWidget::save_thumbnail( const Glib::ustring &folder,
         tDir->make_directory_with_parents();
     }
 
-    Glib::ustring thumbPath = "/tmp/thumb/" + folder + "/"+file;
+    Glib::ustring thumbPath = "/tmp/thumb/" + folder;
+    Glib::RefPtr<Gio::File> th
+                            = Gio::File::create_for_path( thumbPath );
+    if( !th->query_exists() )
+    {
+        th->make_directory_with_parents();
+    }
+    thumbPath += "/"+file;
     int fd = open( thumbPath.c_str(), O_CREAT | O_WRONLY, 0644 );
     if( gp_file_new_from_fd( &thumb, fd  ) )
     {

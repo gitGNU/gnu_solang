@@ -42,7 +42,7 @@ class Comparator
         }
 };
 
-const Glib::ustring Database::DB_NAME="solang.db";
+const Glib::ustring Database::DB_NAME="solang";
 
 Database::Database( const Glib::ustring &path)
     : path_(path)
@@ -83,9 +83,20 @@ void Database::open() throw(Error)
     dbPath += DB_NAME;
 
     gdaClient_ = Gnome::Gda::Client::create();
+    bool dbExists = db_file_exists();
+    if( !dbExists )
+    {
+        Glib::RefPtr<Gio::File> dbFile
+                    = Gio::File::create_for_path( get_path() );
+        dbFile->make_directory_with_parents();
+    }
     gdaConnection_ = gdaClient_->open_connection_from_string(
                                 "SQLite", dbPath, "", "",
-                                Gnome::Gda::ConnectionOptions(0));    
+                                Gnome::Gda::ConnectionOptions(0));
+    if( !dbExists )
+    {
+        create_db( );
+    }
     gdaDict_ = Gnome::Gda::Dict::create();
     gdaDict_->set_connection( gdaConnection_ );
     gdaDict_->update_dbms_meta_data();
@@ -181,7 +192,6 @@ PhotoList Database::search(
     {
         bool first = true;
         gint32 lastId = -1;
-        PhotoSearchCriteria::ClubbingOperationType lastOp;
         for( std::vector<PhotoSearchCriteriaPtr>::const_iterator it
                                         = tmpList.begin();
                                         it != tmpList.end(); it++ )
@@ -333,6 +343,70 @@ Database::get_dates_with_picture_count( const Glib::ustring &sql,
 
     return infos;
 
+}
+
+bool
+Database::db_file_exists() const throw()
+{
+    Glib::ustring dbPath;
+    dbPath = get_path();
+    dbPath += "/";
+    dbPath += DB_NAME;
+    dbPath +=".db";
+
+    Glib::RefPtr<Gio::File> dbFile
+                    = Gio::File::create_for_path( dbPath );
+    return dbFile->query_exists() ;
+}
+
+void
+Database::create_db() throw(Error)
+{
+    try
+    {
+        //Photos
+        {
+            Glib::ustring sql = "CREATE TABLE photos(\
+                        photoid integer primary key,\
+                        uri varchar(255),\
+                        mod_day integer,\
+                        mod_month integer,\
+                        mod_year integer,\
+                        thumbnail varchar(255),\
+                        thumbnailx int,\
+                        thumbnaily int,\
+                        aperture varchar(100),\
+                        shutter_speed varchar(100),\
+                        exposure_program varchar(100),\
+                        iso_speed integer,\
+                        metering_mode varchar(100),\
+                        focal_length varchar(100),\
+                        white_balance varchar(100),\
+                        focal_length_in_film varchar(100),\
+                        picture_taken_time varchar(100))";
+            gdaConnection_->execute_non_select_command( sql );
+        }
+        //Tags
+        {
+            Glib::ustring sql = "CREATE TABLE tags(\
+                                tagid integer primary key,\
+                                tag varchar(255),\
+                                description varchar(255),\
+                                iconpath varchar(255))";
+            gdaConnection_->execute_non_select_command( sql );
+        }
+        //Photo Tags
+        {
+            Glib::ustring sql = "CREATE TABLE photo_tags(\
+                                    photoid integer,\
+                                    tagid integer,\
+                                    primary key (photoid, tagid))";
+            gdaConnection_->execute_non_select_command( sql );
+        }
+    }
+    catch(Glib::Error &e)
+    {
+    }
 }
 
 } //namespace Solang

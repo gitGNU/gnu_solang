@@ -97,6 +97,12 @@ class Database
         get_dates_with_picture_count( const Glib::ustring &sql,
                             const ProgressObserverPtr &);
 
+        bool
+        db_file_exists() const throw();
+
+        void
+        create_db() throw(Error);
+
 //      TagList getTags(const PhotoPtr &photo) const throw(Error);
 //      void saveTags(const PhotoPtr &photo) throw(Error);
 

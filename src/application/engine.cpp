@@ -49,8 +49,16 @@ Engine::Engine(int & argc, char ** & argv,
     photos_(),
     currentStorageSystems_(),
     currentRenderer_(),
-    database_("/tmp")
+    database_("")
 {
+    //TBD::CREATE
+    {
+        Glib::ustring dbPath = getenv("HOME");
+        dbPath += "/.gnome2/";
+        dbPath += PACKAGE;
+        dbPath += "/";
+        database_.set_path( dbPath );
+    }
     criterionChanged_.connect(
                 sigc::mem_fun( *this, &Engine::on_criterion_changed));
 
