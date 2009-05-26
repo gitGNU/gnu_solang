@@ -340,10 +340,20 @@ Application::add_photos_to_model(const PhotoList & photos) throw()
 
     listStore_->clear();
 
+    // Force the iterator to evaluate to false, which is otherwise
+    // not happening.
+    listStoreIter_ = listStore_->children().end();
+
     for (list_iter = photos.begin(); list_iter != photos.end();
          list_iter++)
     {
         add_photo_to_model(*list_iter);
+
+        if (false == listStoreIter_)
+        {
+            listStoreIter_ = listStore_->children().begin();
+        }
+
         while (true == Gtk::Main::events_pending())
         {
             Gtk::Main::iteration();
