@@ -1,4 +1,4 @@
-AC_INIT(solang, 0.1)
+AC_INIT(Solang, 0.1, [solang-devel@nongnu.org], [solang])
 
 AM_INIT_AUTOMAKE(AC_PACKAGE_NAME, AC_PACKAGE_VERSION)
 AC_CONFIG_HEADERS([config.h])

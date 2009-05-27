@@ -31,7 +31,8 @@ namespace Solang
 {
 
 static const std::string uiFile
-    = PACKAGE_DATA_DIR"/"PACKAGE_NAME"/ui/"PACKAGE_NAME"-thumbnail-popup.ui";
+    = PACKAGE_DATA_DIR"/"PACKAGE_TARNAME"/ui/"
+          PACKAGE_TARNAME"-thumbnail-popup.ui";
 
 ThumbnailView::ThumbnailView() throw() :
     Gtk::IconView(),

@@ -182,7 +182,7 @@ Tag::get_criteria_description() const throw()
 Glib::ustring
 Tag::get_criteria_icon_path() const throw()
 {
-    return PACKAGE_DATA_DIR"/"PACKAGE_NAME"/pixmaps/tag-16.png";
+    return PACKAGE_DATA_DIR"/"PACKAGE_TARNAME"/pixmaps/tag-16.png";
 }
 
 } //namespace Solang

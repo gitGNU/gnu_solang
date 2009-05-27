@@ -41,8 +41,8 @@ namespace Solang
 {
 
 static const std::string uiFile
-    = PACKAGE_DATA_DIR"/"PACKAGE_NAME"/ui/"
-          PACKAGE_NAME"-enlarged-renderer.ui";
+    = PACKAGE_DATA_DIR"/"PACKAGE_TARNAME"/ui/"
+          PACKAGE_TARNAME"-enlarged-renderer.ui";
 
 EnlargedRenderer::EnlargedRenderer() throw() :
     Renderer(),
@@ -66,24 +66,24 @@ EnlargedRenderer::EnlargedRenderer() throw() :
     Gtk::IconSet icon_set_mode_image_edit;
 
     icon_source.set_filename(
-        PACKAGE_DATA_DIR"/"PACKAGE_NAME
+        PACKAGE_DATA_DIR"/"PACKAGE_TARNAME
         "/pixmaps/mode-image-edit-16.png");
     icon_source.set_size(Gtk::IconSize(16));
     icon_set_mode_image_edit.add_source(icon_source);
 
     icon_source.set_filename(
-        PACKAGE_DATA_DIR"/"PACKAGE_NAME
+        PACKAGE_DATA_DIR"/"PACKAGE_TARNAME
         "/pixmaps/mode-image-edit-22.png");
     icon_source.set_size(Gtk::IconSize(22));
     icon_set_mode_image_edit.add_source(icon_source);
 
     icon_source.set_filename(
-        PACKAGE_DATA_DIR"/"PACKAGE_NAME
+        PACKAGE_DATA_DIR"/"PACKAGE_TARNAME
         "/pixmaps/mode-image-edit-24.png");
     icon_source.set_size(Gtk::IconSize(24));
     icon_set_mode_image_edit.add_source(icon_source);
 
-    iconFactory_->add(Gtk::StockID(PACKAGE_NAME"-mode-image-edit"),
+    iconFactory_->add(Gtk::StockID(PACKAGE_TARNAME"-mode-image-edit"),
                       icon_set_mode_image_edit);
     iconFactory_->add_default();
 
@@ -151,7 +151,7 @@ EnlargedRenderer::EnlargedRenderer() throw() :
 
     dockItem_ = gdl_dock_item_new_with_stock(dockItemName_.c_str(),
                     dockItemTitle_.c_str(),
-                    PACKAGE_NAME"-mode-image-edit",
+                    PACKAGE_TARNAME"-mode-image-edit",
                     dockItemBehaviour_);
 }
 

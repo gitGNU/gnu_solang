@@ -94,7 +94,7 @@ Glib::ustring
 ModificationDate::get_criteria_icon_path() const throw()
 {
     //TBD::CORRECT
-    return PACKAGE_DATA_DIR"/"PACKAGE_NAME"/pixmaps/tag-16.png";
+    return PACKAGE_DATA_DIR"/"PACKAGE_TARNAME"/pixmaps/tag-16.png";
 }
 
 void

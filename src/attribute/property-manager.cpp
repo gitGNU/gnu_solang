@@ -28,7 +28,9 @@ namespace Solang
 {
 
 static const std::string uiFile
-    = PACKAGE_DATA_DIR"/"PACKAGE_NAME"/ui/"PACKAGE_NAME"-property-manager.ui";
+    = PACKAGE_DATA_DIR"/"PACKAGE_TARNAME"/ui/"
+          PACKAGE_TARNAME"-property-manager.ui";
+
 PropertyManager::PropertyManager() throw() :
     Plugin(),
     application_(),

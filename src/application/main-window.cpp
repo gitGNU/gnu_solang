@@ -33,10 +33,11 @@ namespace Solang
 {
 
 static const std::string layoutFile
-    = PACKAGE_DATA_DIR"/"PACKAGE_NAME"/"PACKAGE_NAME"-layout.xml";
+    = PACKAGE_DATA_DIR"/"PACKAGE_TARNAME"/"
+          PACKAGE_TARNAME"-layout.xml";
 
 static const std::string uiFile
-    = PACKAGE_DATA_DIR"/"PACKAGE_NAME"/ui/"PACKAGE_NAME".ui";
+    = PACKAGE_DATA_DIR"/"PACKAGE_TARNAME"/ui/"PACKAGE_TARNAME".ui";
 
 class Docker :
     public std::unary_function<GdlDockObject * const &, void>

@@ -53,26 +53,29 @@ BrowserRenderer::BrowserRenderer() throw() :
     Gtk::IconSet icon_set_mode_browse;
 
     icon_source.set_filename(
-        PACKAGE_DATA_DIR"/"PACKAGE_NAME"/pixmaps/mode-browse-16.png");
+        PACKAGE_DATA_DIR"/"PACKAGE_TARNAME
+            "/pixmaps/mode-browse-16.png");
     icon_source.set_size(Gtk::IconSize(16));
     icon_set_mode_browse.add_source(icon_source);
 
     icon_source.set_filename(
-        PACKAGE_DATA_DIR"/"PACKAGE_NAME"/pixmaps/mode-browse-22.png");
+        PACKAGE_DATA_DIR"/"PACKAGE_TARNAME
+            "/pixmaps/mode-browse-22.png");
     icon_source.set_size(Gtk::IconSize(22));
     icon_set_mode_browse.add_source(icon_source);
 
     icon_source.set_filename(
-        PACKAGE_DATA_DIR"/"PACKAGE_NAME"/pixmaps/tag-new-24.png");
+        PACKAGE_DATA_DIR"/"PACKAGE_TARNAME"/pixmaps/tag-new-24.png");
     icon_source.set_size(Gtk::IconSize(24));
     icon_set_mode_browse.add_source(icon_source);
 
     icon_source.set_filename(
-        PACKAGE_DATA_DIR"/"PACKAGE_NAME"/pixmaps/mode-browse-32.png");
+        PACKAGE_DATA_DIR"/"PACKAGE_TARNAME
+            "/pixmaps/mode-browse-32.png");
     icon_source.set_size(Gtk::IconSize(32));
     icon_set_mode_browse.add_source(icon_source);
 
-    iconFactory_->add(Gtk::StockID(PACKAGE_NAME"-mode-browse"),
+    iconFactory_->add(Gtk::StockID(PACKAGE_TARNAME"-mode-browse"),
                       icon_set_mode_browse);
     iconFactory_->add_default();
 
@@ -81,10 +84,11 @@ BrowserRenderer::BrowserRenderer() throw() :
 
     scrolledWindow_.add(thumbnailView_);
 
-    dockItem_ = gdl_dock_item_new_with_stock(dockItemName_.c_str(),
-                                             dockItemTitle_.c_str(),
-                                             PACKAGE_NAME"-mode-browse",
-                                             dockItemBehaviour_);
+    dockItem_ = gdl_dock_item_new_with_stock(
+                    dockItemName_.c_str(),
+                    dockItemTitle_.c_str(),
+                    PACKAGE_TARNAME"-mode-browse",
+                    dockItemBehaviour_);
     gtk_container_add(GTK_CONTAINER(dockItem_),
                       GTK_WIDGET(scrolledWindow_.gobj()));
 }

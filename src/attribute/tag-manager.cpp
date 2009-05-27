@@ -33,7 +33,8 @@ namespace Solang
 {
 
 static const std::string uiFile
-    = PACKAGE_DATA_DIR"/"PACKAGE_NAME"/ui/"PACKAGE_NAME"-tag-manager.ui";
+    = PACKAGE_DATA_DIR"/"PACKAGE_TARNAME"/ui/"
+          PACKAGE_TARNAME"-tag-manager.ui";
 
 TagManager::TagManager() throw() :
     Plugin(),
@@ -53,34 +54,35 @@ TagManager::TagManager() throw() :
     Gtk::IconSet icon_set_tag;
 
     icon_source.set_filename(
-        PACKAGE_DATA_DIR"/"PACKAGE_NAME"/pixmaps/tag-16.png");
+        PACKAGE_DATA_DIR"/"PACKAGE_TARNAME"/pixmaps/tag-16.png");
     icon_source.set_size(Gtk::IconSize(16));
     icon_set_tag.add_source(icon_source);
 
     icon_source.set_filename(
-        PACKAGE_DATA_DIR"/"PACKAGE_NAME"/pixmaps/tag-22.png");
+        PACKAGE_DATA_DIR"/"PACKAGE_TARNAME"/pixmaps/tag-22.png");
     icon_source.set_size(Gtk::IconSize(22));
     icon_set_tag.add_source(icon_source);
 
     Gtk::IconSet icon_set_tag_new;
 
     icon_source.set_filename(
-        PACKAGE_DATA_DIR"/"PACKAGE_NAME"/pixmaps/tag-new-16.png");
+        PACKAGE_DATA_DIR"/"PACKAGE_TARNAME"/pixmaps/tag-new-16.png");
     icon_source.set_size(Gtk::IconSize(16));
     icon_set_tag_new.add_source(icon_source);
 
     icon_source.set_filename(
-        PACKAGE_DATA_DIR"/"PACKAGE_NAME"/pixmaps/tag-new-22.png");
+        PACKAGE_DATA_DIR"/"PACKAGE_TARNAME"/pixmaps/tag-new-22.png");
     icon_source.set_size(Gtk::IconSize(22));
     icon_set_tag_new.add_source(icon_source);
 
     icon_source.set_filename(
-        PACKAGE_DATA_DIR"/"PACKAGE_NAME"/pixmaps/tag-new-24.png");
+        PACKAGE_DATA_DIR"/"PACKAGE_TARNAME"/pixmaps/tag-new-24.png");
     icon_source.set_size(Gtk::IconSize(24));
     icon_set_tag_new.add_source(icon_source);
 
-    iconFactory_->add(Gtk::StockID(PACKAGE_NAME"-tag"), icon_set_tag);
-    iconFactory_->add(Gtk::StockID(PACKAGE_NAME"-tag-new"),
+    iconFactory_->add(Gtk::StockID(PACKAGE_TARNAME"-tag"),
+                      icon_set_tag);
+    iconFactory_->add(Gtk::StockID(PACKAGE_TARNAME"-tag-new"),
                       icon_set_tag_new);
     iconFactory_->add_default();
 
@@ -90,7 +92,7 @@ TagManager::TagManager() throw() :
 
     actionGroup_->add(
         Gtk::Action::create(
-            "ActionTagsNew", Gtk::StockID(PACKAGE_NAME"-tag-new"),
+            "ActionTagsNew", Gtk::StockID(PACKAGE_TARNAME"-tag-new"),
             _("Create New _Tag...")),
         Gtk::AccelKey(""),
         sigc::mem_fun(*this, &TagManager::on_action_tag_new));
@@ -128,7 +130,7 @@ TagManager::TagManager() throw() :
 #endif
     dockItem_ = gdl_dock_item_new_with_stock(dockItemName_.c_str(),
                                              dockItemTitle_.c_str(),
-                                             PACKAGE_NAME"-tag",
+                                             PACKAGE_TARNAME"-tag",
                                              dockItemBehaviour_);
     
     gtk_container_add(GTK_CONTAINER(dockItem_),

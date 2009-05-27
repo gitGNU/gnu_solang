@@ -25,6 +25,7 @@
 
 #include <giomm.h>
 #include <glibmm.h>
+#include <glibmm/i18n.h>
 #include <gtkmm.h>
 #include <libgdamm.h>
 
@@ -44,6 +45,9 @@ main(int argc, char *argv[])
     Glib::thread_init();
     Gio::init();
     Gnome::Gda::init(PACKAGE_NAME, PACKAGE_VERSION, argc, argv);
+
+    Glib::set_prgname(PACKAGE_TARNAME);
+    Glib::set_application_name(_(PACKAGE_NAME));
 
     Gtk::Main kit(argc, argv, true);
     Solang::Application application(argc, argv);

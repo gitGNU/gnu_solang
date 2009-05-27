@@ -34,7 +34,8 @@ namespace Solang
 {
 
 static const std::string uiFile
-    = PACKAGE_DATA_DIR"/"PACKAGE_NAME"/ui/"PACKAGE_NAME"-importer.ui";
+    = PACKAGE_DATA_DIR"/"PACKAGE_TARNAME"/ui/"
+          PACKAGE_TARNAME"-importer.ui";
     
 Importer::Importer(const IPhotoSourcePtr & photo_source, bool standard)
     throw() :
