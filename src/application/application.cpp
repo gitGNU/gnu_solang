@@ -26,6 +26,8 @@
 #include <string>
 #include <utility>
 
+#include <giomm.h>
+
 #include "application.h"
 #include "browser-model-column-record.h"
 #include "browser-renderer.h"
@@ -183,6 +185,39 @@ Application::Application(int & argc, char ** & argv) throw() :
     renderers_(),
     initEnd_()
 {
+    try
+    {
+        Gio::File::create_for_path(
+            Glib::get_user_cache_dir() + "/"
+            + Glib::get_prgname())->make_directory_with_parents();
+    }
+    catch(const Gio::Error & e)
+    {
+        // Directory already present.
+    }
+
+    try
+    {
+        Gio::File::create_for_path(
+            Glib::get_user_config_dir() + "/"
+            + Glib::get_prgname())->make_directory_with_parents();
+    }
+    catch(const Gio::Error & e)
+    {
+        // Directory already present.
+    }
+
+    try
+    {
+        Gio::File::create_for_path(
+            Glib::get_user_data_dir() + "/"
+            + Glib::get_prgname())->make_directory_with_parents();
+    }
+    catch(const Gio::Error & e)
+    {
+        // Directory already present.
+    }
+
     ThumbnailStore thumbnail_store("/tmp/solang/thumbnails");
     IStoragePtr directory_storage(new DirectoryStorage(thumbnail_store,
                                                        engine_.get_db(),
