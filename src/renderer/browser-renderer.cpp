@@ -213,11 +213,18 @@ BrowserRenderer::on_switch_page(GtkNotebookPage * notebook_page,
     const ListStorePtr & list_store = application_->get_list_store();
     const Gtk::TreeModel::iterator & iter
         = application_->get_list_store_iter();
-    const Gtk::TreeModel::Path path = list_store->get_path(iter);
 
-    thumbnailView_.unselect_all();
-    thumbnailView_.scroll_to_path(path, false, 0, 0);
-    thumbnailView_.select_path(path);
+    if (true == iter)
+    {
+        const Gtk::TreeModel::Path path = list_store->get_path(iter);
+
+        if (false == path.empty())
+        {
+            thumbnailView_.unselect_all();
+            thumbnailView_.scroll_to_path(path, false, 0, 0);
+            thumbnailView_.select_path(path);
+        }
+    }
 }
 
 } // namespace Solang
