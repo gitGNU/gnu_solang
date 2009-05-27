@@ -1,3 +1,7 @@
+layoutdir = $(datadir)/$(PACKAGE_NAME)
+layout_DATA = \
+    solang-layout.xml
+
 pixmapdir = $(datadir)/$(PACKAGE_NAME)/pixmaps
 pixmap_DATA = \
     mode-browse-16.png \
@@ -23,5 +27,6 @@ ui_DATA = \
     solang-thumbnail-popup.ui
 
 EXTRA_DIST = \
+    $(layout_DATA) \
     $(pixmap_DATA) \
     $(ui_DATA)

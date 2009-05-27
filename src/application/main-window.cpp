@@ -32,6 +32,9 @@
 namespace Solang
 {
 
+static const std::string layoutFile
+    = PACKAGE_DATA_DIR"/"PACKAGE_NAME"/"PACKAGE_NAME"-layout.xml";
+
 static const std::string uiFile
     = PACKAGE_DATA_DIR"/"PACKAGE_NAME"/ui/"PACKAGE_NAME".ui";
 
@@ -233,6 +236,22 @@ MainWindow::init() throw()
                           Docker(dockObjectsLeftBottom_.front(),
                                  GDL_DOCK_CENTER));
         }
+    }
+
+    const bool result = gdl_dock_layout_load_from_file(
+                            GDL_DOCK_LAYOUT(layout_),
+                            layoutFile.c_str());
+
+    if (true == result)
+    {
+        gdl_dock_layout_load_layout(GDL_DOCK_LAYOUT(layout_), 0);
+    }
+    else
+    {
+        std::cerr << __FILE__ << ":" << __LINE__ << ", "
+                  << __FUNCTION__ << ": "
+                  << layoutFile << " not found"
+                  << std::endl;
     }
 }
 
