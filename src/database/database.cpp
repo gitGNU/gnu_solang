@@ -84,12 +84,6 @@ void Database::open() throw(Error)
 
     gdaClient_ = Gnome::Gda::Client::create();
     bool dbExists = db_file_exists();
-    if( !dbExists )
-    {
-        Glib::RefPtr<Gio::File> dbFile
-                    = Gio::File::create_for_path( get_path() );
-        dbFile->make_directory_with_parents();
-    }
     gdaConnection_ = gdaClient_->open_connection_from_string(
                                 "SQLite", dbPath, "", "",
                                 Gnome::Gda::ConnectionOptions(0));

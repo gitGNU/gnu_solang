@@ -53,9 +53,8 @@ Engine::Engine(int & argc, char ** & argv,
 {
     //TBD::CREATE
     {
-        Glib::ustring dbPath = getenv("HOME");
-        dbPath += "/.gnome2/";
-        dbPath += PACKAGE;
+        Glib::ustring dbPath = Glib::get_user_data_dir() + "/";
+        dbPath += Glib::get_prgname();
         dbPath += "/";
         database_.set_path( dbPath );
     }
