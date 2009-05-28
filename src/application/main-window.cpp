@@ -100,6 +100,81 @@ Docker::operator()(GdlDockObject * const & requester) throw()
     gdl_dock_object_dock(reference_, requester, placement_, NULL);
 }
 
+class DockHider :
+    public std::unary_function<GdlDockObject * const &, void>
+{
+    public:
+        DockHider() throw();
+
+        DockHider(const GdlDockObject * const & skip) throw();
+
+        DockHider(const DockHider & source) throw();
+
+        ~DockHider() throw();
+
+        DockHider &
+        operator=(const DockHider & source) throw();
+
+        void operator()(GdlDockObject * const & dock_object) throw();
+
+    protected:
+        const GdlDockObject * skip_;
+
+    private:
+};
+
+DockHider::DockHider() throw() :
+    std::unary_function<GdlDockObject * const &, void>(),
+    skip_(0)
+{
+}
+
+DockHider::DockHider(const GdlDockObject * const & skip) throw() :
+    std::unary_function<GdlDockObject * const &, void>(),
+    skip_(skip)
+{
+}
+
+DockHider::DockHider(const DockHider & source) throw() :
+    std::unary_function<GdlDockObject * const &, void>(source),
+    skip_(source.skip_)
+{
+}
+
+DockHider::~DockHider() throw()
+{
+}
+
+DockHider &
+DockHider::operator=(const DockHider & source) throw()
+{
+    if (this != &source)
+    {
+        std::unary_function<GdlDockObject * const &, void>
+                ::operator=(source);
+        skip_ = source.skip_;
+    }
+
+    return *this;
+}
+
+void
+DockHider::operator()(GdlDockObject * const & dock_object) throw()
+{
+    if (skip_ == dock_object)
+    {
+        return;
+    }
+
+    if (false == GDL_IS_DOCK_ITEM(dock_object))
+    {
+        g_warning("Not a GdlDockItem");
+        return;
+    }
+
+    gdl_dock_item_hide_item(GDL_DOCK_ITEM(dock_object));
+}
+
 MainWindow::MainWindow() throw() :
     Gtk::Window(Gtk::WINDOW_TOPLEVEL),
     actionGroup_(Gtk::ActionGroup::create()),
@@ -147,14 +222,24 @@ MainWindow::MainWindow() throw() :
             showStatusBar_),
         sigc::mem_fun(*this, &MainWindow::on_action_view_status_bar));
 
-    actionGroup_->add(
-        Gtk::ToggleAction::create(
+    {
+        ToggleActionPtr toggle_action = Gtk::ToggleAction::create(
             "ActionViewFullScreen", Gtk::Stock::FULLSCREEN,
             _("_Full Screen"),
             _("Show the current photo in full screen mode"),
-            false),
-        Gtk::AccelKey("F11"),
-        sigc::mem_fun(*this, &MainWindow::on_action_view_full_screen));
+            false);
+
+        // FIXME: some problem with the reference counting.
+        toggle_action->reference();
+
+        actionGroup_->add(
+            toggle_action, Gtk::AccelKey("F11"),
+            sigc::bind(
+                sigc::mem_fun(
+                    *this,
+                    &MainWindow::on_action_view_full_screen),
+                toggle_action));
+    }
 
     actionGroup_->add(
         Gtk::Action::create(
@@ -321,6 +406,14 @@ MainWindow::get_ui_manager() throw()
     return uiManager_;
 }
 
+std::string
+MainWindow::get_user_layout_file() throw()
+{
+    return Glib::get_user_data_dir() + "/"
+               + Glib::get_prgname() + "/"
+               + Glib::get_prgname() + "-layout.xml";
+}
+
 void
 MainWindow::on_action_photo_quit() throw()
 {
@@ -328,8 +421,141 @@ MainWindow::on_action_photo_quit() throw()
 }
 
 void
-MainWindow::on_action_view_full_screen() throw()
+MainWindow::on_action_view_full_screen(
+                const ConstToggleActionPtr & toggle_action) throw()
 {
+    const bool fullscreen_active = toggle_action->get_active();
+    static gint page_num = -1;
+
+    Gtk::Widget * const menu_bar = uiManager_->get_widget("/MenuBar");
+    Gtk::Widget * const tool_bar = uiManager_->get_widget("/ToolBar");
+
+    std::string layout_file = get_user_layout_file();
+
+    if (true == fullscreen_active)
+    {
+        fullscreen();
+
+        if (0 != menu_bar)
+        {
+            menu_bar->hide();
+        }
+
+        if (0 != tool_bar && true == showToolBar_)
+        {
+            tool_bar->hide();
+        }
+
+        if (true == showStatusBar_)
+        {
+            statusBar_.hide();
+        }
+
+        gdl_dock_layout_save_layout(GDL_DOCK_LAYOUT(layout_), 0);
+
+        const bool result = gdl_dock_layout_save_to_file(
+                                GDL_DOCK_LAYOUT(layout_),
+                                layout_file.c_str());
+
+        if (false == result)
+        {
+            g_warning("%s: Failed to save the layout",
+                      layout_file.c_str());
+            return;
+        }
+
+        std::for_each(dockObjectsLeftTop_.begin(),
+                      dockObjectsLeftTop_.end(),
+                      DockHider());
+
+        std::for_each(dockObjectsLeftBottom_.begin(),
+                      dockObjectsLeftBottom_.end(),
+                      DockHider());
+
+        const Gtk::Notebook * const notebook = get_notebook_center();
+
+        if (0 == notebook)
+        {
+            g_warning("No notebook found");
+            page_num = -1;
+        }
+        else
+        {
+            page_num = notebook->get_current_page();
+
+            const Gtk::Widget * const current_page
+                = notebook->get_nth_page(page_num);
+
+            std::for_each(dockObjectsCenter_.begin(),
+                          dockObjectsCenter_.end(),
+                          DockHider(GDL_DOCK_OBJECT(
+                                        current_page->gobj())));
+        }
+    }
+    else
+    {
+        if (0 != menu_bar)
+        {
+            menu_bar->show_all();
+        }
+
+        if (0 != tool_bar && true == showToolBar_)
+        {
+            tool_bar->show_all();
+        }
+
+        if (true == showStatusBar_)
+        {
+            statusBar_.show_all();
+        }
+
+        unfullscreen();
+
+        if (false == Glib::file_test(layout_file,
+                                     Glib::FILE_TEST_EXISTS))
+        {
+            g_warning("%s: File not found", layout_file.c_str());
+
+            if (false == Glib::file_test(layoutFile,
+                                         Glib::FILE_TEST_EXISTS))
+            {
+                g_warning("%s: File not found", layoutFile.c_str());
+                return;
+            }
+
+            layout_file = layoutFile;
+        }
+
+        const bool result = gdl_dock_layout_load_from_file(
+                                GDL_DOCK_LAYOUT(layout_),
+                                layout_file.c_str());
+
+        if (true == result)
+        {
+            gdl_dock_layout_load_layout(GDL_DOCK_LAYOUT(layout_), 0);
+        }
+        else
+        {
+            g_warning("%s: Failed to load the layout",
+                      layout_file.c_str());
+            return;
+        }
+
+        Gtk::Notebook * const notebook = get_notebook_center();
+
+        if (0 == notebook)
+        {
+            g_warning("No notebook found");
+        }
+        else if (-1 == page_num)
+        {
+            g_warning("No page number set");
+        }
+        else
+        {
+            notebook->set_current_page(page_num);
+        }
+    }
 }
 
 void

@@ -65,11 +65,15 @@ public:
     get_ui_manager() throw();
 
 protected:
+    std::string
+    get_user_layout_file() throw();
+
     void
     on_action_photo_quit() throw();
 
     void
-    on_action_view_full_screen() throw();
+    on_action_view_full_screen(
+        const ConstToggleActionPtr & toggle_action) throw();
 
     void
     on_action_view_status_bar() throw();

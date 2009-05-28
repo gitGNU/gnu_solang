@@ -146,6 +146,9 @@ class SearchCriterionSource;
 typedef SearchCriterionSource * SearchCriterionSourcePtr;
 typedef std::vector<SearchCriterionSourcePtr> SearchCriterionSourceList;
 
+typedef Glib::RefPtr<const Gtk::ToggleAction> ConstToggleActionPtr;
+typedef Glib::RefPtr<Gtk::ToggleAction> ToggleActionPtr;
+
 typedef Glib::RefPtr<const Gtk::TreeStore> ConstTreeStorePtr;
 typedef Glib::RefPtr<Gtk::TreeStore> TreeStorePtr;
 
