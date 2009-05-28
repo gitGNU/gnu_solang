@@ -218,10 +218,19 @@ Application::Application(int & argc, char ** & argv) throw() :
         // Directory already present.
     }
 
-    ThumbnailStore thumbnail_store("/tmp/solang/thumbnails");
-    IStoragePtr directory_storage(new DirectoryStorage(thumbnail_store,
-                                                       engine_.get_db(),
-                                                       "/tmp/solang"));
+    std::string thumbnail_store_path = Glib::get_user_data_dir() + "/";
+    thumbnail_store_path += Glib::get_prgname();
+    thumbnail_store_path += "/thumbnails/";
+
+    std::string photo_store_path = Glib::get_user_special_dir(
+                                       G_USER_DIRECTORY_PICTURES);
+    photo_store_path += Glib::get_application_name();
+
+    ThumbnailStore thumbnail_store(thumbnail_store_path);
+    IStoragePtr directory_storage(new DirectoryStorage(
+                                          thumbnail_store,
+                                          engine_.get_db(),
+                                          photo_store_path));
     engine_.add_current_storage_system(
         directory_storage->get_storage_uri_prefix(), directory_storage);
 
