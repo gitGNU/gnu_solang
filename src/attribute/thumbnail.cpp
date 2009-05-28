@@ -217,26 +217,30 @@ Thumbnail::make_thumb_path() throw(Error)
 {
      Glib::RefPtr<Gio::File> tFile
                     = Gio::File::create_for_path( get_path() );
-    std::cout<<tFile->get_path().substr(0,get_path().find( tFile->get_basename()))<<std::endl;
-     Glib::RefPtr<Gio::File>tDestPath 
-                    = Gio::File::create_for_path( 
-                            tFile->get_path().substr(0,
-                            get_path().find( tFile->get_basename())) );
+    const std::string thumbnail_dir_path
+                          = tFile->get_parent()->get_path();
+
+    if (true == Glib::file_test(thumbnail_dir_path,
+                                Glib::FILE_TEST_EXISTS))
+    {
+        return;
+    }
+
 #ifdef GLIBMM_EXCEPTIONS_ENABLED
     try
     {
-        tDestPath->make_directory_with_parents();
+        Gio::File::create_for_path(
+            thumbnail_dir_path)->make_directory_with_parents();
     }
-    catch (Glib::Error & e)
+    catch (const Gio::Error & e)
     {
         g_warning("%s", e.what().c_str());
-        //TBD::Error
     }
 #else
-        std::auto_ptr<Glib::Error> error;
-        tDestPath->make_directory_with_parents(error);
+    std::auto_ptr<Glib::Error> error;
+    Gio::File::create_for_path(
+        thumbnail_dir_path)->make_directory_with_parents(error);
 #endif
-    return;
 }
 
 void
