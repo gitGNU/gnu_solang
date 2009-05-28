@@ -30,10 +30,22 @@
 
 #include "directory-storage.h"
 #include "exif-data.h"
+#include "token-replacer.h"
 
 
 namespace Solang
 {
+
+typedef TokenReplacer<3> FormatStringCreator;
+
+const FormatStringCreator::ReplacementEntry replacementEntries[] = {
+    { "<DAY>",   "%1" },
+    { "<MONTH>", "%2" },
+    { "<YEAR>",  "%3" }
+};
+
+FormatStringCreator replacer( replacementEntries );
+
 
 DirectoryStorage::DirectoryStorage(
                     ThumbnailStore &store, 
@@ -42,6 +54,7 @@ DirectoryStorage::DirectoryStorage(
     :Storage( store, db ),
     path_( path )
 {
+    set_target_path_format("<YEAR>/<MONTH>/<DAY>");
 }
 
 DirectoryStorage::~DirectoryStorage() throw()
@@ -115,60 +128,77 @@ void DirectoryStorage::save(const PhotoPtr &photo, bool move) throw(Error)
         
     }
 
-    std::ostringstream sout;
 
-    sout<<"/"<<year<<"/"<<month<<"/"<<day;
+    Glib::ustring subPath = Glib::ustring::compose(
+                            get_target_path_format(),
+                            day, month, year );
 
-    Glib::ustring filePath = path_ + sout.str();
+    Glib::ustring filePath;
 
+    if( !doNotCopy_ )
     {
-        Glib::RefPtr<Gio::File> destPath 
-                            = Gio::File::create_for_path( filePath );
-        
-        if( !destPath->query_exists() )
-        {
-        
-#ifdef GLIBMM_EXCEPTIONS_ENABLED
-            try
-            {
-                destPath->make_directory_with_parents();
-            }
-            catch( Glib::Error &)
-            {
-                //TBD::Error
-            }
-#else
-            std::auto_ptr<Glib::Error> error;
-            destPath->make_directory_with_parents(error);
-#endif
-        }
+        filePath = path_ + "/" + subPath;
+    }
+    else
+    {
+        filePath = (*photo).get_disk_file_path();
     }
 
     Glib::RefPtr<Gio::File> src = Gio::File::create_for_path(
-                                    (*photo).get_disk_file_path() );
-    filePath += "/";
-    filePath += src->get_basename();    
-    Glib::RefPtr<Gio::File> dest 
-                        = Gio::File::create_for_path( filePath  );
-    Glib::RefPtr<Gio::Cancellable> canc = Gio::Cancellable::create();
+                                (*photo).get_disk_file_path() );
+    if( !doNotCopy_ )
+    {
 
-    //src->copy_async( dest, NULL, canc );
-    try
-    {
-        if( true == move )
-            src->move( dest, Gio::FILE_COPY_OVERWRITE );
-        else
-            src->copy( dest, Gio::FILE_COPY_OVERWRITE );
+        {
+            Glib::RefPtr<Gio::File> destPath
+                            = Gio::File::create_for_path( filePath );
+
+            if( !destPath->query_exists() )
+            {
+
+#ifdef GLIBMM_EXCEPTIONS_ENABLED
+                try
+                {
+                    destPath->make_directory_with_parents();
+                }
+                catch( Glib::Error &)
+                {
+                    //TBD::Error
+                }
+#else
+                std::auto_ptr<Glib::Error> error;
+                destPath->make_directory_with_parents(error);
+#endif
+            }
+        }
+
+        filePath += "/";
+        filePath += src->get_basename();
+        Glib::RefPtr<Gio::File> dest
+                            = Gio::File::create_for_path( filePath  );
+        Glib::RefPtr<Gio::Cancellable> canc
+                                    = Gio::Cancellable::create();
+
+        //src->copy_async( dest, NULL, canc );
+        try
+        {
+            if( true == move )
+                src->move( dest, Gio::FILE_COPY_OVERWRITE );
+            else
+                src->copy( dest, Gio::FILE_COPY_OVERWRITE );
+        }
+        catch( Glib::Error &e )
+        {
+            std::cerr<<"Error:"<<e.what()<<std::endl;
+            //TBD::Error
+        }
     }
-    catch( Glib::Error &e )
+    else
     {
-        std::cerr<<"Error:"<<e.what()<<std::endl;
-        //TBD::Error
     }
 
     Glib::ustring uri = get_storage_uri_prefix() + ":";
-    uri += sout.str() + "/";
-    uri += src->get_basename();
+    uri += filePath;
 
     photo->set_uri( uri );
     photo->set_disk_file_path(filePath);
@@ -180,7 +210,7 @@ void DirectoryStorage::save(const PhotoPtr &photo, bool move) throw(Error)
 
     //Now generate thumbnails
 
-    Glib::ustring tPath = store_.get_path() + sout.str();
+    Glib::ustring tPath = store_.get_path() + subPath;
     tPath += "/";
     tPath += src->get_basename() + "-thumb" ;
 
@@ -188,7 +218,8 @@ void DirectoryStorage::save(const PhotoPtr &photo, bool move) throw(Error)
     thumb.set_path( tPath );
     thumb.generate( exifData, *photo );
 
-    tPath += exifData.thumbnailExtension();
+    //tPath += exifData.thumbnailExtension();
+    tPath += ".jpg";
 
     thumb.set_path( tPath );
     photo->set_thumbnail( thumb );
@@ -209,7 +240,7 @@ Glib::ustring DirectoryStorage::retrieve(
 {
     //Just retrieve path from uri and send back
     return (photo.get_disk_file_path().empty() )
-                    ? (path_+ "/" + photo.get_uri().substr(
+                    ? (photo.get_uri().substr(
                                      photo.get_uri().find(":") + 1, 
                                      photo.get_uri().length() ) )
                     : photo.get_disk_file_path();
@@ -253,5 +284,25 @@ void DirectoryStorage::final(Application & application) throw(Error)
 {
     
 }
+
+void
+DirectoryStorage::set_target_path_format(
+                                const Glib::ustring &fmt) throw()
+{
+    formatString_ = replacer.extract( fmt );
+}
+
+Glib::ustring
+DirectoryStorage::get_target_path_format() const throw()
+{
+    return formatString_;
+}
+
+void
+DirectoryStorage::set_do_not_copy( bool value ) throw()
+{
+    doNotCopy_ = value;
+}
+
 
 } // namespace Solang

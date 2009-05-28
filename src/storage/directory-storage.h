@@ -36,6 +36,8 @@ class DirectoryStorage :
 {
     private:
             Glib::ustring path_;
+            Glib::ustring formatString_;
+            bool doNotCopy_;
 
     public:
             DirectoryStorage(
@@ -50,15 +52,16 @@ class DirectoryStorage :
             virtual void save(const PhotoPtr &) throw(Error);
             virtual void save(const PhotoPtr &, bool) throw(Error);
 
-            //The following should return the path of the file in the local disk
+            //The following should return the path of the file
+            // in the local disk
             // If required it will download from the storage
             // For raw files, the thumbnail will be extracted
             // and path for the same will be returned
             virtual Glib::ustring retrieve(const Photo &) throw(Error);
 
             virtual void downloadToDisk(
-                            const PhotoList &,
-                            ProgressObserverPtr &observer) throw(Error);
+                        const PhotoList &,
+                        ProgressObserverPtr &observer) throw(Error);
 
             virtual void remove(const PhotoPtr &photo) throw(Error);
 
@@ -67,6 +70,17 @@ class DirectoryStorage :
             virtual std::string get_storage_uri_prefix() throw();
 
             virtual void final(Application & application) throw(Error);
+
+            void
+            set_target_path_format(const Glib::ustring &) throw();
+
+            Glib::ustring
+            get_target_path_format() const throw();
+
+            void
+            set_do_not_copy( bool ) throw();
+
+    protected:
 };
 
 } // namespace Solang

@@ -43,6 +43,12 @@ class ImporterDialog :
             return tagView_;
         }
 
+        inline bool
+        get_to_copy()
+        {
+            return copyCheckButton_.get_active();
+        }
+
     protected:
         virtual bool
         on_delete_event(GdkEventAny * event);

@@ -6,7 +6,8 @@ libstorage_la_SOURCES = \
 	storage.cpp \
 	storage.h \
 	thumbnail-store.cpp \
-	thumbnail-store.h
+	thumbnail-store.h \
+	token-replacer.h
 
 AM_CPPFLAGS = \
        	-DPACKAGE_LOCALE_DIR=\"${SOLANG_LOCALE_DIR}\" \
