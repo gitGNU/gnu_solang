@@ -53,6 +53,12 @@ public:
 protected:
     void
     on_action_photo_import() throw();
+
+    void
+    on_photo_import_begin() throw();
+
+    void
+    on_photo_import_end() throw();
  
     ApplicationPtr application_;
 
@@ -65,6 +71,10 @@ protected:
     Gtk::UIManager::ui_merge_id standardUIID_;
 
     Gtk::UIManager::ui_merge_id uiID_;
+
+    sigc::connection signalPhotoImportBegin_;
+
+    sigc::connection signalPhotoImportEnd_;
 
 private:
 };

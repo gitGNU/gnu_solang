@@ -47,7 +47,9 @@ Importer::Importer(const IPhotoSourcePtr & photo_source, bool standard)
     standard_(standard),
     actionGroup_(Gtk::ActionGroup::create()),
     standardUIID_(0),
-    uiID_(0)
+    uiID_(0),
+    signalPhotoImportBegin_(),
+    signalPhotoImportEnd_()
 {
     if (true == standard_)
     {
@@ -126,12 +128,27 @@ Importer::init(Application & application) throw()
 
     ui_manager->insert_action_group(actionGroup_);
 
+    Engine & engine = application.get_engine();
+
+    signalPhotoImportBegin_
+        = engine.photo_import_begin().connect(
+              sigc::mem_fun(*this,
+                            &Importer::on_photo_import_begin));
+
+    signalPhotoImportEnd_
+        = engine.photo_import_end().connect(
+              sigc::mem_fun(*this,
+                            &Importer::on_photo_import_end));
+
     initialized_.emit(*this);
 }
 
 void
 Importer::final(Application & application) throw()
 {
+    signalPhotoImportEnd_.disconnect();
+    signalPhotoImportBegin_.disconnect();
+
     MainWindow & main_window = application.get_main_window();
     const Glib::RefPtr<Gtk::UIManager> & ui_manager
         = main_window.get_ui_manager();
@@ -195,6 +212,18 @@ Importer::on_action_photo_import() throw()
             break;
         }
     }
+}
+
+void
+Importer::on_photo_import_begin() throw()
+{
+    actionGroup_->set_sensitive(false);
+}
+
+void
+Importer::on_photo_import_end() throw()
+{
+    actionGroup_->set_sensitive(true);
 }
 
 } // namespace Solang
