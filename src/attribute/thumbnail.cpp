@@ -1,23 +1,24 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 4; tab-width: 4 -*- */
 /*
- * thumbnail.cpp
- * Copyright (C) Santanu Sinha 2009 <santanu.sinha@gmail.com>
- * 
- * thumbnail.cpp is free software: you can redistribute it and/or modify it
+ * Copyright (C) 2009 Santanu Sinha <santanu.sinha@gmail.com>
+ *
+ * Solang is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
  * Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
- * thumbnail.cpp is distributed in the hope that it will be useful, but
+ *
+ * Solang is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  * See the GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#ifdef HAVE_CONFIG_H
 #include "config.h"
+#endif // HAVE_CONFIG_H
 
 #include <iostream>
 
@@ -151,9 +152,9 @@ Thumbnail::generate(const Exiv2::ExifData & exifData,
     {
         make_thumb_path();    
     }
-    catch(Error & e)
+    catch (Error & e)
     {
-        std::cerr<<"Error::"<<e.what()<<std::endl;
+        g_warning("%s", e.what());
         //TBD::Error
         throw;
     }
@@ -226,8 +227,9 @@ Thumbnail::make_thumb_path() throw(Error)
     {
         tDestPath->make_directory_with_parents();
     }
-    catch( Glib::Error &)
+    catch (Glib::Error & e)
     {
+        g_warning("%s", e.what().c_str());
         //TBD::Error
     }
 #else
@@ -270,16 +272,12 @@ Thumbnail::generate_using_gdkpixbuf(const Glib::ustring & path,
     }
     catch (const Glib::FileError & e)
     {
-        std::cerr << __FILE__ << ":" << __LINE__ << ", "
-                  << __FUNCTION__ << ": " << e.what()
-                  << std::endl;
+        g_warning("%s", e.what().c_str());
         return;
     }
     catch (const Gdk::PixbufError & e)
     {
-        std::cerr << __FILE__ << ":" << __LINE__ << ", "
-                  << __FUNCTION__ << ": " << e.what()
-                  << std::endl;
+        g_warning("%s", e.what().c_str());
         return;
     }
 
@@ -302,7 +300,6 @@ void Thumbnail::update(
                 DataModelPtr &model, gint32 row) throw(Glib::Error)
 try
 {
-
     if( get_path().length() > 0 
             && get_path() != model->get_value_at( 
                                 PATH_COL, row ).get_string() )
@@ -334,9 +331,9 @@ try
     return;
 
 }
-catch(Glib::Error &e)
+catch (Glib::Error & e)
 {
-    std::cerr<<"Error:"<<e.what()<<std::endl;
+    g_warning("%s", e.what().c_str());
     throw;
 }
 
@@ -352,4 +349,4 @@ Thumbnail::create(DataModelPtr & dataModel, int32_t row)
     return;
 }
 
-} //namespace Solang
+} // namespace Solang

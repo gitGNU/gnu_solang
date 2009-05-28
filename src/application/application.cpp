@@ -22,7 +22,6 @@
 
 #include <algorithm>
 #include <functional>
-#include <iostream>
 #include <string>
 #include <utility>
 
@@ -359,9 +358,7 @@ Application::add_photo_to_model(const PhotoPtr & photo) throw()
     }
     catch (const Glib::ConvertError & e)
     {
-        std::cerr << __FILE__ << ":" << __LINE__ << ", "
-                  << __FUNCTION__ << ": " << e.what()
-                  << std::endl;
+        g_warning("%s", e.what().c_str());
         return;
     }
 
@@ -371,16 +368,12 @@ Application::add_photo_to_model(const PhotoPtr & photo) throw()
     }
     catch (const Glib::FileError & e)
     {
-        std::cerr << __FILE__ << ":" << __LINE__ << ", "
-                  << __FUNCTION__ << ": " << e.what()
-                  << std::endl;
+        g_warning("%s", e.what().c_str());
         return;
     }
     catch (const Gdk::PixbufError & e)
     {
-        std::cerr << __FILE__ << ":" << __LINE__ << ", "
-                  << __FUNCTION__ << ": " << e.what()
-                  << std::endl;
+        g_warning("%s", e.what().c_str());
         return;
     }
 

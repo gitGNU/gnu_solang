@@ -1,17 +1,17 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 4; tab-width: 4 -*- */
 /*
- * Copyright (C) Debarshi Ray 2009 <rishi@gnu.org>
- * 
+ * Copyright (C) 2009 Debarshi Ray <rishi@gnu.org>
+ *
  * Solang is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
  * Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * Solang is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  * See the GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -19,8 +19,6 @@
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif // HAVE_CONFIG_H
-
-#include <iostream>
 
 #include <glibmm.h>
 #include <glibmm/i18n.h>
@@ -147,9 +145,7 @@ TagNewDialog::on_icon_button_clicked() throw()
         }
         catch (const Glib::ConvertError & e)
         {
-            std::cerr << __FILE__ << ":" << __LINE__ << ", "
-                      << __FUNCTION__ << ": " << e.what()
-                      << std::endl;
+            g_warning("%s", e.what().c_str());
         }
     }
 
@@ -170,9 +166,7 @@ TagNewDialog::on_icon_button_clicked() throw()
             }
             catch (const Glib::ConvertError & e)
             {
-                std::cerr << __FILE__ << ":" << __LINE__ << ", "
-                          << __FUNCTION__ << ": " << e.what()
-                          << std::endl;
+                g_warning("%s", e.what().c_str());
                 break;
             }
 
@@ -267,8 +261,10 @@ TagNewDialog::set_icon(const Glib::ustring &iconPath)
 {
     iconPath_ = iconPath;
 
-    if( iconPath_.empty() )
+    if (true == iconPath_.empty())
+    {
         return;
+    }
 
     PixbufPtr pixbuf;
     try
@@ -277,16 +273,12 @@ TagNewDialog::set_icon(const Glib::ustring &iconPath)
     }
     catch (const Glib::FileError & e)
     {
-        std::cerr << __FILE__ << ":" << __LINE__ << ", "
-                  << __FUNCTION__ << ": " << e.what()
-                  << std::endl;
+        g_warning("%s", e.what().c_str());
         return;
     }
     catch (const Gdk::PixbufError & e)
     {
-        std::cerr << __FILE__ << ":" << __LINE__ << ", "
-                  << __FUNCTION__ << ": " << e.what()
-                  << std::endl;
+        g_warning("%s", e.what().c_str());
         return;
     }
 

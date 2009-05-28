@@ -20,8 +20,6 @@
 #include "config.h"
 #endif // HAVE_CONFIG_H
 
-#include <iostream>
-
 #include <gdkmm.h>
 #include <glibmm/i18n.h>
 #include <gtkimageview/gtkimagescrollwin.h>
@@ -201,9 +199,7 @@ EnlargedRenderer::render(const PhotoPtr & photo) throw()
     }
     catch (const Glib::ConvertError & e)
     {
-        std::cerr << __FILE__ << ":" << __LINE__ << ", "
-                  << __FUNCTION__ << ": " << e.what()
-                  << std::endl;
+        g_warning("%s", e.what().c_str());
         return;
     }
 
@@ -213,16 +209,12 @@ EnlargedRenderer::render(const PhotoPtr & photo) throw()
     }
     catch (const Glib::FileError & e)
     {
-        std::cerr << __FILE__ << ":" << __LINE__ << ", "
-                  << __FUNCTION__ << ": " << e.what()
-                  << std::endl;
+        g_warning("%s", e.what().c_str());
         return;
     }
     catch (const Gdk::PixbufError & e)
     {
-        std::cerr << __FILE__ << ":" << __LINE__ << ", "
-                  << __FUNCTION__ << ": " << e.what()
-                  << std::endl;
+        g_warning("%s", e.what().c_str());
         return;
     }
 
@@ -435,9 +427,7 @@ EnlargedRenderer::on_init_end(Application & application) throw()
 
     if (0 == notebook)
     {
-        std::cerr << __FILE__ << ":" << __LINE__ << ", "
-                  << __FUNCTION__ << ": " << "0 == notebook"
-                  << std::endl;
+        g_warning("0 == notebook");
         return;
     }
 

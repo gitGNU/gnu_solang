@@ -1,17 +1,17 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 4; tab-width: 4 -*- */
 /*
  * Copyright (C) Debarshi Ray 2009 <rishi@gnu.org>
- * 
+ *
  * Solang is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
  * Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * Solang is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  * See the GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -22,7 +22,6 @@
 
 #include <algorithm>
 #include <functional>
-#include <iostream>
 
 #include <glibmm/i18n.h>
 #include <sigc++/sigc++.h>
@@ -40,10 +39,10 @@ static const std::string uiFile
     = PACKAGE_DATA_DIR"/"PACKAGE_TARNAME"/ui/"PACKAGE_TARNAME".ui";
 
 class Docker :
-    public std::unary_function<GdlDockObject * const &, void>
+    public std::unary_function<DockObjectPtr const &, void>
 {
 public:
-    Docker(GdlDockObject * const & reference,
+    Docker(DockObjectPtr const & reference,
            const GdlDockPlacement placement) throw();
 
     Docker(const Docker & source) throw();
@@ -53,24 +52,24 @@ public:
     Docker &
     operator=(const Docker & source) throw();
 
-    void operator()(GdlDockObject * const & requester) throw();
+    void operator()(DockObjectPtr const & requester) throw();
 
 protected:
-    GdlDockObject * reference_;
+    DockObjectPtr reference_;
 
     GdlDockPlacement placement_;
 };
 
-Docker::Docker(GdlDockObject * const & reference,
+Docker::Docker(DockObjectPtr const & reference,
                const GdlDockPlacement placement) throw() :
-    std::unary_function<GdlDockObject * const &, void>(),
+    std::unary_function<DockObjectPtr const &, void>(),
     reference_(reference),
     placement_(placement)
 {
 }
 
 Docker::Docker(const Docker & source) throw() :
-    std::unary_function<GdlDockObject * const &, void>(source),
+    std::unary_function<DockObjectPtr const &, void>(source),
     reference_(source.reference_),
     placement_(source.placement_)
 {
@@ -85,7 +84,7 @@ Docker::operator=(const Docker & source) throw()
 {
     if (this != &source)
     {
-        std::unary_function<GdlDockObject * const &, void>
+        std::unary_function<DockObjectPtr const &, void>
                 ::operator=(source);
         reference_ = source.reference_;
         placement_ = source.placement_;
@@ -95,18 +94,18 @@ Docker::operator=(const Docker & source) throw()
 }
 
 void
-Docker::operator()(GdlDockObject * const & requester) throw()
+Docker::operator()(DockObjectPtr const & requester) throw()
 {
     gdl_dock_object_dock(reference_, requester, placement_, NULL);
 }
 
 class DockHider :
-    public std::unary_function<GdlDockObject * const &, void>
+    public std::unary_function<DockObjectPtr const &, void>
 {
     public:
         DockHider() throw();
 
-        DockHider(const GdlDockObject * const & skip) throw();
+        DockHider(ConstDockObjectPtr const & skip) throw();
 
         DockHider(const DockHider & source) throw();
 
@@ -115,28 +114,28 @@ class DockHider :
         DockHider &
         operator=(const DockHider & source) throw();
 
-        void operator()(GdlDockObject * const & dock_object) throw();
+        void operator()(DockObjectPtr const & dock_object) throw();
 
     protected:
-        const GdlDockObject * skip_;
+        ConstDockObjectPtr skip_;
 
     private:
 };
 
 DockHider::DockHider() throw() :
-    std::unary_function<GdlDockObject * const &, void>(),
+    std::unary_function<DockObjectPtr const &, void>(),
     skip_(0)
 {
 }
 
-DockHider::DockHider(const GdlDockObject * const & skip) throw() :
-    std::unary_function<GdlDockObject * const &, void>(),
+DockHider::DockHider(ConstDockObjectPtr const & skip) throw() :
+    std::unary_function<DockObjectPtr const &, void>(),
     skip_(skip)
 {
 }
 
 DockHider::DockHider(const DockHider & source) throw() :
-    std::unary_function<GdlDockObject * const &, void>(source),
+    std::unary_function<DockObjectPtr const &, void>(source),
     skip_(source.skip_)
 {
 }
@@ -150,7 +149,7 @@ DockHider::operator=(const DockHider & source) throw()
 {
     if (this != &source)
     {
-        std::unary_function<GdlDockObject * const &, void>
+        std::unary_function<DockObjectPtr const &, void>
                 ::operator=(source);
         skip_ = source.skip_;
     }
@@ -159,7 +158,7 @@ DockHider::operator=(const DockHider & source) throw()
 }
 
 void
-DockHider::operator()(GdlDockObject * const & dock_object) throw()
+DockHider::operator()(DockObjectPtr const & dock_object) throw()
 {
     if (skip_ == dock_object)
     {
@@ -334,10 +333,7 @@ MainWindow::init() throw()
     }
     else
     {
-        std::cerr << __FILE__ << ":" << __LINE__ << ", "
-                  << __FUNCTION__ << ": "
-                  << layoutFile << " not found"
-                  << std::endl;
+        g_warning("%s: File not found", layoutFile.c_str());
     }
 }
 
@@ -347,33 +343,31 @@ MainWindow::final() throw()
 }
 
 void
-MainWindow::add_dock_object_left_top(GdlDockObject * dock_object)
+MainWindow::add_dock_object_left_top(DockObjectPtr dock_object)
                                      throw()
 {
     dockObjectsLeftTop_.push_back(dock_object);
 }
 
 void
-MainWindow::add_dock_object_left_bottom(GdlDockObject * dock_object)
+MainWindow::add_dock_object_left_bottom(DockObjectPtr dock_object)
                                         throw()
 {
     dockObjectsLeftBottom_.push_back(dock_object);
 }
 
 void
-MainWindow::add_dock_object_center(GdlDockObject * dock_object) throw()
+MainWindow::add_dock_object_center(DockObjectPtr dock_object) throw()
 {
     dockObjectsCenter_.push_back(dock_object);
 }
 
 void
-MainWindow::present_dock_object(GdlDockObject * dock_object) throw()
+MainWindow::present_dock_object(DockObjectPtr dock_object) throw()
 {
     if (0 == dock_object)
     {
-        std::cerr << __FILE__ << ":" << __LINE__ << ", "
-                  << __FUNCTION__ << ": " << "0 == dock_object"
-                  << std::endl;
+        g_warning("0 == dock_object");
         return;
     }
 

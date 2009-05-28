@@ -25,6 +25,7 @@
 #include <tr1/memory>
 
 #include <gdkmm.h>
+#include <gdl/gdl.h>
 #include <glibmm.h>
 #include <gtkmm.h>
 #include <libgdamm.h>
@@ -125,6 +126,9 @@ typedef Glib::RefPtr<Gdk::DragContext> DragContextPtr;
 
 typedef Glib::RefPtr<const Gdk::Pixbuf> ConstPixbufPtr;
 typedef Glib::RefPtr<Gdk::Pixbuf> PixbufPtr;
+
+typedef GdlDockObject * DockObjectPtr;
+typedef const GdlDockObject * ConstDockObjectPtr;
 
 typedef Glib::RefPtr<const Gnome::Gda::DataModelQuery>
     ConstDataModelPtr;
