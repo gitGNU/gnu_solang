@@ -185,37 +185,55 @@ Application::Application(int & argc, char ** & argv) throw() :
     renderers_(),
     initEnd_()
 {
-    try
+    const std::string cache_dir_path = Glib::get_user_cache_dir()
+                                       + "/" + Glib::get_prgname();
+
+    if (false == Glib::file_test(cache_dir_path,
+                                 Glib::FILE_TEST_EXISTS))
     {
-        Gio::File::create_for_path(
-            Glib::get_user_cache_dir() + "/"
-            + Glib::get_prgname())->make_directory_with_parents();
-    }
-    catch(const Gio::Error & e)
-    {
-        // Directory already present.
+        try
+        {
+            Gio::File::create_for_path(
+                cache_dir_path)->make_directory_with_parents();
+        }
+        catch (const Gio::Error & e)
+        {
+            g_warning("%s", e.what().c_str());
+        }
     }
 
-    try
+    const std::string config_dir_path = Glib::get_user_config_dir()
+                                        + "/" + Glib::get_prgname();
+
+    if (false == Glib::file_test(config_dir_path,
+                                 Glib::FILE_TEST_EXISTS))
     {
-        Gio::File::create_for_path(
-            Glib::get_user_config_dir() + "/"
-            + Glib::get_prgname())->make_directory_with_parents();
-    }
-    catch(const Gio::Error & e)
-    {
-        // Directory already present.
+        try
+        {
+            Gio::File::create_for_path(
+                config_dir_path)->make_directory_with_parents();
+        }
+        catch (const Gio::Error & e)
+        {
+            g_warning("%s", e.what().c_str());
+        }
     }
 
-    try
+    const std::string data_dir_path = Glib::get_user_data_dir()
+                                        + "/" + Glib::get_prgname();
+
+    if (false == Glib::file_test(data_dir_path,
+                                 Glib::FILE_TEST_EXISTS))
     {
-        Gio::File::create_for_path(
-            Glib::get_user_data_dir() + "/"
-            + Glib::get_prgname())->make_directory_with_parents();
-    }
-    catch(const Gio::Error & e)
-    {
-        // Directory already present.
+        try
+        {
+            Gio::File::create_for_path(
+                data_dir_path)->make_directory_with_parents();
+        }
+        catch (const Gio::Error & e)
+        {
+            g_warning("%s", e.what().c_str());
+        }
     }
 
     std::string thumbnail_store_path = Glib::get_user_data_dir() + "/";
