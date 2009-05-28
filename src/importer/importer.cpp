@@ -2,6 +2,7 @@
 /*
  * importer.cpp
  * Copyright (C) Debarshi Ray 2009 <rishi@gnu.org>
+ * Copyright (C) Santanu Sinha 2009 <santanu.sinha@gmail.com>
  * 
  * importer.cpp is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -24,6 +25,7 @@
 #include <sigc++/sigc++.h>
 
 #include "application.h"
+#include "directory-storage.h"
 #include "i-photo-source.h"
 #include "importer-dialog.h"
 #include "importer.h"
@@ -165,6 +167,16 @@ Importer::on_action_photo_import() throw()
                 = application_->get_thread_pool();
             const IStoragePtr & storage
                 = engine.get_current_storage_system("file");
+
+            bool doNotCopy = !importer_dialog.get_to_copy();
+            const std::tr1::shared_ptr<DirectoryStorage> dirStorage
+                = std::tr1::dynamic_pointer_cast<DirectoryStorage>(
+                                                            storage );
+            if( dirStorage )
+            {
+                dirStorage->set_do_not_copy( doNotCopy );
+            }
+
 
             thread_pool.push(
                 sigc::bind(sigc::mem_fun(engine, &Engine::import),
