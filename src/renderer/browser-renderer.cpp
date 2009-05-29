@@ -210,6 +210,11 @@ BrowserRenderer::on_switch_page(GtkNotebookPage * notebook_page,
         return;
     }
 
+    Engine & engine = application_->get_engine();
+    RendererPtr renderer = application_->get_renderer(
+                               "browser-renderer");
+    engine.set_current_renderer(renderer);
+
     const ListStorePtr & list_store = application_->get_list_store();
     const Gtk::TreeModel::iterator & iter
         = application_->get_list_store_iter();

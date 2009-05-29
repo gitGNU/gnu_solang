@@ -323,6 +323,9 @@ EnlargedRenderer::on_action_go_previous() throw()
     const PhotoPtr photo = row[model_column_record.get_column_photo()];
 
     render(photo);
+
+    Engine & engine = application_->get_engine();
+    engine.selection_changed().emit();
 }
 
 void
@@ -343,6 +346,9 @@ EnlargedRenderer::on_action_go_next() throw()
     const PhotoPtr photo = row[model_column_record.get_column_photo()];
 
     render(photo);
+
+    Engine & engine = application_->get_engine();
+    engine.selection_changed().emit();
 }
 
 void
@@ -359,6 +365,9 @@ EnlargedRenderer::on_action_go_first() throw()
     const PhotoPtr photo = row[model_column_record.get_column_photo()];
 
     render(photo);
+
+    Engine & engine = application_->get_engine();
+    engine.selection_changed().emit();
 }
 
 void
@@ -376,6 +385,9 @@ EnlargedRenderer::on_action_go_last() throw()
     const PhotoPtr photo = row[model_column_record.get_column_photo()];
 
     render(photo);
+
+    Engine & engine = application_->get_engine();
+    engine.selection_changed().emit();
 }
 
 void
@@ -389,6 +401,9 @@ EnlargedRenderer::on_action_view_reload() throw()
     const PhotoPtr photo = row[model_column_record.get_column_photo()];
 
     render(photo);
+
+    Engine & engine = application_->get_engine();
+    engine.selection_changed().emit();
 }
 
 bool
@@ -470,6 +485,11 @@ EnlargedRenderer::on_switch_page(GtkNotebookPage * notebook_page,
 
     if (pageNum_ == static_cast<gint>(page_num))
     {
+        Engine & engine = application_->get_engine();
+        RendererPtr renderer = application_->get_renderer(
+                                   "enlarged-renderer");
+        engine.set_current_renderer(renderer);
+
         if (0 == uiID_)
         {
             uiID_ = ui_manager->add_ui_from_file(uiFile);

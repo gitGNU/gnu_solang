@@ -506,4 +506,18 @@ Application::set_drag_item(const Glib::ustring & key,
     return;
 }
 
+RendererPtr
+Application::get_renderer(const std::string & name) throw()
+{
+    const std::map<std::string, RendererPtr>::const_iterator iter
+        = renderers_.find(name);
+
+    if (renderers_.end() == iter)
+    {
+        return RendererPtr();
+    }
+
+    return iter->second;
+}
+
 } // namespace Solang

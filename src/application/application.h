@@ -84,6 +84,9 @@ class Application :
         set_drag_item(const Glib::ustring &, //key
                       const PhotoSearchCriteriaPtr &) throw();
 
+        RendererPtr
+        get_renderer(const std::string & name) throw();
+
     protected:
 
     private:
