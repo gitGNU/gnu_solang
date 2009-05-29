@@ -15,6 +15,11 @@ The following pieces of artwork were borrowed from F-Spot
 (http://f-spot.org/). These are copyrighted by
 Jakub Steiner <jimmac@ximian.com> and Novell originally licensed under
 the GNU General Public License version 2.
++ data/camera-photo-16.png
++ data/camera-photo-22.png
++ data/camera-photo-24.png
++ data/camera-photo-32.png
++ data/camera-photo.svg
 + data/mode-browse-16.png
 + data/mode-browse-22.png
 + data/mode-browse-24.png

@@ -41,14 +41,47 @@ namespace Solang
 CameraSource::CameraSource() throw()
     : PhotoSource(),
     gpContext_(),
+    iconFactory_(Gtk::IconFactory::create()),
     select_( gpContext_ )
 {
+    Gtk::IconSource icon_source;
+    Gtk::IconSet icon_set_camera_photo;
+
+    icon_source.set_filename(
+        PACKAGE_DATA_DIR"/"PACKAGE_TARNAME
+            "/pixmaps/camera-photo-16.png");
+    icon_source.set_size(Gtk::IconSize(16));
+    icon_set_camera_photo.add_source(icon_source);
+
+    icon_source.set_filename(
+        PACKAGE_DATA_DIR"/"PACKAGE_TARNAME
+            "/pixmaps/camera-photo-22.png");
+    icon_source.set_size(Gtk::IconSize(22));
+    icon_set_camera_photo.add_source(icon_source);
+
+    icon_source.set_filename(
+        PACKAGE_DATA_DIR"/"PACKAGE_TARNAME
+            "/pixmaps/camera-photo-24.png");
+    icon_source.set_size(Gtk::IconSize(24));
+    icon_set_camera_photo.add_source(icon_source);
+
+    icon_source.set_filename(
+        PACKAGE_DATA_DIR"/"PACKAGE_TARNAME
+            "/pixmaps/camera-photo-32.png");
+    icon_source.set_size(Gtk::IconSize(32));
+    icon_set_camera_photo.add_source(icon_source);
+
+    iconFactory_->add(Gtk::StockID(PACKAGE_TARNAME"-camera-photo"),
+                      icon_set_camera_photo);
+    iconFactory_->add_default();
+
     select_.signal_show().connect(
             sigc::mem_fun( &select_, &CameraImportWidget::populate ));
 }
 
 CameraSource::~CameraSource() throw()
 {
+    iconFactory_->remove_default();
 }
 
 PhotoPtr
@@ -227,7 +260,7 @@ CameraSource::get_name() const throw()
 Gtk::StockID
 CameraSource::get_stock_id() const throw()
 {
-    return Gtk::StockID();
+    return Gtk::StockID(PACKAGE_TARNAME"-camera-photo");
 }
 
 } // namespace Solang

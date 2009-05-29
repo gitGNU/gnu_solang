@@ -66,6 +66,9 @@ class CameraSource :
 
     protected:
         GPhotoContext gpContext_;
+
+        Glib::RefPtr<Gtk::IconFactory> iconFactory_;
+
         CameraImportWidget select_;
 
 

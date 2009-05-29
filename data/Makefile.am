@@ -4,6 +4,11 @@ layout_DATA = \
 
 pixmapdir = $(datadir)/$(PACKAGE_TARNAME)/pixmaps
 pixmap_DATA = \
+    camera-photo-16.png \
+    camera-photo-22.png \
+    camera-photo-24.png \
+    camera-photo-32.png \
+    camera-photo.svg \
     mode-browse-16.png \
     mode-browse-22.png \
     mode-browse-24.png \
