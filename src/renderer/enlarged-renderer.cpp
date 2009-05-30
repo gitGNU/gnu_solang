@@ -312,6 +312,19 @@ EnlargedRenderer::on_action_go_previous() throw()
     Gtk::TreeModel::iterator & iter
         = application_->get_list_store_iter();
 
+    if (false == iter)
+    {
+        if (0 != imageScrollWin_)
+        {
+            gtk_container_remove(GTK_CONTAINER(dockItem_),
+                                 imageScrollWin_);
+        }
+
+        imageView_ = 0;
+        imageScrollWin_ = 0;
+        return;
+    }
+
     if (true == iter.equal(list_store->children().begin()))
     {
         iter = list_store->children().end();
@@ -334,6 +347,19 @@ EnlargedRenderer::on_action_go_next() throw()
     const ListStorePtr & list_store = application_->get_list_store();
     Gtk::TreeModel::iterator & iter
         = application_->get_list_store_iter();
+
+    if (false == iter)
+    {
+        if (0 != imageScrollWin_)
+        {
+            gtk_container_remove(GTK_CONTAINER(dockItem_),
+                                 imageScrollWin_);
+        }
+
+        imageView_ = 0;
+        imageScrollWin_ = 0;
+        return;
+    }
 
     iter++;
     if (false == iter)
@@ -358,6 +384,19 @@ EnlargedRenderer::on_action_go_first() throw()
     Gtk::TreeModel::iterator & iter
         = application_->get_list_store_iter();
 
+    if (false == iter)
+    {
+        if (0 != imageScrollWin_)
+        {
+            gtk_container_remove(GTK_CONTAINER(dockItem_),
+                                 imageScrollWin_);
+        }
+
+        imageView_ = 0;
+        imageScrollWin_ = 0;
+        return;
+    }
+
     iter = list_store->children().begin();
 
     Gtk::TreeModel::Row row = *iter;
@@ -377,6 +416,19 @@ EnlargedRenderer::on_action_go_last() throw()
     Gtk::TreeModel::iterator & iter
         = application_->get_list_store_iter();
 
+    if (false == iter)
+    {
+        if (0 != imageScrollWin_)
+        {
+            gtk_container_remove(GTK_CONTAINER(dockItem_),
+                                 imageScrollWin_);
+        }
+
+        imageView_ = 0;
+        imageScrollWin_ = 0;
+        return;
+    }
+
     iter = list_store->children().end();
     iter--;
 
@@ -395,6 +447,19 @@ EnlargedRenderer::on_action_view_reload() throw()
 {
     Gtk::TreeModel::iterator & iter
         = application_->get_list_store_iter();
+
+    if (false == iter)
+    {
+        if (0 != imageScrollWin_)
+        {
+            gtk_container_remove(GTK_CONTAINER(dockItem_),
+                                 imageScrollWin_);
+        }
+
+        imageView_ = 0;
+        imageScrollWin_ = 0;
+        return;
+    }
 
     Gtk::TreeModel::Row row = *iter;
     BrowserModelColumnRecord model_column_record;

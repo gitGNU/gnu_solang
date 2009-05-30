@@ -94,6 +94,8 @@ class BrowserRenderer :
 
         sigc::connection signalItemActivated_;
 
+        sigc::connection signalSelectionChanged_;
+
         sigc::connection signalSwitchPage_;
 
     private:

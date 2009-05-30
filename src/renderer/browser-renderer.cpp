@@ -45,6 +45,7 @@ BrowserRenderer::BrowserRenderer() throw() :
     thumbnailView_(),
     pageNum_(-1),
     signalInitEnd_(),
+    signalSelectionChanged_(),
     signalSwitchPage_()
 {
     Gtk::IconSource icon_source;
@@ -130,10 +131,10 @@ BrowserRenderer::init(Application & application) throw()
               sigc::mem_fun(*this,
                             &BrowserRenderer::on_item_activated));
 
-    thumbnailView_.signal_selection_changed().connect(
+    signalSelectionChanged_
+        = thumbnailView_.signal_selection_changed().connect(
               sigc::mem_fun(*this,
                             &BrowserRenderer::on_selection_changed));
-
 
     // initialized_.emit(*this);
 }
@@ -152,6 +153,7 @@ void
 BrowserRenderer::final(Application & application) throw()
 {
     signalItemActivated_.disconnect();
+    signalSelectionChanged_.disconnect();
     signalSwitchPage_.disconnect();
     // finalized_.emit(*this);
 }
@@ -207,6 +209,7 @@ BrowserRenderer::on_switch_page(GtkNotebookPage * notebook_page,
 {
     if (pageNum_ != static_cast<gint>(page_num))
     {
+        signalSelectionChanged_.block();
         return;
     }
 
@@ -230,6 +233,8 @@ BrowserRenderer::on_switch_page(GtkNotebookPage * notebook_page,
             thumbnailView_.select_path(path);
         }
     }
+
+    signalSelectionChanged_.unblock();
 }
 
 } // namespace Solang
