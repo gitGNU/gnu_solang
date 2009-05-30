@@ -50,7 +50,7 @@ EnlargedRenderer::EnlargedRenderer() throw() :
     actionGroup_(Gtk::ActionGroup::create()),
     uiID_(0),
     dockItemName_("enlarged-dock-item"),
-    dockItemTitle_("Enlarged"),
+    dockItemTitle_(_("Enlarged")),
     dockItemBehaviour_(GDL_DOCK_ITEM_BEH_NO_GRIP),
     dockItem_(NULL),
     imageView_(0),

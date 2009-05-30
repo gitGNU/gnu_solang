@@ -37,11 +37,11 @@ SearchBasket::SearchBasket() throw() :
     Plugin(),
     sigc::trackable(),
     dockItemName_("search-basket-dock-item"),
-    dockItemTitle_("Search"),
+    dockItemTitle_(_("Search")),
     dockItemBehaviour_(GDL_DOCK_ITEM_BEH_NORMAL),
     dockItem_(NULL),
     vBox_( false, 6 ),
-    autoApplyCheck_("Auto"),
+    autoApplyCheck_(_("Auto")),
     hBox_( false, 2 ),
     applyButton_(),
     applyImage_( Gtk::Stock::APPLY, Gtk::ICON_SIZE_SMALL_TOOLBAR ),
@@ -92,21 +92,21 @@ SearchBasket::SearchBasket() throw() :
     applyButton_.signal_clicked().connect(
                     sigc::mem_fun(
                         *this, &SearchBasket::apply_criterion));
-    applyButton_.set_tooltip_text( "Apply filters" );
+    applyButton_.set_tooltip_text(_("Apply filters"));
     clearButton_.set_size_request( 32, 32 );
     clearButton_.add( clearImage_ );
     clearButton_.set_relief( Gtk::RELIEF_HALF);
     clearButton_.signal_clicked().connect(
                     sigc::mem_fun(
                         *this, &SearchBasket::clear_criterion));
-    clearButton_.set_tooltip_text( "Clear filters" );
+    clearButton_.set_tooltip_text(_("Clear filters"));
     trashButton_.set_size_request( 32, 32 );
     trashButton_.add( trashImage_ );
     trashButton_.set_relief( Gtk::RELIEF_HALF);
     trashButton_.signal_clicked().connect(
                     sigc::mem_fun(
                         *this, &SearchBasket::remove_selected));
-    trashButton_.set_tooltip_text( "Clear selected filter" );
+    trashButton_.set_tooltip_text(_("Clear selected filter"));
 
 
     std::vector<Gtk::TargetEntry> targets;

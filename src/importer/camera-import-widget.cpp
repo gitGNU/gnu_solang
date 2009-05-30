@@ -6,6 +6,8 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 
+#include <glibmm/i18n.h>
+
 #include "camera-import-widget.h"
 
 namespace Solang
@@ -131,7 +133,7 @@ CameraImportWidget::create_camera( int index,
 void
 CameraImportWidget::list_pictures()
 {
-    progress_.set_text("Importing list of photos.. please wait");
+    progress_.set_text(_("Importing list of photos.. please wait"));
     list_pictures( "/" );
     progress_.set_text("");
 }
@@ -143,7 +145,7 @@ CameraImportWidget::on_preview_enabled()
     {
         if( !previewImported_ )
         {
-            progress_.set_text( "Importing previews" );
+            progress_.set_text(_("Importing previews"));
             pool_.push(
                 sigc::mem_fun( *this,
                     &CameraImportWidget::save_thumbnails_for_all_files));
@@ -370,7 +372,7 @@ CameraImportWidget::CameraImportWidget(GPhotoContext &context)
     cameraPhotoColumns_(),
     //top_( false, 6 ),
     cameraBox_( false, 6 ),
-    lblCamera_("Connected Cameras"),
+    lblCamera_(_("Connected Cameras")),
     cmbConnectedCameras_(),
     camerasModel_(
         Gtk::ListStore::create( connectedCameraColumns_ ) ),
@@ -382,10 +384,10 @@ CameraImportWidget::CameraImportWidget(GPhotoContext &context)
     cameraPhotos_(),
     picturesModel_(
         Gtk::ListStore::create( cameraPhotoColumns_ ) ),
-    selectAll_( "Select All" ),
-    selectNone_( "Select None" ),
-    previewArea_("Preview"),
-    chkEnablePreview_("Enable Preview"),
+    selectAll_(_("Select All")),
+    selectNone_(_("Select None")),
+    previewArea_(_("Preview")),
+    chkEnablePreview_(_("Enable Preview")),
     imgPreview_(),
     progress_(),
     progressed_(),
@@ -426,7 +428,7 @@ CameraImportWidget::CameraImportWidget(GPhotoContext &context)
     imgPreview_.set_size_request( 200, 200 );
 
     //Setup
-    getPhotos_.set_label("Load Pictures");
+    getPhotos_.set_label(_("Load Pictures"));
     photos_.set_policy(
             Gtk::POLICY_AUTOMATIC, Gtk::POLICY_AUTOMATIC );
     cameraPhotos_.set_model( picturesModel_ );

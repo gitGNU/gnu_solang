@@ -19,6 +19,8 @@
 
 #include "config.h"
 
+#include <glibmm/i18n.h>
+
 #include "application.h"
 #include "main-window.h"
 #include "property-manager.h"
@@ -37,7 +39,7 @@ PropertyManager::PropertyManager() throw() :
     actionGroup_(Gtk::ActionGroup::create()),
     uiID_( 1 ),
     dockItemName_("property-managers-dock-item"),
-    dockItemTitle_("Properties"),
+    dockItemTitle_(_("Properties")),
     dockItemBehaviour_(GDL_DOCK_ITEM_BEH_NORMAL),
     dockItem_(NULL),
     noteBook_(),
@@ -56,7 +58,7 @@ PropertyManager::PropertyManager() throw() :
                                Gtk::POLICY_AUTOMATIC);
     basicInfo_.add(basicExifView_);
 
-    noteBook_.append_page( vBox_, "Basic" );
+    noteBook_.append_page( vBox_, _("Basic") );
     vBox_.pack_start( basicInfo_, Gtk::PACK_EXPAND_WIDGET,0 );
 
 }

@@ -20,6 +20,8 @@
 #include "config.h"
 #endif // HAVE_CONFIG_H
 
+#include <glibmm/i18n.h>
+
 #include "application.h"
 #include "date-manager.h"
 #include "main-window.h"
@@ -37,7 +39,7 @@ DateManager::DateManager() throw() :
     actionGroup_(Gtk::ActionGroup::create()),
     uiID_( 1 ),
     dockItemName_("date-dock-item"),
-    dockItemTitle_("Picture Taken Date"),
+    dockItemTitle_(_("Picture Taken Date")),
     dockItemBehaviour_(GDL_DOCK_ITEM_BEH_NORMAL),
     dockItem_(NULL),
     vBox_(false, 6),

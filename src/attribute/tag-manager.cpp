@@ -43,7 +43,7 @@ TagManager::TagManager() throw() :
     actionGroup_(Gtk::ActionGroup::create()),
     uiID_(0),
     dockItemName_("tag-managers-dock-item"),
-    dockItemTitle_("Tags"),
+    dockItemTitle_(_("Tags")),
     dockItemBehaviour_(GDL_DOCK_ITEM_BEH_NORMAL),
     dockItem_(NULL),
     vBox_( false, 6 ),
