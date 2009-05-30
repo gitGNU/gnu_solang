@@ -3,7 +3,7 @@ noinst_LTLIBRARIES =	libcommon.la
 libcommon_la_SOURCES = \
 	error.cpp \
 	error.h \
-	id-counted-base.h \
+	id-base.h \
 	id-repo.cpp \
 	id-repo.h \
 	i-photo-destination.cpp \
