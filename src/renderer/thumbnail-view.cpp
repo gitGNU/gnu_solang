@@ -121,8 +121,8 @@ ThumbnailView::configure() throw()
         "text", BrowserModelColumnRecord().get_column_tag_name_num(),
         NULL);
     
-    rendererThumbnail_.property_width().set_value(180);
-    rendererThumbnail_.property_height().set_value(132);
+    rendererThumbnail_.property_width().set_value(168);
+    rendererThumbnail_.property_height().set_value(130);
     rendererThumbnail_.set_extra_height(20);
 
     rendererInfo_.property_ellipsize_set().set_value(true);

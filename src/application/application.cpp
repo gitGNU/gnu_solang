@@ -364,7 +364,7 @@ Application::add_photo_to_model(const PhotoPtr & photo) throw()
 
     try
     {
-        pixbuf = Gdk::Pixbuf::create_from_file(path, -1, 120, true);
+        pixbuf = Gdk::Pixbuf::create_from_file(path, 156, -1, true);
     }
     catch (const Glib::FileError & e)
     {
@@ -375,6 +375,17 @@ Application::add_photo_to_model(const PhotoPtr & photo) throw()
     {
         g_warning("%s", e.what().c_str());
         return;
+    }
+
+    const double height = static_cast<double>(pixbuf->get_height());
+
+    if (118.0 < height)
+    {
+        const double width = static_cast<double>(pixbuf->get_width());
+        const double aspect_ratio = width / height;
+        pixbuf = pixbuf->scale_simple(
+                     static_cast<gint>(118 * aspect_ratio),
+                     118, Gdk::INTERP_BILINEAR);
     }
 
     Gtk::TreeModel::iterator model_iter = listStore_->append();
