@@ -37,6 +37,10 @@ class Application;
 typedef const Application * ConstApplicationPtr;
 typedef Application * ApplicationPtr;
 
+class Cache;
+typedef std::tr1::shared_ptr<const Cache> ConstCachePtr;
+typedef std::tr1::shared_ptr<Cache> CachePtr;
+
 class Database;
 typedef const Database * ConstDatabasePtr;
 typedef Database * DatabasePtr;
@@ -62,6 +66,11 @@ typedef std::vector<IPhotoDestinationPtr> IPhotoDestinationList;
 
 class ExifData;
 typedef std::tr1::shared_ptr<ExifData> ExifDataPtr;
+
+class Images;
+typedef std::tr1::shared_ptr<const Images> ConstImagesPtr;
+typedef std::tr1::shared_ptr<Images> ImagesPtr;
+typedef std::vector<ImagesPtr> ImagesList;
 
 class IPhotoSource;
 typedef std::tr1::shared_ptr<const IPhotoSource> ConstIPhotoSourcePtr;
@@ -124,8 +133,18 @@ typedef std::tr1::shared_ptr<Thumbnail> ThumbnailPtr;
 typedef Glib::RefPtr<const Gdk::DragContext> ConstDragContextPtr;
 typedef Glib::RefPtr<Gdk::DragContext> DragContextPtr;
 
+typedef Glib::RefPtr<const Gdk::GC> ConstGCPtr;
+typedef Glib::RefPtr<Gdk::GC> GCPtr;
+
 typedef Glib::RefPtr<const Gdk::Pixbuf> ConstPixbufPtr;
 typedef Glib::RefPtr<Gdk::Pixbuf> PixbufPtr;
+typedef std::vector<PixbufPtr> PixbufList;
+
+typedef Glib::RefPtr<const Gdk::Screen> ConstScreenPtr;
+typedef Glib::RefPtr<Gdk::Screen> ScreenPtr;
+
+typedef Glib::RefPtr<const Gdk::Window> ConstWindowPtr;
+typedef Glib::RefPtr<Gdk::Window> WindowPtr;
 
 typedef GdlDockObject * DockObjectPtr;
 typedef const GdlDockObject * ConstDockObjectPtr;
@@ -140,6 +159,9 @@ typedef Glib::RefPtr<Gtk::Action> ActionPtr;
 typedef Glib::RefPtr<const Gtk::ActionGroup> ConstActionGroupPtr;
 typedef Glib::RefPtr<Gtk::ActionGroup> ActionGroupPtr;
 
+typedef Glib::RefPtr<const Gtk::IconTheme> ConstIconThemePtr;
+typedef Glib::RefPtr<Gtk::IconTheme> IconThemePtr;
+
 typedef Glib::RefPtr<const Gtk::ListStore> ConstListStorePtr;
 typedef Glib::RefPtr<Gtk::ListStore> ListStorePtr;
 
@@ -149,6 +171,9 @@ typedef Glib::RefPtr<Gtk::Menu> MenuPtr;
 class SearchCriterionSource;
 typedef SearchCriterionSource * SearchCriterionSourcePtr;
 typedef std::vector<SearchCriterionSourcePtr> SearchCriterionSourceList;
+
+typedef Glib::RefPtr<const Gtk::Settings> ConstSettingsPtr;
+typedef Glib::RefPtr<Gtk::Settings> SettingsPtr;
 
 typedef Glib::RefPtr<const Gtk::ToggleAction> ConstToggleActionPtr;
 typedef Glib::RefPtr<Gtk::ToggleAction> ToggleActionPtr;

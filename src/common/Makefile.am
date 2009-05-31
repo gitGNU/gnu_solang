@@ -28,6 +28,10 @@ libcommon_la_SOURCES = \
 	progress-dialog.h \
 	progress-observer.cpp \
 	progress-observer.h \
+	spinner.cpp \
+	spinner.h \
+	spinner-tool-item.cpp \
+	spinner-tool-item.h \
 	types.h
 
 AM_CPPFLAGS = \

@@ -25,6 +25,7 @@
 #include <gtkmm.h>
 
 #include "non-copyable.h"
+#include "spinner-tool-item.h"
 #include "types.h"
 
 namespace Solang
@@ -64,6 +65,9 @@ class MainWindow :
         const UIManagerPtr &
         get_ui_manager() throw();
 
+        void
+        set_busy(bool busy) throw();
+
     protected:
         std::string
         get_user_layout_file() throw();
@@ -91,6 +95,10 @@ class MainWindow :
         Gtk::UIManager::ui_merge_id uiID_;
 
         Gtk::VBox vBox_;
+
+        Gtk::SeparatorToolItem separatorToolItem_;
+
+        SpinnerToolItem spinnerToolItem_;
 
         Gtk::HBox hBox_;
 

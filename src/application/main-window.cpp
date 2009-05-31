@@ -180,6 +180,8 @@ MainWindow::MainWindow() throw() :
     uiManager_(Gtk::UIManager::create()),
     uiID_(uiManager_->add_ui_from_file(uiFile)),
     vBox_(false, 0),
+    separatorToolItem_(),
+    spinnerToolItem_(),
     hBox_(false, 6),
     statusBar_(),
     dock_(gdl_dock_new()),
@@ -253,9 +255,18 @@ MainWindow::MainWindow() throw() :
         vBox_.pack_start(*menu_bar, Gtk::PACK_SHRINK, 0);
     }
 
-    Gtk::Widget * const tool_bar = uiManager_->get_widget("/ToolBar");
+    Gtk::Toolbar * const tool_bar = dynamic_cast<Gtk::Toolbar *>(
+        uiManager_->get_widget("/ToolBar"));
+
     if (NULL != tool_bar)
     {
+        gtk_separator_tool_item_set_draw(separatorToolItem_.gobj(),
+                                         FALSE);
+        separatorToolItem_.set_expand(true);
+        tool_bar->append(separatorToolItem_);
+
+        tool_bar->append(spinnerToolItem_);
+
         vBox_.pack_start(*tool_bar, Gtk::PACK_SHRINK, 0);
     }
 
@@ -580,6 +591,28 @@ MainWindow::on_delete_event(GdkEventAny * event)
 
     hide();
     return return_value;	
+}
+
+void
+MainWindow::set_busy(bool busy) throw()
+{
+    WindowPtr window = get_window();
+
+    switch (busy)
+    {
+        case true:
+        {
+            Gdk::Cursor cursor(Gdk::WATCH);
+            window->set_cursor(cursor);
+            break;
+        }
+
+        case false:
+            window->set_cursor();
+            break;
+    }
+
+    spinnerToolItem_.set_spinning(busy);
 }
 
 } // namespace Solang

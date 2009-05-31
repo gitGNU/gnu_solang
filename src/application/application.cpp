@@ -453,8 +453,12 @@ Application::on_photo_import_end() throw()
 void
 Application::on_photo_render_begin() throw()
 {
+    mainWindow_.set_busy(true);
+
     PhotoList photos = engine_.get_photos();
     add_photos_to_model(photos);
+
+    mainWindow_.set_busy(false);
 }
 
 Glib::ThreadPool &
