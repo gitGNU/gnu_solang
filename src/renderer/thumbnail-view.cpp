@@ -200,7 +200,7 @@ ThumbnailView::on_button_press_event(GdkEventButton * event) throw()
             // set_cursor(path, 0, false);
         }
 
-        menu_->popup(event->button, event->time);
+//        menu_->popup(event->button, event->time);
     }
 
     return return_value;

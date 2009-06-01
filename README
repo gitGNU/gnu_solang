@@ -1,4 +1,5 @@
-Copyright (C) 2009 Debarshi Ray
+Copyright (C) 2009 Debarshi Ray <rishi@gnu.org>
+Copyright (C) 2009 Santanu Sinha <santanu.sinha@gmail.com>
 All rights reserved.
 
 Copying and distribution of this file, with or without modification,
@@ -7,14 +8,85 @@ notice and this notice are preserved.
 
 ----
 
-Solang is licensed under the GNU General Public License as published
-by the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
+Solang - A photo manager for GNOME
+==================================
+Website: https://savannah.nongnu.org/projects/solang
 
-The following pieces of artwork were borrowed from F-Spot
-(http://f-spot.org/). These are copyrighted by
-Jakub Steiner <jimmac@ximian.com> and Novell originally licensed under
-the GNU General Public License version 2.
+Motivation for the project
+--------------------------
+The idea is to develop a free photo manager that will act as a front-end for
+directory based local storage as well as remote photo-storage systems, as can
+be said, on the "Cloud". Basic editing support is also planned as well as a
+small pipelaine for RAW processing. Please check the TODO file for more
+details.
+
+Another motivation for this project is to break the performance charecteristics
+of current popular photo management softwares and provide a fast and reliable
+alternative that does not place humongous demands on user's hardware resources
+even to meet basic functionality.
+
+Why is it called "Solang"?
+--------------------------
+While looking for a random name, we noticed the name on one of our office
+workstations. It was called "solang" and so we stand here today with this name.
+
+Also, take a look at: http://en.wikipedia.org/wiki/Solang_valley
+
+Features:
+---------
+ - Import and view photos from different directories
+ - Import photos from camera (PTP mode)
+ - Apply tag to photos during import
+ - Multiple tags can be applied during import or later on
+ - Drag drop searching using multiple tags, photo properties and/or dates
+ - Fast and efficient operation
+
+Dependencies:
+-------------
+
+ - cairomm-1.0
+ - exiv2 <= 0.17.1
+ - libgdamm-3.0 <= 3.0.1
+ - libgda-sqlite-3.0
+ - gdl-1.0
+ - giomm-2.4
+ - glibmm-2.4
+ - libgphoto2
+ - gtkimageview
+ - gtkmm-2.4 >= 2.8
+
+The following patches are required on gdl 2.24:
+
+  1) Fix for GNOME Bug # 566801 <http://bugzilla.gnome.org/566801>
+     - Corrsponding Debian Bug:
+            http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=530828
+     - Patch:
+            http://cvs.fedoraproject.org/viewvc/rpms/libgdl/F-10/libgdl-2.24.0-docking-undocking-reset.patch?view=markup
+     - For Fedora 10 users an update will fix this issue.
+
+  2) Fix for GNOME Bug #584418 <http://bugzilla.gnome.org/584418>
+     - Patch: http://rishi.fedorapeople.org/libgdl-2.24.0-paned-dock.patch
+     - Updates on their way to Fedora 10.
+
+Gio::File::make_directory_with_parents():
+  - This function was implemented in Glibmm 2.20. Users of Debian Sid will
+    already have this on their system.
+  - Fedora 10 users will get this by an update.
+
+As of today, Solang runs properly on:
+  - Fedora 10 with updates
+  - Debian Sid with GDL patches
+
+----
+
+Solang is licensed under the GNU General Public License as published by the
+Free Software Foundation, either version 3 of the License, or (at your option)
+any later version.
+
+The following pieces of artwork were borrowed from F-Spot (http://f-spot.org/).
+These are copyrighted by Jakub Steiner <jimmac@ximian.com> and Novell, and
+originally licensed under the GNU General Public License version 2.
+
 + data/camera-photo-16.png
 + data/camera-photo-22.png
 + data/camera-photo-24.png
@@ -33,6 +105,6 @@ the GNU General Public License version 2.
 + data/tag-new-22.png
 + data/tag-new-24.png
 
-We are thankful to the respective copyright owners for letting us use
-and distribute these files as a part of Solang under our own licensing
-terms as mentioned above.
+We are thankful to the respective copyright owners for letting us use and
+distribute these files as a part of Solang under our own licensing terms as
+mentioned above.

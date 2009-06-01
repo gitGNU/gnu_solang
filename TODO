@@ -1,0 +1,35 @@
+Importers
+
+  * Create importers from web-services such as Flickr and Picasaweb
+
+Storage
+
+  * Create front-ends for Web-Based photo storage systems such as
+    Flickr / Picasa
+  * Create storage systems that store and retrive data on removable
+    storage such as DVDs
+  * Improve directory storage to support configurable photo storage
+    path
+  * Modify importer dialog to allow for selection of storage system
+    as well as storage specific options
+
+Exporter
+
+  * Exporter to directory
+  * Exporter to web-archive
+  * Exporter to Flickr
+  * Exporter to PicasaWeb etc.
+
+Application/Engine
+
+  * Add support for basic editing
+       - Resize
+       - Rotate
+       - Crop
+  * Improve the browser
+       - Add icon zoom in/out
+       - Add paginated view
+  * Add content type specific context menu
+  * Full non-searchable file details (Exif/XMP/ICMP) view
+  * Support for nested tags
+  * Support for map based tags
