@@ -84,7 +84,7 @@ void Photo::insert( DataModelPtr &model, gint32 lastIndex) throw(Error)
     std::vector<Gnome::Gda::Value> values;
 
     values.push_back( Gnome::Gda::Value( lastIndex + 1 ) ); //photoid
-    values.push_back( Gnome::Gda::Value( get_uri() ) ); 
+    values.push_back( Gnome::Gda::Value( get_uri() ) );
 
     modDate_.insert( values );
     thumbnail_.insert( values );
@@ -105,7 +105,7 @@ void Photo::insert( DataModelPtr &model, gint32 lastIndex) throw(Error)
     {
         //TBD::Error
     }
-    
+
     set_row_( row );
 
     set_photoId_( lastIndex + 1 );
@@ -116,11 +116,11 @@ void Photo::insert( DataModelPtr &model, gint32 lastIndex) throw(Error)
 void Photo::update( DataModelPtr &model, gint32 row) throw(Error)
 try
 {
-    if( get_uri().length() > 0 
+    if( get_uri().length() > 0
             && get_uri() != model->get_value_at( 
                                 Photo::URI_COL, row ).get_string() )
     {
-        model->set_value_at( 
+        model->set_value_at(
                 Photo::URI_COL, row, Gnome::Gda::Value( get_uri() ) );
     }
 
@@ -157,11 +157,10 @@ void Photo::create(
     data.create( dataModel, row );
     set_exif_data( data );
 
-    return;    
-    
+    return;
 }
 
-Glib::ustring 
+Glib::ustring
 Photo::get_db_object_type_name() const throw()
 {
     return "photos";

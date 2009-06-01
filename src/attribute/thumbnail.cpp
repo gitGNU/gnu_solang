@@ -269,7 +269,8 @@ Thumbnail::generate_using_gdkpixbuf(const Glib::ustring & path,
 
     thumbnail->save( get_path(), "jpeg" );    
 
-    set_resolution( Resolution( thumbnail->get_width(), thumbnail->get_height() ) );
+    set_resolution( Resolution( thumbnail->get_width(),
+                                thumbnail->get_height() ) );
     return;
 }
 
