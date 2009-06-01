@@ -29,11 +29,13 @@
 
 #include <glibmm/i18n.h>
 
+#include "content-type-repo.h"
 #include "directory-source.h"
 #include "i-storage.h"
 #include "photo-tag.h"
 #include "progress-observer.h"
 #include "tag.h"
+#include "types.h"
 
 namespace Solang
 {
@@ -115,29 +117,27 @@ void DirectorySource::create_photo_list(PhotoList & list,
                                         const Glib::ustring & prefix)
                                         throw()
 {
-    struct dirent ** nameList = NULL;
-    gint32 numDir = scandir(dir.c_str(), &nameList, 0, alphasort);
-    for( gint32 i = 0; i < numDir; i++ )
+    Glib::Dir directory( dir );
+    for( Glib::Dir::iterator entry = directory.begin();
+             directory.end() != entry; entry++ )
     {
-        if(  nameList[i]->d_name [0] == '.' )
-            continue;
-        Glib::ustring path = prefix + "/" + nameList[i]->d_name;
-        struct stat info;
-        if (-1 == stat(path.c_str(), &info))
+        std::string entryPath = dir + "/" + *entry;
+        FilePtr entryFile = Gio::File::create_for_path( entryPath );
+        if( Gio::FILE_TYPE_DIRECTORY == entryFile->query_file_type())
         {
-            //TBD::Error
-        }
-        if( S_ISDIR( info.st_mode ) )
-        {
-            create_photo_list( list, 
-                        Glib::ustring( nameList[i]->d_name ), path );
+            create_photo_list( list, entryPath, entryPath );
         }
         else
         {
-            PhotoPtr photo(new Photo());
-            list.push_back( photo );
-            photo->set_disk_file_path(path);
-            
+            Glib::ustring contentType
+                = ContentTypeRepo::instance()->get_content_type(
+                                                   entryPath );
+            if( contentType.find("image/") == 0 )
+            {
+                PhotoPtr photo(new Photo());
+                list.push_back( photo );
+                photo->set_disk_file_path( entryPath );
+            }
         }
     }
 }

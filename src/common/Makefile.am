@@ -1,6 +1,8 @@
 noinst_LTLIBRARIES =	libcommon.la
 
 libcommon_la_SOURCES = \
+	content-type-repo.cpp \
+	content-type-repo.h \
 	error.cpp \
 	error.h \
 	id-base.h \

@@ -26,6 +26,7 @@
 
 #include <gdkmm.h>
 #include <gdl/gdl.h>
+#include <giomm.h>
 #include <glibmm.h>
 #include <gtkmm.h>
 #include <libgdamm.h>
@@ -36,6 +37,9 @@ namespace Solang
 class Application;
 typedef const Application * ConstApplicationPtr;
 typedef Application * ApplicationPtr;
+
+class ContentTypeRepo;
+typedef ContentTypeRepo * ContentTypeRepoPtr;
 
 class Cache;
 typedef std::tr1::shared_ptr<const Cache> ConstCachePtr;
@@ -148,6 +152,9 @@ typedef Glib::RefPtr<Gdk::Window> WindowPtr;
 
 typedef GdlDockObject * DockObjectPtr;
 typedef const GdlDockObject * ConstDockObjectPtr;
+
+typedef Glib::RefPtr<const Gio::File> ConstFilePtr;
+typedef Glib::RefPtr<Gio::File> FilePtr;
 
 typedef Glib::RefPtr<const Gnome::Gda::DataModelQuery>
     ConstDataModelPtr;

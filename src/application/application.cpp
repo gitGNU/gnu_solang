@@ -32,6 +32,7 @@
 #include "browser-renderer.h"
 #include "camera-source.h"
 #include "console-renderer.h"
+#include "content-type-repo.h"
 #include "date-manager.h"
 #include "directory-source.h"
 #include "directory-storage.h"
@@ -319,6 +320,8 @@ Application::init() throw()
                   Initializer<RendererPtr>(this));
 
     engine_.set_current_renderer(browser_renderer);
+
+    ContentTypeRepo::instance()->init();
 
     mainWindow_.init();
 
