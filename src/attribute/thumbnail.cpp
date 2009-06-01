@@ -247,24 +247,6 @@ void
 Thumbnail::generate_using_gdkpixbuf(const Glib::ustring & path,
                                       const Resolution & new_size_hint)
 {
-#if 0
-    Glib::ustring tPath = get_path() + ".jpg";
-    set_path( tPath );
-
-    // Open and copy source image.
-    Magick::Image source(path);
-    Magick::Image thumbnail(source);
-    Magick::Geometry imageDim = thumbnail.density();
-
-    // We need to keep aspect ratio.
-    // So we consider the height only to derive the resize ratio.
-    double ratio = static_cast<double>( 
-                        new_size_hint.get_y() / imageDim.height() );
-    Magick::Geometry newSize( imageDim.width() * ratio , 
-                            imageDim.height() * ratio );
-    thumbnail.zoom( newSize );
-    thumbnail.write( get_path() );
-#endif
     PixbufPtr thumbnail;
     try
     {

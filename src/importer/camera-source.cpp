@@ -95,24 +95,11 @@ CameraSource::import(const PhotoPtr & photo,
         Glib::ustring path = photo->get_disk_file_path();
         download_file_from_camera( photo );
         storage->save(photo, true);
-#if 0
-        try
-        {
-            Glib::RefPtr<Gio::File> file
-                = Gio::File::create_for_path( path );
-            file->remove();
-        }
-        catch( Glib::Error &e )
-        {
-            std::cout<<"Error::"<<e.what()<<std::endl;
-        }
-#endif
         for( TagList::const_iterator it = tags.begin();
                             it != tags.end(); it++ )
         {
             PhotoTag pt(
                     photo->get_photo_id(), (*it)->get_tag_id());
-            //std::cout<<"PhotoId= "<<photo->get_photo_id()<<"TagId= "<<(*it)->get_tag_id()<<std::endl;
             pt.save(db);
         }
     }

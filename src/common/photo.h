@@ -40,9 +40,6 @@ class Photo :
 {
     public:
         Photo() throw();
-#if 0
-        Photo( gint64 photoId, const Glib::ustring &uri ) throw();
-#endif
         ~Photo() throw();
 
         inline gint64 get_photo_id() const throw();
@@ -129,10 +126,6 @@ class Photo :
         //Date
         ModificationDate modDate_;
 
-#if 0
-        Glib::ustring thumbnailPath_;
-        Resolution thumbnailResolution_;
-#endif
         //Thumbnail
         Thumbnail thumbnail_;
         //Exif
@@ -177,19 +170,6 @@ Photo::get_modification_date() const throw()
     return modDate_;
 }
 
-#if 0
-inline const Glib::ustring &
-Photo::get_thumbnail_path() const
-{
-    return thumbnailPath_;
-}
-
-inline const Photo::Resolution &
-Photo::get_thumbnail_resolution() const throw()
-{
-    return thumbnailResolution_;
-}
-#endif
 } // namespace Solang
 
 #endif // SOLANG_PHOTO_H

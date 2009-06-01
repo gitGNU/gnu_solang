@@ -63,7 +63,6 @@ DirectorySource::import(const PhotoPtr & photo,
         {
             PhotoTag pt(
                     photo->get_photo_id(), (*it)->get_tag_id());
-            std::cout<<"PhotoId= "<<photo->get_photo_id()<<"TagId= "<<(*it)->get_tag_id()<<std::endl;
             pt.save(db);
         }
     }
