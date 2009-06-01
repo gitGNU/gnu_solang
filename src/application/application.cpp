@@ -242,6 +242,12 @@ Application::Application(int & argc, char ** & argv) throw() :
 
     std::string photo_store_path = Glib::get_user_special_dir(
                                        G_USER_DIRECTORY_PICTURES);
+
+    if( photo_store_path.empty() )
+    {
+        photo_store_path = Glib::get_home_dir();
+        photo_store_path += "/Pictures";
+    }
     photo_store_path += "/";
     photo_store_path += Glib::get_application_name();
 
