@@ -38,7 +38,8 @@ PhotosTable::~PhotosTable()
 
 Glib::ustring PhotosTable::getSelectionQuery() const
 {
-    return "select * from photos";
+    return "select * from photos order by "
+               "mod_year, mod_month, mod_day, picture_taken_time";
 }
 
 Glib::ustring PhotosTable::getInsertQuery() const

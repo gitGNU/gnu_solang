@@ -28,6 +28,7 @@
 #include <sys/stat.h>
 #include <unistd.h>
 
+#include "content-type-repo.h"
 #include "directory-storage.h"
 #include "exif-data.h"
 #include "token-replacer.h"
@@ -85,29 +86,40 @@ void DirectoryStorage::save(const PhotoPtr &photo, bool move) throw(Error)
     //Read date and time 
     //else use modification date
     //Create directory and copy file
-    Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(
-                                photo->get_disk_file_path().c_str());
-    if(image.get() != 0);
-    image->readMetadata();
-
-    Exiv2::ExifData &exifData = image->exifData();
-    if (exifData.empty()) {
-        //No exif data 
-    }
-
-    Exiv2::ExifKey key("Exif.Photo.DateTimeOriginal");
-    Exiv2::ExifData::iterator dateTime = exifData.findKey( key );
     guint32 year=0;
     guint32 month=0;
     guint32 day=0;
-    if( dateTime != exifData.end() )
+    Exiv2::Image::AutoPtr image;
+    Exiv2::ExifData exifData;
+    try
     {
-        std::cout<<(*dateTime).toString()<<std::endl;
-        Glib::ustring date = (*dateTime).toString();
-        //TBD CHECK
-        sscanf(date.c_str(), "%u:%u:%u", &year, &month, &day );
-    }    
-    else
+        image = Exiv2::ImageFactory::open(
+                           photo->get_disk_file_path().c_str());
+        if(image.get() != 0)
+        {
+            image->readMetadata();
+            exifData = image->exifData();
+            if (exifData.empty()) {
+                //No exif data
+            }
+
+            Exiv2::ExifKey key("Exif.Photo.DateTimeOriginal");
+            Exiv2::ExifData::iterator dateTime = exifData.findKey(
+                                                     key );
+            if( dateTime != exifData.end() )
+            {
+                std::cout<<(*dateTime).toString()<<std::endl;
+                Glib::ustring date = (*dateTime).toString();
+                //TBD CHECK
+                sscanf(date.c_str(), "%u:%u:%u", &year, &month, &day );
+            }
+        }
+    }
+    catch (...)
+    {
+    }
+
+    if (exifData.empty())
     {
         //Use stat
         struct stat info;
@@ -199,8 +211,12 @@ void DirectoryStorage::save(const PhotoPtr &photo, bool move) throw(Error)
 
     Glib::ustring uri = get_storage_uri_prefix() + ":";
     uri += filePath;
+    Glib::ustring contentType
+        = ContentTypeRepo::instance()->get_content_type(
+              photo->get_disk_file_path() );
 
     photo->set_uri( uri );
+    photo->set_content_type( contentType );
     photo->set_disk_file_path(filePath);
 
     //Set modification date

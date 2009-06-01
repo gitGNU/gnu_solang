@@ -26,6 +26,7 @@
 #include <exiv2/exif.hpp>
 #include <giomm.h>
 
+#include "content-type-repo.h"
 #include "database.h"
 #include "photo.h"
 #include "thumbnail.h"
@@ -33,9 +34,9 @@
 namespace Solang
 {
 
-const gint32 Thumbnail::PATH_COL = 5;
-const gint32 Thumbnail::RES_X_COL = 6;
-const gint32 Thumbnail::RES_Y_COL = 7;
+const gint32 Thumbnail::PATH_COL = 6;
+const gint32 Thumbnail::RES_X_COL = 7;
+const gint32 Thumbnail::RES_Y_COL = 8;
 
 Thumbnail::Thumbnail( )
     : path_(),
@@ -159,8 +160,9 @@ Thumbnail::generate(const Exiv2::ExifData & exifData,
         throw;
     }
 
-#if 0
-    if (!exifData.empty())
+    if (!ContentTypeRepo::instance()->is_gdk_supported(
+                                          photo.get_disk_file_path())
+        && !exifData.empty())
     {
         // Extract from exif if present.
         if (-1 == exifData.writeThumbnail(get_path().c_str()))
@@ -200,7 +202,6 @@ Thumbnail::generate(const Exiv2::ExifData & exifData,
 
         set_resolution( res );
     }
-#endif
 
     if (false == thumbnail_generated)
     {

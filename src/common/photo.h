@@ -48,6 +48,12 @@ class Photo :
         inline const Glib::ustring &get_uri() const throw();
         void set_uri( const Glib::ustring &uri );
 
+        inline const Glib::ustring &
+        get_content_type() const throw();
+
+        void
+        set_content_type( const Glib::ustring &contentType ) throw();
+
         inline const Glib::ustring 
         & get_disk_file_path() const throw();
 
@@ -118,9 +124,11 @@ class Photo :
     private:
         static const gint32 PHOTOID_COL;
         static const gint32 URI_COL;
+        static const gint32 CONTENT_TYPE_COL;
 
         gint64 photoId_;
         Glib::ustring uri_; //storage uri
+        Glib::ustring contentType_; //content type
         Glib::ustring diskFilePath_;    
 
         //Date
@@ -146,6 +154,12 @@ Photo::get_uri() const throw()
     return uri_;
 }
         
+inline const Glib::ustring &
+Photo::get_content_type() const throw()
+{
+    return contentType_;
+}
+
 inline const Thumbnail &
 Photo::get_thumbnail() const throw()
 {

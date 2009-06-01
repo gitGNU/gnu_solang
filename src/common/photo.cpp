@@ -32,6 +32,7 @@ namespace Solang
 
 const gint32 Photo::PHOTOID_COL                        = 0;
 const gint32 Photo::URI_COL                            = 1;
+const gint32 Photo::CONTENT_TYPE_COL                   = 2;
 
 Photo::Photo() throw() :
     DBObject(),
@@ -79,12 +80,19 @@ void Photo::set_disk_file_path(const Glib::ustring & disk_file_path)
     diskFilePath_ = disk_file_path;
 }
 
+void
+Photo::set_content_type(const Glib::ustring & contentType) throw()
+{
+    contentType_ = contentType;
+}
+
 void Photo::insert( DataModelPtr &model, gint32 lastIndex) throw(Error)
 {
     std::vector<Gnome::Gda::Value> values;
 
     values.push_back( Gnome::Gda::Value( lastIndex + 1 ) ); //photoid
     values.push_back( Gnome::Gda::Value( get_uri() ) );
+    values.push_back( Gnome::Gda::Value( get_content_type() ) );
 
     modDate_.insert( values );
     thumbnail_.insert( values );
@@ -124,6 +132,16 @@ try
                 Photo::URI_COL, row, Gnome::Gda::Value( get_uri() ) );
     }
 
+    const Glib::ustring & content_type = get_content_type();
+
+    if( !content_type.empty()
+        && content_type != model->get_value_at(
+               Photo::CONTENT_TYPE_COL, row ).get_string() )
+    {
+        model->set_value_at( Photo::CONTENT_TYPE_COL, row,
+                             Gnome::Gda::Value( content_type ) );
+    }
+
     thumbnail_.update( model, row );
     exifData_.update( model, row );
 
@@ -145,6 +163,9 @@ void Photo::create(
     set_photoId_( dataModel->get_value_at(
                                     PHOTOID_COL, row ).get_int());
     set_uri( dataModel->get_value_at( URI_COL, row ).get_string());
+    set_content_type( dataModel->get_value_at(
+                          CONTENT_TYPE_COL, row ).get_string() );
+
     ModificationDate date;
     date.create( dataModel, row );
     set_modification_date( date );

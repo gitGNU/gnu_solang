@@ -224,6 +224,7 @@ PhotoList Database::search(
         }
         sql += " )";    
     }
+    sql += " order by mod_year,mod_month,mod_day,picture_taken_time";
 
     PhotoList photos;
     try
@@ -363,6 +364,7 @@ Database::create_db() throw(Error)
             Glib::ustring sql = "CREATE TABLE photos(\
                         photoid integer primary key,\
                         uri varchar(255),\
+                        content_type varchar(50),\
                         mod_day integer,\
                         mod_month integer,\
                         mod_year integer,\

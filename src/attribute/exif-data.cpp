@@ -27,15 +27,15 @@
 namespace Solang
 {
 
-const gint32 ExifData::APERTURE_COL               = 8;
-const gint32 ExifData::SHUTTER_SPEED_COL          = 9;
-const gint32 ExifData::EXPOSURE_PROGRAM_COL       = 10;
-const gint32 ExifData::ISO_COL                    = 11;
-const gint32 ExifData::EXPOSURE_METERING_MODE_COL = 12;
-const gint32 ExifData::FOCAL_LENGTH_COL           = 13;
-const gint32 ExifData::WHITE_BALANCE_COL          = 14;
-const gint32 ExifData::FILM_FOCAL_LENGTH_COL      = 15;
-const gint32 ExifData::PICTURE_TAKEN_TIME         = 16;
+const gint32 ExifData::APERTURE_COL               = 9;
+const gint32 ExifData::SHUTTER_SPEED_COL          = 10;
+const gint32 ExifData::EXPOSURE_PROGRAM_COL       = 11;
+const gint32 ExifData::ISO_COL                    = 12;
+const gint32 ExifData::EXPOSURE_METERING_MODE_COL = 13;
+const gint32 ExifData::FOCAL_LENGTH_COL           = 14;
+const gint32 ExifData::WHITE_BALANCE_COL          = 15;
+const gint32 ExifData::FILM_FOCAL_LENGTH_COL      = 16;
+const gint32 ExifData::PICTURE_TAKEN_TIME         = 17;
 
 ExifData::ExifData()
     : aperture_(),

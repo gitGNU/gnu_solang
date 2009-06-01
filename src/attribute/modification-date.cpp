@@ -29,9 +29,9 @@
 namespace Solang
 {
 
-const gint32 ModificationDate::MOD_DAY_COL   = 2;
-const gint32 ModificationDate::MOD_MONTH_COL = 3;
-const gint32 ModificationDate::MOD_YEAR_COL  = 4;
+const gint32 ModificationDate::MOD_DAY_COL   = 3;
+const gint32 ModificationDate::MOD_MONTH_COL = 4;
+const gint32 ModificationDate::MOD_YEAR_COL  = 5;
 
 Glib::ustring
 ModificationDate::get_query_criteria() const throw()
