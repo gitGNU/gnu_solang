@@ -26,6 +26,7 @@
 #include <gtkmm.h>
 #include <sigc++/sigc++.h>
 
+#include "pagination-bar.h"
 #include "renderer.h"
 #include "thumbnail-view.h"
 #include "types.h"
@@ -69,8 +70,21 @@ class BrowserRenderer :
         on_item_activated(const Gtk::TreeModel::Path & path) throw();
 
         void
+        on_limits_changed() throw();
+
+        void
+        on_list_store_change_begin(Application & application) throw();
+
+        void
+        on_list_store_change_end(Application & application) throw();
+
+        void
         on_switch_page(GtkNotebookPage * notebook_page, guint page_num)
                        throw();
+
+        bool
+        on_visible(const Gtk::TreeModel::const_iterator & iter)
+                   throw();
 
         ApplicationPtr application_;
 
@@ -83,8 +97,14 @@ class BrowserRenderer :
         GdlDockItemBehavior dockItemBehaviour_;
 
         GtkWidget * dockItem_;
+
+        Gtk::VBox vBox_;
+
+        PaginationBar paginationBar_;
     
         Gtk::ScrolledWindow scrolledWindow_;
+
+        TreeModelFilterPtr treeModelFilter_;
 
         ThumbnailView thumbnailView_;
 
@@ -93,6 +113,10 @@ class BrowserRenderer :
         sigc::connection signalInitEnd_;
 
         sigc::connection signalItemActivated_;
+
+        sigc::connection signalListStoreChangeBegin_;
+
+        sigc::connection signalListStoreChangeEnd_;
 
         sigc::connection signalSelectionChanged_;
 

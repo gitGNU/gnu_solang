@@ -26,7 +26,8 @@ namespace Solang
 
 enum
 {
-    COLUMN_PHOTO = 0,
+    COLUMN_SERIAL = 0,
+    COLUMN_PHOTO,
     COLUMN_PIXBUF,
     COLUMN_TAG_NAME,
     COLUMN_COUNT
@@ -34,10 +35,12 @@ enum
 
 BrowserModelColumnRecord::BrowserModelColumnRecord() throw() :
     Gtk::TreeModelColumnRecord(),
+    columnSerial_(),
     columnPhoto_(),
     columnPixbuf_(),
     columnTagName_()
 {
+    add(columnSerial_);
     add(columnPhoto_);
     add(columnPixbuf_);
     add(columnTagName_);
@@ -45,6 +48,18 @@ BrowserModelColumnRecord::BrowserModelColumnRecord() throw() :
 
 BrowserModelColumnRecord::~BrowserModelColumnRecord() throw()
 {
+}
+
+const Gtk::TreeModelColumn<guint> &
+BrowserModelColumnRecord::get_column_serial() const throw()
+{
+    return columnSerial_;
+}
+
+gint
+BrowserModelColumnRecord::get_column_serial_num() const throw()
+{
+    return COLUMN_SERIAL;
 }
 
 const Gtk::TreeModelColumn<PhotoPtr> &

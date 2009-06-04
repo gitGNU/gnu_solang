@@ -55,6 +55,12 @@ class Application :
         sigc::signal<void, Application &> &
         init_end() throw();
 
+        sigc::signal<void, Application &> &
+        list_store_change_begin() throw();
+
+        sigc::signal<void, Application &> &
+        list_store_change_end() throw();
+
         Glib::ThreadPool &
         get_thread_pool() throw();
 
@@ -126,6 +132,10 @@ class Application :
         DragDropCriteriaMap dragItemMap_;
 
         sigc::signal<void, Application &> initEnd_;
+
+        sigc::signal<void, Application &> listStoreChangeBegin_;
+
+        sigc::signal<void, Application &> listStoreChangeEnd_;
 };
 
 } // namespace Solang

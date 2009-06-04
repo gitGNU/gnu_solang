@@ -191,6 +191,10 @@ typedef Glib::RefPtr<Gtk::TreeStore> TreeStorePtr;
 typedef Glib::RefPtr<const Gtk::TreeModel> ConstTreeModelPtr;
 typedef Glib::RefPtr<Gtk::TreeModel> TreeModelPtr;
 
+typedef Glib::RefPtr<const Gtk::TreeModelFilter>
+    ConstTreeModelFilterPtr;
+typedef Glib::RefPtr<Gtk::TreeModelFilter> TreeModelFilterPtr;
+
 typedef Glib::RefPtr<const Gtk::TreePath> ConstTreePathPtr;
 typedef Glib::RefPtr<Gtk::TreePath> TreePathPtr;
 typedef std::vector<TreePathPtr> TreePathList;

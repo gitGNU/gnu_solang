@@ -15,6 +15,8 @@ librenderer_la_SOURCES = \
 	cell-renderer-info.h \
 	cell-renderer-thumbnail.cpp \
 	cell-renderer-thumbnail.h \
+	pagination-bar.cpp \
+	pagination-bar.h \
 	thumbnail-view.h \
 	thumbnail-view.cpp
 

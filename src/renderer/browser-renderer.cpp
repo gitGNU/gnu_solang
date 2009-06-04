@@ -21,6 +21,7 @@
 #endif // HAVE_CONFIG_H
 
 #include "application.h"
+#include "browser-model-column-record.h"
 #include "browser-renderer.h"
 #include "engine.h"
 #include "main-window.h"
@@ -41,10 +42,15 @@ BrowserRenderer::BrowserRenderer() throw() :
     dockItemTitle_("Browser"),
     dockItemBehaviour_(GDL_DOCK_ITEM_BEH_NO_GRIP),
     dockItem_(NULL),
+    vBox_(false, 6),
+    paginationBar_(),
     scrolledWindow_(),
+    treeModelFilter_(),
     thumbnailView_(),
     pageNum_(-1),
     signalInitEnd_(),
+    signalListStoreChangeBegin_(),
+    signalListStoreChangeEnd_(),
     signalSelectionChanged_(),
     signalSwitchPage_()
 {
@@ -78,10 +84,13 @@ BrowserRenderer::BrowserRenderer() throw() :
                       icon_set_mode_browse);
     iconFactory_->add_default();
 
+    vBox_.pack_start(paginationBar_, Gtk::PACK_SHRINK, 0);
+
     scrolledWindow_.set_policy(Gtk::POLICY_AUTOMATIC,
                                Gtk::POLICY_AUTOMATIC);
 
     scrolledWindow_.add(thumbnailView_);
+    vBox_.pack_start(scrolledWindow_, Gtk::PACK_EXPAND_WIDGET, 0);
 
     dockItem_ = gdl_dock_item_new_with_stock(
                     dockItemName_.c_str(),
@@ -89,7 +98,11 @@ BrowserRenderer::BrowserRenderer() throw() :
                     PACKAGE_TARNAME"-mode-browse",
                     dockItemBehaviour_);
     gtk_container_add(GTK_CONTAINER(dockItem_),
-                      GTK_WIDGET(scrolledWindow_.gobj()));
+                      GTK_WIDGET(vBox_.gobj()));
+
+    paginationBar_.limits_changed().connect(
+        sigc::mem_fun(*this,
+                      &BrowserRenderer::on_limits_changed));
 }
 
 BrowserRenderer::~BrowserRenderer() throw()
@@ -104,7 +117,11 @@ BrowserRenderer::init(Application & application) throw()
     application_ = &application;
 
     const ListStorePtr & list_store = application.get_list_store();
-    thumbnailView_.set_model(list_store);
+
+    treeModelFilter_ = Gtk::TreeModelFilter::create(list_store);
+    treeModelFilter_->set_visible_func(sigc::mem_fun(*this,
+                                       &BrowserRenderer::on_visible));
+    thumbnailView_.set_model(treeModelFilter_);
 
     Engine & engine = application.get_engine();
 
@@ -131,6 +148,16 @@ BrowserRenderer::init(Application & application) throw()
               sigc::mem_fun(*this,
                             &BrowserRenderer::on_item_activated));
 
+    signalListStoreChangeBegin_
+        = application.list_store_change_begin().connect(
+              sigc::mem_fun(*this,
+                            &BrowserRenderer::on_list_store_change_begin));
+
+    signalListStoreChangeEnd_
+        = application.list_store_change_end().connect(
+              sigc::mem_fun(*this,
+                            &BrowserRenderer::on_list_store_change_end));
+
     signalSelectionChanged_
         = thumbnailView_.signal_selection_changed().connect(
               sigc::mem_fun(*this,
@@ -153,8 +180,13 @@ void
 BrowserRenderer::final(Application & application) throw()
 {
     signalItemActivated_.disconnect();
+    signalListStoreChangeBegin_.disconnect();
+    signalListStoreChangeEnd_.disconnect();
     signalSelectionChanged_.disconnect();
     signalSwitchPage_.disconnect();
+
+    treeModelFilter_.reset();
+
     // finalized_.emit(*this);
 }
 
@@ -196,11 +228,46 @@ void
 BrowserRenderer::on_item_activated(const Gtk::TreeModel::Path & path)
                                    throw()
 {
-    const TreeModelPtr & model = thumbnailView_.get_model();
-    g_object_ref(model->gobj());
+    const Gtk::TreeModel::iterator filter_iter
+                                       = treeModelFilter_->get_iter(path);
+    const Gtk::TreeModel::iterator model_iter
+        = treeModelFilter_->convert_iter_to_child_iter(filter_iter);
 
-    Gtk::TreeModel::iterator model_iter = model->get_iter(path);
     application_->get_engine().item_activated().emit(model_iter);
+}
+
+void
+BrowserRenderer::on_limits_changed() throw()
+{
+    treeModelFilter_->refilter();
+}
+
+void
+BrowserRenderer::on_list_store_change_begin(Application & application)
+                                            throw()
+{
+    thumbnailView_.set_model(TreeModelPtr());
+}
+
+void
+BrowserRenderer::on_list_store_change_end(Application & application)
+                                          throw()
+{
+    const ListStorePtr & list_store = application.get_list_store();
+    const Gtk::TreeModel::Children children = list_store->children();
+    guint total;
+
+    if (true == children.empty())
+    {
+        total = 0;
+    }
+    else
+    {
+        total = children.size();
+    }
+
+    thumbnailView_.set_model(treeModelFilter_);
+    paginationBar_.set_total(total);
 }
 
 void
@@ -218,13 +285,21 @@ BrowserRenderer::on_switch_page(GtkNotebookPage * notebook_page,
                                "browser-renderer");
     engine.set_current_renderer(renderer);
 
-    const ListStorePtr & list_store = application_->get_list_store();
-    const Gtk::TreeModel::iterator & iter
+    const Gtk::TreeModel::iterator & model_iter
         = application_->get_list_store_iter();
 
-    if (true == iter)
+    if (true == model_iter)
     {
-        const Gtk::TreeModel::Path path = list_store->get_path(iter);
+        const Gtk::TreeModel::Row row = *model_iter;
+        BrowserModelColumnRecord model_column_record;
+        const guint serial = row[model_column_record.get_column_serial()];
+
+        paginationBar_.scroll_to_position(serial);
+
+        const Gtk::TreeModel::iterator filter_iter
+            = treeModelFilter_->convert_child_iter_to_iter(model_iter);
+        const Gtk::TreeModel::Path path
+            = treeModelFilter_->get_path(filter_iter);
 
         if (false == path.empty())
         {
@@ -235,6 +310,20 @@ BrowserRenderer::on_switch_page(GtkNotebookPage * notebook_page,
     }
 
     signalSelectionChanged_.unblock();
+}
+
+bool
+BrowserRenderer::on_visible(
+                     const Gtk::TreeModel::const_iterator & iter)
+                     throw()
+{
+    const Gtk::TreeModel::Row row = *iter;
+    BrowserModelColumnRecord model_column_record;
+    const guint serial = row[model_column_record.get_column_serial()];
+
+    return (serial >= paginationBar_.get_lower_limit()
+            && serial < paginationBar_.get_upper_limit())
+            ? true : false;
 }
 
 } // namespace Solang

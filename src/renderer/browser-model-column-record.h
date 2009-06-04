@@ -36,6 +36,12 @@ class BrowserModelColumnRecord :
         virtual
         ~BrowserModelColumnRecord() throw();
 
+        const Gtk::TreeModelColumn<guint> &
+        get_column_serial() const throw();
+
+        gint
+        get_column_serial_num() const throw();
+
         const Gtk::TreeModelColumn<PhotoPtr> &
         get_column_photo() const throw();
 
@@ -55,6 +61,8 @@ class BrowserModelColumnRecord :
         get_column_tag_name_num() const throw();
 
     protected:
+        Gtk::TreeModelColumn<guint> columnSerial_;
+
         Gtk::TreeModelColumn<PhotoPtr> columnPhoto_;
 
         Gtk::TreeModelColumn<PixbufPtr> columnPixbuf_;

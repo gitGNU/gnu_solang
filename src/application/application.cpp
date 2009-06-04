@@ -183,7 +183,9 @@ Application::Application(int & argc, char ** & argv) throw() :
     listStoreIter_(),
     plugins_(),
     renderers_(),
-    initEnd_()
+    initEnd_(),
+    listStoreChangeBegin_(),
+    listStoreChangeEnd_()
 {
     const std::string cache_dir_path = Glib::get_user_cache_dir()
                                        + "/" + Glib::get_prgname();
@@ -399,10 +401,14 @@ Application::add_photo_to_model(const PhotoPtr & photo) throw()
     }
 
     Gtk::TreeModel::iterator model_iter = listStore_->append();
+    const Gtk::TreeModel::Path model_path
+                                   = listStore_->get_path(model_iter);
     Gtk::TreeModel::Row row = *model_iter;
 
     BrowserModelColumnRecord model_column_record;
 
+    row[model_column_record.get_column_serial()]
+        = static_cast<guint>(model_path.front());
     row[model_column_record.get_column_photo()] = photo;
     row[model_column_record.get_column_pixbuf()] = pixbuf;
     row[model_column_record.get_column_tag_name()]
@@ -412,6 +418,8 @@ Application::add_photo_to_model(const PhotoPtr & photo) throw()
 void
 Application::add_photos_to_model(const PhotoList & photos) throw()
 {
+    listStoreChangeBegin_.emit(*this);
+
     PhotoList::const_iterator list_iter;
 
     listStore_->clear();
@@ -435,12 +443,26 @@ Application::add_photos_to_model(const PhotoList & photos) throw()
             Gtk::Main::iteration();
         }
     }
+
+    listStoreChangeEnd_.emit(*this);
 }
 
 sigc::signal<void, Application &> &
 Application::init_end() throw()
 {
     return initEnd_;
+}
+
+sigc::signal<void, Application &> &
+Application::list_store_change_begin() throw()
+{
+    return listStoreChangeBegin_;
+}
+
+sigc::signal<void, Application &> &
+Application::list_store_change_end() throw()
+{
+    return listStoreChangeEnd_;
 }
 
 void
