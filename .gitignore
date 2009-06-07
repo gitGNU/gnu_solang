@@ -19,5 +19,7 @@ stamp-it
 .libs
 *.la
 *.lo
+*.loT
 *.o
+*.patch
 *~
