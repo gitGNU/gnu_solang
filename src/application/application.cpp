@@ -46,7 +46,6 @@
 #include "property-manager.h"
 #include "search-basket.h"
 #include "tag-manager.h"
-#include "thumbbuf-maker.h"
 #include "thumbnail.h"
 #include "thumbnail-store.h"
 
@@ -361,9 +360,6 @@ Application::final() throw()
 void
 Application::add_photo_to_model(const PhotoPtr & photo) throw()
 {
-    ThumbbufMaker thumbbuf_maker(156, 118);
-    PixbufPtr pixbuf = thumbbuf_maker(photo);
-
     Gtk::TreeModel::iterator model_iter = listStore_->append();
     const Gtk::TreeModel::Path model_path
                                    = listStore_->get_path(model_iter);
@@ -374,9 +370,7 @@ Application::add_photo_to_model(const PhotoPtr & photo) throw()
     row[model_column_record.get_column_serial()]
         = static_cast<guint>(model_path.front());
     row[model_column_record.get_column_photo()] = photo;
-    row[model_column_record.get_column_pixbuf()] = pixbuf;
-    row[model_column_record.get_column_tag_name()]
-        = photo->get_exif_data().get_picture_taken_time();
+    row[model_column_record.get_column_pixbuf()] = PixbufPtr(0);
 }
 
 void

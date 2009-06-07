@@ -20,6 +20,8 @@
 #include "config.h"
 #endif // HAVE_CONFIG_H
 
+#include <sstream>
+
 #include "application.h"
 #include "browser-model-column-record.h"
 #include "browser-renderer.h"
@@ -27,6 +29,7 @@
 #include "main-window.h"
 #include "photo.h"
 #include "photo-search-criteria.h"
+#include "thumbbuf-maker.h"
 #include "thumbnail.h"
 #include "types.h"
 
@@ -239,6 +242,72 @@ BrowserRenderer::on_item_activated(const Gtk::TreeModel::Path & path)
 void
 BrowserRenderer::on_limits_changed() throw()
 {
+    std::ostringstream fsout;
+    fsout << paginationBar_.get_lower_limit();
+
+    const Gtk::TreeModel::Path first_path(fsout.str());
+
+    if (true == first_path.empty())
+    {
+        return;
+    }
+
+    const Gtk::TreeModel::iterator first_iter
+        = treeModelFilter_->get_model()->get_iter(first_path);
+
+    if (false == first_iter)
+    {
+        return;
+    }
+
+    std::ostringstream lsout;
+    lsout << paginationBar_.get_upper_limit() - 1;
+
+    const Gtk::TreeModel::Path last_path(lsout.str());
+
+    if (true == last_path.empty())
+    {
+        return;
+    }
+
+    const Gtk::TreeModel::iterator last_iter
+        = treeModelFilter_->get_model()->get_iter(last_path);
+
+    if (false == last_iter)
+    {
+        return;
+    }
+
+    Gtk::TreeModel::iterator iter;
+
+    // operator<= is not defined.
+    for (iter = first_iter; ; iter++)
+    {
+        BrowserModelColumnRecord model_column_record;
+        Gtk::TreeModel::Row row = *iter;
+
+        const PhotoPtr & photo
+            = row[model_column_record.get_column_photo()];
+        const PixbufPtr & pixbuf
+            = row[model_column_record.get_column_pixbuf()];
+
+        if (0 == pixbuf)
+        {
+            ThumbbufMaker thumbbuf_maker(156, 118);
+            row[model_column_record.get_column_pixbuf()]
+                = thumbbuf_maker(photo);
+
+            row[model_column_record.get_column_tag_name()]
+                = photo->get_exif_data().get_picture_taken_time();
+        }
+
+        // operator<= is not defined.
+        if (last_iter == iter)
+        {
+            break;
+        }
+    }
+
     treeModelFilter_->refilter();
 }
 
