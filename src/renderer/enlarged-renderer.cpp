@@ -147,6 +147,39 @@ EnlargedRenderer::EnlargedRenderer() throw() :
         Gtk::AccelKey("<alt>End"),
         sigc::mem_fun(*this, &EnlargedRenderer::on_action_go_last));
 
+    actionGroup_->add(
+        Gtk::Action::create(
+            "AccelGoPrevious", Gtk::StockID(),
+            _("_Previous Photo"),
+            _("Go to the previous photo in the collection")),
+        Gtk::AccelKey("Left"),
+        sigc::mem_fun(*this,
+                      &EnlargedRenderer::on_action_go_previous));
+
+    actionGroup_->add(
+        Gtk::Action::create(
+            "AccelGoNext", Gtk::StockID(),
+            _("_Next Photo"),
+            _("Go to the next photo in the collection")),
+        Gtk::AccelKey("Right"),
+        sigc::mem_fun(*this, &EnlargedRenderer::on_action_go_next));
+
+    actionGroup_->add(
+        Gtk::Action::create(
+            "AccelGoFirst", Gtk::StockID(),
+            _("_First Photo"),
+            _("Go to the first photo in the collection")),
+        Gtk::AccelKey("Home"),
+        sigc::mem_fun(*this, &EnlargedRenderer::on_action_go_first));
+
+    actionGroup_->add(
+        Gtk::Action::create(
+            "AccelGoLast", Gtk::StockID(),
+            _("_Last Photo"),
+            _("Go to the last photo in the collection")),
+        Gtk::AccelKey("End"),
+        sigc::mem_fun(*this, &EnlargedRenderer::on_action_go_last));
+
     dockItem_ = gdl_dock_item_new_with_stock(dockItemName_.c_str(),
                     dockItemTitle_.c_str(),
                     PACKAGE_TARNAME"-mode-image-edit",
@@ -242,9 +275,6 @@ EnlargedRenderer::render(const PhotoPtr & photo) throw()
 
         Gtk::Widget * image_view = Glib::wrap(GTK_WIDGET(imageView_),
                                               false);
-        image_view->signal_key_press_event().connect(
-            sigc::mem_fun(*this,
-                          &EnlargedRenderer::on_key_press_event));
     }
 
     if (0 == imageScrollWin_)
@@ -469,34 +499,6 @@ EnlargedRenderer::on_action_view_reload() throw()
 
     Engine & engine = application_->get_engine();
     engine.selection_changed().emit();
-}
-
-bool
-EnlargedRenderer::on_key_press_event(GdkEventKey * event) throw()
-{
-    switch (event->keyval)
-    {
-        case GDK_Right:
-            on_action_go_next();
-            break;
-
-        case GDK_Left:
-            on_action_go_previous();
-            break;
-
-        case GDK_Home:
-            on_action_go_first();
-            break;
-
-        case GDK_End:
-            on_action_go_last();
-            break;
-
-        default:
-            break;
-    }
-
-    return true;
 }
 
 void

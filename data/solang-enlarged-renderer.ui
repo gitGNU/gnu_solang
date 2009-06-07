@@ -22,4 +22,8 @@
 		<toolitem action="ActionGoNext"/>
 		</placeholder>
 	</toolbar>
+	<accelerator action="AccelGoPrevious"/>
+	<accelerator action="AccelGoNext"/>
+	<accelerator action="AccelGoFirst"/>
+	<accelerator action="AccelGoLast"/>
 </ui>
