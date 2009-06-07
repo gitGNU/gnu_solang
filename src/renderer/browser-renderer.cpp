@@ -30,8 +30,6 @@
 #include "photo.h"
 #include "photo-search-criteria.h"
 #include "thumbbuf-maker.h"
-#include "thumbnail.h"
-#include "types.h"
 
 namespace Solang
 {
