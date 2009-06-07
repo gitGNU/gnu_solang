@@ -229,7 +229,6 @@ PhotoList Database::search(
     PhotoList photos;
     try
     {
-        std::cout<<sql<<std::endl;
         Glib::RefPtr<Gnome::Gda::Query> query 
                                 = Gnome::Gda::Query::create( gdaDict_ );
         query->set_sql_text( sql );
@@ -305,7 +304,6 @@ Database::get_dates_with_picture_count( const Glib::ustring &sql,
 
     try
     {
-        std::cout<<sql<<std::endl;
         Glib::RefPtr<Gnome::Gda::DataModel> model
                     = gdaConnection_->execute_select_command( sql );
 

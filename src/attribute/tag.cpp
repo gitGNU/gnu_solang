@@ -72,7 +72,6 @@ void Tag::insert(
 {
     std::vector<Gnome::Gda::Value> values;
     values.push_back( Gnome::Gda::Value( lastIndex + 1 ) ); //tagid
-    std::cout<<"Tagid= "<<lastIndex + 1<<std::endl;
     values.push_back( Gnome::Gda::Value( get_name() ) );
     values.push_back( Gnome::Gda::Value( get_description() ) ); 
     values.push_back( Gnome::Gda::Value( get_icon_path() ) ); 
@@ -95,7 +94,6 @@ void Tag::update(
 {
     try
     {
-        std::cout<<get_tag_id()<<"<--TID R--> "<<row<<std::endl;
         std::vector<Gnome::Gda::Value> values;
         values.push_back( Gnome::Gda::Value( get_tag_id() ) );
         values.push_back( Gnome::Gda::Value( get_name() ) );
