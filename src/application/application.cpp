@@ -46,6 +46,7 @@
 #include "property-manager.h"
 #include "search-basket.h"
 #include "tag-manager.h"
+#include "thumbbuf-maker.h"
 #include "thumbnail.h"
 #include "thumbnail-store.h"
 
@@ -360,45 +361,8 @@ Application::final() throw()
 void
 Application::add_photo_to_model(const PhotoPtr & photo) throw()
 {
-    const Thumbnail & thumbnail = photo->get_thumbnail();
-    PixbufPtr pixbuf;
-    std::string path;
-
-    try
-    {
-        path = Glib::filename_from_utf8(thumbnail.get_path());
-    }
-    catch (const Glib::ConvertError & e)
-    {
-        g_warning("%s", e.what().c_str());
-        return;
-    }
-
-    try
-    {
-        pixbuf = Gdk::Pixbuf::create_from_file(path, 156, -1, true);
-    }
-    catch (const Glib::FileError & e)
-    {
-        g_warning("%s", e.what().c_str());
-        return;
-    }
-    catch (const Gdk::PixbufError & e)
-    {
-        g_warning("%s", e.what().c_str());
-        return;
-    }
-
-    const double height = static_cast<double>(pixbuf->get_height());
-
-    if (118.0 < height)
-    {
-        const double width = static_cast<double>(pixbuf->get_width());
-        const double aspect_ratio = width / height;
-        pixbuf = pixbuf->scale_simple(
-                     static_cast<gint>(118 * aspect_ratio),
-                     118, Gdk::INTERP_BILINEAR);
-    }
+    ThumbbufMaker thumbbuf_maker(156, 118);
+    PixbufPtr pixbuf = thumbbuf_maker(photo);
 
     Gtk::TreeModel::iterator model_iter = listStore_->append();
     const Gtk::TreeModel::Path model_path

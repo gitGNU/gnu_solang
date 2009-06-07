@@ -34,6 +34,8 @@ libcommon_la_SOURCES = \
 	spinner.h \
 	spinner-tool-item.cpp \
 	spinner-tool-item.h \
+	thumbbuf-maker.cpp \
+	thumbbuf-maker.h \
 	types.h
 
 AM_CPPFLAGS = \
