@@ -2,6 +2,12 @@
 <ui>
 	<menubar name="MenuBar">
 		<menu action="ActionViewMenu">
+			<placeholder name="PlaceholderZoomMenus">
+			<menuitem action="ActionViewZoomIn"/>
+			<menuitem action="ActionViewZoomOut"/>
+			<menuitem action="ActionViewNormalSize"/>
+			<menuitem action="ActionViewBestFit"/>
+			</placeholder>
 			<placeholder name="PlaceholderToolMenus">
 			<menuitem action="ActionViewReload"/>
 			</placeholder>
@@ -21,9 +27,20 @@
 		<toolitem action="ActionGoPrevious"/>
 		<toolitem action="ActionGoNext"/>
 		</placeholder>
+		<placeholder name="PlaceholderZoomToolBar">
+		<toolitem action="ActionViewZoomIn"/>
+		<toolitem action="ActionViewZoomOut"/>
+		<toolitem action="ActionViewNormalSize"/>
+		<toolitem action="ActionViewBestFit"/>
+		</placeholder>
 	</toolbar>
 	<accelerator action="AccelGoPrevious"/>
 	<accelerator action="AccelGoNext"/>
 	<accelerator action="AccelGoFirst"/>
 	<accelerator action="AccelGoLast"/>
+	<accelerator action="AccelViewZoomIn"/>
+	<accelerator action="AccelViewZoomIn1"/>
+	<accelerator action="AccelViewZoomIn2"/>
+	<accelerator action="AccelViewZoomOut"/>
+	<accelerator action="AccelViewZoomOut1"/>
 </ui>

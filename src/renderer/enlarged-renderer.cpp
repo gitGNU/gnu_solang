@@ -42,6 +42,23 @@ static const std::string uiFile
     = PACKAGE_DATA_DIR"/"PACKAGE_TARNAME"/ui/"
           PACKAGE_TARNAME"-enlarged-renderer.ui";
 
+static void
+image_view_on_scroll_event(GtkImageView * view,
+                           GdkScrollDirection direction,
+                           gpointer user_data) throw()
+{
+    if (0 == user_data)
+    {
+        g_warning("Not an instance of EnlargedRenderer");
+        return;
+    }
+
+    EnlargedRenderer * enlarged_renderer
+        = static_cast<EnlargedRenderer *>(user_data);
+
+    enlarged_renderer->on_scroll_event(direction);
+}
+
 EnlargedRenderer::EnlargedRenderer() throw() :
     Renderer(),
     sigc::trackable(),
@@ -88,6 +105,62 @@ EnlargedRenderer::EnlargedRenderer() throw() :
     actionGroup_->add(
         Gtk::Action::create(
             "ActionMenuGo", _("_Go")));
+
+    {
+        ActionPtr action = Gtk::Action::create(
+            "ActionViewZoomIn", Gtk::Stock::ZOOM_IN,
+            _("_Zoom In"),
+            _("Enlarge the photo"));
+
+        action->property_short_label().set_value(_("In"));
+        action->property_is_important().set_value(true);
+        actionGroup_->add(
+            action, Gtk::AccelKey("<control>plus"),
+            sigc::mem_fun(*this,
+                          &EnlargedRenderer::on_action_view_zoom_in));
+    }
+
+    {
+        ActionPtr action = Gtk::Action::create(
+            "ActionViewZoomOut", Gtk::Stock::ZOOM_OUT,
+            _("Zoom _Out"),
+            _("Shrink the photo"));
+
+        action->property_short_label().set_value(_("Out"));
+        action->property_is_important().set_value(true);
+        actionGroup_->add(
+            action, Gtk::AccelKey("<control>minus"),
+            sigc::mem_fun(*this,
+                &EnlargedRenderer::on_action_view_zoom_out));
+    }
+
+    {
+        ActionPtr action = Gtk::Action::create(
+            "ActionViewNormalSize", Gtk::Stock::ZOOM_100,
+            _("_Normal Size"),
+            _("Show the photo at its normal size"));
+
+        action->property_short_label().set_value(_("Normal"));
+        action->property_is_important().set_value(true);
+        actionGroup_->add(
+            action, Gtk::AccelKey("<control>0"),
+            sigc::mem_fun(*this,
+                &EnlargedRenderer::on_action_view_normal_size));
+    }
+
+    {
+        ActionPtr action = Gtk::Action::create(
+            "ActionViewBestFit", Gtk::Stock::ZOOM_FIT,
+            _("Best _Fit"),
+            _("Fit the photo to the window"));
+
+        action->property_short_label().set_value(_("Fit"));
+        action->property_is_important().set_value(true);
+        actionGroup_->add(
+            action,
+            sigc::mem_fun(*this,
+                &EnlargedRenderer::on_action_view_best_fit));
+    }
 
     {
         ActionPtr action = Gtk::Action::create(
@@ -180,6 +253,51 @@ EnlargedRenderer::EnlargedRenderer() throw() :
         Gtk::AccelKey("End"),
         sigc::mem_fun(*this, &EnlargedRenderer::on_action_go_last));
 
+    actionGroup_->add(
+        Gtk::Action::create(
+            "AccelViewZoomIn", Gtk::StockID(),
+            _("_Zoom In"),
+            _("Enlarge the photo")),
+        Gtk::AccelKey("plus"),
+        sigc::mem_fun(*this,
+                      &EnlargedRenderer::on_action_view_zoom_in));
+
+    actionGroup_->add(
+        Gtk::Action::create(
+            "AccelViewZoomIn1", Gtk::StockID(),
+            _("_Zoom In"),
+            _("Enlarge the photo")),
+        Gtk::AccelKey("KP_Add"),
+        sigc::mem_fun(*this,
+                      &EnlargedRenderer::on_action_view_zoom_in));
+
+    actionGroup_->add(
+        Gtk::Action::create(
+            "AccelViewZoomIn2", Gtk::StockID(),
+            _("_Zoom In"),
+            _("Enlarge the photo")),
+        Gtk::AccelKey("equal"),
+        sigc::mem_fun(*this,
+                      &EnlargedRenderer::on_action_view_zoom_in));
+
+    actionGroup_->add(
+        Gtk::Action::create(
+            "AccelViewZoomOut", Gtk::StockID(),
+            _("Zoom _Out"),
+            _("Shrink the photo")),
+        Gtk::AccelKey("minus"),
+        sigc::mem_fun(*this,
+                      &EnlargedRenderer::on_action_view_zoom_out));
+
+    actionGroup_->add(
+        Gtk::Action::create(
+            "AccelViewZoomOut1", Gtk::StockID(),
+            _("Zoom _Out"),
+            _("Shrink the photo")),
+        Gtk::AccelKey("KP_Subtract"),
+        sigc::mem_fun(*this,
+                      &EnlargedRenderer::on_action_view_zoom_out));
+
     dockItem_ = gdl_dock_item_new_with_stock(dockItemName_.c_str(),
                     dockItemTitle_.c_str(),
                     PACKAGE_TARNAME"-mode-image-edit",
@@ -264,6 +382,17 @@ EnlargedRenderer::render(const PhotoPtr & photo) throw()
 
         // Get rid of some of the default keybindings.
 
+        gtk_binding_entry_remove(binding_set, GDK_KP_Add,
+                                 static_cast<GdkModifierType>(0));
+        gtk_binding_entry_remove(binding_set, GDK_equal,
+                                 static_cast<GdkModifierType>(0));
+        gtk_binding_entry_remove(binding_set, GDK_plus,
+                                 static_cast<GdkModifierType>(0));
+        gtk_binding_entry_remove(binding_set, GDK_KP_Subtract,
+                                 static_cast<GdkModifierType>(0));
+        gtk_binding_entry_remove(binding_set, GDK_minus,
+                                 static_cast<GdkModifierType>(0));
+
         gtk_binding_entry_remove(binding_set, GDK_Right,
                                  static_cast<GdkModifierType>(0));
         gtk_binding_entry_remove(binding_set, GDK_Left,
@@ -275,6 +404,11 @@ EnlargedRenderer::render(const PhotoPtr & photo) throw()
 
         Gtk::Widget * image_view = Glib::wrap(GTK_WIDGET(imageView_),
                                               false);
+
+        g_signal_connect(GTK_IMAGE_VIEW(imageView_),
+                         "mouse-wheel-scroll",
+                         G_CALLBACK(image_view_on_scroll_event),
+                         this);
     }
 
     if (0 == imageScrollWin_)
@@ -502,6 +636,74 @@ EnlargedRenderer::on_action_view_reload() throw()
 }
 
 void
+EnlargedRenderer::on_action_view_best_fit() throw()
+{
+    if (0 == imageView_)
+    {
+        return;
+    }
+
+    if (false == GTK_IS_IMAGE_VIEW(imageView_))
+    {
+        g_warning("Not a GtkImageView");
+        return;
+    }
+
+    gtk_image_view_set_fitting(GTK_IMAGE_VIEW(imageView_), TRUE);
+}
+
+void
+EnlargedRenderer::on_action_view_normal_size() throw()
+{
+    if (0 == imageView_)
+    {
+        return;
+    }
+
+    if (false == GTK_IS_IMAGE_VIEW(imageView_))
+    {
+        g_warning("Not a GtkImageView");
+        return;
+    }
+
+    gtk_image_view_set_zoom(GTK_IMAGE_VIEW(imageView_), 1.0);
+}
+
+void
+EnlargedRenderer::on_action_view_zoom_in() throw()
+{
+    if (0 == imageView_)
+    {
+        return;
+    }
+
+    if (false == GTK_IS_IMAGE_VIEW(imageView_))
+    {
+        g_warning("Not a GtkImageView");
+        return;
+    }
+
+    gtk_image_view_zoom_in(GTK_IMAGE_VIEW(imageView_));
+}
+
+void
+EnlargedRenderer::on_action_view_zoom_out() throw()
+{
+    if (0 == imageView_)
+    {
+        return;
+    }
+
+    if (false == GTK_IS_IMAGE_VIEW(imageView_))
+    {
+        g_warning("Not a GtkImageView");
+        return;
+    }
+
+    gtk_image_view_zoom_out(GTK_IMAGE_VIEW(imageView_));
+}
+
+void
 EnlargedRenderer::on_init_end(Application & application) throw()
 {
     MainWindow & main_window = application.get_main_window();
@@ -537,6 +739,24 @@ EnlargedRenderer::on_item_activated(const Gtk::TreeIter & iter)
 
     MainWindow & main_window = application_->get_main_window();
     main_window.present_dock_object(GDL_DOCK_OBJECT(dockItem_));
+}
+
+void
+EnlargedRenderer::on_scroll_event(GdkScrollDirection direction) throw()
+{
+    switch (direction)
+    {
+        case GDK_SCROLL_UP:
+            on_action_view_zoom_in();
+            break;
+
+        case GDK_SCROLL_DOWN:
+            on_action_view_zoom_out();
+            break;
+
+        default:
+            break;
+    }
 }
 
 void

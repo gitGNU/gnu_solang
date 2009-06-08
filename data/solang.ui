@@ -15,6 +15,8 @@
 			<separator/>
 			<menuitem action="ActionViewFullScreen"/>
 			<separator/>
+			<placeholder name="PlaceholderZoomMenus"/>
+			<separator/>
 			<placeholder name="PlaceholderToolMenus"/>
 		</menu>
 		<placeholder name="PlaceholderViewMenus"/>
@@ -28,6 +30,8 @@
 		<placeholder name="PlaceholderExportToolBar"/>
 		<separator/>
 		<placeholder name="PlaceholderGoToolBar"/>
+		<separator/>
+		<placeholder name="PlaceholderZoomToolBar"/>
 		<separator/>
 		<toolitem action="ActionViewFullScreen"/>
 	</toolbar>

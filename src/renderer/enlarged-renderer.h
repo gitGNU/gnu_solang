@@ -58,6 +58,9 @@ class EnlargedRenderer :
         void
         on_init_end(Application & application) throw();
 
+        void
+        on_scroll_event(GdkScrollDirection direction) throw();
+
         virtual PhotoList
         get_current_selection() throw();
 
@@ -76,6 +79,18 @@ class EnlargedRenderer :
 
         void
         on_action_view_reload() throw();
+
+        void
+        on_action_view_best_fit() throw();
+
+        void
+        on_action_view_normal_size() throw();
+
+        void
+        on_action_view_zoom_in() throw();
+
+        void
+        on_action_view_zoom_out() throw();
 
         void
         on_item_activated(const Gtk::TreeIter & iter) throw();
