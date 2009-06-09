@@ -4,14 +4,14 @@
 		<menu action='ActionOpenWithMenu'>
 			<placeholder name="PlaceholderApplications"/>
 		</menu>
-		<separator/>
+		<separator name="ThumbnailPopupSeparator0"/>
 		<menuitem action="ActionSave"/>
 		<menuitem action="ActionSaveAs"/>
-		<separator/>
+		<separator name="ThumbnailPopupSeparator1"/>
 		<menuitem action="ActionPrint"/>
-		<separator/>
+		<separator name="ThumbnailPopupSeparator2"/>
 		<menuitem action="ActionMoveToTrash"/>
-		<separator/>
+		<separator name="ThumbnailPopupSeparator3"/>
 		<menuitem action="ActionProperties"/>
 		<menuitem action="ActionSetAsWallpaper"/>
 	</popup>

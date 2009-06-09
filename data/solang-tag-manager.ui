@@ -4,10 +4,10 @@
 		<placeholder name="PlaceHolderTagMenus">
 		<menu action="ActionMenuTags">
 			<menuitem action="ActionTagsNew"/>
-			<separator/>
+			<separator name="TagsSeparator0"/>
 			<menuitem action="ActionTagsEdit"/>
 			<menuitem action="ActionTagsDelete"/>
-			<separator/>
+			<separator name="TagsSeparator1"/>
 			<menuitem action="ActionTagsAttach"/>
 			<menuitem action="ActionTagsRemove"/>
 		</menu>

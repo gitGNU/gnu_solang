@@ -4,19 +4,19 @@
 		<menu action="ActionPhotoMenu">
 			<placeholder name="PlaceholderImportMenus"/>
 			<placeholder name="PlaceholderExportMenus"/>
-			<separator/>
+			<separator name="PhotoSeparator0"/>
 			<placeholder name="PlaceholderPrintMenus"/>
-			<separator/>
+			<separator name="PhotoSeparator1"/>
 			<menuitem action="ActionPhotoQuit"/>
 		</menu>
 		<menu action="ActionViewMenu">
 			<menuitem action="ActionViewToolBar"/>
 			<menuitem action="ActionViewStatusBar"/>
-			<separator/>
+			<separator name="ViewSeparator0"/>
 			<menuitem action="ActionViewFullScreen"/>
-			<separator/>
+			<separator name="ViewSeparator1"/>
 			<placeholder name="PlaceholderZoomMenus"/>
-			<separator/>
+			<separator name="ViewSeparator2"/>
 			<placeholder name="PlaceholderToolMenus"/>
 		</menu>
 		<placeholder name="PlaceholderViewMenus"/>
@@ -28,11 +28,11 @@
 	<toolbar name="ToolBar">
 		<placeholder name="PlaceholderImportToolBar"/>
 		<placeholder name="PlaceholderExportToolBar"/>
-		<separator/>
+		<separator name="ToolBarSeparator0"/>
 		<placeholder name="PlaceholderGoToolBar"/>
-		<separator/>
+		<separator name="ToolBarSeparator1"/>
 		<placeholder name="PlaceholderZoomToolBar"/>
-		<separator/>
+		<separator name="ToolBarSeparator2"/>
 		<toolitem action="ActionViewFullScreen"/>
 	</toolbar>
 </ui>

@@ -16,7 +16,7 @@
 		<menu action="ActionMenuGo">
 			<menuitem action="ActionGoPrevious"/>
 			<menuitem action="ActionGoNext"/>
-			<separator/>
+			<separator name="GoSeparator"/>
 			<menuitem action="ActionGoFirst"/>
 			<menuitem action="ActionGoLast"/>
 		</menu>
