@@ -90,6 +90,10 @@ class BrowserRenderer :
 
         Glib::RefPtr<Gtk::IconFactory> iconFactory_;
 
+        ActionGroupPtr actionGroup_;
+
+        Gtk::UIManager::ui_merge_id uiID_;
+
         const std::string dockItemName_;
     
         const Glib::ustring dockItemTitle_;

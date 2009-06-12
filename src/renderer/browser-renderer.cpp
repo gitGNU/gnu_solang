@@ -22,6 +22,8 @@
 
 #include <sstream>
 
+#include <glibmm/i18n.h>
+
 #include "application.h"
 #include "browser-model-column-record.h"
 #include "browser-renderer.h"
@@ -34,11 +36,17 @@
 namespace Solang
 {
 
+static const std::string uiFile
+    = PACKAGE_DATA_DIR"/"PACKAGE_TARNAME"/ui/"
+          PACKAGE_TARNAME"-browser-renderer.ui";
+
 BrowserRenderer::BrowserRenderer() throw() :
     Renderer(),
     sigc::trackable(),
     application_(NULL),
     iconFactory_(Gtk::IconFactory::create()),
+    actionGroup_(Gtk::ActionGroup::create()),
+    uiID_(0),
     dockItemName_("browser-dock-item"),
     dockItemTitle_("Browser"),
     dockItemBehaviour_(GDL_DOCK_ITEM_BEH_NO_GRIP),
@@ -85,6 +93,26 @@ BrowserRenderer::BrowserRenderer() throw() :
                       icon_set_mode_browse);
     iconFactory_->add_default();
 
+    actionGroup_->add(
+        Gtk::Action::create(
+            "ActionMenuGo", _("_Go")));
+
+    actionGroup_->add(
+        paginationBar_.action_previous(),
+        Gtk::AccelKey("<alt>Page_Up"));
+
+    actionGroup_->add(
+        paginationBar_.action_next(),
+        Gtk::AccelKey("<alt>Page_Down"));
+
+    actionGroup_->add(
+        paginationBar_.action_first(),
+        Gtk::AccelKey("<alt>Home"));
+
+    actionGroup_->add(
+        paginationBar_.action_last(),
+        Gtk::AccelKey("<alt>End"));
+
     vBox_.pack_start(paginationBar_, Gtk::PACK_SHRINK, 0);
 
     scrolledWindow_.set_policy(Gtk::POLICY_AUTOMATIC,
@@ -128,6 +156,17 @@ BrowserRenderer::init(Application & application) throw()
 
     MainWindow & main_window = application.get_main_window();
     main_window.add_dock_object_center(GDL_DOCK_OBJECT(dockItem_));
+
+    const Glib::RefPtr<Gtk::UIManager> & ui_manager
+        = main_window.get_ui_manager();
+
+    uiID_ = ui_manager->add_ui_from_file(uiFile);
+    if (0 == uiID_)
+    {
+        // FIXME: error condition.
+    }
+
+    ui_manager->insert_action_group(actionGroup_);
 
     Glib::ThreadPool & thread_pool = application.get_thread_pool();
     PhotoSearchCriteriaList criterion;
@@ -185,6 +224,17 @@ BrowserRenderer::final(Application & application) throw()
     signalListStoreChangeEnd_.disconnect();
     signalSelectionChanged_.disconnect();
     signalSwitchPage_.disconnect();
+
+    MainWindow & main_window = application.get_main_window();
+    const Glib::RefPtr<Gtk::UIManager> & ui_manager
+        = main_window.get_ui_manager();
+
+    if (0 != uiID_)
+    {
+        ui_manager->remove_action_group(actionGroup_);
+        ui_manager->remove_ui(uiID_);
+        uiID_ = 0;
+    }
 
     treeModelFilter_.reset();
 
@@ -341,42 +391,70 @@ void
 BrowserRenderer::on_switch_page(GtkNotebookPage * notebook_page,
                                 guint page_num) throw()
 {
-    if (pageNum_ != static_cast<gint>(page_num))
+    MainWindow & main_window = application_->get_main_window();
+    const Glib::RefPtr<Gtk::UIManager> & ui_manager
+        = main_window.get_ui_manager();
+
+    // NB: Sometimes this gets invoked more than once consecutively
+    //     -- no idea why (FIXME). Better safe than sorry.
+
+    if (pageNum_ == static_cast<gint>(page_num))
     {
-        signalSelectionChanged_.block();
-        return;
-    }
+        Engine & engine = application_->get_engine();
+        RendererPtr renderer = application_->get_renderer(
+                                   "browser-renderer");
+        engine.set_current_renderer(renderer);
 
-    Engine & engine = application_->get_engine();
-    RendererPtr renderer = application_->get_renderer(
-                               "browser-renderer");
-    engine.set_current_renderer(renderer);
+        const Gtk::TreeModel::iterator & model_iter
+            = application_->get_list_store_iter();
 
-    const Gtk::TreeModel::iterator & model_iter
-        = application_->get_list_store_iter();
-
-    if (true == model_iter)
-    {
-        const Gtk::TreeModel::Row row = *model_iter;
-        BrowserModelColumnRecord model_column_record;
-        const guint serial = row[model_column_record.get_column_serial()];
-
-        paginationBar_.scroll_to_position(serial);
-
-        const Gtk::TreeModel::iterator filter_iter
-            = treeModelFilter_->convert_child_iter_to_iter(model_iter);
-        const Gtk::TreeModel::Path path
-            = treeModelFilter_->get_path(filter_iter);
-
-        if (false == path.empty())
+        if (true == model_iter)
         {
-            thumbnailView_.unselect_all();
-            thumbnailView_.scroll_to_path(path, false, 0, 0);
-            thumbnailView_.select_path(path);
+            const Gtk::TreeModel::Row row = *model_iter;
+            BrowserModelColumnRecord model_column_record;
+            const guint serial
+                = row[model_column_record.get_column_serial()];
+
+            paginationBar_.scroll_to_position(serial);
+
+            const Gtk::TreeModel::iterator filter_iter
+                = treeModelFilter_->convert_child_iter_to_iter(
+                                        model_iter);
+            const Gtk::TreeModel::Path path
+                = treeModelFilter_->get_path(filter_iter);
+
+            if (false == path.empty())
+            {
+                thumbnailView_.unselect_all();
+                thumbnailView_.scroll_to_path(path, false, 0, 0);
+                thumbnailView_.select_path(path);
+            }
+        }
+
+        signalSelectionChanged_.unblock();
+
+        if (0 == uiID_)
+        {
+            uiID_ = ui_manager->add_ui_from_file(uiFile);
+            if (0 == uiID_)
+            {
+                // FIXME: error condition.
+            }
+
+            ui_manager->insert_action_group(actionGroup_);
         }
     }
+    else
+    {
+        if (0 != uiID_)
+        {
+            ui_manager->remove_action_group(actionGroup_);
+            ui_manager->remove_ui(uiID_);
+            uiID_ = 0;
+        }
 
-    signalSelectionChanged_.unblock();
+        signalSelectionChanged_.block();
+    }
 }
 
 bool

@@ -1,0 +1,14 @@
+<!--*- xml -*-->
+<ui>
+	<menubar name="MenuBar">
+		<placeholder name="PlaceholderGoMenus">
+		<menu action="ActionMenuGo">
+			<menuitem action="ActionGoPrevious"/>
+			<menuitem action="ActionGoNext"/>
+			<separator name="GoSeparator"/>
+			<menuitem action="ActionGoFirst"/>
+			<menuitem action="ActionGoLast"/>
+		</menu>
+		</placeholder>
+	</menubar>
+</ui>
