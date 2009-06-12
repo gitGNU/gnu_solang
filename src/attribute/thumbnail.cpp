@@ -135,7 +135,7 @@ Thumbnail::generate( const Photo &photo )throw(Error)
 }
 
 void
-Thumbnail::generate(const Exiv2::ExifData & exifData,
+Thumbnail::generate(Exiv2::ExifData & exifData,
                         const Photo &photo) throw(Error)
 {
     // We assume the photo has physical path.
@@ -165,7 +165,8 @@ Thumbnail::generate(const Exiv2::ExifData & exifData,
         && !exifData.empty())
     {
         // Extract from exif if present.
-        if (-1 == exifData.writeThumbnail(get_path().c_str()))
+        Exiv2::ExifThumb thumbnail( exifData );
+        if (-1 == thumbnail.writeFile(get_path().c_str()))
         {
             thumbnail_generated = false;
         }

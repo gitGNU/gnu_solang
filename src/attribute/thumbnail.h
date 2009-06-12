@@ -145,7 +145,7 @@ class Thumbnail
         generate( const Photo &photo) throw(Error);
 
         void
-        generate(const Exiv2::ExifData & exifData,
+        generate(Exiv2::ExifData & exifData,
                  const Photo &photo) throw(Error);
 
         void

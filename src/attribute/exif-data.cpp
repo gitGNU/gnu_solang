@@ -74,7 +74,7 @@ ExifData::ExifData( const Exiv2::ExifData &data )
         if( it != data.end() )
         {
             std::ostringstream sout;
-            print0x829d (sout, (*it).value() );
+            print0x829d (sout, (*it).value(), &data );
             aperture_ = sout.str();
         }
         
@@ -87,7 +87,7 @@ ExifData::ExifData( const Exiv2::ExifData &data )
         {
 
             std::ostringstream sout;
-            print0x829a( sout, (*it).value() );
+            print0x829a( sout, (*it).value(), &data );
             
             shutterSpeed_ = sout.str();
         }
@@ -100,7 +100,7 @@ ExifData::ExifData( const Exiv2::ExifData &data )
         if( it != data.end() )
         {
             std::ostringstream sout;
-            print0x8822 (sout, (*it).value() );
+            print0x8822 (sout, (*it).value(), &data );
             exposureProgram_ = sout.str();
         }
         
@@ -122,7 +122,7 @@ ExifData::ExifData( const Exiv2::ExifData &data )
         if( it != data.end() )
         {
             std::ostringstream sout;
-            print0x9207(sout, (*it).value() );
+            print0x9207(sout, (*it).value(), &data );
             exposureMeteringMode_ = sout.str();
         }
         
@@ -134,7 +134,7 @@ ExifData::ExifData( const Exiv2::ExifData &data )
         if( it != data.end() )
         {
             std::ostringstream sout;
-            print0x920a (sout, (*it).value() );
+            print0x920a (sout, (*it).value(), &data );
             focalLength_ = sout.str();
         }
         
@@ -146,7 +146,7 @@ ExifData::ExifData( const Exiv2::ExifData &data )
         if( it != data.end() )
         {
             std::ostringstream sout;
-            print0xa403(sout, (*it).value() );
+            print0xa403(sout, (*it).value(), &data );
             whiteBalance_ = sout.str();
         }
         
@@ -159,7 +159,7 @@ ExifData::ExifData( const Exiv2::ExifData &data )
         if( it != data.end() )
         {
             std::ostringstream sout;
-            print0xa405(sout, (*it).value() );
+            print0xa405(sout, (*it).value(), &data );
             focalLengthInFilm_ = sout.str();
         }
         
