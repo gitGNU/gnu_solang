@@ -23,6 +23,8 @@
 #include <glibmm.h>
 #include <gtkmm.h>
 
+#include "types.h"
+
 namespace Solang
 {
 
@@ -33,6 +35,18 @@ class PaginationBar :
         PaginationBar() throw();
 
         ~PaginationBar() throw();
+
+        const ActionPtr &
+        action_previous() throw();
+
+        const ActionPtr &
+        action_next() throw();
+
+        const ActionPtr &
+        action_first() throw();
+
+        const ActionPtr &
+        action_last() throw();
 
         guint
         get_step() const throw();
@@ -60,10 +74,24 @@ class PaginationBar :
         on_action_go_next() throw();
 
         void
+        on_action_go_first() throw();
+
+        void
+        on_action_go_last() throw();
+
+        void
         on_limits_changed() throw();
 
         void
         on_spin_button_activate() throw();
+
+        ActionPtr actionPrevious_;
+
+        ActionPtr actionNext_;
+
+        ActionPtr actionFirst_;
+
+        ActionPtr actionLast_;
 
         Gtk::HBox firstHBox_;
 

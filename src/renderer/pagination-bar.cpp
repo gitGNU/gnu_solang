@@ -33,12 +33,28 @@ namespace Solang
 
 PaginationBar::PaginationBar() throw() :
     Gtk::HBox(false, 12),
+    actionPrevious_(Gtk::Action::create(
+                        "ActionGoPrevious", Gtk::Stock::GO_BACK,
+                        _("_Previous Page"),
+                        _("Go to the previous page in the collection"))),
+    actionNext_(Gtk::Action::create(
+                        "ActionGoNext", Gtk::Stock::GO_FORWARD,
+                        _("_Next Page"),
+                        _("Go to the next page in the collection"))),
+    actionFirst_(Gtk::Action::create(
+                        "ActionGoFirst", Gtk::Stock::GOTO_FIRST,
+                        _("_First Page"),
+                        _("Go to the first page in the collection"))),
+    actionLast_(Gtk::Action::create(
+                        "ActionGoLast", Gtk::Stock::GOTO_LAST,
+                        _("_Last Page"),
+                        _("Go to the last page in the collection"))),
     firstHBox_(false, 12),
     previousButton_(),
-    previousImage_(Gtk::Stock::GO_BACK, Gtk::ICON_SIZE_LARGE_TOOLBAR),
+    previousImage_(),
     shownItemsLabel_(),
     nextButton_(),
-    nextImage_(Gtk::Stock::GO_FORWARD, Gtk::ICON_SIZE_LARGE_TOOLBAR),
+    nextImage_(),
     secondHBox_(false, 12),
     pageSizeLabel_(_("Photos per page")),
     pageSizeSpinButton_(1.0, 0),
@@ -46,6 +62,30 @@ PaginationBar::PaginationBar() throw() :
     upperLimit_(0),
     total_(0)
 {
+    actionPrevious_->connect_proxy(previousButton_);
+    actionPrevious_->property_short_label().set_value(_("Previous"));
+    actionPrevious_->set_sensitive(false);
+    actionPrevious_->signal_activate().connect(
+        sigc::mem_fun(*this,
+                      &PaginationBar::on_action_go_previous));
+
+    actionNext_->connect_proxy(nextButton_);
+    actionNext_->property_short_label().set_value(_("Next"));
+    actionNext_->signal_activate().connect(
+        sigc::mem_fun(*this,
+                      &PaginationBar::on_action_go_next));
+
+    actionFirst_->property_short_label().set_value(_("First"));
+    actionFirst_->set_sensitive(false);
+    actionFirst_->signal_activate().connect(
+        sigc::mem_fun(*this,
+                      &PaginationBar::on_action_go_first));
+
+    actionLast_->property_short_label().set_value(_("Last"));
+    actionLast_->signal_activate().connect(
+        sigc::mem_fun(*this,
+                      &PaginationBar::on_action_go_last));
+
     pageSizeSpinButton_.set_increments(1.0, 10.0);
     pageSizeSpinButton_.set_numeric(true);
     pageSizeSpinButton_.set_range(1.0, 500.0);
@@ -55,8 +95,13 @@ PaginationBar::PaginationBar() throw() :
     upperLimit_ = static_cast<guint>(
                       pageSizeSpinButton_.get_value_as_int());
 
-    previousButton_.set_image(previousImage_);
-    previousButton_.set_sensitive(false);
+    {
+        ActionPtr action = previousButton_.get_action();
+        previousImage_.set(action->property_stock_id().get_value(),
+                           Gtk::ICON_SIZE_LARGE_TOOLBAR);
+        previousButton_.set_image(previousImage_);
+        previousButton_.set_label(Glib::ustring());
+    }
     firstHBox_.pack_start(previousButton_, Gtk::PACK_SHRINK, 0);
 
     std::ostringstream sout;
@@ -64,7 +109,13 @@ PaginationBar::PaginationBar() throw() :
     shownItemsLabel_.set_label(sout.str());
     firstHBox_.pack_start(shownItemsLabel_, Gtk::PACK_SHRINK, 0);
 
-    nextButton_.set_image(nextImage_);
+    {
+        ActionPtr action = nextButton_.get_action();
+        nextImage_.set(action->property_stock_id().get_value(),
+                       Gtk::ICON_SIZE_LARGE_TOOLBAR);
+        nextButton_.set_image(nextImage_);
+        nextButton_.set_label(Glib::ustring());
+    }
     firstHBox_.pack_start(nextButton_, Gtk::PACK_SHRINK, 0);
 
     pack_start(firstHBox_, Gtk::PACK_SHRINK, 0);
@@ -82,19 +133,35 @@ PaginationBar::PaginationBar() throw() :
         sigc::mem_fun(*this,
                       &PaginationBar::on_spin_button_activate));
 
-    previousButton_.signal_clicked().connect(
-        sigc::mem_fun(*this,
-                      &PaginationBar::on_action_go_previous));
-
-    nextButton_.signal_clicked().connect(
-        sigc::mem_fun(*this,
-                      &PaginationBar::on_action_go_next));
-
     show_all_children();
 }
 
 PaginationBar::~PaginationBar() throw()
 {
+}
+
+const ActionPtr &
+PaginationBar::action_previous() throw()
+{
+    return actionPrevious_;
+}
+
+const ActionPtr &
+PaginationBar::action_next() throw()
+{
+    return actionNext_;
+}
+
+const ActionPtr &
+PaginationBar::action_first() throw()
+{
+    return actionFirst_;
+}
+
+const ActionPtr &
+PaginationBar::action_last() throw()
+{
+    return actionLast_;
 }
 
 guint
@@ -166,10 +233,25 @@ PaginationBar::on_action_go_next() throw()
 }
 
 void
+PaginationBar::on_action_go_first() throw()
+{
+    scroll_to_position(0);
+}
+
+void
+PaginationBar::on_action_go_last() throw()
+{
+    scroll_to_position(total_ - 1);
+}
+
+void
 PaginationBar::on_limits_changed() throw()
 {
-    previousButton_.set_sensitive((0 < lowerLimit_) ? true : false);
-    nextButton_.set_sensitive((total_ > upperLimit_) ? true : false);
+    actionPrevious_->set_sensitive((0 < lowerLimit_) ? true : false);
+    actionFirst_->set_sensitive((0 < lowerLimit_) ? true : false);
+
+    actionNext_->set_sensitive((total_ > upperLimit_) ? true : false);
+    actionLast_->set_sensitive((total_ > upperLimit_) ? true : false);
 
     std::ostringstream sout;
     sout << lowerLimit_ << " - " << upperLimit_ << " of " << total_;
