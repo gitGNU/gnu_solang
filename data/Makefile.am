@@ -21,7 +21,13 @@ pixmap_DATA = \
     tag-22.png \
     tag-new-16.png \
     tag-new-22.png \
-    tag-new-24.png
+    tag-new-24.png \
+    view-far-16.png \
+    view-far-22.png \
+    view-far-24.png \
+    view-near-16.png \
+    view-near-22.png \
+    view-near-24.png
 
 uidir = $(datadir)/$(PACKAGE_TARNAME)/ui
 ui_DATA = \

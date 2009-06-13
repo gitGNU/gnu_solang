@@ -36,6 +36,22 @@
 namespace Solang
 {
 
+static const guint lowerZoomValue = 20;
+static const guint higherZoomValue = 100;
+static const guint initialZoomValue
+                       = lowerZoomValue
+                         + (higherZoomValue - lowerZoomValue) / 2;
+
+static const gint thumbnailRendererWidth = 168;
+static const gint thumbnailRendererHeight = 130;
+
+static const double ratioWidth
+    = static_cast<double>(thumbnailRendererWidth - 12)
+      / static_cast<double>(initialZoomValue);
+static const double ratioHeight
+    = static_cast<double>(thumbnailRendererHeight - 12)
+      / static_cast<double>(initialZoomValue);
+
 static const std::string uiFile
     = PACKAGE_DATA_DIR"/"PACKAGE_TARNAME"/ui/"
           PACKAGE_TARNAME"-browser-renderer.ui";
@@ -52,10 +68,13 @@ BrowserRenderer::BrowserRenderer() throw() :
     dockItemBehaviour_(GDL_DOCK_ITEM_BEH_NO_GRIP),
     dockItem_(NULL),
     vBox_(false, 6),
+    hBox_(false, 12),
     paginationBar_(),
+    dummyLabel_(),
+    zoomer_(lowerZoomValue, higherZoomValue, initialZoomValue, 5.0),
     scrolledWindow_(),
     treeModelFilter_(),
-    thumbnailView_(),
+    thumbnailView_(thumbnailRendererWidth, thumbnailRendererHeight),
     pageNum_(-1),
     signalInitEnd_(),
     signalListStoreChangeBegin_(),
@@ -94,6 +113,14 @@ BrowserRenderer::BrowserRenderer() throw() :
     iconFactory_->add_default();
 
     actionGroup_->add(
+        zoomer_.action_zoom_in(),
+        Gtk::AccelKey("<control>plus"));
+
+    actionGroup_->add(
+        zoomer_.action_zoom_out(),
+        Gtk::AccelKey("<control>minus"));
+
+    actionGroup_->add(
         Gtk::Action::create(
             "ActionMenuGo", _("_Go")));
 
@@ -113,7 +140,11 @@ BrowserRenderer::BrowserRenderer() throw() :
         paginationBar_.action_last(),
         Gtk::AccelKey("<alt>End"));
 
-    vBox_.pack_start(paginationBar_, Gtk::PACK_SHRINK, 0);
+    hBox_.pack_start(paginationBar_, Gtk::PACK_SHRINK, 0);
+    hBox_.pack_start(dummyLabel_, Gtk::PACK_EXPAND_PADDING, 0);
+    hBox_.pack_start(zoomer_, Gtk::PACK_SHRINK, 0);
+
+    vBox_.pack_start(hBox_, Gtk::PACK_SHRINK, 0);
 
     scrolledWindow_.set_policy(Gtk::POLICY_AUTOMATIC,
                                Gtk::POLICY_AUTOMATIC);
@@ -132,6 +163,10 @@ BrowserRenderer::BrowserRenderer() throw() :
     paginationBar_.limits_changed().connect(
         sigc::mem_fun(*this,
                       &BrowserRenderer::on_limits_changed));
+
+    zoomer_.get_scale().signal_value_changed().connect(
+        sigc::mem_fun(*this,
+                      &BrowserRenderer::on_signal_value_changed));
 }
 
 BrowserRenderer::~BrowserRenderer() throw()
@@ -241,6 +276,113 @@ BrowserRenderer::final(Application & application) throw()
     // finalized_.emit(*this);
 }
 
+void
+BrowserRenderer::clear_thumbnails() throw()
+{
+    Gtk::TreeModel::Children children
+        = treeModelFilter_->get_model()->children();
+    Gtk::TreeModel::iterator iter;
+
+    for (iter = children.begin(); children.end() != iter; iter++)
+    {
+        BrowserModelColumnRecord model_column_record;
+        Gtk::TreeModel::Row row = *iter;
+
+        row[model_column_record.get_column_pixbuf()] = PixbufPtr(0);
+        row[model_column_record.get_column_tag_name()] = "";
+
+        while (true == Gtk::Main::events_pending())
+        {
+            Gtk::Main::iteration();
+        }
+    }
+}
+
+void
+BrowserRenderer::generate_thumbnails() throw()
+{
+    std::ostringstream fsout;
+    fsout << paginationBar_.get_lower_limit();
+
+    const Gtk::TreeModel::Path first_path(fsout.str());
+
+    if (true == first_path.empty())
+    {
+        return;
+    }
+
+    const Gtk::TreeModel::iterator first_iter
+        = treeModelFilter_->get_model()->get_iter(first_path);
+
+    if (false == first_iter)
+    {
+        return;
+    }
+
+    std::ostringstream lsout;
+    lsout << paginationBar_.get_upper_limit() - 1;
+
+    const Gtk::TreeModel::Path last_path(lsout.str());
+
+    if (true == last_path.empty())
+    {
+        return;
+    }
+
+    const Gtk::TreeModel::iterator last_iter
+        = treeModelFilter_->get_model()->get_iter(last_path);
+
+    if (false == last_iter)
+    {
+        return;
+    }
+
+    const guint zoom_value = zoomer_.get_scale().get_value();
+    const guint thumbnail_width
+                    = static_cast<guint>(
+                          ratioWidth
+                          * static_cast<double>(zoom_value));
+    const guint thumbnail_height
+                    = static_cast<guint>(
+                          ratioHeight
+                          * static_cast<double>(zoom_value));
+
+    thumbnailView_.set_thumbnail_width(thumbnail_width + 12);
+    thumbnailView_.set_thumbnail_height(thumbnail_height + 12);
+
+    Gtk::TreeModel::iterator iter;
+
+    // operator<= is not defined.
+    for (iter = first_iter; ; iter++)
+    {
+        BrowserModelColumnRecord model_column_record;
+        Gtk::TreeModel::Row row = *iter;
+
+        const PhotoPtr & photo
+            = row[model_column_record.get_column_photo()];
+        const PixbufPtr & pixbuf
+            = row[model_column_record.get_column_pixbuf()];
+
+        if (0 == pixbuf)
+        {
+            ThumbbufMaker thumbbuf_maker(thumbnail_width,
+                                         thumbnail_height);
+
+            row[model_column_record.get_column_pixbuf()]
+                = thumbbuf_maker(photo);
+
+            row[model_column_record.get_column_tag_name()]
+                = photo->get_exif_data().get_picture_taken_time();
+        }
+
+        // operator<= is not defined.
+        if (last_iter == iter)
+        {
+            break;
+        }
+    }
+}
+
 PhotoList
 BrowserRenderer::get_current_selection() throw()
 {
@@ -290,72 +432,7 @@ BrowserRenderer::on_item_activated(const Gtk::TreeModel::Path & path)
 void
 BrowserRenderer::on_limits_changed() throw()
 {
-    std::ostringstream fsout;
-    fsout << paginationBar_.get_lower_limit();
-
-    const Gtk::TreeModel::Path first_path(fsout.str());
-
-    if (true == first_path.empty())
-    {
-        return;
-    }
-
-    const Gtk::TreeModel::iterator first_iter
-        = treeModelFilter_->get_model()->get_iter(first_path);
-
-    if (false == first_iter)
-    {
-        return;
-    }
-
-    std::ostringstream lsout;
-    lsout << paginationBar_.get_upper_limit() - 1;
-
-    const Gtk::TreeModel::Path last_path(lsout.str());
-
-    if (true == last_path.empty())
-    {
-        return;
-    }
-
-    const Gtk::TreeModel::iterator last_iter
-        = treeModelFilter_->get_model()->get_iter(last_path);
-
-    if (false == last_iter)
-    {
-        return;
-    }
-
-    Gtk::TreeModel::iterator iter;
-
-    // operator<= is not defined.
-    for (iter = first_iter; ; iter++)
-    {
-        BrowserModelColumnRecord model_column_record;
-        Gtk::TreeModel::Row row = *iter;
-
-        const PhotoPtr & photo
-            = row[model_column_record.get_column_photo()];
-        const PixbufPtr & pixbuf
-            = row[model_column_record.get_column_pixbuf()];
-
-        if (0 == pixbuf)
-        {
-            ThumbbufMaker thumbbuf_maker(156, 118);
-            row[model_column_record.get_column_pixbuf()]
-                = thumbbuf_maker(photo);
-
-            row[model_column_record.get_column_tag_name()]
-                = photo->get_exif_data().get_picture_taken_time();
-        }
-
-        // operator<= is not defined.
-        if (last_iter == iter)
-        {
-            break;
-        }
-    }
-
+    generate_thumbnails();
     treeModelFilter_->refilter();
 }
 
@@ -385,6 +462,20 @@ BrowserRenderer::on_list_store_change_end(Application & application)
 
     thumbnailView_.set_model(treeModelFilter_);
     paginationBar_.set_total(total);
+}
+
+void
+BrowserRenderer::on_signal_value_changed() throw()
+{
+    static sigc::connection connection;
+
+    connection.disconnect();
+    connection
+        = Glib::signal_timeout().connect_seconds(
+              sigc::bind_return(
+                  sigc::mem_fun(*this,
+                                &BrowserRenderer::reload), false),
+              1, Glib::PRIORITY_DEFAULT);
 }
 
 void
@@ -469,6 +560,14 @@ BrowserRenderer::on_visible(
     return (serial >= paginationBar_.get_lower_limit()
             && serial < paginationBar_.get_upper_limit())
             ? true : false;
+}
+
+void
+BrowserRenderer::reload() throw()
+{
+    clear_thumbnails();
+    generate_thumbnails();
+    treeModelFilter_->refilter();
 }
 
 } // namespace Solang

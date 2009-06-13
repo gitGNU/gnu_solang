@@ -1,6 +1,12 @@
 <!--*- xml -*-->
 <ui>
 	<menubar name="MenuBar">
+		<menu action="ActionViewMenu">
+			<placeholder name="PlaceholderZoomMenus">
+			<menuitem action="ActionViewZoomIn"/>
+			<menuitem action="ActionViewZoomOut"/>
+			</placeholder>
+		</menu>
 		<placeholder name="PlaceholderGoMenus">
 		<menu action="ActionMenuGo">
 			<menuitem action="ActionGoPrevious"/>

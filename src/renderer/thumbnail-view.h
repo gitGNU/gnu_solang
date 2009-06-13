@@ -33,15 +33,30 @@ class ThumbnailView :
     public Gtk::IconView 
 {
     public:
-        ThumbnailView() throw();
+        ThumbnailView(gint thumbnail_renderer_width,
+                      gint thumbnail_renderer_height) throw();
 
-        ThumbnailView(const TreeModelPtr & model) throw();
+        ThumbnailView(const TreeModelPtr & model,
+                      gint thumbnail_renderer_width,
+                      gint thumbnail_renderer_height) throw();
 
         virtual
         ~ThumbnailView() throw();
 
         PhotoList
         get_selected_photos() throw();
+
+        gint
+        get_thumbnail_width() const throw();
+
+        gint
+        get_thumbnail_height() const throw();
+
+        void
+        set_thumbnail_width(gint width) throw();
+
+        void
+        set_thumbnail_height(gint height) throw();
 
     protected:
         PhotoPtr
@@ -74,7 +89,8 @@ class ThumbnailView :
 
     private:
         void
-        configure() throw();
+        configure(gint thumbnail_width, gint thumbnail_height)
+                  throw();
 };
 
 } // namespace Solang

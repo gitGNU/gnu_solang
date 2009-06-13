@@ -34,7 +34,8 @@ static const std::string uiFile
     = PACKAGE_DATA_DIR"/"PACKAGE_TARNAME"/ui/"
           PACKAGE_TARNAME"-thumbnail-popup.ui";
 
-ThumbnailView::ThumbnailView() throw() :
+ThumbnailView::ThumbnailView(gint thumbnail_renderer_width,
+                             gint thumbnail_renderer_height) throw() :
     Gtk::IconView(),
     selectedItems_(0),
     actionGroup_(Gtk::ActionGroup::create()),
@@ -44,10 +45,12 @@ ThumbnailView::ThumbnailView() throw() :
     rendererThumbnail_(),
     rendererInfo_()
 {
-    configure();
+    configure(thumbnail_renderer_width, thumbnail_renderer_height);
 }
 
-ThumbnailView::ThumbnailView(const TreeModelPtr & model) throw() :
+ThumbnailView::ThumbnailView(const TreeModelPtr & model,
+                             gint thumbnail_renderer_width,
+                             gint thumbnail_renderer_height) throw() :
     Gtk::IconView(model),
     selectedItems_(0),
     actionGroup_(Gtk::ActionGroup::create()),
@@ -57,7 +60,7 @@ ThumbnailView::ThumbnailView(const TreeModelPtr & model) throw() :
     rendererThumbnail_(),
     rendererInfo_()
 {
-    configure();
+    configure(thumbnail_renderer_width, thumbnail_renderer_height);
 }
 
 ThumbnailView::~ThumbnailView() throw()
@@ -67,7 +70,8 @@ ThumbnailView::~ThumbnailView() throw()
 }
 
 void
-ThumbnailView::configure() throw()
+ThumbnailView::configure(gint thumbnail_renderer_width,
+                         gint thumbnail_renderer_height) throw()
 {
     set_orientation(Gtk::ORIENTATION_VERTICAL);
     set_selection_mode(Gtk::SELECTION_MULTIPLE);
@@ -121,8 +125,10 @@ ThumbnailView::configure() throw()
         "text", BrowserModelColumnRecord().get_column_tag_name_num(),
         NULL);
     
-    rendererThumbnail_.property_width().set_value(168);
-    rendererThumbnail_.property_height().set_value(130);
+    rendererThumbnail_.property_width().set_value(
+                           thumbnail_renderer_width);
+    rendererThumbnail_.property_height().set_value(
+                           thumbnail_renderer_height);
     rendererThumbnail_.set_extra_height(20);
 
     rendererInfo_.property_ellipsize_set().set_value(true);
@@ -173,6 +179,18 @@ ThumbnailView::get_selected_photos() throw()
     }
 
     return photos;
+}
+
+gint
+ThumbnailView::get_thumbnail_width() const throw()
+{
+    return rendererThumbnail_.property_width().get_value();
+}
+
+gint
+ThumbnailView::get_thumbnail_height() const throw()
+{
+    return rendererThumbnail_.property_height().get_value();
 }
 
 bool
@@ -257,6 +275,18 @@ ThumbnailView::popup_menu(GdkEventButton * event) throw()
     }
 
     menu_->popup(button, time);
+}
+
+void
+ThumbnailView::set_thumbnail_width(gint width) throw()
+{
+    rendererThumbnail_.property_width().set_value(width);
+}
+
+void
+ThumbnailView::set_thumbnail_height(gint height) throw()
+{
+    rendererThumbnail_.property_height().set_value(height);
 }
 
 } // namespace Solang

@@ -104,6 +104,12 @@ originally licensed under the GNU General Public License version 2.
 + data/tag-new-16.png
 + data/tag-new-22.png
 + data/tag-new-24.png
++ data/view-far-16.png
++ data/view-far-22.png
++ data/view-far-24.png
++ data/view-near-16.png
++ data/view-near-22.png
++ data/view-near-24.png
 
 We are thankful to the respective copyright owners for letting us use and
 distribute these files as a part of Solang under our own licensing terms as

@@ -18,7 +18,9 @@ librenderer_la_SOURCES = \
 	pagination-bar.cpp \
 	pagination-bar.h \
 	thumbnail-view.h \
-	thumbnail-view.cpp
+	thumbnail-view.cpp \
+	zoomer.cpp \
+	zoomer.h
 
 AM_CPPFLAGS = \
        	-DPACKAGE_LOCALE_DIR=\"${SOLANG_LOCALE_DIR}\" \

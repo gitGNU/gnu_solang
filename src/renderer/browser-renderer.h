@@ -30,6 +30,7 @@
 #include "renderer.h"
 #include "thumbnail-view.h"
 #include "types.h"
+#include "zoomer.h"
 
 namespace Solang
 {
@@ -67,6 +68,12 @@ class BrowserRenderer :
 
     protected:
         void
+        clear_thumbnails() throw();
+
+        void
+        generate_thumbnails() throw();
+
+        void
         on_item_activated(const Gtk::TreeModel::Path & path) throw();
 
         void
@@ -79,12 +86,18 @@ class BrowserRenderer :
         on_list_store_change_end(Application & application) throw();
 
         void
+        on_signal_value_changed() throw();
+
+        void
         on_switch_page(GtkNotebookPage * notebook_page, guint page_num)
                        throw();
 
         bool
         on_visible(const Gtk::TreeModel::const_iterator & iter)
                    throw();
+
+        void
+        reload() throw();
 
         ApplicationPtr application_;
 
@@ -104,7 +117,13 @@ class BrowserRenderer :
 
         Gtk::VBox vBox_;
 
+        Gtk::HBox hBox_;
+
         PaginationBar paginationBar_;
+
+        Gtk::Label dummyLabel_;
+
+        Zoomer zoomer_;
     
         Gtk::ScrolledWindow scrolledWindow_;
 
