@@ -1,18 +1,17 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 4; tab-width: 4 -*- */
 /*
- * photo.h
- * Copyright (C) Santanu Sinha 2009 <santanu.sinha@gmail.com>
- * 
- * photo.h is free software: you can redistribute it and/or modify it
+ * Copyright (C) 2009 Santanu Sinha <santanu.sinha@gmail.com>
+ *
+ * Solang is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
  * Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
- * photo.h is distributed in the hope that it will be useful, but
+ *
+ * Solang is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  * See the GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -42,11 +41,17 @@ class Photo :
         Photo() throw();
         ~Photo() throw();
 
-        inline gint64 get_photo_id() const throw();
-        void set_photoId_( gint64 photoId ) throw();
+        inline gint64
+        get_photo_id() const throw();
 
-        inline const Glib::ustring &get_uri() const throw();
-        void set_uri( const Glib::ustring &uri );
+        void
+        set_photo_id( gint64 photoId ) throw();
+
+        inline const Glib::ustring &
+        get_uri() const throw();
+
+        void
+        set_uri( const Glib::ustring &uri );
 
         inline const Glib::ustring &
         get_content_type() const throw();
@@ -62,19 +67,7 @@ class Photo :
 
         void
         set_modification_date( const ModificationDate &modDate );
-#if 0   
-        inline const Glib::ustring &
-        get_thumbnail_path() const;
 
-        void
-        set_thumbnail_path(const Glib::ustring & path);
-            
-        inline const Resolution &
-        get_thumbnail_resolution() const throw();
-
-        void
-        set_thumbnail_resolution(const Resolution & resolution);
-#endif
         inline const Thumbnail &
         get_thumbnail() const throw();
 
@@ -86,33 +79,20 @@ class Photo :
 
         void 
         set_exif_data( const ExifData &exif ) throw();
-#if 0
-        void
-        generate_thumbnail(const Resolution & new_resolution,
-                 const DatabasePtr & db) throw(Error);
 
-        void
-        generate_thumbnail() throw(Error);
-
-        void
-        generate_thumbnail(
-                        const Exiv2::ExifData & exifData) throw(Error);
-#endif
         void   set_disk_file_path(const IStoragePtr & storage);
         void   set_disk_file_path(const Glib::ustring &disk_file_path);
         
 
         //Overrides from DBObject
-//        virtual Glib::ustring getCreateSQL() throw(Error);
-        virtual void insert(
-                DataModelPtr &model, gint32 lastIndex) throw(Error);
-        virtual void update(
-                DataModelPtr &model, gint32 row) throw(Error);
+        virtual void
+        insert(DataModelPtr &model, gint32 lastIndex) throw(Error);
 
-//        void create(Database &db, gint32 row) throw(Error);
+        virtual void
+        update(DataModelPtr &model, gint32 row) throw(Error);
 
-        virtual void create( 
-                DataModelPtr& dataModel, gint32 row) throw(Error);
+        virtual void
+        create( DataModelPtr& dataModel, gint32 row) throw(Error);
         
         virtual Glib::ustring
         get_db_object_type_name() const throw();
@@ -132,7 +112,7 @@ class Photo :
         gint64 photoId_;
         Glib::ustring uri_; //storage uri
         Glib::ustring contentType_; //content type
-        Glib::ustring diskFilePath_;    
+        Glib::ustring diskFilePath_;
 
         //Date
         ModificationDate modDate_;
@@ -141,11 +121,9 @@ class Photo :
         Thumbnail thumbnail_;
         //Exif
         ExifData exifData_;
-
-
 };
 
-inline gint64 
+inline gint64
 Photo::get_photo_id() const throw()
 {
     return photoId_;
@@ -156,7 +134,7 @@ Photo::get_uri() const throw()
 {
     return uri_;
 }
-        
+
 inline const Glib::ustring &
 Photo::get_content_type() const throw()
 {

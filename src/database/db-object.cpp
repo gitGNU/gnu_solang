@@ -1,23 +1,24 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 4; tab-width: 4 -*- */
 /*
- * db-object.cpp
- * Copyright (C) Santanu Sinha 2009 <santanu.sinha@gmail.com>
- * 
- * db-object.cpp is free software: you can redistribute it and/or modify it
+ * Copyright (C) 2009 Santanu Sinha <santanu.sinha@gmail.com>
+ *
+ * Solang is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
  * Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
- * d-b-object.cpp is distributed in the hope that it will be useful, but
+ *
+ * Solang is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  * See the GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#ifdef HAVE_CONFIG_H
 #include "config.h"
+#endif // HAVE_CONFIG_H
 
 #include "database.h"
 #include "db-object.h"
@@ -35,9 +36,10 @@ DBObject::~DBObject() throw()
 {
 }
 
-void DBObject::save(Database &db) throw(Error)
+void
+DBObject::save(Database & db) throw(Error)
 {
-    if( !get_table_() ) // If this is not in the DB
+    if( !get_table() ) // If this is not in the DB
     {
         DBTablePtr table = db.getTable( get_db_object_type_name() );
         try
@@ -49,20 +51,21 @@ void DBObject::save(Database &db) throw(Error)
             error.add_call_info( __FUNCTION__, __FILE__, __LINE__ );
             throw;
         }
-        set_table_( table_ );
+        set_table( table_ );
         return;
     }
     table_->update( *this );
     return;
 }
 
-void DBObject::create(Database &db, gint32 row) throw(Error)
+void
+DBObject::create(Database &db, gint32 row) throw(Error)
 {
     DBTablePtr table;
-    if( ! (table = get_table_()) )
+    if( ! (table = get_table()) )
     {
         table = db.getTable(get_db_object_type_name());
-        set_table_( table );
+        set_table( table );
     }
     
     Glib::RefPtr<Gnome::Gda::DataModelQuery> model 
@@ -73,11 +76,12 @@ void DBObject::create(Database &db, gint32 row) throw(Error)
 }
 
 
-void DBObject::update( DataModelPtr &model ) throw(Error)
+void
+DBObject::update( DataModelPtr &model ) throw(Error)
 {
     try
     {
-        update( model, get_row_() );
+        update( model, get_row() );
     }
     catch( Error &error )
     {
@@ -87,11 +91,12 @@ void DBObject::update( DataModelPtr &model ) throw(Error)
     return;
 }
 
-void DBObject::remove( DataModelPtr &model ) throw(Error)
+void
+DBObject::remove( DataModelPtr &model ) throw(Error)
 {
     try
     {
-        remove( model, get_row_() );
+        remove( model, get_row() );
     }
     catch( Error &error )
     {
@@ -100,7 +105,8 @@ void DBObject::remove( DataModelPtr &model ) throw(Error)
     }
 }
 
-void DBObject::remove( DataModelPtr &model, gint32 row ) throw(Error)
+void
+DBObject::remove( DataModelPtr &model, gint32 row ) throw(Error)
 {
     try
     {
@@ -110,7 +116,7 @@ void DBObject::remove( DataModelPtr &model, gint32 row ) throw(Error)
     {
         //TBD::Error
     }
-    set_row_( -1 );
+    set_row( -1 );
     return;
 }
 
@@ -120,12 +126,14 @@ DBObject::remove_physical_existence() throw()
     //Hoge Hoge :-P
 }
 
-void DBObject::set_row_( gint32 row ) throw()
+void
+DBObject::set_row( gint32 row ) throw()
 {
     row_ = row;
 }
 
-void DBObject::set_table_( const DBTablePtr &table ) throw()
+void
+DBObject::set_table( const DBTablePtr &table ) throw()
 {
     table_ = table;
 }

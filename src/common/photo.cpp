@@ -48,7 +48,8 @@ Photo::~Photo() throw()
 {
 }
 
-void Photo::set_photoId_( gint64 photoId ) throw()
+void
+Photo::set_photo_id( gint64 photoId ) throw()
 {
     photoId_ = photoId;
 }
@@ -65,17 +66,20 @@ Photo::set_thumbnail( const Thumbnail &thumb ) throw()
     thumbnail_ = thumb;
 }
 
-void Photo::set_exif_data( const ExifData &exifData ) throw()
+void
+Photo::set_exif_data( const ExifData &exifData ) throw()
 {
     exifData_ = exifData;
 }
 
-void Photo::set_disk_file_path(const IStoragePtr & storage)
+void
+Photo::set_disk_file_path(const IStoragePtr & storage)
 {
     diskFilePath_ = storage->retrieve(*this);
 }
 
-void Photo::set_disk_file_path(const Glib::ustring & disk_file_path)
+void
+Photo::set_disk_file_path(const Glib::ustring & disk_file_path)
 {
     diskFilePath_ = disk_file_path;
 }
@@ -86,7 +90,8 @@ Photo::set_content_type(const Glib::ustring & contentType) throw()
     contentType_ = contentType;
 }
 
-void Photo::insert( DataModelPtr &model, gint32 lastIndex) throw(Error)
+void
+Photo::insert( DataModelPtr &model, gint32 lastIndex) throw(Error)
 {
     std::vector<Gnome::Gda::Value> values;
 
@@ -103,9 +108,9 @@ void Photo::insert( DataModelPtr &model, gint32 lastIndex) throw(Error)
     {
         row = model->append_values( values );
     }
-    catch(Glib::Error &e)
+    catch (Glib::Error & e)
     {
-        std::cerr<<"Error: "<<e.what()<<std::endl;
+        std::cerr << "Error: " << e.what() << std::endl;
         //TBD::Error
     }
 
@@ -114,9 +119,9 @@ void Photo::insert( DataModelPtr &model, gint32 lastIndex) throw(Error)
         //TBD::Error
     }
 
-    set_row_( row );
+    set_row( row );
 
-    set_photoId_( lastIndex + 1 );
+    set_photo_id( lastIndex + 1 );
 
     return;
 }
@@ -155,12 +160,12 @@ catch(Glib::Error &e)
     throw;
 }
 
-void Photo::create(
-                DataModelPtr& dataModel, int32_t row) throw(Error)
+void
+Photo::create(DataModelPtr & dataModel, int32_t row) throw(Error)
 {
-    set_row_( row );
+    set_row( row );
 
-    set_photoId_( dataModel->get_value_at(
+    set_photo_id( dataModel->get_value_at(
                                     PHOTOID_COL, row ).get_int());
     set_uri( dataModel->get_value_at( URI_COL, row ).get_string());
     set_content_type( dataModel->get_value_at(

@@ -1,18 +1,17 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 4; tab-width: 4 -*- */
 /*
- * photo-tag.h
- * Copyright (C) Santanu Sinha 2009 <santanu.sinha@gmail.com>
- * 
- * photo-tag.h is free software: you can redistribute it and/or modify it
+ * Copyright (C) 2009 Santanu Sinha <santanu.sinha@gmail.com>
+ *
+ * Solang is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
  * Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
- * photo-tag.h is distributed in the hope that it will be useful, but
+ *
+ * Solang is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  * See the GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -48,19 +47,26 @@ class PhotoTag :
         PhotoTag( gint32 photoId, gint32 tagId );
         ~PhotoTag() throw();
 
-        inline gint32 get_photoId_() const throw();
-        void set_photoId_( gint32 photoId );
+        inline gint32
+        get_photoId_() const throw();
 
-        inline gint32 get_tagId_() const throw();
-        void set_tagId_( gint32 tagId );
+        void
+        set_photoId_( gint32 photoId );
 
-        virtual void insert(
-                DataModelPtr &model, gint32 lastIndex) throw(Error);
-        virtual void update(
-                DataModelPtr &model, gint32 row) throw(Error);
+        inline gint32
+        get_tagId_() const throw();
 
-        virtual void create( 
-                DataModelPtr& dataModel, gint32 row) throw(Error);
+        void
+        set_tagId_( gint32 tagId );
+
+        virtual void
+        insert(DataModelPtr & model, gint32 lastIndex) throw(Error);
+
+        virtual void
+        update(DataModelPtr & model, gint32 row) throw(Error);
+
+        virtual void
+        create(DataModelPtr & dataModel, gint32 row) throw(Error);
         
         virtual Glib::ustring
         get_db_object_type_name() const throw();
@@ -68,16 +74,18 @@ class PhotoTag :
         virtual DeleteActionPtr
         get_delete_action() throw();
 
-        virtual Glib::ustring getQueryCriteria() const;
-
+        virtual Glib::ustring
+        getQueryCriteria() const;
 };
 
-inline gint32 PhotoTag::get_photoId_() const throw()
+inline gint32
+PhotoTag::get_photoId_() const throw()
 {
     return photoId_;
 }
 
-inline gint32 PhotoTag::get_tagId_() const throw()
+inline gint32
+PhotoTag::get_tagId_() const throw()
 {
     return tagId_;
 }

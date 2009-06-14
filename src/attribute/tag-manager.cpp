@@ -132,7 +132,7 @@ TagManager::TagManager() throw() :
     scrolledWindow_.add(tagView_);
 #if 0
     tagView_.signal_().connect(
-                sigc::mem_fun( 
+                sigc::mem_fun(
                     *this, &TagManager::tag_row_activated ) );
 #endif
     dockItem_ = gdl_dock_item_new_with_stock(dockItemName_.c_str(),

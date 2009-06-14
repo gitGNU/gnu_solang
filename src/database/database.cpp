@@ -1,23 +1,24 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 4; tab-width: 4 -*- */
 /*
- * database.cpp
- * Copyright (C) Santanu Sinha 2009 <santanu.sinha@gmail.com>
- * 
+ * Copyright (C) 2009 Santanu Sinha <santanu.sinha@gmail.com>
+ *
  * database.cpp is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
  * Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * database.cpp is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  * See the GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#ifdef HAVE_CONFIG_H
 #include "config.h"
+#endif // HAVE_CONFIG_H
 
 #include <iostream>
 #include <sstream>
@@ -54,7 +55,8 @@ Database::Database( const Database &rhs )
 {
 }
 
-Database & Database::operator =( const Database &rhs )
+Database &
+Database::operator =( const Database &rhs )
 {
     if( this != &rhs )
     {
@@ -69,12 +71,14 @@ Database::~Database()
     tables_.clear();
 }
 
-void Database::set_path(const Glib::ustring &path)
+void
+Database::set_path(const Glib::ustring &path)
 {
     path_ = path;
 }
 
-void Database::open() throw(Error)
+void
+Database::open() throw(Error)
 {
     Glib::ustring dbPath;
     dbPath = "DB_DIR=";
@@ -111,7 +115,8 @@ void Database::open() throw(Error)
 
 }
 
-void Database::save( DBObject &object ) throw(Error)
+void
+Database::save( DBObject &object ) throw(Error)
 {
     try
     {
@@ -124,8 +129,9 @@ void Database::save( DBObject &object ) throw(Error)
     }
 }
 
-void Database::save( const DBObjectList &objects,
-                        ProgressObserverPtr &observer ) throw(Error)
+void
+Database::save( const DBObjectList &objects,
+                ProgressObserverPtr &observer ) throw(Error)
 {
     observer->set_num_events( objects.size() );
     observer->set_event_description( "Saving objects" );
@@ -148,7 +154,8 @@ void Database::save( const DBObjectList &objects,
     }
 }
 
-DBTablePtr Database::getTable(const Glib::ustring &tableName) const
+DBTablePtr
+Database::getTable(const Glib::ustring &tableName) const
 {
     std::cerr<<"Lookin' for:"<<tableName<<std::endl;
     std::map<Glib::ustring, DBTablePtr>::const_iterator table 
@@ -161,7 +168,8 @@ DBTablePtr Database::getTable(const Glib::ustring &tableName) const
     return DBTablePtr( );
 }
 
-void Database::run_sql( const Glib::ustring &sql ) throw(Error)
+void
+Database::run_sql( const Glib::ustring &sql ) throw(Error)
 {
     try
     {
@@ -173,15 +181,16 @@ void Database::run_sql( const Glib::ustring &sql ) throw(Error)
     }
 }
 
-void Database::close() throw(Error)
+void
+Database::close() throw(Error)
 {
     gdaConnection_->close();    
     return;
 }
 
-PhotoList Database::search(
-                const PhotoSearchCriteriaList &criterion,
-                const ProgressObserverPtr & observer) throw(Error)
+PhotoList
+Database::search(const PhotoSearchCriteriaList & criterion,
+                 const ProgressObserverPtr & observer) throw(Error)
 {
 
     //Selection from views not supported? WTF?!!
@@ -273,7 +282,8 @@ PhotoList Database::search(
 
 //Group by year
 DatePhotoInfoList
-Database::get_dates_with_picture_count( const ProgressObserverPtr &observer)
+Database::get_dates_with_picture_count(
+              const ProgressObserverPtr & observer)
 {
     Glib::ustring sql
         = "select 0, 0, mod_year, count(*) from photos ";
@@ -283,8 +293,9 @@ Database::get_dates_with_picture_count( const ProgressObserverPtr &observer)
 
 //Group by year, month
 DatePhotoInfoList
-Database::get_dates_with_picture_count( gint year,
-                                        const ProgressObserverPtr &observer)
+Database::get_dates_with_picture_count(
+              gint year,
+              const ProgressObserverPtr & observer)
 {
     std::ostringstream sout;
     sout<<"select 0, mod_month, mod_year, count(*) from photos ";
@@ -296,8 +307,9 @@ Database::get_dates_with_picture_count( gint year,
 
 //Group by year, month, day
 DatePhotoInfoList
-Database::get_dates_with_picture_count( gint year, gint month,
-                    const ProgressObserverPtr &observer)
+Database::get_dates_with_picture_count(
+              gint year, gint month,
+              const ProgressObserverPtr & observer)
 {
     std::ostringstream sout;
     sout<<"select mod_day, mod_month, mod_year, count(*) from photos ";
@@ -309,8 +321,9 @@ Database::get_dates_with_picture_count( gint year, gint month,
 }
 
 DatePhotoInfoList
-Database::get_dates_with_picture_count( const Glib::ustring &sql,
-                    const ProgressObserverPtr &observer)
+Database::get_dates_with_picture_count(
+              const Glib::ustring & sql,
+              const ProgressObserverPtr & observer)
 {
     DatePhotoInfoList infos;
 
@@ -339,7 +352,7 @@ Database::get_dates_with_picture_count( const Glib::ustring &sql,
             }
         }
     }
-    catch(Glib::Error &e)
+    catch (Glib::Error &e)
     {
         std::cerr << __FILE__ << ":" << __LINE__ << ", "
                   << __FUNCTION__ << ": " << e.what()
@@ -347,7 +360,6 @@ Database::get_dates_with_picture_count( const Glib::ustring &sql,
     }
 
     return infos;
-
 }
 
 bool
@@ -418,9 +430,9 @@ Database::create_db() throw(Error)
             gdaConnection_->execute_non_select_command( sql );
         }
     }
-    catch(Glib::Error &e)
+    catch (Glib::Error &e)
     {
     }
 }
 
-} //namespace Solang
+} // namespace Solang

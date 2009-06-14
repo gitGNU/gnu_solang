@@ -1,18 +1,17 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 4; tab-width: 4 -*- */
 /*
- * database.h
- * Copyright (C) Santanu Sinha 2009 <santanu.sinha@gmail.com>
- * 
- * database.h is free software: you can redistribute it and/or modify it
+ * Copyright (C) 2009 Santanu Sinha <santanu.sinha@gmail.com>
+ *
+ * Solang is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
  * Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
- * database.h is distributed in the hope that it will be useful, but
+ *
+ * Solang is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  * See the GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -21,8 +20,8 @@
 #define SOLANG_DATABASE_H
 
 #include <set>
-
 #include <tr1/memory>
+
 #include <libgdamm.h>
 
 #include "db-table.h"
@@ -45,8 +44,7 @@ class Database
         std::map<Glib::ustring, DBTablePtr> tables_;
 
     public:
-        Database(
-                const Glib::ustring &path);
+        Database(const Glib::ustring & path);
 
         Database( const Database &rhs );
 
@@ -54,29 +52,39 @@ class Database
 
         ~Database();
 
-        inline const Glib::ustring &get_path() const;
-        void set_path(const Glib::ustring &path);
+        inline const Glib::ustring &
+        get_path() const;
 
-        void open() throw(Error);
+        void
+        set_path(const Glib::ustring & path);
+
+        void
+        open() throw(Error);
 
         //Base functions
 
         //Save DBObject(s) to table
-        void save( DBObject &object ) throw(Error);
-        void save( const DBObjectList &objects,
-                        ProgressObserverPtr &observer ) throw(Error);
+        void
+        save( DBObject &object ) throw(Error);
+
+        void
+        save( const DBObjectList &objects,
+              ProgressObserverPtr &observer ) throw(Error);
 
         //Get table object
-        DBTablePtr getTable(const Glib::ustring &tableName) const;
+        DBTablePtr
+        getTable(const Glib::ustring &tableName) const;
 
-        void run_sql(const Glib::ustring &sql) throw(Error);
+        void
+        run_sql(const Glib::ustring &sql) throw(Error);
 
-        void close() throw(Error);
+        void
+        close() throw(Error);
 
         //Utility functions
         //The following function list of valid photo id's
-        PhotoList search(
-                const PhotoSearchCriteriaList &criterion,
+        PhotoList
+        search( const PhotoSearchCriteriaList &criterion,
                 const ProgressObserverPtr & observer) throw(Error);
 
         //Group by year
@@ -90,14 +98,15 @@ class Database
 
         //Group by year, month, day
         DatePhotoInfoList
-        get_dates_with_picture_count( gint year, gint month,
-                            const ProgressObserverPtr &);
+        get_dates_with_picture_count(
+            gint year, gint month,
+            const ProgressObserverPtr &);
 
     private:
-
         DatePhotoInfoList
-        get_dates_with_picture_count( const Glib::ustring &sql,
-                            const ProgressObserverPtr &);
+        get_dates_with_picture_count(
+            const Glib::ustring & sql,
+            const ProgressObserverPtr &);
 
         bool
         db_file_exists() const throw();
@@ -107,7 +116,6 @@ class Database
 
 //      TagList getTags(const PhotoPtr &photo) const throw(Error);
 //      void saveTags(const PhotoPtr &photo) throw(Error);
-
 };
 
 inline const Glib::ustring &

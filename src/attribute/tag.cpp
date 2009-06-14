@@ -69,8 +69,8 @@ Tag::set_description(const Glib::ustring & description) throw()
     description_ = description;
 }
 
-void Tag::insert(
-        DataModelPtr &model, gint32 lastIndex) throw(Error)
+void
+Tag::insert(DataModelPtr & model, gint32 lastIndex) throw(Error)
 {
     std::vector<Gnome::Gda::Value> values;
     values.push_back( Gnome::Gda::Value( lastIndex + 1 ) ); //tagid
@@ -85,14 +85,14 @@ void Tag::insert(
         //TBD::Error
     }
     set_tag_id( lastIndex + 1 );
-    set_row_( row );
+    set_row( row );
 
     return ;
 
 }
 
-void Tag::update(
-            DataModelPtr &model, gint32 row) throw(Error)
+void
+Tag::update(DataModelPtr & model, gint32 row) throw(Error)
 {
     try
     {
@@ -103,18 +103,19 @@ void Tag::update(
         values.push_back( Gnome::Gda::Value( get_icon_path() ) );
         model->set_values( row, values );
     }
-    catch(Glib::Error &e)
+    catch (Glib::Error & e)
     {
-        std::cerr<<"Error::Could not save: "<<e.what()<<std::endl;
+        std::cerr << "Error::Could not save: "
+                  << e.what() << std::endl;
     }
 
     return;    
-
 }
 
-void Tag::create( DataModelPtr& dataModel, gint32 row) throw(Error)
+void
+Tag::create( DataModelPtr& dataModel, gint32 row) throw(Error)
 {
-    set_row_( row );
+    set_row( row );
     set_tag_id( dataModel->get_value_at( 
                         TAGID_COL, row ).get_int() );
     set_name( dataModel->get_value_at( 
