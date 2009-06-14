@@ -28,6 +28,8 @@
 namespace Solang
 {
 
+const gint32 Tag::ALL_PHOTOS_TAGID = 0;
+
 const gint32 Tag::TAGID_COL = 0;
 const gint32 Tag::NAME_COL = 1;
 const gint32 Tag::DESCRIPTION_COL = 2;
@@ -141,6 +143,28 @@ Glib::ustring
 Tag::get_db_object_type_name() const throw()
 {
     return "tags";
+}
+
+DeleteActionPtr
+Tag::get_delete_action() throw()
+{
+    DeleteActionPtr action(
+            new DeleteAction(get_criteria_description(), this ));
+    if( get_is_deleted() )
+        return action;
+
+    {
+        std::ostringstream sout;
+        sout<<"delete from tags where tagid="<<get_tag_id();
+        action->add_command( sout.str() );
+    }
+    {
+        std::ostringstream sout;
+        sout<<"delete from photo_tags where tagid="<<get_tag_id();
+        action->add_command( sout.str() );
+    }
+    set_is_deleted( true );
+    return action;
 }
 
 Glib::ustring

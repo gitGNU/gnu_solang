@@ -3,13 +3,15 @@ noinst_LTLIBRARIES =	libdatabase.la
 libdatabase_la_SOURCES = \
 	database.cpp \
 	database.h \
+	delete-action.cpp \
+	delete-action.h \
 	db-object.cpp \
 	db-object.h \
 	db-table.cpp \
 	db-table-factory.cpp \
 	db-table-factory.h \
 	db-table-visitor.cpp \
-        db-table-visitor.h \
+	 db-table-visitor.h \
 	db-table.h \
 	exifs-table.cpp \
 	exifs-table.h \

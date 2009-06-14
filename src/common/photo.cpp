@@ -181,6 +181,27 @@ void Photo::create(
     return;
 }
 
+DeleteActionPtr
+Photo::get_delete_action() throw()
+{
+    DeleteActionPtr action(
+                        new DeleteAction( "Photo", this ));
+    if( get_is_deleted() )
+        return action;
+
+    {
+        std::ostringstream sout;
+        sout<<"delete from photos where photoid="<<get_photo_id();
+        action->add_command( sout.str() );
+    }
+    {
+        std::ostringstream sout;
+        sout<<"delete from photo_tags where photoid="<<get_photo_id();
+        action->add_command( sout.str() );
+    }
+    return action;
+}
+
 Glib::ustring
 Photo::get_db_object_type_name() const throw()
 {

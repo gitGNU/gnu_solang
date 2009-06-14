@@ -22,6 +22,7 @@
 
 #include <libgdamm.h>
 
+#include "delete-action.h"
 #include "error.h"
 #include "non-copyable.h"
 #include "types.h"
@@ -39,6 +40,7 @@ class DBObject :
     private:
         gint32 row_;
         DBTablePtr table_;
+        bool isDeleted_;
 
     protected:
         DBObject() throw();
@@ -56,6 +58,9 @@ class DBObject :
         virtual void remove( DataModelPtr &model ) throw(Error);
         virtual void remove(
                 DataModelPtr &model, gint32 row ) throw(Error);
+
+        virtual void
+        remove_physical_existence() throw();
     
         //create insert into ... SQL and save this object to DB    
         //virtual Glib::ustring getCreateSQL() throw(Error) = 0;
@@ -79,7 +84,11 @@ class DBObject :
         inline const DBTablePtr &get_table_() const throw();    
         void set_table_( const DBTablePtr &table ) throw();
         
+        inline bool
+        get_is_deleted() const throw();
 
+        void
+        set_is_deleted( bool value ) throw();
 };
 
 inline gint32 DBObject::get_row_() const throw()
@@ -90,6 +99,12 @@ inline const DBTablePtr &DBObject::get_table_() const throw()
 {
     return table_;
 }    
+
+inline bool
+DBObject::get_is_deleted() const throw()
+{
+    return isDeleted_;
+}
 
 } // namespace Solang
 

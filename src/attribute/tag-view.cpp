@@ -99,7 +99,9 @@ TagView::populate(const TagList & tags) throw()
         row[modelColumnRecord_.get_column_tag()] = tag;
         if( isSelectionAllowed_ )
         {
-            row[modelColumnRecord_.get_column_selected()] = false;
+            row[modelColumnRecord_.get_column_selected()]
+                        = (Tag::ALL_PHOTOS_TAGID != tag->get_tag_id())
+                            ? false : true;
         }
 
         PixbufPtr pixbuf;
@@ -135,6 +137,10 @@ TagView::on_row_activated ( const Gtk::TreeModel::Path& path,
 
     Gtk::TreeModel::iterator current = listStore_->get_iter( path );
     Gtk::TreeModel::Row row = (*current);
+
+    TagPtr tag = row[modelColumnRecord_.get_column_tag()];
+    if( Tag::ALL_PHOTOS_TAGID == tag->get_tag_id() )
+        return; //User will not be able to unselect
 
     row[modelColumnRecord_.get_column_selected()] 
             = !( row[modelColumnRecord_.get_column_selected()] ) ;

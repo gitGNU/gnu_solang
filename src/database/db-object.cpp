@@ -114,6 +114,12 @@ void DBObject::remove( DataModelPtr &model, gint32 row ) throw(Error)
     return;
 }
 
+void
+DBObject::remove_physical_existence() throw()
+{
+    //Hoge Hoge :-P
+}
+
 void DBObject::set_row_( gint32 row ) throw()
 {
     row_ = row;
@@ -122,6 +128,12 @@ void DBObject::set_row_( gint32 row ) throw()
 void DBObject::set_table_( const DBTablePtr &table ) throw()
 {
     table_ = table;
+}
+
+void
+DBObject::set_is_deleted( bool value ) throw()
+{
+    isDeleted_ = value;
 }
 
 } //namespace Solang

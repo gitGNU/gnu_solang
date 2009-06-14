@@ -65,6 +65,9 @@ class PhotoTag :
         virtual Glib::ustring
         get_db_object_type_name() const throw();
 
+        virtual DeleteActionPtr
+        get_delete_action() throw();
+
         virtual Glib::ustring getQueryCriteria() const;
 
 };

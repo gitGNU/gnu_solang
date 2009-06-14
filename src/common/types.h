@@ -50,13 +50,18 @@ typedef const Database * ConstDatabasePtr;
 typedef Database * DatabasePtr;
 
 class DBObject;
-typedef std::tr1::shared_ptr<const DBObject> ConstDBObjectPtr;
-typedef std::tr1::shared_ptr<DBObject> DBObjectPtr;
+typedef const DBObject * ConstDBObjectPtr;
+typedef DBObject * DBObjectPtr;
 typedef std::vector<DBObjectPtr> DBObjectList;
 
 class DBTable;
 typedef std::tr1::shared_ptr<const DBTable> ConstDBTablePtr;
 typedef std::tr1::shared_ptr<DBTable> DBTablePtr;
+
+class DeleteAction;
+typedef std::tr1::shared_ptr<const DeleteAction> ConstDeleteActionPtr;
+typedef std::tr1::shared_ptr<DeleteAction> DeleteActionPtr;
+typedef std::vector<DeleteActionPtr> DeleteActionList;
 
 class ExifDataKey;
 typedef std::tr1::shared_ptr<ExifDataKey> ExifDataKeyPtr;

@@ -161,6 +161,18 @@ DBTablePtr Database::getTable(const Glib::ustring &tableName) const
     return DBTablePtr( );
 }
 
+void Database::run_sql( const Glib::ustring &sql ) throw(Error)
+{
+    try
+    {
+        gdaConnection_->execute_non_select_command( sql );
+    }
+    catch(Glib::Error &error)
+    {
+        std::cerr<<"Error: "<<error.what()<<std::endl;
+    }
+}
+
 void Database::close() throw(Error)
 {
     gdaConnection_->close();    
@@ -388,6 +400,14 @@ Database::create_db() throw(Error)
                                 description varchar(255),\
                                 iconpath varchar(255))";
             gdaConnection_->execute_non_select_command( sql );
+
+            //Create the all photos tag
+            {
+                Glib::ustring sql = "INSERT INTO tags\
+                                values(0, 'All Photos', \
+                                'All photos imported in solang','')";
+                gdaConnection_->execute_non_select_command( sql );
+            }
         }
         //Photo Tags
         {

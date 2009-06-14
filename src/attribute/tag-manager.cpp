@@ -24,7 +24,10 @@
 #include <sigc++/sigc++.h>
 
 #include "application.h"
+#include "delete-action.h"
+#include "deletion-queue.h"
 #include "main-window.h"
+#include "photo-tag.h"
 #include "renderer.h"
 #include "tag-manager.h"
 #include "tag-new-dialog.h"
@@ -107,7 +110,9 @@ TagManager::TagManager() throw() :
     actionGroup_->add(
         Gtk::Action::create(
             "ActionTagsDelete", Gtk::Stock::DELETE,
-            _("_Delete Selected Tag")));
+            _("_Delete Selected Tag")),
+        Gtk::AccelKey(""),
+        sigc::mem_fun(*this, &TagManager::on_action_tag_delete));
 
     actionGroup_->add(
         Gtk::Action::create("ActionTagsAttach", Gtk::Stock::ADD,
@@ -118,7 +123,9 @@ TagManager::TagManager() throw() :
     actionGroup_->add(
         Gtk::Action::create(
             "ActionTagsRemove", Gtk::Stock::REMOVE,
-            _("_Remove Tag From Selection")));
+            _("_Remove Tag From Selection")),
+        Gtk::AccelKey(""),
+        sigc::mem_fun(*this, &TagManager::on_action_remove_tag));
 
     scrolledWindow_.set_policy(Gtk::POLICY_AUTOMATIC,
                                Gtk::POLICY_AUTOMATIC);
@@ -132,7 +139,7 @@ TagManager::TagManager() throw() :
                                              dockItemTitle_.c_str(),
                                              PACKAGE_TARNAME"-tag",
                                              dockItemBehaviour_);
-    
+
     gtk_container_add(GTK_CONTAINER(dockItem_),
                       GTK_WIDGET(vBox_.gobj()));
     vBox_.pack_start( scrolledWindow_ );
@@ -226,7 +233,7 @@ TagManager::on_action_tag_edit() throw()
     Glib::RefPtr<Gtk::TreeSelection> selected
                                             = tagView_.get_selection();
 
-    if( 0 == selected->count_selected_rows() )
+    if( Tag::ALL_PHOTOS_TAGID == selected->count_selected_rows() )
         return;
 
     Gtk::TreeModel::iterator item = selected->get_selected();
@@ -272,6 +279,35 @@ TagManager::on_action_tag_edit() throw()
 }
 
 void
+TagManager::on_action_tag_delete() throw()
+{
+    Glib::RefPtr<Gtk::TreeSelection> selected
+                                            = tagView_.get_selection();
+
+    if( Tag::ALL_PHOTOS_TAGID == selected->count_selected_rows() )
+        return;
+
+    const TagViewModelColumnRecord &rec
+                                = tagView_.get_column_records();
+
+    DeletionQueue &queue
+                = application_->get_engine().get_delete_actions();
+
+    for( Gtk::TreeModel::iterator item = selected->get_selected();
+            item != selected->get_model()->children().end(); item++ )
+    {
+        Gtk::TreeModel::Row row= (*item);
+        TagPtr tag = row[ rec.get_column_tag() ];
+        if( tag && tag->get_tag_id() )
+        {
+            DeleteActionPtr action = tag->get_delete_action();
+            queue.schedule_delete_action( action );
+        }
+
+    }
+}
+
+void
 TagManager::on_action_apply_tag() throw()
 {
     Glib::RefPtr<Gtk::TreeSelection> selected
@@ -289,12 +325,55 @@ TagManager::on_action_apply_tag() throw()
         Gtk::TreeModel::Row row= (*item);
         TagPtr tag = row[ rec.get_column_tag() ];
 
+        if( Tag::ALL_PHOTOS_TAGID == tag->get_tag_id() )
+            return;
+
         Engine &engine = application_->get_engine();
         RendererPtr renderer = engine.get_current_renderer();
 
         PhotoList photos = renderer->get_current_selection();
 
         engine.apply_tag_to_photos( photos, tag );
+    }
+
+    return;
+}
+
+void
+TagManager::on_action_remove_tag() throw()
+{
+    Glib::RefPtr<Gtk::TreeSelection> selected
+                                            = tagView_.get_selection();
+
+    if( 0 == selected->count_selected_rows() )
+        return;
+
+    Gtk::TreeModel::iterator item = selected->get_selected();
+    const TagViewModelColumnRecord &rec
+                                = tagView_.get_column_records();
+
+    if( item != selected->get_model()->children().end() )
+    {
+        Gtk::TreeModel::Row row= (*item);
+        TagPtr tag = row[ rec.get_column_tag() ];
+
+        if( Tag::ALL_PHOTOS_TAGID == tag->get_tag_id() )
+            return;
+
+        Engine &engine = application_->get_engine();
+        RendererPtr renderer = engine.get_current_renderer();
+        PhotoList photos = renderer->get_current_selection();
+        DeletionQueue &queue
+                = application_->get_engine().get_delete_actions();
+
+        for( PhotoList::iterator it = photos.begin();
+                            it != photos.end(); it++ )
+        {
+            PhotoTag photoTag( (*it)->get_photo_id(),
+                                tag->get_tag_id() );
+            DeleteActionPtr action = photoTag.get_delete_action();
+            queue.schedule_delete_action( action );
+        }
     }
 
     return;

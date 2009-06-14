@@ -118,6 +118,19 @@ PhotoTag::get_db_object_type_name() const throw()
 {
     return "photo_tags";
 }
+
+DeleteActionPtr
+PhotoTag::get_delete_action() throw()
+{
+    DeleteActionPtr action( new DeleteAction( "PhotoTag" , NULL ) );
+    std::ostringstream sout;
+    sout<<"delete from photo_tags where tagid="<<get_tagId_()
+        <<" and photoid="<<get_photoId_();
+    action->add_command( sout.str() );
+    set_is_deleted( true );
+    return action;
+}
+
 Glib::ustring PhotoTag::getQueryCriteria() const
 {
     return " ";

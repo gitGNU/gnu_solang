@@ -49,7 +49,9 @@ Engine::Engine(int & argc, char ** & argv,
     photos_(),
     currentStorageSystems_(),
     currentRenderer_(),
-    database_("")
+    database_(""),
+    criterionRepo_(),
+    deleteActions_( database_ )
 {
     //TBD::CREATE
     {
@@ -70,6 +72,12 @@ Engine::~Engine() throw()
 void Engine::init(Glib::ustring str)
 {
     database_.open();
+}
+
+void Engine::final()
+{
+	std::cout<<"Final"<<std::endl;
+    deleteActions_.execute_actions( observer_ );
 }
 
 void

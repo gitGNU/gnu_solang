@@ -3,6 +3,8 @@ bin_PROGRAMS = solang
 solang_SOURCES = \
 	application.cpp \
 	application.h \
+	deletion-queue.cpp \
+	deletion-queue.h \
 	engine.cpp \
 	engine.h \
 	main.cpp \
@@ -12,11 +14,11 @@ solang_SOURCES = \
 solang_LDFLAGS = 
 
 solang_LDADD = \
-	$(top_builddir)/src/database/libdatabase.la \
 	$(top_builddir)/src/importer/libimporter.la \
 	$(top_builddir)/src/renderer/librenderer.la \
 	$(top_builddir)/src/storage/libstorage.la \
 	$(top_builddir)/src/attribute/libattribute.la \
+	$(top_builddir)/src/database/libdatabase.la \
 	$(top_builddir)/src/common/libcommon.la \
 	$(EXIV2_LIBS) \
 	$(GPHOTO2_LIBS) \

@@ -26,6 +26,7 @@
 #include <gtkmm.h>
 
 #include "database.h"
+#include "deletion-queue.h"
 #include "i-storage.h"
 #include "non-copyable.h"
 #include "photo.h"
@@ -51,6 +52,9 @@ class Engine :
 
         void
         init(Glib::ustring);
+
+        void
+        final();
 
         void
         import(const PhotoPtr & photo,
@@ -192,6 +196,9 @@ class Engine :
         inline SearchCriterionRepo &
         get_criterion_repo();
 
+        inline DeletionQueue &
+        get_delete_actions();
+
     private:
         PhotoList
         create_renderable_list_from_photos(
@@ -233,6 +240,8 @@ class Engine :
         Database database_;
 
         SearchCriterionRepo criterionRepo_;
+
+        DeletionQueue deleteActions_;
 };
 
 inline const ProgressObserverPtr &
@@ -245,6 +254,12 @@ inline SearchCriterionRepo &
 Engine::get_criterion_repo()
 {
     return criterionRepo_;
+}
+
+inline DeletionQueue &
+Engine::get_delete_actions()
+{
+    return deleteActions_;
 }
 
 } // namespace Solang

@@ -347,6 +347,7 @@ Application::run() throw()
 void
 Application::final() throw()
 {
+    engine_.final();
     mainWindow_.final();
 
     std::for_each(renderers_.begin(), renderers_.end(),

@@ -69,6 +69,8 @@ class Database
         //Get table object
         DBTablePtr getTable(const Glib::ustring &tableName) const;
 
+        void run_sql(const Glib::ustring &sql) throw(Error);
+
         void close() throw(Error);
 
         //Utility functions

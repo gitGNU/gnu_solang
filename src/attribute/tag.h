@@ -35,6 +35,9 @@ class Tag :
     public DBObject,
     public PhotoSearchCriteria 
 {
+    public:
+        static const gint32 ALL_PHOTOS_TAGID;
+
     private:
         static const gint32 TAGID_COL;
         static const gint32 NAME_COL;
@@ -92,6 +95,9 @@ class Tag :
 
         virtual Glib::ustring
         get_query_criteria() const throw();
+
+        virtual DeleteActionPtr
+        get_delete_action() throw();
 
         virtual ClubbingOperationType
         get_clubbing_type() const throw();
