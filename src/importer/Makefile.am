@@ -7,6 +7,15 @@ libimporter_la_SOURCES = \
 	camera-source.h \
 	directory-source.cpp \
 	directory-source.h \
+	flickr-auth-dialog.cpp \
+	flickr-auth-dialog.h \
+	flickr-chooser-button.cpp \
+	flickr-chooser-button.h \
+	flickr-chooser-dialog.cpp \
+	flickr-chooser-dialog.h \
+	flickr-enums.h \
+	flickr-photo-uri-builder.cpp \
+	flickr-photo-uri-builder.h \
 	flickr-source.cpp \
 	flickr-source.h \
 	gp-context.cpp \
@@ -33,6 +42,7 @@ AM_CPPFLAGS = \
 	$(SOLANG_CFLAGS) \
 	$(CAIROMM_CFLAGS) \
 	$(EXIV2_CFLAGS) \
+	$(FLICKCURL_CFLAGS) \
 	$(GPHOTO2_CFLAGS) \
 	$(GTKMM_CFLAGS) \
 	$(GDAMM_CFLAGS) \
@@ -40,7 +50,9 @@ AM_CPPFLAGS = \
 	$(GLIBMM_CFLAGS) \
 	$(GDL_CFLAGS) \
 	$(IMAGEMAGICK_CFLAGS) \
-	$(SIGC_CFLAGS)
+	$(SIGC_CFLAGS) \
+	$(SOUP_CFLAGS) \
+	$(WEBKIT_CFLAGS)
 
 AM_CXXFLAGS = \
 	 -Wall

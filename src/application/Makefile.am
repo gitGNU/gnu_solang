@@ -21,11 +21,14 @@ solang_LDADD = \
 	$(top_builddir)/src/database/libdatabase.la \
 	$(top_builddir)/src/common/libcommon.la \
 	$(EXIV2_LIBS) \
+	$(FLICKCURL_LIBS) \
 	$(GPHOTO2_LIBS) \
 	$(GTKIMAGEVIEW_LIBS) \
+	$(WEBKIT_LIBS) \
 	$(GTKMM_LIBS) \
 	$(CAIROMM_LIBS) \
 	$(GDAMM_LIBS) \
+	$(SOUP_LIBS) \
 	$(GIOMM_LIBS) \
 	$(GLIBMM_LIBS) \
 	$(GDL_LIBS) \
@@ -47,6 +50,7 @@ AM_CPPFLAGS = \
 	$(SOLANG_CFLAGS) \
 	$(CAIROMM_CFLAGS) \
 	$(EXIV2_CFLAGS) \
+	$(FLICKCURL_CFLAGS) \
 	$(GPHOTO2_CFLAGS) \
 	$(GTKIMAGEVIEW_CFLAGS) \
 	$(GTKMM_CFLAGS) \

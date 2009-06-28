@@ -20,13 +20,22 @@
 #ifndef SOLANG_FLICKR_SOURCE_H
 #define SOLANG_FLICKR_SOURCE_H
 
+#include <list>
+#include <string>
+
+#include <flickcurl.h>
 #include <glibmm.h>
 #include <gtkmm.h>
 
 #include "photo-source.h"
+#include "types.h"
 
 namespace Solang
 {
+
+class Application;
+class FlickrChooserButton;
+class FlickrInitializer;
 
 class FlickrSource :
     public PhotoSource 
@@ -60,11 +69,17 @@ public:
     virtual sigc::signal<void, bool> &
     init_end() throw();
 
+    void
+    download_photos(PhotoList & files) throw();
+
     virtual void
     read_selection() throw();
 
     virtual Gtk::Widget &
     get_browser() throw();
+
+    flickcurl *
+    get_flickr_session() throw();
 
     virtual Glib::ustring
     get_label() const throw();
@@ -76,9 +91,19 @@ public:
     get_stock_id() const throw();
 
 protected:
-    Gtk::ComboBoxEntry comboBoxEntry_;
+    void
+    on_init_end(bool status,
+                FlickrInitializerPtr & flickr_initializer) throw();
+
+    FlickrChooserButton * flickrChooserButton_;
+
+    FlickrContextPtr flickrContext_;
+
+    std::list<std::string> uris_;
 
     sigc::signal<void, bool> initEnd_;
+
+    sigc::connection signalInitEnd_;
 
 private:
 };

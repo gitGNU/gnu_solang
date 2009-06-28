@@ -67,6 +67,22 @@ class ExifDataKey;
 typedef std::tr1::shared_ptr<ExifDataKey> ExifDataKeyPtr;
 typedef std::vector<ExifDataKeyPtr> ExifDataKeyList;
 
+class FlickrChooserDialog;
+typedef std::tr1::shared_ptr<const FlickrChooserDialog>
+    ConstFlickrChooserDialogPtr;
+typedef std::tr1::shared_ptr<FlickrChooserDialog>
+    FlickrChooserDialogPtr;
+
+class FlickrContext;
+typedef std::tr1::shared_ptr<const FlickrContext>
+    ConstFlickrContextPtr;
+typedef std::tr1::shared_ptr<FlickrContext> FlickrContextPtr;
+
+class FlickrInitializer;
+typedef std::tr1::shared_ptr<const FlickrInitializer>
+    ConstFlickrInitializerPtr;
+typedef std::tr1::shared_ptr<FlickrInitializer> FlickrInitializerPtr;
+
 class IPhotoDestination;
 typedef std::tr1::shared_ptr<const IPhotoDestination>
     ConstIPhotoDestinationPtr;
@@ -153,6 +169,9 @@ typedef Glib::RefPtr<Gdk::GC> GCPtr;
 typedef Glib::RefPtr<const Gdk::Pixbuf> ConstPixbufPtr;
 typedef Glib::RefPtr<Gdk::Pixbuf> PixbufPtr;
 typedef std::vector<PixbufPtr> PixbufList;
+
+typedef Glib::RefPtr<const Gdk::PixbufLoader> ConstPixbufLoaderPtr;
+typedef Glib::RefPtr<Gdk::PixbufLoader> PixbufLoaderPtr;
 
 typedef Glib::RefPtr<const Gdk::Screen> ConstScreenPtr;
 typedef Glib::RefPtr<Gdk::Screen> ScreenPtr;

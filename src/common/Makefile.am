@@ -5,6 +5,8 @@ libcommon_la_SOURCES = \
 	content-type-repo.h \
 	error.cpp \
 	error.h \
+	flickr-context.cpp \
+	flickr-context.h \
 	id-base.h \
 	id-repo.cpp \
 	id-repo.h \
@@ -32,6 +34,8 @@ libcommon_la_SOURCES = \
 	progress-observer.h \
 	spinner.cpp \
 	spinner.h \
+	spinner-dialog.cpp \
+	spinner-dialog.h \
 	spinner-tool-item.cpp \
 	spinner-tool-item.h \
 	thumbbuf-maker.cpp \
@@ -52,6 +56,7 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/storage \
 	$(SOLANG_CFLAGS) \
 	$(EXIV2_CFLAGS) \
+	$(FLICKCURL_CFLAGS) \
 	$(GTKMM_CFLAGS) \
 	$(GDAMM_CFLAGS) \
 	$(GIOMM_CFLAGS) \

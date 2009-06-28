@@ -23,6 +23,7 @@
 
 #include <cstdlib>
 
+#include <flickcurl.h>
 #include <giomm.h>
 #include <glibmm.h>
 #include <glibmm/i18n.h>
@@ -46,6 +47,12 @@ main(int argc, char *argv[])
     Gio::init();
     Gnome::Gda::init(PACKAGE_NAME, PACKAGE_VERSION, argc, argv);
 
+    if (0 != flickcurl_init())
+    {
+        g_warning ("Failed to initialize FlickCurl");
+        return EXIT_FAILURE;
+    }
+
     Glib::set_prgname(PACKAGE_TARNAME);
     Glib::set_application_name(_(PACKAGE_NAME));
 
@@ -55,6 +62,8 @@ main(int argc, char *argv[])
     application.init();
     application.run();
     application.final();
+
+    flickcurl_finish();
 
     return EXIT_SUCCESS;
 }
