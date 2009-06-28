@@ -42,12 +42,24 @@ namespace Solang
 
 DirectorySource::DirectorySource() throw() :
     PhotoSource(),
-    fileChooserButton_(_("Select Folder"),
-                       Gtk::FILE_CHOOSER_ACTION_SELECT_FOLDER)
+    filename_(),
+    fileChooserButton_(0),
+    initEnd_()
 {
 }
 
 DirectorySource::~DirectorySource() throw()
+{
+}
+
+void
+DirectorySource::init(Application & application) throw()
+{
+    initEnd_.emit(true);
+}
+
+void
+DirectorySource::final(Application & application) throw()
 {
 }
 
@@ -107,8 +119,7 @@ DirectorySource::import(
                     const ProgressObserverPtr & observer) throw()
 {
     PhotoList files;
-    create_photo_list(files, fileChooserButton_.get_filename(),
-                      fileChooserButton_.get_filename());
+    create_photo_list(files, filename_, filename_);
     return import(files, storage, tags, db, observer);
 }
 
@@ -142,10 +153,26 @@ void DirectorySource::create_photo_list(PhotoList & list,
     }
 }
 
+sigc::signal<void, bool> &
+DirectorySource::init_end() throw()
+{
+    return initEnd_;
+}
+
+void
+DirectorySource::read_selection() throw()
+{
+    filename_ = fileChooserButton_->get_filename();
+}
+
 Gtk::Widget &
 DirectorySource::get_browser() throw()
 {
-    return fileChooserButton_;
+    fileChooserButton_ = new Gtk::FileChooserButton(
+                             _("Select Folder"),
+                             Gtk::FILE_CHOOSER_ACTION_SELECT_FOLDER);
+
+    return *Gtk::manage(fileChooserButton_);
 }
 
 Glib::ustring

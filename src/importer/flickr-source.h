@@ -37,6 +37,12 @@ public:
     virtual
     ~FlickrSource() throw();
 
+    virtual void
+    init(Application & application) throw();
+
+    virtual void
+    final(Application & application) throw();
+
     virtual PhotoPtr
     import(const PhotoPtr & photo, const IStoragePtr & storage,
            const TagList &tags, Database & db,
@@ -50,6 +56,12 @@ public:
     virtual PhotoList
     import(const IStoragePtr & storage, const TagList &tags,
            Database & db, const ProgressObserverPtr & observer) throw();
+
+    virtual sigc::signal<void, bool> &
+    init_end() throw();
+
+    virtual void
+    read_selection() throw();
 
     virtual Gtk::Widget &
     get_browser() throw();
@@ -65,6 +77,8 @@ public:
 
 protected:
     Gtk::ComboBoxEntry comboBoxEntry_;
+
+    sigc::signal<void, bool> initEnd_;
 
 private:
 };

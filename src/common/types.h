@@ -81,6 +81,11 @@ typedef std::tr1::shared_ptr<const Images> ConstImagesPtr;
 typedef std::tr1::shared_ptr<Images> ImagesPtr;
 typedef std::vector<ImagesPtr> ImagesList;
 
+class ImporterDialog;
+typedef std::tr1::shared_ptr<const ImporterDialog>
+    ConstImporterDialogPtr;
+typedef std::tr1::shared_ptr<ImporterDialog> ImporterDialogPtr;
+
 class IPhotoSource;
 typedef std::tr1::shared_ptr<const IPhotoSource> ConstIPhotoSourcePtr;
 typedef std::tr1::shared_ptr<IPhotoSource> IPhotoSourcePtr;

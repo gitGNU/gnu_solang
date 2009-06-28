@@ -27,11 +27,23 @@ namespace Solang
 
 FlickrSource::FlickrSource() throw() :
     PhotoSource(),
-    comboBoxEntry_()
+    comboBoxEntry_(),
+    initEnd_()
 {
 }
 
 FlickrSource::~FlickrSource() throw()
+{
+}
+
+void
+FlickrSource::init(Application & application) throw()
+{
+    initEnd_.emit(true);
+}
+
+void
+FlickrSource::final(Application & application) throw()
 {
 }
 
@@ -64,6 +76,17 @@ FlickrSource::import(const IStoragePtr & storage, const TagList &tags,
 {
     PhotoList files;
     return import(files, storage, tags, db, observer);
+}
+
+sigc::signal<void, bool> &
+FlickrSource::init_end() throw()
+{
+    return initEnd_;
+}
+
+void
+FlickrSource::read_selection() throw()
+{
 }
 
 Gtk::Widget &

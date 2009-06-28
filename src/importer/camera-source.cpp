@@ -42,7 +42,8 @@ CameraSource::CameraSource() throw()
     : PhotoSource(),
     gpContext_(),
     iconFactory_(Gtk::IconFactory::create()),
-    select_( gpContext_ )
+    select_( gpContext_ ),
+    initEnd_()
 {
     Gtk::IconSource icon_source;
     Gtk::IconSet icon_set_camera_photo;
@@ -82,6 +83,17 @@ CameraSource::CameraSource() throw()
 CameraSource::~CameraSource() throw()
 {
     iconFactory_->remove_default();
+}
+
+void
+CameraSource::init(Application & application) throw()
+{
+    initEnd_.emit(true);
+}
+
+void
+CameraSource::final(Application & application) throw()
+{
 }
 
 PhotoPtr
@@ -224,6 +236,17 @@ CameraSource::download_file_from_camera( const PhotoPtr &photo )
     gp_file_unref( cImg );
 
     photo->set_disk_file_path( cImgPath );
+}
+
+sigc::signal<void, bool> &
+CameraSource::init_end() throw()
+{
+    return initEnd_;
+}
+
+void
+CameraSource::read_selection() throw()
+{
 }
 
 Gtk::Widget &

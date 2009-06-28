@@ -29,7 +29,7 @@ namespace Solang
 
 ImporterDialog::ImporterDialog(Gtk::Widget & browser,
                                const TagList & tags) throw() :
-    Gtk::Dialog(),
+    Gtk::Dialog(_("Import"), true, false),
     mainHBox_(false, 18),
     inputVBox_(false, 18),
     //previewScrolledWindow_(),
@@ -54,10 +54,8 @@ ImporterDialog::ImporterDialog(Gtk::Widget & browser,
     importButton_(),
     importImage_(Gtk::Stock::APPLY, Gtk::ICON_SIZE_BUTTON)
 {
-    set_title(_("Import"));
     set_border_width(12);
     set_default_size(300, 400);
-    set_has_separator(false);
 
     Gtk::VBox * const dialog_vbox = get_vbox();
     dialog_vbox->set_spacing(18);

@@ -37,6 +37,12 @@ public:
     virtual
     ~DirectorySource() throw();
 
+    virtual void
+    init(Application & application) throw();
+
+    virtual void
+    final(Application & application) throw();
+
     virtual PhotoPtr
     import(const PhotoPtr & photo, const IStoragePtr & storage,
            const TagList & tags, Database & db,
@@ -51,6 +57,12 @@ public:
     import(const IStoragePtr & storage, const TagList & tags,
            Database &db, const ProgressObserverPtr & observer) throw();
 
+    virtual sigc::signal<void, bool> &
+    init_end() throw();
+
+    virtual void
+    read_selection() throw();
+
     virtual Gtk::Widget &
     get_browser() throw();
 
@@ -64,7 +76,11 @@ public:
     get_stock_id() const throw();
 
 protected:
-    Gtk::FileChooserButton fileChooserButton_;
+    Glib::ustring filename_;
+
+    Gtk::FileChooserButton * fileChooserButton_;
+
+    sigc::signal<void, bool> initEnd_;
 
 private:
     void

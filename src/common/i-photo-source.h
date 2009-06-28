@@ -22,6 +22,7 @@
 
 #include <glibmm.h>
 #include <gtkmm.h>
+#include <sigc++/sigc++.h>
 
 #include "non-copyable.h"
 #include "types.h"
@@ -39,6 +40,12 @@ class IPhotoSource :
         virtual
         ~IPhotoSource() throw() = 0;
 
+        virtual void
+        init(Application & application) throw() = 0;
+
+        virtual void
+        final(Application & application) throw() = 0;
+
         virtual PhotoPtr
         import(const PhotoPtr & photo, const IStoragePtr & storage,
                const TagList & tag, Database & db,
@@ -53,6 +60,12 @@ class IPhotoSource :
         import(const IStoragePtr & storage, const TagList & tag,
                Database & db, const ProgressObserverPtr & observer)
                throw() = 0;
+
+        virtual sigc::signal<void, bool> &
+        init_end() throw() = 0;
+
+        virtual void
+        read_selection() throw() = 0;
 
         virtual Gtk::Widget &
         get_browser() throw() = 0;

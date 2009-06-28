@@ -59,6 +59,14 @@ protected:
 
     void
     on_photo_import_end() throw();
+
+    void
+    on_photo_source_init_end(bool status) throw();
+
+    void
+    on_importer_dialog_response(
+        gint response_id,
+        ImporterDialogPtr & importer_dialog) throw();
  
     ApplicationPtr application_;
 

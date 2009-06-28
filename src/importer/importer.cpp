@@ -70,6 +70,10 @@ Importer::Importer(const IPhotoSourcePtr & photo_source, bool standard)
         Gtk::Action::create(action_name, photoSource_->get_stock_id(),
                             photoSource_->get_label()),
         sigc::mem_fun(*this, &Importer::on_action_photo_import));
+
+    photoSource_->init_end().connect(
+        sigc::mem_fun(*this,
+                      &Importer::on_photo_source_init_end));
 }
 
 Importer::~Importer() throw()
@@ -166,26 +170,65 @@ Importer::final(Application & application) throw()
 void
 Importer::on_action_photo_import() throw()
 {
+    photoSource_->init(*application_);
+}
+
+void
+Importer::on_photo_import_begin() throw()
+{
+    actionGroup_->set_sensitive(false);
+}
+
+void
+Importer::on_photo_import_end() throw()
+{
+    actionGroup_->set_sensitive(true);
+}
+
+void
+Importer::on_photo_source_init_end(bool status) throw()
+{
+    if (false == status)
+    {
+        return;
+    }
+
     Engine & engine = application_->get_engine();
-    ImporterDialog importer_dialog(photoSource_->get_browser(),
-                                   engine.get_tags());
-    importer_dialog.set_transient_for(application_->get_main_window());
+    ImporterDialogPtr importer_dialog(
+        new ImporterDialog(photoSource_->get_browser(),
+        engine.get_tags()));
 
-    const gint response = importer_dialog.run();
+    importer_dialog->set_transient_for(
+                         application_->get_main_window());
 
-    switch (response)
+    importer_dialog->signal_response().connect(
+        sigc::bind(sigc::mem_fun(
+                       *this,
+                       &Importer::on_importer_dialog_response),
+                   importer_dialog));
+
+    importer_dialog->show_all();
+}
+
+void
+Importer::on_importer_dialog_response(
+              gint response_id,
+              ImporterDialogPtr & importer_dialog) throw()
+{
+    switch (response_id)
     {
         case Gtk::RESPONSE_APPLY:
         {
+            photoSource_->read_selection();
+
             TagList tags;
-            importer_dialog.get_tag_view().get_selected_tags( tags );
+            importer_dialog->get_tag_view().get_selected_tags( tags );
             
-            Glib::ThreadPool & thread_pool
-                = application_->get_thread_pool();
+            Engine & engine = application_->get_engine();
             const IStoragePtr & storage
                 = engine.get_current_storage_system("file");
 
-            bool doNotCopy = !importer_dialog.get_to_copy();
+            bool doNotCopy = !importer_dialog->get_to_copy();
             const std::tr1::shared_ptr<DirectoryStorage> dirStorage
                 = std::tr1::dynamic_pointer_cast<DirectoryStorage>(
                                                             storage );
@@ -194,6 +237,9 @@ Importer::on_action_photo_import() throw()
                 dirStorage->set_do_not_copy( doNotCopy );
             }
 
+
+            Glib::ThreadPool & thread_pool
+                = application_->get_thread_pool();
 
             thread_pool.push(
                 sigc::bind(sigc::mem_fun(engine, &Engine::import),
@@ -212,18 +258,9 @@ Importer::on_action_photo_import() throw()
             break;
         }
     }
-}
 
-void
-Importer::on_photo_import_begin() throw()
-{
-    actionGroup_->set_sensitive(false);
-}
-
-void
-Importer::on_photo_import_end() throw()
-{
-    actionGroup_->set_sensitive(true);
+    photoSource_->final(*application_);
+    importer_dialog.reset();
 }
 
 } // namespace Solang
