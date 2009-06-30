@@ -53,6 +53,9 @@ ProgressDialog::ProgressDialog(const ProgressObserverPtr & observer)
 
     show_all_children();
 
+    observer_->description_changed().connect(sigc::mem_fun(*this,
+        &ProgressDialog::on_observer_description_changed));
+
     observer_->progress().connect(sigc::mem_fun(*this,
         &ProgressDialog::on_progress));
 }
@@ -62,10 +65,13 @@ ProgressDialog::~ProgressDialog() throw()
 }
 
 void
-ProgressDialog::set_progress_title(const Glib::ustring & title)
+ProgressDialog::set_progress_title()
 {
-    set_title(observer_->get_event_description());
-    primaryLabel_.set_markup("<b><big>" + title + "</big></b>");
+    const Glib::ustring & description
+                              = observer_->get_event_description();
+
+    set_title(description);
+    primaryLabel_.set_markup("<b><big>" + description + "</big></b>");
 }
 
 void
@@ -88,12 +94,18 @@ ProgressDialog::on_delete_event(GdkEventAny * event)
 }
 
 void
+ProgressDialog::on_observer_description_changed() throw()
+{
+    set_progress_title();
+}
+
+void
 ProgressDialog::on_progress() throw()
 {
     std::ostringstream sout;
 
     sout << observer_->get_current_events() << " of "
-         << observer_->get_num_events() << " photos imported";
+         << observer_->get_num_events() << " completed";
 
     progressBar_.set_text(sout.str());
     progressBar_.set_fraction(
@@ -111,9 +123,10 @@ ProgressDialog::on_response(int response_id)
 void
 ProgressDialog::reset() throw()
 {
+    primaryLabel_.set_markup("");
     progressBar_.set_fraction(0.0);
     progressBar_.set_text("");
-    set_progress_title("");
+    set_title("");
 }
 
 } // namespace Solang

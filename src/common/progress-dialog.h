@@ -43,7 +43,7 @@ class ProgressDialog :
         set_pulse_step(double fraction) throw();
 
         void 
-        set_progress_title(const Glib::ustring & title);
+        set_progress_title();
 
         void 
         reset() throw();
@@ -54,6 +54,9 @@ class ProgressDialog :
 
         virtual void
         on_response(int response_id);
+
+        void
+        on_observer_description_changed() throw();
 
         void
         on_progress() throw();

@@ -67,6 +67,9 @@ class ProgressObserver
         receive_event_notifiation() throw();
 
         inline Glib::Dispatcher &
+        description_changed() throw();
+
+        inline Glib::Dispatcher &
         progress() throw();
 
         void 
@@ -76,6 +79,8 @@ class ProgressObserver
         guint64 numEvents_;
 
         guint64 currentEvents_;
+
+        Glib::Dispatcher descriptionChanged_;
 
         Glib::Dispatcher progress_;
 
@@ -113,6 +118,13 @@ ProgressObserver::get_stop() const throw()
 {
     Glib::Mutex::Lock lock(mutex_);
     return stop_;
+}
+
+inline Glib::Dispatcher &
+ProgressObserver::description_changed() throw()
+{
+    Glib::Mutex::Lock lock(mutex_);
+    return descriptionChanged_;
 }
 
 inline Glib::Dispatcher &

@@ -427,8 +427,6 @@ Application::list_store_change_end() throw()
 void
 Application::on_photo_import_begin() throw()
 {
-    progressDialog_.set_progress_title( 
-            engine_.get_default_observer()->get_event_description() );
     progressDialog_.set_transient_for(mainWindow_);
     progressDialog_.show_all();
 }

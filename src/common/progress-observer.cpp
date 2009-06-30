@@ -26,6 +26,7 @@ namespace Solang
 ProgressObserver::ProgressObserver() throw() :
     numEvents_(0),
     currentEvents_(0),
+    descriptionChanged_(),
     progress_(),
     mutex_(),
     eventDescription_(),
@@ -82,6 +83,7 @@ ProgressObserver::set_event_description(
 {
     Glib::Mutex::Lock lock(mutex_);
     eventDescription_ = event_description;
+    descriptionChanged_.emit();
 }
 
 void
