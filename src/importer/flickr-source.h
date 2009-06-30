@@ -70,7 +70,8 @@ public:
     init_end() throw();
 
     void
-    download_photos(PhotoList & files) throw();
+    download_photos(PhotoList & files,
+                    const ProgressObserverPtr & observer) throw();
 
     virtual void
     read_selection() throw();

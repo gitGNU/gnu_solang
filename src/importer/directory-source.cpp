@@ -90,6 +90,7 @@ DirectorySource::import(const PhotoList & photos,
                         const TagList & tags, Database & db,
                         const ProgressObserverPtr & observer) throw()
 {
+    observer->set_event_description(_("Importing Photos"));
     observer->set_num_events(photos.size());
 
     PhotoList imported_photos;

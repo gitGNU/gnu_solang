@@ -395,7 +395,11 @@ FlickrSource::import(const PhotoList & photos,
                      const TagList &tags, Database & db,
                      const ProgressObserverPtr & observer) throw()
 {
-    observer->set_num_events(photos.size());
+    if (0 != observer)
+    {
+        observer->set_event_description(_("Importing Photos"));
+        observer->set_num_events(photos.size());
+    }
 
 	PhotoList imported_photos;
     PhotoList::const_iterator iter;
@@ -426,7 +430,7 @@ FlickrSource::import(const IStoragePtr & storage, const TagList &tags,
                      const ProgressObserverPtr & observer) throw()
 {
     PhotoList files;
-    download_photos(files);
+    download_photos(files, observer);
     return import(files, storage, tags, db, observer);
 }
 
@@ -437,8 +441,16 @@ FlickrSource::init_end() throw()
 }
 
 void
-FlickrSource::download_photos(PhotoList & files) throw()
+FlickrSource::download_photos(PhotoList & files,
+                              const ProgressObserverPtr & observer)
+                              throw()
 {
+    if (0 != observer)
+    {
+        observer->set_event_description(_("Downloading Photos"));
+        observer->set_num_events(uris_.size());
+    }
+
     const std::string cache_dir_path = Glib::get_user_cache_dir()
                                        + "/" + Glib::get_prgname();
 
@@ -452,6 +464,15 @@ FlickrSource::download_photos(PhotoList & files) throw()
 
     for (iter = uris_.begin(); uris_.end() != iter; iter++)
     {
+        if (0 != observer)
+        {
+            if (true == observer->get_stop())
+            {
+                files.clear();
+                break;
+            }
+        }
+
         SoupMessage * soup_message = soup_message_new(
                                          SOUP_METHOD_GET,
                                          iter->c_str());
@@ -507,6 +528,12 @@ FlickrSource::download_photos(PhotoList & files) throw()
         photo->set_disk_file_path(file_path);
 
         files.push_back(photo);
+        observer->receive_event_notifiation();
+    }
+
+    if (0 != observer)
+    {
+        observer->reset();
     }
 
     soup_session_abort(soup_session);

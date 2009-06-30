@@ -21,6 +21,8 @@
 #include "config.h"
 #endif // HAVE_CONFIG_H
 
+#include <glibmm/i18n.h>
+
 #include "date-photo-info.h"
 #include "engine.h"
 #include "i-photo-destination.h"
@@ -176,7 +178,7 @@ Engine::import(const IPhotoSourcePtr & source,
                const TagList & tags,
                const ProgressObserverPtr & observer) throw()
 {
-    observer_->set_event_description("Importing Photos");
+    observer_->set_event_description(_("Beginning to Import Photos"));
 
     photoImportBegin_.emit();
 #if 0
