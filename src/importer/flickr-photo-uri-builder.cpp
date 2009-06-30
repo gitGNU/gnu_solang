@@ -65,7 +65,7 @@ FlickrPhotoUriBuilder::operator()(flickcurl_photo * photo) throw()
 {
     if ('\0' == size_)
     {
-        gint i;
+        guint i;
 
         for (i = 0; sizeof(sizes) / sizeof(sizes[0]) > i; i++)
         {
