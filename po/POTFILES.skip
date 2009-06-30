@@ -1,3 +1,4 @@
+src/common/spinner-dialog.cpp
 src/database/database.cpp
 src/database/exifs-table.cpp
 src/database/photos-table.cpp

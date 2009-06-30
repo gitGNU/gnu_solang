@@ -10,7 +10,13 @@ src/attribute/tag-new-dialog.cpp
 src/common/progress-dialog.cpp
 src/importer/camera-import-widget.cpp
 src/importer/directory-source.cpp
+src/importer/flickr-auth-dialog.cpp
+src/importer/flickr-chooser-button.cpp
+src/importer/flickr-chooser-dialog.cpp
+src/importer/flickr-source.cpp
 src/importer/importer.cpp
 src/importer/importer-dialog.cpp
 src/renderer/browser-renderer.cpp
 src/renderer/enlarged-renderer.cpp
+src/renderer/pagination-bar.cpp
+src/renderer/zoomer.cpp
