@@ -72,6 +72,9 @@ public:
     virtual Glib::ustring
     get_name() const throw();
 
+    virtual gint
+    get_options() const throw();
+
     virtual Gtk::StockID
     get_stock_id() const throw();
 

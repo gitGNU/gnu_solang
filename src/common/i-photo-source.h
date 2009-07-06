@@ -76,6 +76,9 @@ class IPhotoSource :
         virtual Glib::ustring
         get_name() const throw() = 0;
 
+        virtual gint
+        get_options() const throw() = 0;
+
         virtual Gtk::StockID
         get_stock_id() const throw() = 0;
 

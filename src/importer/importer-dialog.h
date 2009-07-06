@@ -31,8 +31,9 @@ class ImporterDialog :
     public Gtk::Dialog 
 {
     public:
-        ImporterDialog(Gtk::Widget & browser, const TagList & tags)
-                       throw();
+        ImporterDialog(Gtk::Widget & browser,
+                       const TagList & tags,
+                       gint source_options) throw();
 
         virtual
         ~ImporterDialog() throw();
@@ -43,11 +44,11 @@ class ImporterDialog :
             return tagView_;
         }
 
-        inline bool
-        get_to_copy()
-        {
-            return copyCheckButton_.get_active();
-        }
+        bool
+        get_copy_photos() const throw();
+
+        bool
+        get_include_subfolders() const throw();
 
     protected:
         virtual bool
@@ -94,13 +95,15 @@ class ImporterDialog :
 
         Gtk::CheckButton duplicatesCheckButton_;
 
-        Gtk::CheckButton copyCheckButton_;
+        Gtk::CheckButton * copyCheckButton_;
 
-        Gtk::CheckButton subFoldersCheckButton_;
+        Gtk::CheckButton * subFoldersCheckButton_;
 
         Gtk::Button importButton_;
 
         Gtk::Image importImage_;
+
+        gint sourceOptions_;
 
     private:
 };

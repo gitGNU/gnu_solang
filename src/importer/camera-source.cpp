@@ -31,6 +31,7 @@
 #include "camera-source.h"
 #include "progress-observer.h"
 #include "i-storage.h"
+#include "photo-source-enums.h"
 #include "photo-tag.h"
 #include "progress-observer.h"
 #include "tag.h"
@@ -265,6 +266,13 @@ Glib::ustring
 CameraSource::get_name() const throw()
 {
     return Glib::ustring("Camera");
+}
+
+gint
+CameraSource::get_options() const throw()
+{
+    return PHOTO_SOURCE_COPY_PHOTOS_TRUE
+           | PHOTO_SOURCE_INCLUDE_SUBFOLDERS_FALSE;
 }
 
 Gtk::StockID

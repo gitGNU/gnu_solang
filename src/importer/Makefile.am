@@ -25,7 +25,8 @@ libimporter_la_SOURCES = \
 	importer-dialog.h \
 	importer.h \
 	photo-source.cpp \
-	photo-source.h
+	photo-source.h \
+	photo-source-enums.h
 
 AM_CPPFLAGS = \
        	-DPACKAGE_LOCALE_DIR=\"${SOLANG_LOCALE_DIR}\" \

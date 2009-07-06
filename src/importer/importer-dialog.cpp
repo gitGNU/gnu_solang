@@ -23,12 +23,14 @@
 #include <glibmm/i18n.h>
 
 #include "importer-dialog.h"
+#include "photo-source-enums.h"
 
 namespace Solang
 {
 
 ImporterDialog::ImporterDialog(Gtk::Widget & browser,
-                               const TagList & tags) throw() :
+                               const TagList & tags,
+                               gint source_options) throw() :
     Gtk::Dialog(_("Import"), true, false),
     mainHBox_(false, 18),
     inputVBox_(false, 18),
@@ -49,10 +51,21 @@ ImporterDialog::ImporterDialog(Gtk::Widget & browser,
     sourceLabel_(_("_Source:"), Gtk::ALIGN_LEFT, Gtk::ALIGN_CENTER, true),
     tagView_(tags),
     duplicatesCheckButton_(_("_Detect duplicates"), true),
-    copyCheckButton_(_("_Copy files to the Pictures folder"), true),
-    subFoldersCheckButton_(_("Include su_b-folders"), true),
+    copyCheckButton_((source_options
+                      & PHOTO_SOURCE_COPY_PHOTOS_OPTIONAL)
+                      ? Gtk::manage(new Gtk::CheckButton(
+                            _("_Copy files to the Pictures folder"),
+                            true))
+                      : 0),
+    subFoldersCheckButton_((
+        source_options & PHOTO_SOURCE_INCLUDE_SUBFOLDERS_OPTIONAL)
+        ? Gtk::manage(new Gtk::CheckButton(
+                          _("Include su_b-folders"),
+                          true))
+        : 0),
     importButton_(),
-    importImage_(Gtk::Stock::APPLY, Gtk::ICON_SIZE_BUTTON)
+    importImage_(Gtk::Stock::APPLY, Gtk::ICON_SIZE_BUTTON),
+    sourceOptions_(source_options)
 {
     set_border_width(12);
     set_default_size(300, 400);
@@ -130,12 +143,19 @@ ImporterDialog::ImporterDialog(Gtk::Widget & browser,
     optionsVBox2_.pack_start(duplicatesCheckButton_,
                              Gtk::PACK_SHRINK, 0);
 
-    copyCheckButton_.set_use_underline(true);
-    optionsVBox2_.pack_start(copyCheckButton_, Gtk::PACK_SHRINK, 0);
+    if (0 != copyCheckButton_)
+    {
+        copyCheckButton_->set_use_underline(true);
+        optionsVBox2_.pack_start(*copyCheckButton_,
+                                 Gtk::PACK_SHRINK, 0);
+    }
 
-    subFoldersCheckButton_.set_use_underline(true);
-    optionsVBox2_.pack_start(subFoldersCheckButton_,
-                             Gtk::PACK_SHRINK, 0);
+    if (0 != subFoldersCheckButton_)
+    {
+        subFoldersCheckButton_->set_use_underline(true);
+        optionsVBox2_.pack_start(*subFoldersCheckButton_,
+                                 Gtk::PACK_SHRINK, 0);
+    }
 
     add_button(Gtk::Stock::CANCEL, Gtk::RESPONSE_CANCEL);
 
@@ -149,6 +169,22 @@ ImporterDialog::ImporterDialog(Gtk::Widget & browser,
 
 ImporterDialog::~ImporterDialog() throw()
 {
+}
+
+bool
+ImporterDialog::get_copy_photos() const throw()
+{
+    return (sourceOptions_ & PHOTO_SOURCE_COPY_PHOTOS_OPTIONAL)
+           ? copyCheckButton_->get_active()
+           : sourceOptions_ & PHOTO_SOURCE_COPY_PHOTOS_TRUE;
+}
+
+bool
+ImporterDialog::get_include_subfolders() const throw()
+{
+    return (sourceOptions_ & PHOTO_SOURCE_INCLUDE_SUBFOLDERS_OPTIONAL)
+           ? subFoldersCheckButton_->get_active()
+           : sourceOptions_ & PHOTO_SOURCE_INCLUDE_SUBFOLDERS_TRUE;
 }
 
 bool

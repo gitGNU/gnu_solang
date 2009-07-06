@@ -196,7 +196,8 @@ Importer::on_photo_source_init_end(bool status) throw()
     Engine & engine = application_->get_engine();
     ImporterDialogPtr importer_dialog(
         new ImporterDialog(photoSource_->get_browser(),
-        engine.get_tags()));
+        engine.get_tags(),
+        photoSource_->get_options()));
 
     importer_dialog->set_transient_for(
                          application_->get_main_window());
@@ -228,7 +229,7 @@ Importer::on_importer_dialog_response(
             const IStoragePtr & storage
                 = engine.get_current_storage_system("file");
 
-            bool doNotCopy = !importer_dialog->get_to_copy();
+            bool doNotCopy = !importer_dialog->get_copy_photos();
             const std::tr1::shared_ptr<DirectoryStorage> dirStorage
                 = std::tr1::dynamic_pointer_cast<DirectoryStorage>(
                                                             storage );

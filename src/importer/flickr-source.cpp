@@ -33,6 +33,7 @@
 #include "flickr-source.h"
 #include "i-storage.h"
 #include "photo.h"
+#include "photo-source-enums.h"
 #include "photo-tag.h"
 #include "progress-observer.h"
 #include "spinner-dialog.h"
@@ -562,6 +563,13 @@ Glib::ustring
 FlickrSource::get_name() const throw()
 {
     return Glib::ustring("Flickr");
+}
+
+gint
+FlickrSource::get_options() const throw()
+{
+    return PHOTO_SOURCE_COPY_PHOTOS_TRUE
+           | PHOTO_SOURCE_INCLUDE_SUBFOLDERS_FALSE;
 }
 
 Gtk::StockID

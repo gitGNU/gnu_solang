@@ -32,6 +32,7 @@
 #include "content-type-repo.h"
 #include "directory-source.h"
 #include "i-storage.h"
+#include "photo-source-enums.h"
 #include "photo-tag.h"
 #include "progress-observer.h"
 #include "tag.h"
@@ -186,6 +187,13 @@ Glib::ustring
 DirectorySource::get_name() const throw()
 {
     return Glib::ustring("Folder");
+}
+
+gint
+DirectorySource::get_options() const throw()
+{
+    return PHOTO_SOURCE_COPY_PHOTOS_OPTIONAL
+           | PHOTO_SOURCE_INCLUDE_SUBFOLDERS_OPTIONAL;
 }
 
 Gtk::StockID
