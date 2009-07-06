@@ -337,6 +337,10 @@ FlickrInitializer::test_login() throw()
     {
         flickrContext_->set_user_name(user_name);
     }
+    else
+    {
+        flickcurl_set_auth_token(fc, "");
+    }
 
     testLoginEnd_.emit();
 }
