@@ -39,6 +39,7 @@ AM_CPPFLAGS = \
 	-DPACKAGE_LOCALE_DIR=\"${SOLANG_LOCALE_DIR}\" \
 	-DPACKAGE_SRC_DIR=\""$(srcdir)"\" \
 	-DPACKAGE_DATA_DIR=\""$(datadir)"\" \
+	-DPACKAGE_DOC_DIR=\""$(docdir)"\" \
 	-I$(top_builddir) \
 	-I$(top_srcdir)/src/application \
 	-I$(top_srcdir)/src/attribute \

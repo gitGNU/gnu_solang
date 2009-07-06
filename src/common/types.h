@@ -182,6 +182,10 @@ typedef Glib::RefPtr<Gdk::Window> WindowPtr;
 typedef GdlDockObject * DockObjectPtr;
 typedef const GdlDockObject * ConstDockObjectPtr;
 
+typedef Glib::RefPtr<const Gio::DataInputStream>
+    ConstDataInputStreamPtr;
+typedef Glib::RefPtr<Gio::DataInputStream> DataInputStreamPtr;
+
 typedef Glib::RefPtr<const Gio::File> ConstFilePtr;
 typedef Glib::RefPtr<Gio::File> FilePtr;
 

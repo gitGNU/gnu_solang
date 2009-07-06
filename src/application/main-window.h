@@ -73,6 +73,9 @@ class MainWindow :
         get_user_layout_file() throw();
 
         void
+        on_action_help_about() throw();
+
+        void
         on_action_photo_quit() throw();
 
         void

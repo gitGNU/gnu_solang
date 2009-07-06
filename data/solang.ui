@@ -23,7 +23,9 @@
 		<placeholder name="PlaceholderFindMenus"/>
 		<placeholder name="PlaceholderGoMenus"/>
 		<placeholder name="PlaceHolderTagMenus"/>
-		<menu action="ActionHelpMenu"/>
+		<menu action="ActionHelpMenu">
+			<menuitem action="ActionHelpAbout"/>
+		</menu>
 	</menubar>
 	<toolbar name="ToolBar">
 		<placeholder name="PlaceholderImportToolBar"/>

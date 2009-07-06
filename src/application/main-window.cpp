@@ -22,7 +22,9 @@
 
 #include <algorithm>
 #include <functional>
+#include <string>
 
+#include <giomm.h>
 #include <glibmm/i18n.h>
 #include <sigc++/sigc++.h>
 
@@ -30,6 +32,9 @@
 
 namespace Solang
 {
+
+static const std::string authorsFile = PACKAGE_DOC_DIR"/AUTHORS";
+static const std::string copyingFile = PACKAGE_DOC_DIR"/COPYING";
 
 static const std::string layoutFile
     = PACKAGE_DATA_DIR"/"PACKAGE_TARNAME"/"
@@ -246,6 +251,12 @@ MainWindow::MainWindow() throw() :
         Gtk::Action::create(
             "ActionHelpMenu", _("_Help")));
 
+
+    actionGroup_->add(
+        Gtk::Action::create(
+            "ActionHelpAbout", Gtk::Stock::ABOUT),
+        sigc::mem_fun(*this, &MainWindow::on_action_help_about));
+
     uiManager_->insert_action_group(actionGroup_);
     add_accel_group(uiManager_->get_accel_group());
 
@@ -417,6 +428,58 @@ MainWindow::get_user_layout_file() throw()
     return Glib::get_user_data_dir() + "/"
                + Glib::get_prgname() + "/"
                + Glib::get_prgname() + "-layout.xml";
+}
+
+void
+MainWindow::on_action_help_about() throw()
+{
+    Gtk::AboutDialog about_dialog;
+
+    about_dialog.set_transient_for(*this);
+
+    FilePtr file = Gio::File::create_for_path(authorsFile);
+    DataInputStreamPtr fin = Gio::DataInputStream::create(
+                                 file->read());
+    std::vector<Glib::ustring> authors;
+    std::string line;
+
+    while (true == fin->read_line(line))
+    {
+        if (true == line.empty())
+        {
+            continue;
+        }
+
+        if ('#' == line[0])
+        {
+            continue;
+        }
+
+        authors.push_back(Glib::ustring(line));
+    }
+
+    about_dialog.set_authors(authors);
+    about_dialog.set_comments(_("A photo manager for GNOME"));
+
+    file = Gio::File::create_for_path(copyingFile);
+    fin = Gio::DataInputStream::create(file->read());
+    Glib::ustring license;
+
+    while (true == fin->read_line(line))
+    {
+        license += Glib::ustring(line);
+        license += "\n";
+    }
+
+    about_dialog.set_license(license);
+
+    about_dialog.set_translator_credits(_("translator-credits"));
+    about_dialog.set_version(_(PACKAGE_VERSION));
+    about_dialog.set_website(
+        _("https://savannah.nongnu.org/projects/solang"));
+    about_dialog.set_wrap_license(false);
+
+    about_dialog.run();
 }
 
 void
