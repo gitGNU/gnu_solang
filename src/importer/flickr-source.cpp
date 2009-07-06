@@ -91,6 +91,8 @@ class FlickrInitializer
 
         bool loginStatus_;
 
+        bool tokenStatus_;
+
         FlickrContextPtr flickrContext_;
 
         const Glib::ustring name_;
@@ -119,6 +121,7 @@ FlickrInitializer::FlickrInitializer(
                        sigc::signal<void, bool> & init_end) throw() :
     application_(application),
     loginStatus_(false),
+    tokenStatus_(false),
     flickrContext_(flickr_context),
     name_(name),
     spinnerDialog_(),
@@ -236,7 +239,14 @@ FlickrInitializer::on_get_token_end() throw()
     spinnerDialog_.set_busy(false);
     spinnerDialog_.hide();
 
-    spawn_test_login();
+    if (true == tokenStatus_)
+    {
+        spawn_test_login();
+    }
+    else
+    {
+        attempt_authorization();
+    }
 }
 
 void
@@ -293,12 +303,18 @@ FlickrInitializer::auth_get_token() throw()
 {
     flickcurl * const fc = flickrContext_->get_flickr_session();
 
-    token_ = flickcurl_auth_getFullToken(fc, frob_.c_str());
+    const char * const token = flickcurl_auth_getFullToken(fc,
+                                   frob_.c_str());
 
-    std::ofstream fout(tokenFilePath_.c_str());
-    std::copy(token_.begin(), token_.end(),
-              std::ostreambuf_iterator<char>(fout));
-    fout.close();
+    if (true == (tokenStatus_ = (0 != token)))
+    {
+        token_ = token;
+
+        std::ofstream fout(tokenFilePath_.c_str());
+        std::copy(token_.begin(), token_.end(),
+                  std::ostreambuf_iterator<char>(fout));
+        fout.close();
+    }
 
     getTokenEnd_.emit();
 }
