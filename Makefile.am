@@ -8,7 +8,7 @@ INTLTOOL_FILES = \
         intltool-merge.in \
         intltool-update.in
 
-solangdocdir = ${prefix}/doc/solang
+solangdocdir = $(docdir)
 solangdoc_DATA = \
 	README\
 	COPYING\
