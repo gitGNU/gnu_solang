@@ -102,8 +102,6 @@ class FlickrInitializer
 
         std::string frob_;
 
-        std::string token_;
-
         const std::string tokenFilePath_;
 
         Glib::Dispatcher getTokenEnd_;
@@ -127,7 +125,6 @@ FlickrInitializer::FlickrInitializer(
     name_(name),
     spinnerDialog_(),
     frob_(),
-    token_(),
     tokenFilePath_(Glib::get_user_data_dir()
                    + "/" + Glib::get_prgname()
                    + "/" + tokenFile),
@@ -304,16 +301,16 @@ FlickrInitializer::auth_get_token() throw()
 {
     flickcurl * const fc = flickrContext_->get_flickr_session();
 
-    char * token = flickcurl_auth_getFullToken(fc, frob_.c_str());
+    char * status = flickcurl_auth_getFullToken(fc, frob_.c_str());
 
-    if (true == (tokenStatus_ = (0 != token)))
+    if (true == (tokenStatus_ = (0 != status)))
     {
-        token_ = token;
-        free(token);
-        token = 0;
+        const std::string token = status;
+        free(status);
+        status = 0;
 
         std::ofstream fout(tokenFilePath_.c_str());
-        std::copy(token_.begin(), token_.end(),
+        std::copy(token.begin(), token.end(),
                   std::ostreambuf_iterator<char>(fout));
         fout.close();
     }
@@ -325,14 +322,13 @@ void
 FlickrInitializer::test_login() throw()
 {
     std::ifstream fin(tokenFilePath_.c_str());
-    std::copy(std::istreambuf_iterator<char>(fin),
-              std::istreambuf_iterator<char>(),
-              token_.begin());
+    const std::string token((std::istreambuf_iterator<char>(fin)),
+                            std::istreambuf_iterator<char>());
     fin.close();
 
     flickcurl * const fc = flickrContext_->get_flickr_session();
 
-    flickcurl_set_auth_token(fc, token_.c_str());
+    flickcurl_set_auth_token(fc, token.c_str());
     char * user_name = flickcurl_test_login(fc);
 
     if (true == (loginStatus_ = (0 != user_name)))
