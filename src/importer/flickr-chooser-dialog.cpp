@@ -20,6 +20,8 @@
 #include "config.h"
 #endif // HAVE_CONFIG_H
 
+#include <cstdlib>
+
 #include <gdkmm.h>
 #include <glibmm/i18n.h>
 
@@ -488,16 +490,30 @@ FlickrChooserDialog::read_flickr() throw()
 
     for (i = 0; 0 != photos_ && 0 != photos_[i]; i++)
     {
-        photos_[i]->tags = flickcurl_tags_getListPhoto(
-                               flickrContext_->get_flickr_session(),
-                               photos_[i]->id);
-
-        if (true == observer_->get_stop())
+        if (0 == photos_[i]->tags || 0 == photos_[i]->tags[0])
         {
-            return;
+            free(photos_[i]->tags);
+            photos_[i]->tags = 0;
+
+            photos_[i]->tags = flickcurl_tags_getListPhoto(
+                                   flickrContext_->get_flickr_session(),
+                                   photos_[i]->id);
+
+            gint j;
+
+            for (j = 0, photos_[i]->tags_count = 0;
+                 0 != photos_[i]->tags && 0 != photos_[i]->tags[j];
+                 j++, photos_[i]->tags_count++)
+            {
+            }
+
+            if (true == observer_->get_stop())
+            {
+                return;
+            }
         }
 
-        const char * const uri = flickr_photo_uri_builder(photos_[i]);
+        char * uri = flickr_photo_uri_builder(photos_[i]);
 
         if (0 == uri)
         {
@@ -506,6 +522,8 @@ FlickrChooserDialog::read_flickr() throw()
         else
         {
             uris_.push_back(uri);
+            free(uri);
+            uri = 0;
         }
 
         if (true == observer_->get_stop())

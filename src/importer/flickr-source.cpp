@@ -20,6 +20,7 @@
 #include "config.h"
 
 #include <algorithm>
+#include <cstdlib>
 #include <fstream>
 #include <iterator>
 
@@ -303,12 +304,13 @@ FlickrInitializer::auth_get_token() throw()
 {
     flickcurl * const fc = flickrContext_->get_flickr_session();
 
-    const char * const token = flickcurl_auth_getFullToken(fc,
-                                   frob_.c_str());
+    char * token = flickcurl_auth_getFullToken(fc, frob_.c_str());
 
     if (true == (tokenStatus_ = (0 != token)))
     {
         token_ = token;
+        free(token);
+        token = 0;
 
         std::ofstream fout(tokenFilePath_.c_str());
         std::copy(token_.begin(), token_.end(),
@@ -331,11 +333,13 @@ FlickrInitializer::test_login() throw()
     flickcurl * const fc = flickrContext_->get_flickr_session();
 
     flickcurl_set_auth_token(fc, token_.c_str());
-    const char * const user_name = flickcurl_test_login(fc);
+    char * user_name = flickcurl_test_login(fc);
 
     if (true == (loginStatus_ = (0 != user_name)))
     {
         flickrContext_->set_user_name(user_name);
+        free(user_name);
+        user_name = 0;
     }
     else
     {

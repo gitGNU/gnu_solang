@@ -20,6 +20,8 @@
 #include "config.h"
 #endif // HAVE_CONFIG_H
 
+#include <cstdlib>
+
 #include <gdkmm.h>
 #include <glibmm/i18n.h>
 #include <gtk/gtk.h>
@@ -232,6 +234,43 @@ FlickrChooserButton::~FlickrChooserButton() throw()
 
         Glib::usleep(10);
     }
+
+    if (0 != favoritePhotos_)
+    {
+        flickcurl_free_photos(favoritePhotos_);
+        favoritePhotos_ = 0;
+    }
+
+    if (0 != otherPhotos_)
+    {
+        flickcurl_free_photos(otherPhotos_);
+        otherPhotos_ = 0;
+    }
+
+    if (0 != photosets_)
+    {
+        flickcurl_free_photosets(photosets_);
+        photosets_ = 0;
+    }
+
+    std::list<flickcurl_photo **>::iterator iter;
+
+    for (iter = photosetPhotos_.begin();
+         photosetPhotos_.end() != iter;
+         iter++)
+    {
+        flickcurl_photo ** & photos = *iter;
+
+        if (0 == photos)
+        {
+            continue;
+        }
+
+        flickcurl_free_photos(photos);
+        photos = 0;
+    }
+
+    photosetPhotos_.clear();
 }
 
 void
@@ -487,10 +526,13 @@ FlickrChooserButton::on_select_button_clicked() throw()
 void
 FlickrChooserButton::read_flickr() throw()
 {
-    const std::string nsid
-        = flickcurl_people_findByUsername(
-              flickrContext_->get_flickr_session(),
-              flickrContext_->get_user_name().c_str());
+    char * status = flickcurl_people_findByUsername(
+                        flickrContext_->get_flickr_session(),
+                        flickrContext_->get_user_name().c_str());
+    const std::string nsid = status;
+
+    free(status);
+    status = 0;
 
     read_flickr_favorites(nsid);
     read_flickr_photosets(nsid);
@@ -549,6 +591,12 @@ void
 FlickrChooserButton::read_flickr_photosets(const std::string & nsid)
                                            throw()
 {
+    if (0 != photosets_)
+    {
+        flickcurl_free_photosets(photosets_);
+        photosets_ = 0;
+    }
+
     photosets_ = flickcurl_photosets_getList(
                      flickrContext_->get_flickr_session(),
                      nsid.c_str());
@@ -559,11 +607,15 @@ FlickrChooserButton::read_flickr_photosets(const std::string & nsid)
          photosetPhotos_.end() != iter;
          iter++)
     {
-        if (0 != *iter)
+        flickcurl_photo ** & photos = *iter;
+
+        if (0 == photos)
         {
-            flickcurl_free_photos(*iter);
-            *iter = 0;
+            continue;
         }
+
+        flickcurl_free_photos(photos);
+        photos = 0;
     }
 
     photosetPhotos_.clear();
