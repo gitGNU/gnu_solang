@@ -9,6 +9,10 @@ pixmap_DATA = \
     camera-photo-24.png \
     camera-photo-32.png \
     camera-photo.svg \
+    flip-object-horizontal.png \
+    flip-object-vertical.png \
+    object-rotate-left.png \
+    object-rotate-right.png \
     mode-browse-16.png \
     mode-browse-22.png \
     mode-browse-24.png \
@@ -17,6 +21,7 @@ pixmap_DATA = \
     mode-image-edit-16.png \
     mode-image-edit-22.png \
     mode-image-edit-24.png \
+    stock-resize-16.png \
     tag-16.png \
     tag-22.png \
     tag-new-16.png \
@@ -33,6 +38,8 @@ uidir = $(datadir)/$(PACKAGE_TARNAME)/ui
 ui_DATA = \
     solang.ui \
     solang-browser-renderer.ui \
+    solang-editor.ui \
+    solang-editor-renderer.ui \
     solang-enlarged-renderer.ui \
     solang-tag-manager.ui \
     solang-importer.ui \

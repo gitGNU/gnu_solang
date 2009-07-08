@@ -259,6 +259,7 @@ Database::search(const PhotoSearchCriteriaList & criterion,
         gint32 numRows = model->get_n_rows();
         observer->set_num_events( numRows );
         observer->set_event_description( "Generating list of photos" );
+        DBTablePtr table = getTable( "photos" );
 
         for( gint32 row = 0; row < numRows; row++ )
         {
@@ -266,6 +267,7 @@ Database::search(const PhotoSearchCriteriaList & criterion,
             {
                 PhotoPtr photo( new Photo() );
                 photo->create( model, row );
+                photo->set_table( table );
                 photos.push_back( photo );
                 observer->receive_event_notifiation();
             }

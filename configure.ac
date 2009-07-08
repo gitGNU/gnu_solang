@@ -53,6 +53,7 @@ src/application/Makefile
 src/attribute/Makefile
 src/common/Makefile
 src/database/Makefile
+src/editor/Makefile
 src/exporter/Makefile
 src/importer/Makefile
 src/renderer/Makefile

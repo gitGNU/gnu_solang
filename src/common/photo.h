@@ -21,6 +21,7 @@
 
 #include <tr1/memory>
 
+#include <gdkmm.h>
 #include <glibmm.h>
 
 #include "db-object.h"
@@ -70,6 +71,24 @@ class Photo :
 
         inline const Thumbnail &
         get_thumbnail() const throw();
+
+        inline const PixbufPtr &
+        get_buffer() const throw();
+
+        void
+        set_buffer( const PixbufPtr &buffer ) throw();
+
+        inline const PixbufPtr &
+        get_thumbnail_buffer( ) const throw();
+
+        void
+        set_thumbnail_buffer( const PixbufPtr &buffer ) throw();
+
+        inline bool
+        get_has_unsaved_data() const throw();
+
+        void
+        set_has_unsaved_data( bool value ) throw();
 
         void
         set_thumbnail( const Thumbnail &thumb ) throw();
@@ -121,6 +140,9 @@ class Photo :
         Thumbnail thumbnail_;
         //Exif
         ExifData exifData_;
+        PixbufPtr buffer_;
+        PixbufPtr thumbnailBuffer_;
+        bool hasUnsavedData_;
 };
 
 inline gint64
@@ -163,6 +185,24 @@ inline const ModificationDate &
 Photo::get_modification_date() const throw()
 {
     return modDate_;
+}
+
+inline const PixbufPtr &
+Photo::get_buffer() const throw()
+{
+    return buffer_;
+}
+
+inline const PixbufPtr &
+Photo::get_thumbnail_buffer() const throw()
+{
+    return thumbnailBuffer_;
+}
+
+inline bool
+Photo::get_has_unsaved_data() const throw()
+{
+    return hasUnsavedData_;
 }
 
 } // namespace Solang

@@ -5,6 +5,7 @@
 			<placeholder name="PlaceholderApplications"/>
 		</menu>
 		<separator name="ThumbnailPopupSeparator0"/>
+		<menuitem action="ActionEdit" />
 		<menuitem action="ActionSave"/>
 		<menuitem action="ActionSaveAs"/>
 		<separator name="ThumbnailPopupSeparator1"/>

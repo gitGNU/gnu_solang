@@ -20,6 +20,7 @@
 			<placeholder name="PlaceholderToolMenus"/>
 		</menu>
 		<placeholder name="PlaceholderViewMenus"/>
+		<placeholder name="PlaceHolderEditMenus"/>
 		<placeholder name="PlaceholderFindMenus"/>
 		<placeholder name="PlaceholderGoMenus"/>
 		<placeholder name="PlaceHolderTagMenus"/>

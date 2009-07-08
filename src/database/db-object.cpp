@@ -51,7 +51,7 @@ DBObject::save(Database & db) throw(Error)
             error.add_call_info( __FUNCTION__, __FILE__, __LINE__ );
             throw;
         }
-        set_table( table_ );
+        set_table( table );
         return;
     }
     table_->update( *this );

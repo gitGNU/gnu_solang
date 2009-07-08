@@ -5,6 +5,8 @@ librenderer_la_SOURCES = \
 	browser-renderer.h \
 	console-renderer.cpp \
 	console-renderer.h \
+	editor-renderer.cpp \
+	editor-renderer.h \
 	enlarged-renderer.cpp \
 	enlarged-renderer.h \
 	renderer.cpp \
@@ -31,6 +33,7 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/attribute \
 	-I$(top_srcdir)/src/common \
 	-I$(top_srcdir)/src/database \
+	-I$(top_srcdir)/src/editor \
 	-I$(top_srcdir)/src/importer \
 	-I$(top_srcdir)/src/renderer \
 	-I$(top_srcdir)/src/storage \

@@ -199,7 +199,6 @@ MainWindow::MainWindow() throw() :
     dockObjectsCenter_()
 {
     set_title("Solang");
-    set_border_width(0);
     set_default_size(800, 600);
     add(vBox_);
 

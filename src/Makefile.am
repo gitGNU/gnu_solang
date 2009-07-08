@@ -2,6 +2,7 @@ SUBDIRS = \
 	attribute \
 	common \
 	database \
+	editor \
 	exporter \
 	importer \
 	renderer \

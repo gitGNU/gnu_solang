@@ -53,7 +53,8 @@ DirectoryStorage::DirectoryStorage(
                     const DatabasePtr &db,
                     const Glib::ustring &path)
     :Storage( store, db ),
-    path_( path )
+    path_( path ),
+    doNotCopy_( true )
 {
     set_target_path_format("<YEAR>/<MONTH>/<DAY>");
 }

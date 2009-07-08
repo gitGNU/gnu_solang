@@ -46,6 +46,7 @@ Engine::Engine(int & argc, char ** & argv,
     tagAddEnd_(),
     criterionChanged_(),
     itemActivated_(),
+    itemEdit_(),
     selectionChanged_(),
     mutex_(),
     photos_(),
@@ -274,7 +275,7 @@ Engine::erase(const PhotoList & photos,
     {
         const Glib::ustring &uri = (*photo)->get_uri();
         Glib::ustring storagePrefix 
-                            = uri.substr(0, uri.find( ":" ) - 1 );
+                            = uri.substr(0, uri.find( ":" ) );
         StorageMap::iterator storage 
                         = currentStorageSystems_.find( storagePrefix );
         if( storage != currentStorageSystems_.end() )
@@ -292,6 +293,21 @@ Engine::erase(const PhotoList & photos,
     }
         
     return;
+}
+
+void
+Engine::save(const PhotoPtr &photo)
+{
+    const Glib::ustring &uri = photo->get_uri();
+    Glib::ustring storagePrefix
+                        = uri.substr(0, uri.find( ":" ) );
+    StorageMap::iterator storage
+                    = currentStorageSystems_.find( storagePrefix );
+    if( storage != currentStorageSystems_.end() )
+    {
+        (*storage).second->save( photo, false );
+    }
+    photo->set_has_unsaved_data( false );
 }
 
 PhotoList
@@ -312,7 +328,7 @@ Engine::create_renderable_list_from_photos(
     {
         const Glib::ustring &uri = (*photo)->get_uri();
         Glib::ustring storagePrefix 
-                            = uri.substr(0, uri.find( ":" ) - 1 );
+                            = uri.substr(0, uri.find( ":" ) );
         StorageMap::iterator storage 
                         = currentStorageSystems_.find( storagePrefix );
         if( storage != currentStorageSystems_.end() )
@@ -425,6 +441,12 @@ sigc::signal<void, const Gtk::TreeIter &> &
 Engine::item_activated() throw()
 {
     return itemActivated_;
+}
+
+sigc::signal<void, const PhotoList &> &
+Engine::item_edit() throw()
+{
+    return itemEdit_;
 }
 
 sigc::signal<void> &

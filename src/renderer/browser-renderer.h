@@ -97,6 +97,9 @@ class BrowserRenderer :
                    throw();
 
         void
+        on_item_edit() throw();
+
+        void
         reload() throw();
 
         ApplicationPtr application_;

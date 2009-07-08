@@ -63,6 +63,17 @@ typedef std::tr1::shared_ptr<const DeleteAction> ConstDeleteActionPtr;
 typedef std::tr1::shared_ptr<DeleteAction> DeleteActionPtr;
 typedef std::vector<DeleteActionPtr> DeleteActionList;
 
+class EditAction;
+typedef std::tr1::shared_ptr<const EditAction> ConstEditActionPtr;
+typedef std::tr1::shared_ptr<EditAction> EditActionPtr;
+typedef std::vector<EditActionPtr> EditActionList;
+
+class EditablePhoto;
+typedef std::tr1::shared_ptr<const EditablePhoto>
+                                    ConstEditablePhotoPtr;
+typedef std::tr1::shared_ptr<EditablePhoto> EditablePhotoPtr;
+typedef std::vector<EditablePhotoPtr> EditablePhotoList;
+
 class ExifDataKey;
 typedef std::tr1::shared_ptr<ExifDataKey> ExifDataKeyPtr;
 typedef std::vector<ExifDataKeyPtr> ExifDataKeyList;

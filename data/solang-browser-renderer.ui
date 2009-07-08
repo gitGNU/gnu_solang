@@ -5,6 +5,7 @@
 			<placeholder name="PlaceholderZoomMenus">
 			<menuitem action="ActionViewZoomIn"/>
 			<menuitem action="ActionViewZoomOut"/>
+			<menuitem action="ActionViewEdit"/>
 			</placeholder>
 		</menu>
 		<placeholder name="PlaceholderGoMenus">
@@ -17,4 +18,9 @@
 		</menu>
 		</placeholder>
 	</menubar>
+	<toolbar name="ToolBar">
+		<placeholder name="PlaceholderGoToolBar">
+		<toolitem action="ActionViewEdit"/>
+		</placeholder>
+	</toolbar>
 </ui>

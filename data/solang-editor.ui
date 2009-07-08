@@ -1,0 +1,22 @@
+<!--*- xml -*-->
+<ui>
+	<menubar name="MenuBar">
+		<placeholder name="PlaceHolderEditMenus">
+			<menu action="ActionEditMenu">
+				<menuitem action="ActionEditUndo"/>
+				<menuitem action="ActionEditRedo"/>
+				<separator name="EditSeparator0"/>
+				<menuitem action="ActionEditFlipHorizontal"/>
+				<menuitem action="ActionEditFlipVertical"/>
+				<separator name="EditSeparator1"/>
+				<menuitem action="ActionEditRotateClockwise"/>
+				<menuitem action="ActionEditRotateCounterClockwise"/>
+				<separator name="ViewSeparator2"/>
+				<menuitem action="ActionEditScale"/>
+				<separator name="ViewSeparator3"/>
+				<menuitem action="ActionEditSaveAs"/>
+			</menu>
+		</placeholder>
+	</menubar>
+</ui>
+

@@ -40,7 +40,10 @@ Photo::Photo() throw() :
     uri_(),
     diskFilePath_(),
     thumbnail_(),
-    exifData_()
+    exifData_(),
+    buffer_( 0 ),
+    thumbnailBuffer_( 0 ),
+    hasUnsavedData_( false )
 {
 }
 
@@ -129,27 +132,24 @@ Photo::insert( DataModelPtr &model, gint32 lastIndex) throw(Error)
 void Photo::update( DataModelPtr &model, gint32 row) throw(Error)
 try
 {
-    if( get_uri().length() > 0
-            && get_uri() != model->get_value_at( 
-                                Photo::URI_COL, row ).get_string() )
+    try
     {
-        model->set_value_at(
-                Photo::URI_COL, row, Gnome::Gda::Value( get_uri() ) );
+        std::vector<Gnome::Gda::Value> values;
+        values.push_back( Gnome::Gda::Value(
+                                            (gint32)get_photo_id() ) );
+        values.push_back( Gnome::Gda::Value( get_uri() ) );
+        values.push_back( Gnome::Gda::Value( get_content_type() ) );
+
+        modDate_.insert( values );
+        thumbnail_.insert( values );
+        exifData_.insert( values );
+
+        model->set_values( row, values );
     }
-
-    const Glib::ustring & content_type = get_content_type();
-
-    if( !content_type.empty()
-        && content_type != model->get_value_at(
-               Photo::CONTENT_TYPE_COL, row ).get_string() )
+    catch(Glib::Error &e)
     {
-        model->set_value_at( Photo::CONTENT_TYPE_COL, row,
-                             Gnome::Gda::Value( content_type ) );
+        std::cerr<<"Error::Could not save: "<<e.what()<<std::endl;
     }
-
-    thumbnail_.update( model, row );
-    exifData_.update( model, row );
-
 
     return;
 
@@ -217,6 +217,24 @@ void
 Photo::set_modification_date( const ModificationDate &modDate )
 {
     modDate_ = modDate;
+}
+
+void
+Photo::set_buffer( const PixbufPtr &buffer ) throw()
+{
+    buffer_ = buffer;
+}
+
+void
+Photo::set_thumbnail_buffer( const PixbufPtr &buffer ) throw()
+{
+    thumbnailBuffer_ = buffer;
+}
+
+void
+Photo::set_has_unsaved_data( bool value ) throw()
+{
+    hasUnsavedData_ = value;
 }
 
 } // namespace Solang

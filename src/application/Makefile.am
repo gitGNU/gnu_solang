@@ -20,6 +20,7 @@ solang_LDADD = \
 	$(top_builddir)/src/attribute/libattribute.la \
 	$(top_builddir)/src/database/libdatabase.la \
 	$(top_builddir)/src/common/libcommon.la \
+	$(top_builddir)/src/editor/libeditor.la \
 	$(EXIV2_LIBS) \
 	$(FLICKCURL_LIBS) \
 	$(GPHOTO2_LIBS) \
@@ -45,6 +46,7 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/attribute \
 	-I$(top_srcdir)/src/common \
 	-I$(top_srcdir)/src/database \
+	-I$(top_srcdir)/src/editor \
 	-I$(top_srcdir)/src/importer \
 	-I$(top_srcdir)/src/renderer \
 	-I$(top_srcdir)/src/storage \

@@ -36,6 +36,7 @@
 #include "date-manager.h"
 #include "directory-source.h"
 #include "directory-storage.h"
+#include "editor-renderer.h"
 #include "enlarged-renderer.h"
 #include "flickr-source.h"
 #include "i-photo-source.h"
@@ -324,6 +325,10 @@ Application::init() throw()
     RendererPtr enlarged_renderer(new EnlargedRenderer());
     renderers_.insert(std::make_pair("enlarged-renderer",
                                      enlarged_renderer));
+
+    RendererPtr editor_renderer(new EditorRenderer());
+    renderers_.insert(std::make_pair("editor-renderer",
+                                     editor_renderer));
 
     std::for_each(renderers_.begin(), renderers_.end(),
                   Initializer<RendererPtr>(this));

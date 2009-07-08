@@ -120,6 +120,11 @@ BrowserRenderer::BrowserRenderer() throw() :
         zoomer_.action_zoom_out(),
         Gtk::AccelKey("<control>minus"));
 
+    actionGroup_->add(Gtk::Action::create(
+        "ActionViewEdit", Gtk::Stock::EDIT, _("_Edit"),
+        _("Edit picture")), Gtk::AccelKey("<control>e"),
+        sigc::mem_fun(*this, &BrowserRenderer::on_item_edit));
+
     actionGroup_->add(
         Gtk::Action::create(
             "ActionMenuGo", _("_Go")));
@@ -289,6 +294,11 @@ BrowserRenderer::clear_thumbnails() throw()
         Gtk::TreeModel::Row row = *iter;
 
         row[model_column_record.get_column_pixbuf()] = PixbufPtr(0);
+        PhotoPtr photo = row[model_column_record.get_column_photo()];
+        if( !photo->get_has_unsaved_data() )
+        {
+            photo->set_thumbnail_buffer( PixbufPtr(0) );
+        }
         row[model_column_record.get_column_tag_name()] = "";
 
         while (true == Gtk::Main::events_pending())
@@ -363,16 +373,23 @@ BrowserRenderer::generate_thumbnails() throw()
         const PixbufPtr & pixbuf
             = row[model_column_record.get_column_pixbuf()];
 
-        if (0 == pixbuf)
+        if (0 == photo->get_thumbnail_buffer() )
         {
             ThumbbufMaker thumbbuf_maker(thumbnail_width,
                                          thumbnail_height);
 
+            photo->set_thumbnail_buffer( thumbbuf_maker(photo) );
+
             row[model_column_record.get_column_pixbuf()]
-                = thumbbuf_maker(photo);
+                = photo->get_thumbnail_buffer();
 
             row[model_column_record.get_column_tag_name()]
                 = photo->get_exif_data().get_picture_taken_time();
+        }
+        else
+        {
+            row[model_column_record.get_column_pixbuf()]
+                = photo->get_thumbnail_buffer();
         }
 
         // operator<= is not defined.
@@ -427,6 +444,13 @@ BrowserRenderer::on_item_activated(const Gtk::TreeModel::Path & path)
         = treeModelFilter_->convert_iter_to_child_iter(filter_iter);
 
     application_->get_engine().item_activated().emit(model_iter);
+}
+
+void
+BrowserRenderer::on_item_edit() throw()
+{
+    application_->get_engine().item_edit().emit(
+                            thumbnailView_.get_selected_photos() );
 }
 
 void
@@ -534,6 +558,7 @@ BrowserRenderer::on_switch_page(GtkNotebookPage * notebook_page,
 
             ui_manager->insert_action_group(actionGroup_);
         }
+        reload();
     }
     else
     {

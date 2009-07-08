@@ -119,6 +119,9 @@ class Engine :
               const ProgressObserverPtr & observer 
                   = ProgressObserverPtr());
 
+        void
+        save(const PhotoPtr &photo);
+
         TagList
         get_tags() const throw();
 
@@ -160,6 +163,9 @@ class Engine :
 
         sigc::signal<void, const Gtk::TreeIter &> &
         item_activated() throw();
+
+        sigc::signal<void, const PhotoList &> &
+        item_edit() throw();
 
         sigc::signal<void> &
         selection_changed() throw();
@@ -223,6 +229,8 @@ class Engine :
         Glib::Dispatcher criterionChanged_;
 
         sigc::signal<void, const Gtk::TreeIter &> itemActivated_;
+
+        sigc::signal<void, const PhotoList &> itemEdit_;
 
         sigc::signal<void> selectionChanged_;
 
