@@ -160,7 +160,9 @@ Thumbnail::generate(Exiv2::ExifData & exifData,
         throw;
     }
 
-    if ( !exifData.empty() )
+    if (!ContentTypeRepo::instance()->is_gdk_supported(
+                                          photo.get_disk_file_path())
+        && !exifData.empty() )
     {
         // Extract from exif if present.
         Exiv2::ExifThumb thumbnail( exifData );
