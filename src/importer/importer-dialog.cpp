@@ -1,6 +1,6 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 4; tab-width: 4 -*- */
 /*
- * Copyright (C) Debarshi Ray 2009 <rishi@gnu.org>
+ * Copyright (C) 2009 Debarshi Ray <rishi@gnu.org>
  * 
  * Solang is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -34,11 +34,9 @@ ImporterDialog::ImporterDialog(Gtk::Widget & browser,
     Gtk::Dialog(_("Import"), true, false),
     mainHBox_(false, 18),
     inputVBox_(false, 18),
-    //previewScrolledWindow_(),
     generalVBox_(false, 6),
     tagsVBox_(false, 6),
     optionsVBox_(false, 6),
-    //previewIconView_(),
     generalLabel_("", Gtk::ALIGN_LEFT, Gtk::ALIGN_CENTER, false),
     generalAlignment_(Gtk::ALIGN_CENTER, Gtk::ALIGN_CENTER, 1.0, 1.0),
     tagsLabel_("", Gtk::ALIGN_LEFT, Gtk::ALIGN_CENTER, false),
@@ -76,16 +74,9 @@ ImporterDialog::ImporterDialog(Gtk::Widget & browser,
 
     mainHBox_.pack_start(inputVBox_, Gtk::PACK_EXPAND_WIDGET, 0);
 
-    //previewScrolledWindow_.set_policy(Gtk::POLICY_AUTOMATIC,
-    //                                  Gtk::POLICY_AUTOMATIC);
-    //mainHBox_.pack_start(previewScrolledWindow_,
-    //                     Gtk::PACK_EXPAND_WIDGET, 0);
-
     inputVBox_.pack_start(generalVBox_, Gtk::PACK_SHRINK, 0);
     inputVBox_.pack_start(tagsVBox_, Gtk::PACK_EXPAND_WIDGET, 0);
     inputVBox_.pack_start(optionsVBox_, Gtk::PACK_SHRINK, 0);
-
-    //previewScrolledWindow_.add(previewIconView_);
 
     generalLabel_.set_use_markup(true);
     {

@@ -157,7 +157,6 @@ Database::save( const DBObjectList &objects,
 DBTablePtr
 Database::getTable(const Glib::ustring &tableName) const
 {
-    std::cerr<<"Lookin' for:"<<tableName<<std::endl;
     std::map<Glib::ustring, DBTablePtr>::const_iterator table 
                                         = tables_.find( tableName );
     if( table != tables_.end() )

@@ -57,20 +57,21 @@ template<typename T>
 class Initializer :
     public std::unary_function<std::pair<const std::string, T> &, void>
 {
-public:
-    Initializer(Application * const & application) throw();
+    public:
+        Initializer(Application * const & application) throw();
 
-    Initializer(const Initializer<T> & source) throw();
+        Initializer(const Initializer<T> & source) throw();
     
-    ~Initializer() throw();
+        ~Initializer() throw();
 
-    Initializer<T> &
-    operator=(const Initializer<T> & source) throw();
+        Initializer<T> &
+        operator=(const Initializer<T> & source) throw();
 
-    void operator()(std::pair<const std::string, T> & x) throw();
+        void
+        operator()(std::pair<const std::string, T> & x) throw();
 
-protected:
-    Application * application_;
+    protected:
+        Application * application_;
 };
 
 template<typename T>
@@ -117,20 +118,21 @@ template<typename T>
 class Finalizer :
     public std::unary_function<std::pair<const std::string, T> &, void>
 {
-public:
-    Finalizer(Application * const & application) throw();
+    public:
+        Finalizer(Application * const & application) throw();
 
-    Finalizer(const Finalizer<T> & source) throw();
+        Finalizer(const Finalizer<T> & source) throw();
     
-    ~Finalizer() throw();
+        ~Finalizer() throw();
 
-    Finalizer<T> &
-    operator=(const Finalizer<T> & source) throw();
+        Finalizer<T> &
+        operator=(const Finalizer<T> & source) throw();
 
-    void operator()(std::pair<const std::string, T> & x) throw();
+        void
+        operator()(std::pair<const std::string, T> & x) throw();
 
-protected:
-    Application * application_;
+    protected:
+        Application * application_;
 };
 
 template<typename T>

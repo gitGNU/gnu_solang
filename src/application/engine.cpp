@@ -65,27 +65,27 @@ Engine::Engine(int & argc, char ** & argv,
     }
     criterionChanged_.connect(
                 sigc::mem_fun( *this, &Engine::on_criterion_changed));
-
 }
 
 Engine::~Engine() throw()
 {
 }
 
-void Engine::init(Glib::ustring str)
+void
+Engine::init(Glib::ustring str)
 {
     database_.open();
 }
 
-void Engine::final()
+void
+Engine::final()
 {
-	std::cout<<"Final"<<std::endl;
     deleteActions_.execute_actions( observer_ );
 }
 
 void
 Engine::import(const PhotoPtr & photo,
-               const IPhotoSourcePtr & source, 
+               const IPhotoSourcePtr & source,
                const IStoragePtr & selected_storage,
                const TagList & tags) throw()
 {
@@ -95,7 +95,7 @@ Engine::import(const PhotoPtr & photo,
 
 void
 Engine::import(const PhotoPtr & photo,
-               const IPhotoSourcePtr & source, 
+               const IPhotoSourcePtr & source,
                const IStoragePtr & selected_storage,
                const TagList & tags,
                const ProgressObserverPtr & observer) throw()
@@ -108,7 +108,7 @@ Engine::import(const PhotoPtr & photo,
         (*it)->save(database_);
     }
 #endif
-    PhotoPtr imp_photo = source->import(photo, selected_storage, 
+    PhotoPtr imp_photo = source->import(photo, selected_storage,
                                     tags, database_, observer);
     observer->reset();
     photoImportEnd_.emit();
@@ -122,7 +122,6 @@ Engine::import(const PhotoPtr & photo,
     photoRenderBegin_.emit();
 
     return;
-
 }
 
 void
@@ -144,7 +143,7 @@ Engine::import(const PhotoList & photos,
 {
     photoImportBegin_.emit();
 #if 0
-    for (TagList::const_iterator it = tags.begin(); 
+    for (TagList::const_iterator it = tags.begin();
          it != tags.end(); it++)
     {
         (*it)->save(database_);
@@ -183,7 +182,7 @@ Engine::import(const IPhotoSourcePtr & source,
 
     photoImportBegin_.emit();
 #if 0
-    for (TagList::const_iterator it = tags.begin(); 
+    for (TagList::const_iterator it = tags.begin();
          it != tags.end(); it++)
     {
         (*it)->save(database_);
@@ -270,13 +269,13 @@ Engine::erase(const PhotoList & photos,
     DBTablePtr photosTable = database_.getTable( "photos" );
     DBTablePtr photoTagsTable = database_.getTable( "photo_tags" );
 
-    for( PhotoList::const_iterator photo = photos.begin(); 
-                        photo != photos.end(); photo++ )
+    for( PhotoList::const_iterator photo = photos.begin();
+         photo != photos.end(); photo++ )
     {
         const Glib::ustring &uri = (*photo)->get_uri();
-        Glib::ustring storagePrefix 
+        Glib::ustring storagePrefix
                             = uri.substr(0, uri.find( ":" ) );
-        StorageMap::iterator storage 
+        StorageMap::iterator storage
                         = currentStorageSystems_.find( storagePrefix );
         if( storage != currentStorageSystems_.end() )
         {
@@ -296,9 +295,9 @@ Engine::erase(const PhotoList & photos,
 }
 
 void
-Engine::save(const PhotoPtr &photo)
+Engine::save(const PhotoPtr & photo)
 {
-    const Glib::ustring &uri = photo->get_uri();
+    const Glib::ustring & uri = photo->get_uri();
     Glib::ustring storagePrefix
                         = uri.substr(0, uri.find( ":" ) );
     StorageMap::iterator storage
@@ -323,13 +322,13 @@ Engine::create_renderable_list_from_photos(
         obs->set_event_description( "Updating path info" );
     }
 
-    for( PhotoList::const_iterator photo = photos.begin(); 
-                        photo != photos.end(); photo++ )
+    for( PhotoList::const_iterator photo = photos.begin();
+         photo != photos.end(); photo++ )
     {
         const Glib::ustring &uri = (*photo)->get_uri();
-        Glib::ustring storagePrefix 
+        Glib::ustring storagePrefix
                             = uri.substr(0, uri.find( ":" ) );
-        StorageMap::iterator storage 
+        StorageMap::iterator storage
                         = currentStorageSystems_.find( storagePrefix );
         if( storage != currentStorageSystems_.end() )
         {
@@ -341,7 +340,6 @@ Engine::create_renderable_list_from_photos(
     }
 
     return photos;
-
 }
 
 TagList
@@ -366,7 +364,7 @@ void
 Engine::apply_tag_to_photos( PhotoList &photos, const TagPtr &tag )
 {
     for( PhotoList::iterator photo = photos.begin();
-                            photo != photos.end(); photo++)
+         photo != photos.end(); photo++)
     {
         PhotoTag pt(
                 (*photo)->get_photo_id(), tag->get_tag_id());
@@ -384,15 +382,14 @@ Engine::get_dates_with_picture_count()
 DatePhotoInfoList
 Engine::get_dates_with_picture_count( gint year )
 {
-    return database_.get_dates_with_picture_count(
-                                year, observer_ );
+    return database_.get_dates_with_picture_count(year, observer_ );
 }
 
 DatePhotoInfoList
 Engine::get_dates_with_picture_count( gint year, gint month )
 {
-    return database_.get_dates_with_picture_count(
-                                year, month, observer_ );
+    return database_.get_dates_with_picture_count(year, month,
+                                                  observer_ );
 }
 
 Glib::Dispatcher &

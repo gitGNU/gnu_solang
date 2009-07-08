@@ -1,6 +1,6 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 4; tab-width: 4 -*- */
 /*
- * Copyright (C) Santanu Sinha 2009 <santanu.sinha@gmail.com>
+ * Copyright (C) 2009 Santanu Sinha <santanu.sinha@gmail.com>
  *
  * Solang is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -62,6 +62,6 @@ DeleteAction::get_command_name() const throw()
     return commandName_;
 }
 
-} //namespace Solang
+} // namespace Solang
 
 #endif //SOLANG_DELETE_ACTION_H

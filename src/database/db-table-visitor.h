@@ -30,15 +30,19 @@ namespace Solang
 class DBTableVisitor :
     public NonCopyable
 {
-	public:
-		DBTableVisitor();
-		virtual ~DBTableVisitor() throw();
+    public:
+        DBTableVisitor();
 
-		virtual void receive_data(PhotoList &) = 0;
-		virtual void receive_data(TagList &) = 0;
+        virtual
+        ~DBTableVisitor() throw();
 
+        virtual void
+        receive_data(PhotoList &) = 0;
+
+        virtual void
+        receive_data(TagList &) = 0;
 };
 
-} //namespace Solang
+} // namespace Solang
 
 #endif // SOLANG_DB_TABLE_VISITOR_H

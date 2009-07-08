@@ -25,7 +25,6 @@
 #include "error.h"
 #include "types.h"
 
-
 namespace Solang
 {
 

@@ -46,23 +46,24 @@ static const std::string uiFile
 class Docker :
     public std::unary_function<DockObjectPtr const &, void>
 {
-public:
-    Docker(DockObjectPtr const & reference,
-           const GdlDockPlacement placement) throw();
+    public:
+        Docker(DockObjectPtr const & reference,
+               const GdlDockPlacement placement) throw();
 
-    Docker(const Docker & source) throw();
+        Docker(const Docker & source) throw();
 	
-    ~Docker() throw();
+        ~Docker() throw();
 
-    Docker &
-    operator=(const Docker & source) throw();
+        Docker &
+        operator=(const Docker & source) throw();
 
-    void operator()(DockObjectPtr const & requester) throw();
+        void
+        operator()(DockObjectPtr const & requester) throw();
 
-protected:
-    DockObjectPtr reference_;
+    protected:
+        DockObjectPtr reference_;
 
-    GdlDockPlacement placement_;
+        GdlDockPlacement placement_;
 };
 
 Docker::Docker(DockObjectPtr const & reference,
@@ -95,7 +96,7 @@ Docker::operator=(const Docker & source) throw()
         placement_ = source.placement_;
     }
 
-	return *this;
+    return *this;
 }
 
 void
@@ -119,7 +120,8 @@ class DockHider :
         DockHider &
         operator=(const DockHider & source) throw();
 
-        void operator()(DockObjectPtr const & dock_object) throw();
+        void
+        operator()(DockObjectPtr const & dock_object) throw();
 
     protected:
         ConstDockObjectPtr skip_;

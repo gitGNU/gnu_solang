@@ -1,6 +1,6 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 4; tab-width: 4 -*- */
 /*
- * Copyright (C) 2009 Debarshi Ray <rishi@gnu.org>
+ * Copyright (C) 2009 Santanu Sinha <santanu.sinha@gmail.com>
  *
  * Solang is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -27,8 +27,8 @@
 namespace Solang
 {
 
-class CameraImportWidget
-            : public Gtk::VBox
+class CameraImportWidget :
+    public Gtk::VBox
 {
     private:
 
@@ -102,9 +102,12 @@ class CameraImportWidget
 
     public:
         CameraImportWidget(GPhotoContext &context);
+
+        virtual
         ~CameraImportWidget();
 
-        void populate();
+        void
+        populate();
 
         inline const Gtk::TreeView &
         get_camera_photos() const throw();
@@ -114,29 +117,49 @@ class CameraImportWidget
 
     protected:
 
-        void create_camera( int index,
-                const Glib::ustring &name,
-                const Glib::ustring &port );
-        void list_pictures();
-        void on_preview_enabled();
-        void list_pictures(const Glib::ustring &path);
+        void
+        create_camera(int index, const Glib::ustring & name,
+                      const Glib::ustring & port);
+
+        void
+        list_pictures();
+
+        void
+        on_preview_enabled();
+
+        void
+        list_pictures(const Glib::ustring & path);
 
         //Signal handlers
-        void on_camera_selection_changed() throw();
-        void save_thumbnails_for_all_files();
-        void save_thumbnail(
-                const Glib::ustring &folder,
-                const Glib::ustring &file );
-        void show_thumbnail(
-                const Gtk::TreeModel::Path& path,
-                Gtk::TreeViewColumn* column);
-        virtual void on_row_activated (
-                const Gtk::TreeModel::Path& path,
-                Gtk::TreeViewColumn* column);
-        virtual void on_cursor_changed();
-        virtual void on_select_all_clicked();
-        virtual void on_select_none_clicked();
-        void on_preview_imported();
+        void
+        on_camera_selection_changed() throw();
+
+        void
+        save_thumbnails_for_all_files();
+
+        void
+        save_thumbnail(const Glib::ustring & folder,
+                       const Glib::ustring & file );
+
+        void
+        show_thumbnail(const Gtk::TreeModel::Path & path,
+                       Gtk::TreeViewColumn* column);
+
+        virtual void
+        on_row_activated(const Gtk::TreeModel::Path & path,
+                         Gtk::TreeViewColumn* column);
+
+        virtual void
+        on_cursor_changed();
+
+        virtual void
+        on_select_all_clicked();
+
+        virtual void
+        on_select_none_clicked();
+
+        void
+        on_preview_imported();
 };
 
 inline const Gtk::TreeView &

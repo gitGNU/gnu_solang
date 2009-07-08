@@ -4,9 +4,9 @@
 SUBDIRS = data src po
 
 INTLTOOL_FILES = \
-        intltool-extract.in \
-        intltool-merge.in \
-        intltool-update.in
+	intltool-extract.in \
+	intltool-merge.in \
+	intltool-update.in
 
 solangdocdir = $(docdir)
 solangdoc_DATA = \
@@ -19,13 +19,13 @@ solangdoc_DATA = \
 	NEWS
 
 EXTRA_DIST = \
-        $(INTLTOOL_FILES) \
-        $(solangdoc_DATA)
+	$(INTLTOOL_FILES) \
+	$(solangdoc_DATA)
 
 DISTCLEANFILES = \
-        intltool-extract \
-        intltool-merge \
-        intltool-update \
+	intltool-extract \
+	intltool-merge \
+	intltool-update \
         po/.intltool-merge-cache
 
 # Copy all the spec files. Of cource, only one is actually used.

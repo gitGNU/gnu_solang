@@ -40,6 +40,8 @@ class Photo :
 {
     public:
         Photo() throw();
+
+        virtual
         ~Photo() throw();
 
         inline gint64
@@ -99,9 +101,11 @@ class Photo :
         void 
         set_exif_data( const ExifData &exif ) throw();
 
-        void   set_disk_file_path(const IStoragePtr & storage);
-        void   set_disk_file_path(const Glib::ustring &disk_file_path);
-        
+        void
+        set_disk_file_path(const IStoragePtr & storage);
+
+        void
+        set_disk_file_path(const Glib::ustring & disk_file_path);
 
         //Overrides from DBObject
         virtual void
