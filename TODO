@@ -1,6 +1,6 @@
 Importers
 
-  * Create importers from web-services such as Flickr and Picasaweb
+  * Create importers from web-services such as Picasaweb.
 
 Storage
 
@@ -24,11 +24,7 @@ Application/Engine
 
   * Add support for basic editing
        - Resize
-       - Rotate
        - Crop
-  * Improve the browser
-       - Add icon zoom in/out
-       - Add paginated view
   * Add content type specific context menu
   * Full non-searchable file details (Exif/XMP/ICMP) view
   * Support for nested tags
