@@ -1,0 +1,69 @@
+Solang NEWS                                    -*- outline -*-
+
+* Noteworthy changes in release 0.2 (2009-07-09)
+
+** New features
+
+  Pagination bar and zoomer for the browser renderer.
+
+  Support for zooming within the enlarged renderer.
+
+  UI elements for navigating within the browser renderer -- previous
+  page, next page, first page and last page.
+
+  Added a new non-deletable "All Photos" tag.
+
+  Queue based object deletion framework. Ability to delete tags and
+  remove them from selected photos.
+
+  Flickr importer to import photos from Flickr.
+
+  Editor infrastructure. A new editor renderer; and support for
+  rotation, flipping, and undo, redo of operations.
+
+  Various improvements to the importer dialog, importer, progress
+  dialog and progress observer.
+
+  New dependencies on Flickcurl, LibSoup and WebKit Gtk+.
+
+  Ported to Exiv2 version 0.18.
+
+  Removed dependency on GraphicsMagick++/ImageMagick++.
+
+** Bug fixes
+
+  Fixed the value of solangdocdir.
+
+* Noteworthy changes in release 0.1 (2009-06-01)
+
+** New features
+
+  Browser and enlarged renderer for viewing the entire collection and
+  a single photo respectively.
+
+  Camera and folder importer to import photos from cameras in PTP mode
+  and folders respectively.
+
+  Date view for showing photo dates.
+
+  Support for tagging photos and Exif data.
+
+  Thumbnails for showing RAW files in the browser renderer.
+
+  Search basket for drag and drop search using multiple tags, Exif
+  fields and/or dates.
+
+  Fast and efficient operation.
+
+  Dependencies on Cairomm, Exiv2, LibGdamm (SQLite backend), Giomm,
+  Glibmm, LibGPhoto2, GNOME Docking Library,
+  GraphicsMagick++/ImageMagick++, GtkImageView and Gtkmm.
+
+----
+
+Copyright (C) 2009 Debarshi Ray <rishi@gnu.org>
+All rights reserved.
+
+Copying and distribution of this file, with or without modification,
+are permitted in any medium without royalty provided the copyright
+notice and this notice are preserved.

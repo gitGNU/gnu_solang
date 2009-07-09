@@ -34,18 +34,22 @@ Also, take a look at: http://en.wikipedia.org/wiki/Solang_valley
 
 Features:
 ---------
- - Import and view photos from different directories
- - Import photos from camera (PTP mode)
- - Apply tag to photos during import
- - Multiple tags can be applied during import or later on
- - Drag drop searching using multiple tags, photo properties and/or dates
- - Fast and efficient operation
+- Browser, editor and enlarged renderer for viewing the entire collection,
+  editing and a single photo respectively.
+- Camera, Flickr and folder importer to import photos from cameras in PTP mode
+  Flickr and folders respectively.
+- Date view for showing photo dates.
+- Basic editing like rotation and flipping, and undo, redo of operations.
+- Support for tagging photos and Exif data.
+- Thumbnails for showing RAW files in the browser renderer.
+- Search basket for drag and drop search using multiple tags, Exif fields
+  and/or dates.
 
 Dependencies:
 -------------
-
  - cairomm-1.0
- - exiv2 <= 0.17.1
+ - exiv2 >= 0.18
+ - flickcurl
  - libgdamm-3.0 <= 3.0.1
  - libgda-sqlite-3.0
  - gdl-1.0
@@ -54,6 +58,8 @@ Dependencies:
  - libgphoto2
  - gtkimageview
  - gtkmm-2.4 >= 2.8
+ - libsoup-2.4
+ - webkit-1.0
 
 The following patches are required on gdl 2.24:
 
