@@ -76,6 +76,7 @@ EnlargedRenderer::EnlargedRenderer() throw() :
     pageNum_(-1),
     signalInitEnd_(),
     signalItemActivated_(),
+    signalMainWindowStateEvent_(),
     signalSwitchPage_()
 {
     Gtk::IconSource icon_source;
@@ -326,6 +327,12 @@ EnlargedRenderer::init(Application & application) throw()
     MainWindow & main_window = application.get_main_window();
     main_window.add_dock_object_center(GDL_DOCK_OBJECT(dockItem_));
 
+    signalMainWindowStateEvent_
+        = main_window.signal_window_state_event().connect(
+              sigc::mem_fun(
+                  *this,
+                  &EnlargedRenderer::on_main_window_state_event));
+
     signalInitEnd_
         = application.init_end().connect(
               sigc::mem_fun(*this,
@@ -377,6 +384,9 @@ EnlargedRenderer::render(const PhotoPtr & photo) throw()
         {
             return;
         }
+
+        gtk_image_view_set_show_frame(GTK_IMAGE_VIEW(imageView_),
+                                      FALSE);
 
         GtkBindingSet * binding_set = gtk_binding_set_by_class(
             GTK_IMAGE_VIEW_GET_CLASS(imageView_));
@@ -438,6 +448,7 @@ void
 EnlargedRenderer::final(Application & application) throw()
 {
     signalItemActivated_.disconnect();
+    signalMainWindowStateEvent_.disconnect();
     signalSwitchPage_.disconnect();
 
     MainWindow & main_window = application.get_main_window();
@@ -752,6 +763,28 @@ EnlargedRenderer::on_item_activated(const Gtk::TreeIter & iter)
 
     MainWindow & main_window = application_->get_main_window();
     main_window.present_dock_object(GDL_DOCK_OBJECT(dockItem_));
+}
+
+bool
+EnlargedRenderer::on_main_window_state_event(
+                      GdkEventWindowState * event) throw()
+{
+    if (false == (event->changed_mask & Gdk::WINDOW_STATE_FULLSCREEN))
+    {
+        return true;
+    }
+
+    if (false == GTK_IS_IMAGE_VIEW(imageView_))
+    {
+        g_warning("Not a GtkImageView");
+        return true;
+    }
+
+    gtk_image_view_set_black_bg(
+        GTK_IMAGE_VIEW(imageView_),
+        event->new_window_state & Gdk::WINDOW_STATE_FULLSCREEN);
+
+    return true;
 }
 
 void

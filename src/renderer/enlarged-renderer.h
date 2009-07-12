@@ -101,6 +101,10 @@ class EnlargedRenderer :
         void
         on_item_activated(const Gtk::TreeIter & iter) throw();
 
+        bool
+        on_main_window_state_event(GdkEventWindowState * event)
+                                   throw();
+
         void
         on_switch_page(GtkNotebookPage * notebook_page, guint page_num)
                        throw();
@@ -130,6 +134,8 @@ class EnlargedRenderer :
         sigc::connection signalInitEnd_;
 
         sigc::connection signalItemActivated_;
+
+        sigc::connection signalMainWindowStateEvent_;
 
         sigc::connection signalSwitchPage_;
 
