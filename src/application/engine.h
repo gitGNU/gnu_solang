@@ -167,6 +167,9 @@ class Engine :
         sigc::signal<void, const PhotoList &> &
         item_edit() throw();
 
+        sigc::signal<void, Engine &> &
+        renderer_changed() throw();
+
         sigc::signal<void> &
         selection_changed() throw();
 
@@ -231,6 +234,8 @@ class Engine :
         sigc::signal<void, const Gtk::TreeIter &> itemActivated_;
 
         sigc::signal<void, const PhotoList &> itemEdit_;
+
+        sigc::signal<void, Engine &> rendererChanged_;
 
         sigc::signal<void> selectionChanged_;
 

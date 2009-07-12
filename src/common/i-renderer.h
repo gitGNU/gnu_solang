@@ -19,6 +19,8 @@
 #ifndef SOLANG_I_RENDERER_H
 #define SOLANG_I_RENDERER_H
 
+#include <string>
+
 #include "non-copyable.h"
 #include "types.h"
 
@@ -26,6 +28,7 @@ namespace Solang
 {
 
 class Application;
+class IPlugin;
 
 class IRenderer :
     public NonCopyable
@@ -48,6 +51,12 @@ class IRenderer :
 
         virtual PhotoList
         get_current_selection() throw() = 0;
+
+        virtual std::string
+        get_name() const throw() = 0;
+
+        virtual void
+        receive_plugin(IPlugin & plugin) throw() = 0;
 
     protected:
         IRenderer() throw();

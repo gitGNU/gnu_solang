@@ -22,6 +22,11 @@
 #include <glibmm/i18n.h>
 
 #include "application.h"
+#include "browser-renderer.h"
+#include "console-renderer.h"
+#include "editor-renderer.h"
+#include "engine.h"
+#include "enlarged-renderer.h"
 #include "main-window.h"
 #include "property-manager.h"
 #include "renderer.h"
@@ -45,7 +50,8 @@ PropertyManager::PropertyManager() throw() :
     noteBook_(),
     vBox_(false, 6),
     basicInfo_(),
-    basicExifView_()
+    basicExifView_(),
+    signalRendererChanged_()
 {
     dockItem_ = gdl_dock_item_new_with_stock(dockItemName_.c_str(),
                                              dockItemTitle_.c_str(),
@@ -75,6 +81,12 @@ PropertyManager::init(Application & application)
     application_ = &application;
     basicExifView_.set_application( application_ );
     Engine & engine = application.get_engine();
+
+    signalRendererChanged_
+        = engine.renderer_changed().connect(
+              sigc::mem_fun(*this,
+                            &PropertyManager::on_renderer_changed));
+
     engine.selection_changed().connect(
             sigc::mem_fun(*this,
                     &PropertyManager::on_selection_changed ) );
@@ -89,7 +101,49 @@ void
 PropertyManager::final(Application & application)
     throw()
 {
+    signalRendererChanged_.disconnect();
+
     finalized_.emit(*this);
+}
+
+void
+PropertyManager::visit_renderer(BrowserRenderer & browser_renderer)
+                                throw()
+{
+    ui_show();
+}
+
+void
+PropertyManager::visit_renderer(ConsoleRenderer & console_renderer)
+                                throw()
+{
+    ui_hide();
+}
+
+void
+PropertyManager::visit_renderer(EditorRenderer & editor_renderer)
+                                throw()
+{
+    ui_show();
+}
+
+void
+PropertyManager::visit_renderer(EnlargedRenderer & enlarged_renderer)
+                                throw()
+{
+    ui_show();
+}
+
+void
+PropertyManager::on_renderer_changed(Engine & engine) throw()
+{
+    if (false == gdl_dock_object_is_bound(GDL_DOCK_OBJECT(dockItem_)))
+    {
+        return;
+    }
+
+    const RendererPtr & renderer = engine.get_current_renderer();
+    renderer->receive_plugin(*this);
 }
 
 void
@@ -103,6 +157,28 @@ PropertyManager::on_selection_changed() throw()
     basicExifView_.populate( (*photos.begin())->get_exif_data() );
 
     return;
+}
+
+void
+PropertyManager::ui_hide() throw()
+{
+    GdlDockItem * const dock_item = GDL_DOCK_ITEM(dockItem_);
+
+    if (true == GDL_DOCK_OBJECT_ATTACHED(dock_item))
+    {
+        gdl_dock_item_hide_item(GDL_DOCK_ITEM(dockItem_));
+    }
+}
+
+void
+PropertyManager::ui_show() throw()
+{
+    GdlDockItem * const dock_item = GDL_DOCK_ITEM(dockItem_);
+
+    if (false == GDL_DOCK_OBJECT_ATTACHED(dock_item))
+    {
+        gdl_dock_item_show_item(GDL_DOCK_ITEM(dockItem_));
+    }
 }
 
 } // namespace Solang

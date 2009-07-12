@@ -31,6 +31,7 @@
 #include "editable-photo.h"
 #include "editor-renderer.h"
 #include "engine.h"
+#include "i-plugin.h"
 #include "main-window.h"
 #include "photo.h"
 #include "photo-search-criteria.h"
@@ -478,6 +479,18 @@ EditorRenderer::get_current_selection() throw()
     photos.push_back(photo->get_photo());
 
     return photos;
+}
+
+std::string
+EditorRenderer::get_name() const throw()
+{
+    return "editor-renderer";
+}
+
+void
+EditorRenderer::receive_plugin(IPlugin & plugin) throw()
+{
+    plugin.visit_renderer(*this);
 }
 
 void

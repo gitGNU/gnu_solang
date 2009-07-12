@@ -29,6 +29,7 @@
 #include "browser-model-column-record.h"
 #include "enlarged-renderer.h"
 #include "engine.h"
+#include "i-plugin.h"
 #include "main-window.h"
 #include "photo.h"
 #include "photo-search-criteria.h"
@@ -467,6 +468,18 @@ EnlargedRenderer::get_current_selection() throw()
     photos.push_back(photo);
 
     return photos;
+}
+
+std::string
+EnlargedRenderer::get_name() const throw()
+{
+    return "enlarged-renderer";
+}
+
+void
+EnlargedRenderer::receive_plugin(IPlugin & plugin) throw()
+{
+    plugin.visit_renderer(*this);
 }
 
 void

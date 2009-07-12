@@ -34,6 +34,7 @@ namespace Solang
 {
 
 class Application;
+class Engine;
 
 class SearchBasket :
     public Plugin,
@@ -51,6 +52,18 @@ class SearchBasket :
 
         virtual void
         final(Application & application) throw();
+
+        virtual void
+        visit_renderer(BrowserRenderer & browser_renderer) throw();
+
+        virtual void
+        visit_renderer(ConsoleRenderer & console_renderer) throw();
+
+        virtual void
+        visit_renderer(EditorRenderer & editor_renderer) throw();
+
+        virtual void
+        visit_renderer(EnlargedRenderer & enlarged_renderer) throw();
 
         bool
         add_item_to_list( const Glib::ustring &key );
@@ -73,6 +86,15 @@ class SearchBasket :
                               gint x, gint y,
                               const Gtk::SelectionData & data,
                               guint info, guint time) throw();
+
+        void
+        on_renderer_changed(Engine & engine) throw();
+
+        void
+        ui_hide() throw();
+
+        void
+        ui_show() throw();
 
         const std::string dockItemName_;
 
@@ -104,6 +126,8 @@ class SearchBasket :
         Gtk::TreeView treeView_;
 
         ApplicationPtr application_;
+
+        sigc::connection signalRendererChanged_;
 
     private:
 };

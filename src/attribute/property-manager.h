@@ -31,6 +31,8 @@
 namespace Solang
 {
 
+class Engine;
+
 class PropertyManager :
     public Plugin
 {
@@ -49,7 +51,27 @@ public:
     void
     on_selection_changed() throw();
 
+    virtual void
+    visit_renderer(BrowserRenderer & browser_renderer) throw();
+
+    virtual void
+    visit_renderer(ConsoleRenderer & console_renderer) throw();
+
+    virtual void
+    visit_renderer(EditorRenderer & editor_renderer) throw();
+
+    virtual void
+    visit_renderer(EnlargedRenderer & enlarged_renderer) throw();
+
 protected:
+    void
+    on_renderer_changed(Engine & engine) throw();
+
+    void
+    ui_hide() throw();
+
+    void
+    ui_show() throw();
 
     ApplicationPtr application_;
 
@@ -71,6 +93,8 @@ protected:
     Gtk::VBox   vBox_;
     Gtk::ScrolledWindow basicInfo_;
     BasicExifView basicExifView_;
+
+    sigc::connection signalRendererChanged_;
 
 private:
 };

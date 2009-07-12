@@ -24,8 +24,13 @@
 #include <sigc++/sigc++.h>
 
 #include "application.h"
+#include "browser-renderer.h"
+#include "console-renderer.h"
 #include "delete-action.h"
 #include "deletion-queue.h"
+#include "editor-renderer.h"
+#include "engine.h"
+#include "enlarged-renderer.h"
 #include "main-window.h"
 #include "photo-tag.h"
 #include "renderer.h"
@@ -51,7 +56,8 @@ TagManager::TagManager() throw() :
     dockItem_(NULL),
     vBox_( false, 6 ),
     scrolledWindow_(),
-    tagView_( )
+    tagView_( ),
+    signalRendererChanged_()
 {
     Gtk::IconSource icon_source;
     Gtk::IconSet icon_set_tag;
@@ -161,6 +167,13 @@ TagManager::init(Application & application)
 
     populate_view();
 
+    Engine & engine = application.get_engine();
+
+    signalRendererChanged_
+        = engine.renderer_changed().connect(
+              sigc::mem_fun(*this,
+                            &TagManager::on_renderer_changed));
+
     MainWindow & main_window = application.get_main_window();
     main_window.add_dock_object_left_top(GDL_DOCK_OBJECT(dockItem_));
 
@@ -189,7 +202,34 @@ TagManager::final(Application & application)
     ui_manager->remove_action_group(actionGroup_);
     ui_manager->remove_ui(uiID_);
 
+    signalRendererChanged_.disconnect();
+
     finalized_.emit(*this);
+}
+
+void
+TagManager::visit_renderer(BrowserRenderer & browser_renderer) throw()
+{
+    ui_show();
+}
+
+void
+TagManager::visit_renderer(ConsoleRenderer & console_renderer) throw()
+{
+    ui_hide();
+}
+
+void
+TagManager::visit_renderer(EditorRenderer & editor_renderer) throw()
+{
+    ui_hide();
+}
+
+void
+TagManager::visit_renderer(EnlargedRenderer & enlarged_renderer)
+                           throw()
+{
+    ui_show();
 }
 
 void
@@ -380,10 +420,49 @@ TagManager::on_action_remove_tag() throw()
 }
 
 void
+TagManager::on_renderer_changed(Engine & engine) throw()
+{
+    if (false == gdl_dock_object_is_bound(GDL_DOCK_OBJECT(dockItem_)))
+    {
+        return;
+    }
+
+    const RendererPtr & renderer = engine.get_current_renderer();
+    renderer->receive_plugin(*this);
+}
+
+void
 TagManager::populate_view() throw()
 {
     Engine & engine = application_->get_engine();
     TagList tags = engine.get_tags();
     tagView_.populate(tags);
 }
+
+void
+TagManager::ui_hide() throw()
+{
+    actionGroup_->set_visible(false);
+
+    GdlDockItem * const dock_item = GDL_DOCK_ITEM(dockItem_);
+
+    if (true == GDL_DOCK_OBJECT_ATTACHED(dock_item))
+    {
+        gdl_dock_item_hide_item(GDL_DOCK_ITEM(dockItem_));
+    }
+}
+
+void
+TagManager::ui_show() throw()
+{
+    actionGroup_->set_visible(true);
+
+    GdlDockItem * const dock_item = GDL_DOCK_ITEM(dockItem_);
+
+    if (false == GDL_DOCK_OBJECT_ATTACHED(dock_item))
+    {
+        gdl_dock_item_show_item(GDL_DOCK_ITEM(dockItem_));
+    }
+}
+
 } // namespace Solang

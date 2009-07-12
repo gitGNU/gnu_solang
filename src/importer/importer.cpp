@@ -24,7 +24,12 @@
 #include <sigc++/sigc++.h>
 
 #include "application.h"
+#include "browser-renderer.h"
+#include "console-renderer.h"
 #include "directory-storage.h"
+#include "editor-renderer.h"
+#include "engine.h"
+#include "enlarged-renderer.h"
 #include "i-photo-source.h"
 #include "importer-dialog.h"
 #include "importer.h"
@@ -167,6 +172,30 @@ Importer::final(Application & application) throw()
 }
 
 void
+Importer::visit_renderer(BrowserRenderer & browser_renderer) throw()
+{
+    ui_show();
+}
+
+void
+Importer::visit_renderer(ConsoleRenderer & console_renderer) throw()
+{
+    ui_hide();
+}
+
+void
+Importer::visit_renderer(EditorRenderer & editor_renderer) throw()
+{
+    ui_show();
+}
+
+void
+Importer::visit_renderer(EnlargedRenderer & enlarged_renderer) throw()
+{
+    ui_show();
+}
+
+void
 Importer::on_action_photo_import() throw()
 {
     photoSource_->init(*application_);
@@ -261,6 +290,25 @@ Importer::on_importer_dialog_response(
 
     photoSource_->final(*application_);
     importer_dialog.reset();
+}
+
+void
+Importer::on_renderer_changed(Engine & engine) throw()
+{
+    const RendererPtr & renderer = engine.get_current_renderer();
+    renderer->receive_plugin(*this);
+}
+
+void
+Importer::ui_hide() throw()
+{
+    actionGroup_->set_visible(false);
+}
+
+void
+Importer::ui_show() throw()
+{
+    actionGroup_->set_visible(true);
 }
 
 } // namespace Solang

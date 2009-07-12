@@ -32,6 +32,7 @@ namespace Solang
 {
 
 class Application;
+class Engine;
 
 class TagManager :
     public Plugin
@@ -47,6 +48,18 @@ public:
 
     virtual void
     final(Application & application) throw();
+
+    virtual void
+    visit_renderer(BrowserRenderer & browser_renderer) throw();
+
+    virtual void
+    visit_renderer(ConsoleRenderer & console_renderer) throw();
+
+    virtual void
+    visit_renderer(EditorRenderer & editor_renderer) throw();
+
+    virtual void
+    visit_renderer(EnlargedRenderer & enlarged_renderer) throw();
 
 protected:
     void
@@ -65,7 +78,16 @@ protected:
     on_action_remove_tag() throw();
 
     void
+    on_renderer_changed(Engine & engine) throw();
+
+    void
     populate_view() throw();
+
+    void
+    ui_hide() throw();
+
+    void
+    ui_show() throw();
 
     ApplicationPtr application_;
 
@@ -88,6 +110,8 @@ protected:
     Gtk::ScrolledWindow scrolledWindow_;
 
     TagView tagView_;
+
+    sigc::connection signalRendererChanged_;
 
 private:
 };

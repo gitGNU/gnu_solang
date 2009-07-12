@@ -28,6 +28,10 @@ namespace Solang
 {
 
 class Application;
+class BrowserRenderer;
+class ConsoleRenderer;
+class EditorRenderer;
+class EnlargedRenderer;
 
 class IPlugin :
     public NonCopyable
@@ -47,6 +51,21 @@ class IPlugin :
 
         virtual sigc::signal<void, IPlugin &> &
         finalized() throw() = 0;
+
+        virtual void
+        visit_renderer(BrowserRenderer & browser_renderer)
+                       throw() = 0;
+
+        virtual void
+        visit_renderer(ConsoleRenderer & browser_renderer)
+                       throw() = 0;
+
+        virtual void
+        visit_renderer(EditorRenderer & editor_renderer) throw() = 0;
+
+        virtual void
+        visit_renderer(EnlargedRenderer & editor_renderer)
+                       throw() = 0;
 
     protected:
         IPlugin() throw();

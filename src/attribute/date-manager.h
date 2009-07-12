@@ -30,6 +30,8 @@
 namespace Solang
 {
 
+class Engine;
+
 class DateManager :
     public Plugin
 {
@@ -45,10 +47,31 @@ class DateManager :
         virtual void
         final(Application & application) throw();
 
+        virtual void
+        visit_renderer(BrowserRenderer & browser_renderer) throw();
+
+        virtual void
+        visit_renderer(ConsoleRenderer & console_renderer) throw();
+
+        virtual void
+        visit_renderer(EditorRenderer & editor_renderer) throw();
+
+        virtual void
+        visit_renderer(EnlargedRenderer & enlarged_renderer) throw();
+
         void
         on_photos_changed() throw();
 
     protected:
+        void
+        on_renderer_changed(Engine & engine) throw();
+
+        void
+        ui_hide() throw();
+
+        void
+        ui_show() throw();
+
         ApplicationPtr application_;
 
         Glib::RefPtr<Gtk::ActionGroup> actionGroup_;
@@ -68,6 +91,8 @@ class DateManager :
         Gtk::ScrolledWindow scrolledWindow_;
 
         DateView dateView_;
+
+        sigc::connection signalRendererChanged_;
 
     private:
 };

@@ -79,6 +79,12 @@ class EditorRenderer :
         virtual PhotoList
         get_current_selection() throw();
 
+        virtual std::string
+        get_name() const throw();
+
+        virtual void
+        receive_plugin(IPlugin & plugin) throw();
+
     protected:
 
         virtual void

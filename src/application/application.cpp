@@ -317,19 +317,19 @@ Application::init() throw()
     // Renderers.
 
     RendererPtr browser_renderer(new BrowserRenderer());
-    renderers_.insert(std::make_pair("browser-renderer",
+    renderers_.insert(std::make_pair(browser_renderer->get_name(),
                                      browser_renderer));
 
 //    RendererPtr console_renderer(new ConsoleRenderer());
-//    renderers_.insert(std::make_pair("console-renderer",
+//    renderers_.insert(std::make_pair(console_renderer->get_name(),
 //                                     console_renderer));
 
     RendererPtr enlarged_renderer(new EnlargedRenderer());
-    renderers_.insert(std::make_pair("enlarged-renderer",
+    renderers_.insert(std::make_pair(enlarged_renderer->get_name(),
                                      enlarged_renderer));
 
     RendererPtr editor_renderer(new EditorRenderer());
-    renderers_.insert(std::make_pair("editor-renderer",
+    renderers_.insert(std::make_pair(editor_renderer->get_name(),
                                      editor_renderer));
 
     std::for_each(renderers_.begin(), renderers_.end(),

@@ -28,6 +28,7 @@
 #include "browser-model-column-record.h"
 #include "browser-renderer.h"
 #include "engine.h"
+#include "i-plugin.h"
 #include "main-window.h"
 #include "photo.h"
 #include "photo-search-criteria.h"
@@ -404,6 +405,18 @@ PhotoList
 BrowserRenderer::get_current_selection() throw()
 {
     return thumbnailView_.get_selected_photos();
+}
+
+std::string
+BrowserRenderer::get_name() const throw()
+{
+    return "browser-renderer";
+}
+
+void
+BrowserRenderer::receive_plugin(IPlugin & plugin) throw()
+{
+    plugin.visit_renderer(*this);
 }
 
 void

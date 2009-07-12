@@ -26,6 +26,11 @@
 #include <gdkmm.h>
 
 #include "application.h"
+#include "browser-renderer.h"
+#include "console-renderer.h"
+#include "editor-renderer.h"
+#include "engine.h"
+#include "enlarged-renderer.h"
 #include "main-window.h"
 #include "search-basket.h"
 #include "search-basket-column-record.h"
@@ -52,7 +57,8 @@ SearchBasket::SearchBasket() throw() :
     scrolledWindow_(),
     listStore_(Gtk::ListStore::create(SearchBasketColumnRecord())),
     treeView_(listStore_),
-    application_( NULL )
+    application_( NULL ),
+    signalRendererChanged_()
 {
     scrolledWindow_.set_policy(Gtk::POLICY_AUTOMATIC,
                                Gtk::POLICY_AUTOMATIC);
@@ -133,6 +139,12 @@ SearchBasket::init(Application & application) throw()
     application_ = &application;
     Engine & engine = application.get_engine();
     engine.get_criterion_repo().register_source( this );
+
+    signalRendererChanged_
+        = engine.renderer_changed().connect(
+              sigc::mem_fun(*this,
+                            &SearchBasket::on_renderer_changed));
+
     MainWindow & main_window = application.get_main_window();
     main_window.add_dock_object_left_bottom(
                     GDL_DOCK_OBJECT(dockItem_));
@@ -143,7 +155,36 @@ SearchBasket::init(Application & application) throw()
 void
 SearchBasket::final(Application & application) throw()
 {
+    signalRendererChanged_.disconnect();
+
     finalized_.emit(*this);
+}
+
+void
+SearchBasket::visit_renderer(BrowserRenderer & browser_renderer)
+                             throw()
+{
+    ui_show();
+}
+
+void
+SearchBasket::visit_renderer(ConsoleRenderer & console_renderer)
+                             throw()
+{
+    ui_hide();
+}
+
+void
+SearchBasket::visit_renderer(EditorRenderer & editor_renderer) throw()
+{
+    ui_hide();
+}
+
+void
+SearchBasket::visit_renderer(EnlargedRenderer & enlarged_renderer)
+                             throw()
+{
+    ui_show();
 }
 
 void
@@ -157,6 +198,18 @@ SearchBasket::on_drag_data_received(
     bool status = add_item_to_list( key );
     drag_context->drag_finish(status, false, 0);
     return;
+}
+
+void
+SearchBasket::on_renderer_changed(Engine & engine) throw()
+{
+    if (false == gdl_dock_object_is_bound(GDL_DOCK_OBJECT(dockItem_)))
+    {
+        return;
+    }
+
+    const RendererPtr & renderer = engine.get_current_renderer();
+    renderer->receive_plugin(*this);
 }
 
 bool
@@ -264,6 +317,28 @@ SearchBasket::get_criterion(
         criterion.push_back( tag );
     }
     return;
+}
+
+void
+SearchBasket::ui_hide() throw()
+{
+    GdlDockItem * const dock_item = GDL_DOCK_ITEM(dockItem_);
+
+    if (true == GDL_DOCK_OBJECT_ATTACHED(dock_item))
+    {
+        gdl_dock_item_hide_item(GDL_DOCK_ITEM(dockItem_));
+    }
+}
+
+void
+SearchBasket::ui_show() throw()
+{
+    GdlDockItem * const dock_item = GDL_DOCK_ITEM(dockItem_);
+
+    if (false == GDL_DOCK_OBJECT_ATTACHED(dock_item))
+    {
+        gdl_dock_item_show_item(GDL_DOCK_ITEM(dockItem_));
+    }
 }
 
 } // namespace Solang

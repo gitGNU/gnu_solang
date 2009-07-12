@@ -54,6 +54,12 @@ class ConsoleRenderer :
             return PhotoList();
         }
 
+        virtual std::string
+        get_name() const throw();
+
+        virtual void
+        receive_plugin(IPlugin & plugin) throw();
+
     protected:
 
     private:

@@ -47,6 +47,7 @@ Engine::Engine(int & argc, char ** & argv,
     criterionChanged_(),
     itemActivated_(),
     itemEdit_(),
+    rendererChanged_(),
     selectionChanged_(),
     mutex_(),
     photos_(),
@@ -446,6 +447,12 @@ Engine::item_edit() throw()
     return itemEdit_;
 }
 
+sigc::signal<void, Engine &> &
+Engine::renderer_changed() throw()
+{
+    return rendererChanged_;
+}
+
 sigc::signal<void> &
 Engine::selection_changed() throw()
 {
@@ -475,6 +482,7 @@ void
 Engine::set_current_renderer(const RendererPtr & renderer)
 {
     currentRenderer_ = renderer;
+    rendererChanged_.emit(*this);
 }
 
 IStoragePtr
