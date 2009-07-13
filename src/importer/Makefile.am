@@ -29,7 +29,7 @@ libimporter_la_SOURCES = \
 	photo-source-enums.h
 
 AM_CPPFLAGS = \
-       	-DPACKAGE_LOCALE_DIR=\"${SOLANG_LOCALE_DIR}\" \
+	-DPACKAGE_LOCALE_DIR=\""${datadir}/locale"\" \
 	-DPACKAGE_SRC_DIR=\""$(srcdir)"\" \
 	-DPACKAGE_DATA_DIR=\""$(datadir)"\" \
 	-I$(top_builddir) \

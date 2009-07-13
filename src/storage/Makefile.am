@@ -10,7 +10,7 @@ libstorage_la_SOURCES = \
 	token-replacer.h
 
 AM_CPPFLAGS = \
-       	-DPACKAGE_LOCALE_DIR=\"${SOLANG_LOCALE_DIR}\" \
+	-DPACKAGE_LOCALE_DIR=\""${datadir}/locale"\" \
 	-DPACKAGE_SRC_DIR=\""$(srcdir)"\" \
 	-DPACKAGE_DATA_DIR=\""$(datadir)"\" \
 	-I$(top_builddir) \
