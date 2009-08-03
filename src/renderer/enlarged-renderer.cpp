@@ -180,7 +180,7 @@ EnlargedRenderer::EnlargedRenderer() throw() :
 
     {
         ActionPtr action = Gtk::Action::create(
-            "ActionGoPrevious", Gtk::Stock::GO_BACK,
+            "ActionGoPreviousPhoto", Gtk::Stock::GO_BACK,
             _("_Previous Photo"),
             _("Go to the previous photo in the collection"));
 
@@ -194,7 +194,7 @@ EnlargedRenderer::EnlargedRenderer() throw() :
 
     {
         ActionPtr action = Gtk::Action::create(
-            "ActionGoNext", Gtk::Stock::GO_FORWARD,
+            "ActionGoNextPhoto", Gtk::Stock::GO_FORWARD,
             _("_Next Photo"),
             _("Go to the next photo in the collection"));
 
@@ -208,7 +208,7 @@ EnlargedRenderer::EnlargedRenderer() throw() :
 
     actionGroup_->add(
         Gtk::Action::create(
-            "ActionGoFirst", Gtk::Stock::GOTO_FIRST,
+            "ActionGoFirstPhoto", Gtk::Stock::GOTO_FIRST,
             _("_First Photo"),
             _("Go to the first photo in the collection")),
         Gtk::AccelKey("<alt>Home"),
@@ -216,7 +216,7 @@ EnlargedRenderer::EnlargedRenderer() throw() :
 
     actionGroup_->add(
         Gtk::Action::create(
-            "ActionGoLast", Gtk::Stock::GOTO_LAST,
+            "ActionGoLastPhoto", Gtk::Stock::GOTO_LAST,
             _("_Last Photo"),
             _("Go to the last photo in the collection")),
         Gtk::AccelKey("<alt>End"),
@@ -224,7 +224,7 @@ EnlargedRenderer::EnlargedRenderer() throw() :
 
     actionGroup_->add(
         Gtk::Action::create(
-            "AccelGoPrevious", Gtk::StockID(),
+            "AccelGoPreviousPhoto", Gtk::StockID(),
             _("_Previous Photo"),
             _("Go to the previous photo in the collection")),
         Gtk::AccelKey("Left"),
@@ -233,7 +233,7 @@ EnlargedRenderer::EnlargedRenderer() throw() :
 
     actionGroup_->add(
         Gtk::Action::create(
-            "AccelGoNext", Gtk::StockID(),
+            "AccelGoNextPhoto", Gtk::StockID(),
             _("_Next Photo"),
             _("Go to the next photo in the collection")),
         Gtk::AccelKey("Right"),
@@ -241,7 +241,7 @@ EnlargedRenderer::EnlargedRenderer() throw() :
 
     actionGroup_->add(
         Gtk::Action::create(
-            "AccelGoFirst", Gtk::StockID(),
+            "AccelGoFirstPhoto", Gtk::StockID(),
             _("_First Photo"),
             _("Go to the first photo in the collection")),
         Gtk::AccelKey("Home"),
@@ -249,7 +249,7 @@ EnlargedRenderer::EnlargedRenderer() throw() :
 
     actionGroup_->add(
         Gtk::Action::create(
-            "AccelGoLast", Gtk::StockID(),
+            "AccelGoLastPhoto", Gtk::StockID(),
             _("_Last Photo"),
             _("Go to the last photo in the collection")),
         Gtk::AccelKey("End"),

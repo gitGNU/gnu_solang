@@ -14,18 +14,18 @@
 		</menu>
 		<placeholder name="PlaceholderGoMenus">
 		<menu action="ActionMenuGo">
-			<menuitem action="ActionGoPrevious"/>
-			<menuitem action="ActionGoNext"/>
-			<separator name="GoSeparator"/>
-			<menuitem action="ActionGoFirst"/>
-			<menuitem action="ActionGoLast"/>
+			<menuitem action="ActionGoPreviousPhoto"/>
+			<menuitem action="ActionGoNextPhoto"/>
+			<separator name="GoEnlargedSeparator"/>
+			<menuitem action="ActionGoFirstPhoto"/>
+			<menuitem action="ActionGoLastPhoto"/>
 		</menu>
 		</placeholder>
 	</menubar>
 	<toolbar name="ToolBar">
 		<placeholder name="PlaceholderGoToolBar">
-		<toolitem action="ActionGoPrevious"/>
-		<toolitem action="ActionGoNext"/>
+		<toolitem action="ActionGoPreviousPhoto"/>
+		<toolitem action="ActionGoNextPhoto"/>
 		</placeholder>
 		<placeholder name="PlaceholderZoomToolBar">
 		<toolitem action="ActionViewZoomIn"/>
@@ -34,10 +34,10 @@
 		<toolitem action="ActionViewBestFit"/>
 		</placeholder>
 	</toolbar>
-	<accelerator action="AccelGoPrevious"/>
-	<accelerator action="AccelGoNext"/>
-	<accelerator action="AccelGoFirst"/>
-	<accelerator action="AccelGoLast"/>
+	<accelerator action="AccelGoPreviousPhoto"/>
+	<accelerator action="AccelGoNextPhoto"/>
+	<accelerator action="AccelGoFirstPhoto"/>
+	<accelerator action="AccelGoLastPhoto"/>
 	<accelerator action="AccelViewZoomIn"/>
 	<accelerator action="AccelViewZoomIn1"/>
 	<accelerator action="AccelViewZoomIn2"/>

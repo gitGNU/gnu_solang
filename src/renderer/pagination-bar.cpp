@@ -34,19 +34,19 @@ namespace Solang
 PaginationBar::PaginationBar() throw() :
     Gtk::HBox(false, 12),
     actionPrevious_(Gtk::Action::create(
-                        "ActionGoPrevious", Gtk::Stock::GO_BACK,
+                        "ActionGoPreviousPage", Gtk::Stock::GO_BACK,
                         _("_Previous Page"),
                         _("Go to the previous page in the collection"))),
     actionNext_(Gtk::Action::create(
-                        "ActionGoNext", Gtk::Stock::GO_FORWARD,
+                        "ActionGoNextPage", Gtk::Stock::GO_FORWARD,
                         _("_Next Page"),
                         _("Go to the next page in the collection"))),
     actionFirst_(Gtk::Action::create(
-                        "ActionGoFirst", Gtk::Stock::GOTO_FIRST,
+                        "ActionGoFirstPage", Gtk::Stock::GOTO_FIRST,
                         _("_First Page"),
                         _("Go to the first page in the collection"))),
     actionLast_(Gtk::Action::create(
-                        "ActionGoLast", Gtk::Stock::GOTO_LAST,
+                        "ActionGoLastPage", Gtk::Stock::GOTO_LAST,
                         _("_Last Page"),
                         _("Go to the last page in the collection"))),
     firstHBox_(false, 12),

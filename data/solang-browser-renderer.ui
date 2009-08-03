@@ -10,11 +10,11 @@
 		</menu>
 		<placeholder name="PlaceholderGoMenus">
 		<menu action="ActionMenuGo">
-			<menuitem action="ActionGoPrevious"/>
-			<menuitem action="ActionGoNext"/>
-			<separator name="GoSeparator"/>
-			<menuitem action="ActionGoFirst"/>
-			<menuitem action="ActionGoLast"/>
+			<menuitem action="ActionGoPreviousPage"/>
+			<menuitem action="ActionGoNextPage"/>
+			<separator name="GoBrowserSeparator"/>
+			<menuitem action="ActionGoFirstPage"/>
+			<menuitem action="ActionGoLastPage"/>
 		</menu>
 		</placeholder>
 	</menubar>

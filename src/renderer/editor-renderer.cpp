@@ -170,7 +170,7 @@ EditorRenderer::EditorRenderer() throw() :
 
     {
         ActionPtr action = Gtk::Action::create(
-            "ActionGoPrevious", Gtk::Stock::GO_BACK,
+            "ActionGoPreviousEditablePhoto", Gtk::Stock::GO_BACK,
             _("_Previous Photo"),
             _("Go to the previous photo in the collection"));
 
@@ -184,7 +184,7 @@ EditorRenderer::EditorRenderer() throw() :
 
     {
         ActionPtr action = Gtk::Action::create(
-            "ActionGoNext", Gtk::Stock::GO_FORWARD,
+            "ActionGoNextEditablePhoto", Gtk::Stock::GO_FORWARD,
             _("_Next Photo"),
             _("Go to the next photo in the collection"));
 
@@ -198,7 +198,7 @@ EditorRenderer::EditorRenderer() throw() :
 
     actionGroup_->add(
         Gtk::Action::create(
-            "ActionGoFirst", Gtk::Stock::GOTO_FIRST,
+            "ActionGoFirstEditablePhoto", Gtk::Stock::GOTO_FIRST,
             _("_First Photo"),
             _("Go to the first photo in the collection")),
         Gtk::AccelKey("<alt>Home"),
@@ -206,7 +206,7 @@ EditorRenderer::EditorRenderer() throw() :
 
     actionGroup_->add(
         Gtk::Action::create(
-            "ActionGoLast", Gtk::Stock::GOTO_LAST,
+            "ActionGoLastEditablePhoto", Gtk::Stock::GOTO_LAST,
             _("_Last Photo"),
             _("Go to the last photo in the collection")),
         Gtk::AccelKey("<alt>End"),
@@ -214,7 +214,7 @@ EditorRenderer::EditorRenderer() throw() :
 
     actionGroup_->add(
         Gtk::Action::create(
-            "AccelGoPrevious", Gtk::StockID(),
+            "AccelGoPreviousEditablePhoto", Gtk::StockID(),
             _("_Previous Photo"),
             _("Go to the previous photo in the collection")),
         Gtk::AccelKey("Left"),
@@ -223,7 +223,7 @@ EditorRenderer::EditorRenderer() throw() :
 
     actionGroup_->add(
         Gtk::Action::create(
-            "AccelGoNext", Gtk::StockID(),
+            "AccelGoNextEditablePhoto", Gtk::StockID(),
             _("_Next Photo"),
             _("Go to the next photo in the collection")),
         Gtk::AccelKey("Right"),
@@ -231,7 +231,7 @@ EditorRenderer::EditorRenderer() throw() :
 
     actionGroup_->add(
         Gtk::Action::create(
-            "AccelGoFirst", Gtk::StockID(),
+            "AccelGoFirstEditablePhoto", Gtk::StockID(),
             _("_First Photo"),
             _("Go to the first photo in the collection")),
         Gtk::AccelKey("Home"),
@@ -239,7 +239,7 @@ EditorRenderer::EditorRenderer() throw() :
 
     actionGroup_->add(
         Gtk::Action::create(
-            "AccelGoLast", Gtk::StockID(),
+            "AccelGoLastEditablePhoto", Gtk::StockID(),
             _("_Last Photo"),
             _("Go to the last photo in the collection")),
         Gtk::AccelKey("End"),
