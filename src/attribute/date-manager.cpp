@@ -29,7 +29,7 @@
 #include "editor-renderer.h"
 #include "engine.h"
 #include "enlarged-renderer.h"
-#include "renderer.h"
+#include "i-renderer.h"
 #include "main-window.h"
 
 namespace Solang
@@ -147,7 +147,7 @@ DateManager::on_renderer_changed(Engine & engine) throw()
         return;
     }
 
-    const RendererPtr & renderer = engine.get_current_renderer();
+    const IRendererPtr & renderer = engine.get_current_renderer();
     renderer->receive_plugin(*this);
 }
 

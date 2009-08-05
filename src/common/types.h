@@ -122,6 +122,11 @@ class IPlugin;
 typedef std::tr1::shared_ptr<const IPlugin> ConstIPluginPtr;
 typedef std::tr1::shared_ptr<IPlugin> IPluginPtr;
 
+class IRenderer;
+typedef std::tr1::shared_ptr<const IRenderer> ConstIRendererPtr;
+typedef std::tr1::shared_ptr<IRenderer> IRendererPtr;
+typedef std::vector<IRendererPtr> IRendererList;
+
 class DatePhotoInfo;
 typedef std::vector<DatePhotoInfo> DatePhotoInfoList;
 
@@ -151,11 +156,6 @@ class ProgressObserver;
 typedef std::tr1::shared_ptr<const ProgressObserver>
     ConstProgressObserverPtr;
 typedef std::tr1::shared_ptr<ProgressObserver> ProgressObserverPtr;
-
-class Renderer;
-typedef std::tr1::shared_ptr<const Renderer> ConstRendererPtr;
-typedef std::tr1::shared_ptr<Renderer> RendererPtr;
-typedef std::vector<RendererPtr> RendererList;
 
 class IStorage;
 typedef std::tr1::shared_ptr<const IStorage> ConstIStoragePtr;

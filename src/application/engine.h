@@ -190,11 +190,11 @@ class Engine :
         get_current_storage_system(const Glib::ustring & prefix)
                                    const throw();
 
-        RendererPtr
+        IRendererPtr
         get_current_renderer() throw();
 
         void
-        set_current_renderer(const RendererPtr & renderer);
+        set_current_renderer(const IRendererPtr & renderer);
 
         PhotoList
         get_photos() throw();
@@ -248,7 +248,7 @@ class Engine :
 
         StorageMap currentStorageSystems_;
 
-        RendererPtr currentRenderer_;
+        IRendererPtr currentRenderer_;
 
         Database database_;
 

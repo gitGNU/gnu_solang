@@ -9,8 +9,6 @@ librenderer_la_SOURCES = \
 	editor-renderer.h \
 	enlarged-renderer.cpp \
 	enlarged-renderer.h \
-	renderer.cpp \
-	renderer.h \
 	browser-model-column-record.cpp \
 	browser-model-column-record.h \
 	cell-renderer-info.cpp \

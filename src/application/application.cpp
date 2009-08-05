@@ -316,24 +316,24 @@ Application::init() throw()
 
     // Renderers.
 
-    RendererPtr browser_renderer(new BrowserRenderer());
+    IRendererPtr browser_renderer(new BrowserRenderer());
     renderers_.insert(std::make_pair(browser_renderer->get_name(),
                                      browser_renderer));
 
-//    RendererPtr console_renderer(new ConsoleRenderer());
+//    IRendererPtr console_renderer(new ConsoleRenderer());
 //    renderers_.insert(std::make_pair(console_renderer->get_name(),
 //                                     console_renderer));
 
-    RendererPtr enlarged_renderer(new EnlargedRenderer());
+    IRendererPtr enlarged_renderer(new EnlargedRenderer());
     renderers_.insert(std::make_pair(enlarged_renderer->get_name(),
                                      enlarged_renderer));
 
-    RendererPtr editor_renderer(new EditorRenderer());
+    IRendererPtr editor_renderer(new EditorRenderer());
     renderers_.insert(std::make_pair(editor_renderer->get_name(),
                                      editor_renderer));
 
     std::for_each(renderers_.begin(), renderers_.end(),
-                  Initializer<RendererPtr>(this));
+                  Initializer<IRendererPtr>(this));
 
     engine_.set_current_renderer(browser_renderer);
 
@@ -358,7 +358,7 @@ Application::final() throw()
     mainWindow_.final();
 
     std::for_each(renderers_.begin(), renderers_.end(),
-                  Finalizer<RendererPtr>(this));
+                  Finalizer<IRendererPtr>(this));
 
     std::for_each(plugins_.begin(), plugins_.end(),
                   Finalizer<IPluginPtr>(this));
@@ -517,15 +517,15 @@ Application::set_drag_item(const Glib::ustring & key,
     return;
 }
 
-RendererPtr
+IRendererPtr
 Application::get_renderer(const std::string & name) throw()
 {
-    const std::map<std::string, RendererPtr>::const_iterator iter
+    const std::map<std::string, IRendererPtr>::const_iterator iter
         = renderers_.find(name);
 
     if (renderers_.end() == iter)
     {
-        return RendererPtr();
+        return IRendererPtr();
     }
 
     return iter->second;

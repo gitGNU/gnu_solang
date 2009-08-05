@@ -64,7 +64,7 @@ image_view_on_scroll_event(GtkImageView * view,
 }
 
 EditorRenderer::EditorRenderer() throw() :
-    Renderer(),
+    IRenderer(),
     sigc::trackable(),
     application_(NULL),
     actionGroup_(Gtk::ActionGroup::create()),
@@ -740,8 +740,8 @@ EditorRenderer::on_switch_page(GtkNotebookPage * notebook_page,
     if (pageNum_ == static_cast<gint>(page_num))
     {
         Engine & engine = application_->get_engine();
-        RendererPtr renderer = application_->get_renderer(
-                                   "editor-renderer");
+        IRendererPtr renderer = application_->get_renderer(
+                                    "editor-renderer");
         engine.set_current_renderer(renderer);
 
         if (0 == uiID_)

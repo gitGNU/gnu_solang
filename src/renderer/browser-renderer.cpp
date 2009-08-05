@@ -58,7 +58,7 @@ static const std::string uiFile
           PACKAGE_TARNAME"-browser-renderer.ui";
 
 BrowserRenderer::BrowserRenderer() throw() :
-    Renderer(),
+    IRenderer(),
     sigc::trackable(),
     application_(NULL),
     iconFactory_(Gtk::IconFactory::create()),
@@ -529,8 +529,8 @@ BrowserRenderer::on_switch_page(GtkNotebookPage * notebook_page,
     if (pageNum_ == static_cast<gint>(page_num))
     {
         Engine & engine = application_->get_engine();
-        RendererPtr renderer = application_->get_renderer(
-                                   "browser-renderer");
+        IRendererPtr renderer = application_->get_renderer(
+                                    "browser-renderer");
         engine.set_current_renderer(renderer);
 
         const Gtk::TreeModel::iterator & model_iter

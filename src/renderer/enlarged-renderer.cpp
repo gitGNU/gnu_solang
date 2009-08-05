@@ -61,7 +61,7 @@ image_view_on_scroll_event(GtkImageView * view,
 }
 
 EnlargedRenderer::EnlargedRenderer() throw() :
-    Renderer(),
+    IRenderer(),
     sigc::trackable(),
     application_(NULL),
     iconFactory_(Gtk::IconFactory::create()),
@@ -819,8 +819,8 @@ EnlargedRenderer::on_switch_page(GtkNotebookPage * notebook_page,
     if (pageNum_ == static_cast<gint>(page_num))
     {
         Engine & engine = application_->get_engine();
-        RendererPtr renderer = application_->get_renderer(
-                                   "enlarged-renderer");
+        IRendererPtr renderer = application_->get_renderer(
+                                    "enlarged-renderer");
         engine.set_current_renderer(renderer);
 
         if (0 == uiID_)

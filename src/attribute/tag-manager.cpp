@@ -31,9 +31,9 @@
 #include "editor-renderer.h"
 #include "engine.h"
 #include "enlarged-renderer.h"
+#include "i-renderer.h"
 #include "main-window.h"
 #include "photo-tag.h"
-#include "renderer.h"
 #include "tag-manager.h"
 #include "tag-new-dialog.h"
 
@@ -369,7 +369,7 @@ TagManager::on_action_apply_tag() throw()
             return;
 
         Engine &engine = application_->get_engine();
-        RendererPtr renderer = engine.get_current_renderer();
+        IRendererPtr renderer = engine.get_current_renderer();
 
         PhotoList photos = renderer->get_current_selection();
 
@@ -401,7 +401,7 @@ TagManager::on_action_remove_tag() throw()
             return;
 
         Engine &engine = application_->get_engine();
-        RendererPtr renderer = engine.get_current_renderer();
+        IRendererPtr renderer = engine.get_current_renderer();
         PhotoList photos = renderer->get_current_selection();
         DeletionQueue &queue
                 = application_->get_engine().get_delete_actions();
@@ -427,7 +427,7 @@ TagManager::on_renderer_changed(Engine & engine) throw()
         return;
     }
 
-    const RendererPtr & renderer = engine.get_current_renderer();
+    const IRendererPtr & renderer = engine.get_current_renderer();
     renderer->receive_plugin(*this);
 }
 

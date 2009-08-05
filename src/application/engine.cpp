@@ -27,9 +27,9 @@
 #include "engine.h"
 #include "i-photo-destination.h"
 #include "i-photo-source.h"
+#include "i-renderer.h"
 #include "photo-tag.h"
 #include "progress-observer.h"
-#include "renderer.h"
 #include "tag.h"
 
 namespace Solang
@@ -472,14 +472,14 @@ Engine::add_current_storage_system(const Glib::ustring & prefix,
     currentStorageSystems_.insert(std::make_pair(prefix, storage));
 }
 
-RendererPtr
+IRendererPtr
 Engine::get_current_renderer() throw()
 {
     return currentRenderer_;
 }
 
 void
-Engine::set_current_renderer(const RendererPtr & renderer)
+Engine::set_current_renderer(const IRendererPtr & renderer)
 {
     currentRenderer_ = renderer;
     rendererChanged_.emit(*this);

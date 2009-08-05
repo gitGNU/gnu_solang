@@ -27,7 +27,7 @@
 #include <sigc++/sigc++.h>
 
 #include "editor.h"
-#include "renderer.h"
+#include "i-renderer.h"
 #include "thumbnail-view.h"
 #include "types.h"
 
@@ -35,7 +35,7 @@ namespace Solang
 {
 
 class EditorRenderer :
-    public Renderer,
+    public IRenderer,
     public sigc::trackable
 {
     private:

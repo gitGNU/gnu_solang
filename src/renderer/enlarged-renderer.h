@@ -26,7 +26,7 @@
 #include <gtkmm.h>
 #include <sigc++/sigc++.h>
 
-#include "renderer.h"
+#include "i-renderer.h"
 #include "thumbnail-view.h"
 #include "types.h"
 
@@ -34,7 +34,7 @@ namespace Solang
 {
 
 class EnlargedRenderer :
-    public Renderer,
+    public IRenderer,
     public sigc::trackable
 {
     public:

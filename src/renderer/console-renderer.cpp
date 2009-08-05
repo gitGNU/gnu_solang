@@ -30,12 +30,7 @@ namespace Solang
 {
 
 ConsoleRenderer::ConsoleRenderer() throw() :
-    Renderer()
-{
-}
-
-ConsoleRenderer::ConsoleRenderer(const RendererPtr & next) throw() :
-    Renderer(next)
+    IRenderer()
 {
 }
 
@@ -54,11 +49,6 @@ ConsoleRenderer::render(const PhotoPtr & photo) throw()
     std::cout << "Photo Path:" << photo->get_disk_file_path()
               << std::endl;
     std::cout << "Photo Path:" << photo->get_uri() << std::endl;
-
-    if (next_)
-    {
-        next_->render(photo);
-    }
 }
 
 void

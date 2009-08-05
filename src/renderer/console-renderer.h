@@ -19,19 +19,17 @@
 #ifndef SOLANG_CONSOLE_RENDERER_H
 #define SOLANG_CONSOLE_RENDERER_H
 
-#include "renderer.h"
+#include "i-renderer.h"
 #include "types.h"
 
 namespace Solang
 {
 
 class ConsoleRenderer :
-    public Renderer
+    public IRenderer
 {
     public:
         ConsoleRenderer() throw();
-
-        ConsoleRenderer(const RendererPtr & next) throw();
 
         virtual
         ~ConsoleRenderer() throw();

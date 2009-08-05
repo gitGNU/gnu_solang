@@ -26,8 +26,8 @@
 #include <gtkmm.h>
 #include <sigc++/sigc++.h>
 
+#include "i-renderer.h"
 #include "pagination-bar.h"
-#include "renderer.h"
 #include "thumbnail-view.h"
 #include "types.h"
 #include "zoomer.h"
@@ -36,7 +36,7 @@ namespace Solang
 {
 
 class BrowserRenderer :
-    public Renderer,
+    public IRenderer,
     public sigc::trackable
 {
     public:

@@ -29,7 +29,6 @@
 #include "editor.h"
 #include "flip.h"
 #include "main-window.h"
-#include "renderer.h"
 #include "rotate.h"
 #include "save-photos-window.h"
 

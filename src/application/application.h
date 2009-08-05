@@ -90,7 +90,7 @@ class Application :
         set_drag_item(const Glib::ustring &, //key
                       const PhotoSearchCriteriaPtr &) throw();
 
-        RendererPtr
+        IRendererPtr
         get_renderer(const std::string & name) throw();
 
     protected:
@@ -127,7 +127,7 @@ class Application :
 
         std::map<std::string, IPluginPtr> plugins_;
 
-        std::map<std::string, RendererPtr> renderers_;
+        std::map<std::string, IRendererPtr> renderers_;
 
         DragDropCriteriaMap dragItemMap_;
 
