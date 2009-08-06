@@ -185,7 +185,7 @@ Application::Application(int & argc, char ** & argv) throw() :
     listStore_(Gtk::ListStore::create(BrowserModelColumnRecord())),
     listStoreIter_(),
     plugins_(),
-    renderers_(),
+    rendererRegistry_(),
     initEnd_(),
     listStoreChangeBegin_(),
     listStoreChangeEnd_()
@@ -317,25 +317,26 @@ Application::init() throw()
     // Renderers.
 
     IRendererPtr browser_renderer(new BrowserRenderer());
-    renderers_.insert(std::make_pair(browser_renderer->get_name(),
-                                     browser_renderer));
+    rendererRegistry_.add(browser_renderer);
 
 //    IRendererPtr console_renderer(new ConsoleRenderer());
-//    renderers_.insert(std::make_pair(console_renderer->get_name(),
-//                                     console_renderer));
+//    rendererRegistry_.add(console_renderer);
 
     IRendererPtr enlarged_renderer(new EnlargedRenderer());
-    renderers_.insert(std::make_pair(enlarged_renderer->get_name(),
-                                     enlarged_renderer));
+    rendererRegistry_.add(enlarged_renderer);
 
     IRendererPtr editor_renderer(new EditorRenderer());
-    renderers_.insert(std::make_pair(editor_renderer->get_name(),
-                                     editor_renderer));
+    rendererRegistry_.add(editor_renderer);
 
-    std::for_each(renderers_.begin(), renderers_.end(),
-                  Initializer<IRendererPtr>(this));
+    rendererRegistry_.init(*this);
 
-    engine_.set_current_renderer(browser_renderer);
+    const IRendererPtr renderer
+        = rendererRegistry_.select<BrowserRenderer>();
+
+    if (0 != renderer)
+    {
+        rendererRegistry_.set_current(renderer);
+    }
 
     ContentTypeRepo::instance()->init();
 
@@ -357,8 +358,7 @@ Application::final() throw()
     engine_.final();
     mainWindow_.final();
 
-    std::for_each(renderers_.begin(), renderers_.end(),
-                  Finalizer<IRendererPtr>(this));
+    rendererRegistry_.final(*this);
 
     std::for_each(plugins_.begin(), plugins_.end(),
                   Finalizer<IPluginPtr>(this));
@@ -501,6 +501,12 @@ Application::set_list_store_iter(const Gtk::TreeModel::Path & path)
     listStoreIter_ = listStore_->get_iter(path);
 }
 
+RendererRegistry &
+Application::get_renderer_registry() throw()
+{
+    return rendererRegistry_;
+}
+
 DragDropCriteriaMap &
 Application::get_drag_drop_map() throw()
 {
@@ -515,20 +521,6 @@ Application::set_drag_item(const Glib::ustring & key,
     //This handles double dragging of same criteria
     dragItemMap_[ key ] = criteria;
     return;
-}
-
-IRendererPtr
-Application::get_renderer(const std::string & name) throw()
-{
-    const std::map<std::string, IRendererPtr>::const_iterator iter
-        = renderers_.find(name);
-
-    if (renderers_.end() == iter)
-    {
-        return IRendererPtr();
-    }
-
-    return iter->second;
 }
 
 } // namespace Solang

@@ -28,6 +28,7 @@
 #include "engine.h"
 #include "main-window.h"
 #include "progress-dialog.h"
+#include "renderer-registry.h"
 #include "types.h"
 
 namespace Solang
@@ -83,15 +84,15 @@ class Application :
         void
         set_list_store_iter(const Gtk::TreeModel::Path & path) throw();
 
+        RendererRegistry &
+        get_renderer_registry() throw();
+
         DragDropCriteriaMap &
         get_drag_drop_map() throw();
 
         void
         set_drag_item(const Glib::ustring &, //key
                       const PhotoSearchCriteriaPtr &) throw();
-
-        IRendererPtr
-        get_renderer(const std::string & name) throw();
 
     protected:
 
@@ -127,7 +128,7 @@ class Application :
 
         std::map<std::string, IPluginPtr> plugins_;
 
-        std::map<std::string, IRendererPtr> renderers_;
+        RendererRegistry rendererRegistry_;
 
         DragDropCriteriaMap dragItemMap_;
 

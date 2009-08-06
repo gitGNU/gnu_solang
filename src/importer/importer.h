@@ -31,8 +31,8 @@ namespace Solang
 {
 
 class Application;
-class Engine;
 class IPhotoSource;
+class RendererRegistry;
 
 class Importer :
     public Plugin 
@@ -81,7 +81,8 @@ class Importer :
             ImporterDialogPtr & importer_dialog) throw();
 
         void
-        on_renderer_changed(Engine & engine) throw();
+        on_renderer_changed(RendererRegistry & renderer_registry)
+                            throw();
 
         void
         ui_hide() throw();

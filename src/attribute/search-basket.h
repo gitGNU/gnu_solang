@@ -34,7 +34,7 @@ namespace Solang
 {
 
 class Application;
-class Engine;
+class RendererRegistry;
 
 class SearchBasket :
     public Plugin,
@@ -88,7 +88,8 @@ class SearchBasket :
                               guint info, guint time) throw();
 
         void
-        on_renderer_changed(Engine & engine) throw();
+        on_renderer_changed(RendererRegistry & renderer_registry)
+                            throw();
 
         void
         ui_hide() throw();

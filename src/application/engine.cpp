@@ -27,7 +27,6 @@
 #include "engine.h"
 #include "i-photo-destination.h"
 #include "i-photo-source.h"
-#include "i-renderer.h"
 #include "photo-tag.h"
 #include "progress-observer.h"
 #include "tag.h"
@@ -45,14 +44,10 @@ Engine::Engine(int & argc, char ** & argv,
     tagAddBegin_(),
     tagAddEnd_(),
     criterionChanged_(),
-    itemActivated_(),
-    itemEdit_(),
-    rendererChanged_(),
     selectionChanged_(),
     mutex_(),
     photos_(),
     currentStorageSystems_(),
-    currentRenderer_(),
     database_(""),
     criterionRepo_(),
     deleteActions_( database_ )
@@ -435,24 +430,6 @@ Engine::criterion_changed() throw()
     return criterionChanged_;
 }
 
-sigc::signal<void, const Gtk::TreeIter &> &
-Engine::item_activated() throw()
-{
-    return itemActivated_;
-}
-
-sigc::signal<void, const PhotoList &> &
-Engine::item_edit() throw()
-{
-    return itemEdit_;
-}
-
-sigc::signal<void, Engine &> &
-Engine::renderer_changed() throw()
-{
-    return rendererChanged_;
-}
-
 sigc::signal<void> &
 Engine::selection_changed() throw()
 {
@@ -470,19 +447,6 @@ Engine::add_current_storage_system(const Glib::ustring & prefix,
                                    const IStoragePtr & storage)
 {
     currentStorageSystems_.insert(std::make_pair(prefix, storage));
-}
-
-IRendererPtr
-Engine::get_current_renderer() throw()
-{
-    return currentRenderer_;
-}
-
-void
-Engine::set_current_renderer(const IRendererPtr & renderer)
-{
-    currentRenderer_ = renderer;
-    rendererChanged_.emit(*this);
 }
 
 IStoragePtr

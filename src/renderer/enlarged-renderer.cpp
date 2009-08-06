@@ -30,6 +30,7 @@
 #include "enlarged-renderer.h"
 #include "engine.h"
 #include "i-plugin.h"
+#include "i-renderer-selector.h"
 #include "main-window.h"
 #include "photo.h"
 #include "photo-search-criteria.h"
@@ -75,7 +76,6 @@ EnlargedRenderer::EnlargedRenderer() throw() :
     imageScrollWin_(0),
     pageNum_(-1),
     signalInitEnd_(),
-    signalItemActivated_(),
     signalMainWindowStateEvent_(),
     signalSwitchPage_()
 {
@@ -317,13 +317,6 @@ EnlargedRenderer::init(Application & application) throw()
 {
     application_ = &application;
 
-    Engine & engine = application.get_engine();
-
-    signalItemActivated_
-        = engine.item_activated().connect(
-              sigc::mem_fun(*this,
-                            &EnlargedRenderer::on_item_activated));
-
     MainWindow & main_window = application.get_main_window();
     main_window.add_dock_object_center(GDL_DOCK_OBJECT(dockItem_));
 
@@ -447,7 +440,6 @@ EnlargedRenderer::render(const PhotoList & photos) throw()
 void
 EnlargedRenderer::final(Application & application) throw()
 {
-    signalItemActivated_.disconnect();
     signalMainWindowStateEvent_.disconnect();
     signalSwitchPage_.disconnect();
 
@@ -481,16 +473,25 @@ EnlargedRenderer::get_current_selection() throw()
     return photos;
 }
 
-std::string
-EnlargedRenderer::get_name() const throw()
+void
+EnlargedRenderer::present() throw()
 {
-    return "enlarged-renderer";
+    MainWindow & main_window = application_->get_main_window();
+    main_window.present_dock_object(GDL_DOCK_OBJECT(dockItem_));
 }
 
 void
 EnlargedRenderer::receive_plugin(IPlugin & plugin) throw()
 {
     plugin.visit_renderer(*this);
+}
+
+IRendererPtr
+EnlargedRenderer::receive_selector(IRendererSelector & selector,
+                                   const IRendererPtr & renderer)
+                                   throw()
+{
+    return selector.select(*this, renderer);
 }
 
 void
@@ -749,22 +750,6 @@ EnlargedRenderer::on_init_end(Application & application) throw()
     signalInitEnd_.disconnect();
 }
 
-void
-EnlargedRenderer::on_item_activated(const Gtk::TreeIter & iter)
-                                    throw()
-{
-    application_->set_list_store_iter(iter);
-
-    Gtk::TreeModel::Row row = *iter;
-    BrowserModelColumnRecord model_column_record;
-    const PhotoPtr photo = row[model_column_record.get_column_photo()];
-
-    render(photo);
-
-    MainWindow & main_window = application_->get_main_window();
-    main_window.present_dock_object(GDL_DOCK_OBJECT(dockItem_));
-}
-
 bool
 EnlargedRenderer::on_main_window_state_event(
                       GdkEventWindowState * event) throw()
@@ -818,10 +803,12 @@ EnlargedRenderer::on_switch_page(GtkNotebookPage * notebook_page,
 
     if (pageNum_ == static_cast<gint>(page_num))
     {
-        Engine & engine = application_->get_engine();
-        IRendererPtr renderer = application_->get_renderer(
-                                    "enlarged-renderer");
-        engine.set_current_renderer(renderer);
+        RendererRegistry & renderer_registry
+            = application_->get_renderer_registry();
+        const IRendererPtr enlarged_renderer
+            = renderer_registry.select<EnlargedRenderer>();
+
+        renderer_registry.set_current(enlarged_renderer);
 
         if (0 == uiID_)
         {

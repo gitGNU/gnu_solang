@@ -84,8 +84,11 @@ DateManager::init(Application & application) throw()
             sigc::mem_fun(*this,
                     &DateManager::on_photos_changed) );
 
+    RendererRegistry & renderer_registry
+                           = application.get_renderer_registry();
+
     signalRendererChanged_
-        = engine.renderer_changed().connect(
+        = renderer_registry.changed().connect(
               sigc::mem_fun(*this,
                             &DateManager::on_renderer_changed));
 
@@ -140,14 +143,15 @@ DateManager::on_photos_changed() throw()
 }
 
 void
-DateManager::on_renderer_changed(Engine & engine) throw()
+DateManager::on_renderer_changed(RendererRegistry & renderer_registry)
+                                 throw()
 {
     if (false == gdl_dock_object_is_bound(GDL_DOCK_OBJECT(dockItem_)))
     {
         return;
     }
 
-    const IRendererPtr & renderer = engine.get_current_renderer();
+    const IRendererPtr & renderer = renderer_registry.get_current();
     renderer->receive_plugin(*this);
 }
 

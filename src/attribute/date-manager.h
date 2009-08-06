@@ -30,7 +30,7 @@
 namespace Solang
 {
 
-class Engine;
+class RendererRegistry;
 
 class DateManager :
     public Plugin
@@ -64,7 +64,8 @@ class DateManager :
 
     protected:
         void
-        on_renderer_changed(Engine & engine) throw();
+        on_renderer_changed(RendererRegistry & renderer_registry)
+                            throw();
 
         void
         ui_hide() throw();

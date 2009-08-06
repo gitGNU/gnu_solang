@@ -66,11 +66,15 @@ class BrowserRenderer :
         virtual PhotoList
         get_current_selection() throw();
 
-        virtual std::string
-        get_name() const throw();
+        virtual void
+        present() throw();
 
         virtual void
         receive_plugin(IPlugin & plugin) throw();
+
+        virtual IRendererPtr
+        receive_selector(IRendererSelector & selector,
+                         const IRendererPtr & renderer) throw();
 
     protected:
         void

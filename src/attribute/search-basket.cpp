@@ -140,8 +140,11 @@ SearchBasket::init(Application & application) throw()
     Engine & engine = application.get_engine();
     engine.get_criterion_repo().register_source( this );
 
+    RendererRegistry & renderer_registry
+                           = application.get_renderer_registry();
+
     signalRendererChanged_
-        = engine.renderer_changed().connect(
+        = renderer_registry.changed().connect(
               sigc::mem_fun(*this,
                             &SearchBasket::on_renderer_changed));
 
@@ -201,14 +204,15 @@ SearchBasket::on_drag_data_received(
 }
 
 void
-SearchBasket::on_renderer_changed(Engine & engine) throw()
+SearchBasket::on_renderer_changed(
+                  RendererRegistry & renderer_registry) throw()
 {
     if (false == gdl_dock_object_is_bound(GDL_DOCK_OBJECT(dockItem_)))
     {
         return;
     }
 
-    const IRendererPtr & renderer = engine.get_current_renderer();
+    const IRendererPtr & renderer = renderer_registry.get_current();
     renderer->receive_plugin(*this);
 }
 

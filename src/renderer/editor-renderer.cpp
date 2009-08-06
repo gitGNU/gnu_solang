@@ -32,6 +32,7 @@
 #include "editor-renderer.h"
 #include "engine.h"
 #include "i-plugin.h"
+#include "i-renderer-selector.h"
 #include "main-window.h"
 #include "photo.h"
 #include "photo-search-criteria.h"
@@ -90,7 +91,6 @@ EditorRenderer::EditorRenderer() throw() :
         Gtk::ListStore::create( columns_ )),
     pageNum_(-1),
     signalInitEnd_(),
-    signalItemActivated_(),
     signalSwitchPage_(),
     signalPhotoSelected_()
 {
@@ -399,9 +399,6 @@ void
 EditorRenderer::init(Application & application) throw()
 {
     application_ = &application;
-
-    Engine & engine = application.get_engine();
-
     editor_.init( application );
 
     editor_.edit_action_performed().connect(
@@ -415,11 +412,6 @@ EditorRenderer::init(Application & application) throw()
     signalPhotoSelected_ = editablePhotosView_.signal_item_activated().connect(
             sigc::mem_fun(*this,
                         &EditorRenderer::on_photo_activated));
-
-    signalItemActivated_
-        = engine.item_edit().connect(
-              sigc::mem_fun(*this,
-                            &EditorRenderer::renderPhotoList));
 
     MainWindow & main_window = application.get_main_window();
     main_window.add_dock_object_center(GDL_DOCK_OBJECT(dockItem_));
@@ -440,13 +432,19 @@ EditorRenderer::render(const PhotoPtr & photo) throw()
 void
 EditorRenderer::render(const PhotoList & photos) throw()
 {
-    renderPhotoList( photos );
+    EditablePhotoList editablePhotos;
+    for( PhotoList::const_iterator it = photos.begin();
+                                        it != photos.end(); it++ )
+    {
+        editablePhotos.push_back(
+                    EditablePhotoPtr( new EditablePhoto( *it ) ) );
+    }
+    renderSelectedPhotos( editablePhotos );
 }
 
 void
 EditorRenderer::final(Application & application) throw()
 {
-    signalItemActivated_.disconnect();
     signalSwitchPage_.disconnect();
     signalPhotoSelected_.disconnect();
 
@@ -481,16 +479,25 @@ EditorRenderer::get_current_selection() throw()
     return photos;
 }
 
-std::string
-EditorRenderer::get_name() const throw()
+void
+EditorRenderer::present() throw()
 {
-    return "editor-renderer";
+    MainWindow & main_window = application_->get_main_window();
+    main_window.present_dock_object(GDL_DOCK_OBJECT(dockItem_));
 }
 
 void
 EditorRenderer::receive_plugin(IPlugin & plugin) throw()
 {
     plugin.visit_renderer(*this);
+}
+
+IRendererPtr
+EditorRenderer::receive_selector(IRendererSelector & selector,
+                                 const IRendererPtr & renderer)
+                                 throw()
+{
+    return selector.select(*this, renderer);
 }
 
 void
@@ -739,10 +746,12 @@ EditorRenderer::on_switch_page(GtkNotebookPage * notebook_page,
 
     if (pageNum_ == static_cast<gint>(page_num))
     {
-        Engine & engine = application_->get_engine();
-        IRendererPtr renderer = application_->get_renderer(
-                                    "editor-renderer");
-        engine.set_current_renderer(renderer);
+        RendererRegistry & renderer_registry
+            = application_->get_renderer_registry();
+        const IRendererPtr editor_renderer
+            = renderer_registry.select<EditorRenderer>();
+
+        renderer_registry.set_current(editor_renderer);
 
         if (0 == uiID_)
         {
@@ -773,21 +782,6 @@ EditorRenderer::on_switch_page(GtkNotebookPage * notebook_page,
     }
 }
 
-void
-EditorRenderer::renderPhotoList(const PhotoList & photos) throw()
-{
-    EditablePhotoList editablePhotos;
-    for( PhotoList::const_iterator it = photos.begin();
-                                        it != photos.end(); it++ )
-    {
-        editablePhotos.push_back(
-                    EditablePhotoPtr( new EditablePhoto( *it ) ) );
-    }
-    renderSelectedPhotos( editablePhotos );
-    MainWindow & main_window = application_->get_main_window();
-    main_window.present_dock_object(GDL_DOCK_OBJECT(dockItem_));
-
-}
 void
 EditorRenderer::renderSelectedPhotos(const EditablePhotoList & photos) throw()
 {

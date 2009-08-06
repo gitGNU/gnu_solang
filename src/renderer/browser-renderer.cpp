@@ -29,6 +29,7 @@
 #include "browser-renderer.h"
 #include "engine.h"
 #include "i-plugin.h"
+#include "i-renderer-selector.h"
 #include "main-window.h"
 #include "photo.h"
 #include "photo-search-criteria.h"
@@ -407,16 +408,25 @@ BrowserRenderer::get_current_selection() throw()
     return thumbnailView_.get_selected_photos();
 }
 
-std::string
-BrowserRenderer::get_name() const throw()
+void
+BrowserRenderer::present() throw()
 {
-    return "browser-renderer";
+    MainWindow & main_window = application_->get_main_window();
+    main_window.present_dock_object(GDL_DOCK_OBJECT(dockItem_));
 }
 
 void
 BrowserRenderer::receive_plugin(IPlugin & plugin) throw()
 {
     plugin.visit_renderer(*this);
+}
+
+IRendererPtr
+BrowserRenderer::receive_selector(IRendererSelector & selector,
+                                  const IRendererPtr & renderer)
+                                  throw()
+{
+    return selector.select(*this, renderer);
 }
 
 void
@@ -451,19 +461,48 @@ void
 BrowserRenderer::on_item_activated(const Gtk::TreeModel::Path & path)
                                    throw()
 {
+    RendererRegistry & renderer_registry
+        = application_->get_renderer_registry();
+    const IRendererPtr enlarged_renderer
+        = renderer_registry.select<EnlargedRenderer>();
+
+    if (0 == enlarged_renderer)
+    {
+        return;
+    }
+
     const Gtk::TreeModel::iterator filter_iter
                                        = treeModelFilter_->get_iter(path);
     const Gtk::TreeModel::iterator model_iter
         = treeModelFilter_->convert_iter_to_child_iter(filter_iter);
 
-    application_->get_engine().item_activated().emit(model_iter);
+    application_->set_list_store_iter(model_iter);
+
+    Gtk::TreeModel::Row row = *model_iter;
+    BrowserModelColumnRecord model_column_record;
+    const PhotoPtr photo = row[model_column_record.get_column_photo()];
+
+    enlarged_renderer->render(photo);
+    enlarged_renderer->present();
 }
 
 void
 BrowserRenderer::on_item_edit() throw()
 {
-    application_->get_engine().item_edit().emit(
-                            thumbnailView_.get_selected_photos() );
+    RendererRegistry & renderer_registry
+        = application_->get_renderer_registry();
+    const IRendererPtr editor_renderer
+        = renderer_registry.select<EditorRenderer>();
+
+    if (0 == editor_renderer)
+    {
+        return;
+    }
+
+    const PhotoList photos = thumbnailView_.get_selected_photos();
+
+    editor_renderer->render(photos);
+    editor_renderer->present();
 }
 
 void
@@ -528,10 +567,12 @@ BrowserRenderer::on_switch_page(GtkNotebookPage * notebook_page,
 
     if (pageNum_ == static_cast<gint>(page_num))
     {
-        Engine & engine = application_->get_engine();
-        IRendererPtr renderer = application_->get_renderer(
-                                    "browser-renderer");
-        engine.set_current_renderer(renderer);
+        RendererRegistry & renderer_registry
+            = application_->get_renderer_registry();
+        const IRendererPtr browser_renderer
+            = renderer_registry.select<BrowserRenderer>();
+
+        renderer_registry.set_current(browser_renderer);
 
         const Gtk::TreeModel::iterator & model_iter
             = application_->get_list_store_iter();

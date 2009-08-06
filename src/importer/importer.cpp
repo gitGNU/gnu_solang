@@ -293,9 +293,10 @@ Importer::on_importer_dialog_response(
 }
 
 void
-Importer::on_renderer_changed(Engine & engine) throw()
+Importer::on_renderer_changed(RendererRegistry & renderer_registry)
+                              throw()
 {
-    const IRendererPtr & renderer = engine.get_current_renderer();
+    const IRendererPtr & renderer = renderer_registry.get_current();
     renderer->receive_plugin(*this);
 }
 

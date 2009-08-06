@@ -16,8 +16,8 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef SOLANG_I_RENDERER_H
-#define SOLANG_I_RENDERER_H
+#ifndef SOLANG_I_RENDERER_SELECTOR_H
+#define SOLANG_I_RENDERER_SELECTOR_H
 
 #include "non-copyable.h"
 #include "types.h"
@@ -25,48 +25,40 @@
 namespace Solang
 {
 
-class Application;
-class IPlugin;
-class IRendererSelector;
+class BrowserRenderer;
+class ConsoleRenderer;
+class EditorRenderer;
+class EnlargedRenderer;
 
-class IRenderer :
+class IRendererSelector :
     public NonCopyable
 {
     public:
         virtual
-        ~IRenderer() throw() = 0;
-
-        virtual void
-        init(Application & application) throw() = 0;
-
-        virtual void
-        render(const PhotoPtr & photo) throw() = 0;
-
-        virtual void
-        render(const PhotoList & photos) throw() = 0;
-
-        virtual void
-        final(Application & application) throw() = 0;
-
-        virtual PhotoList
-        get_current_selection() throw() = 0;
-
-        virtual void
-        present() throw() = 0;
-
-        virtual void
-        receive_plugin(IPlugin & plugin) throw() = 0;
+        ~IRendererSelector() throw() = 0;
 
         virtual IRendererPtr
-        receive_selector(IRendererSelector & selector,
-                         const IRendererPtr & renderer) throw() = 0;
+        select(BrowserRenderer & browser_renderer,
+               const IRendererPtr & renderer) throw();
+
+        virtual IRendererPtr
+        select(ConsoleRenderer & console_renderer,
+               const IRendererPtr & renderer) throw();
+
+        virtual IRendererPtr
+        select(EditorRenderer & editor_renderer,
+               const IRendererPtr & renderer) throw();
+
+        virtual IRendererPtr
+        select(EnlargedRenderer & enlarged_renderer,
+               const IRendererPtr & renderer) throw();
 
     protected:
-        IRenderer() throw();
+        IRendererSelector() throw();
 
     private:
 };
 
-} //namespace Solang
+} // namespace Solang
 
-#endif // SOLANG_I_RENDERER_H
+#endif // SOLANG_I_RENDERER_SELECTOR_H

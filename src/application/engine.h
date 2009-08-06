@@ -161,15 +161,6 @@ class Engine :
         Glib::Dispatcher &
         criterion_changed() throw();
 
-        sigc::signal<void, const Gtk::TreeIter &> &
-        item_activated() throw();
-
-        sigc::signal<void, const PhotoList &> &
-        item_edit() throw();
-
-        sigc::signal<void, Engine &> &
-        renderer_changed() throw();
-
         sigc::signal<void> &
         selection_changed() throw();
 
@@ -189,12 +180,6 @@ class Engine :
         IStoragePtr
         get_current_storage_system(const Glib::ustring & prefix)
                                    const throw();
-
-        IRendererPtr
-        get_current_renderer() throw();
-
-        void
-        set_current_renderer(const IRendererPtr & renderer);
 
         PhotoList
         get_photos() throw();
@@ -231,12 +216,6 @@ class Engine :
 
         Glib::Dispatcher criterionChanged_;
 
-        sigc::signal<void, const Gtk::TreeIter &> itemActivated_;
-
-        sigc::signal<void, const PhotoList &> itemEdit_;
-
-        sigc::signal<void, Engine &> rendererChanged_;
-
         sigc::signal<void> selectionChanged_;
 
         Glib::Mutex mutex_;
@@ -247,8 +226,6 @@ class Engine :
         //from gconf
 
         StorageMap currentStorageSystems_;
-
-        IRendererPtr currentRenderer_;
 
         Database database_;
 

@@ -167,10 +167,11 @@ TagManager::init(Application & application)
 
     populate_view();
 
-    Engine & engine = application.get_engine();
+    RendererRegistry & renderer_registry
+                           = application.get_renderer_registry();
 
     signalRendererChanged_
-        = engine.renderer_changed().connect(
+        = renderer_registry.changed().connect(
               sigc::mem_fun(*this,
                             &TagManager::on_renderer_changed));
 
@@ -368,11 +369,13 @@ TagManager::on_action_apply_tag() throw()
         if( Tag::ALL_PHOTOS_TAGID == tag->get_tag_id() )
             return;
 
-        Engine &engine = application_->get_engine();
-        IRendererPtr renderer = engine.get_current_renderer();
+        RendererRegistry & renderer_registry
+            = application_->get_renderer_registry();
+        const IRendererPtr renderer = renderer_registry.get_current();
 
         PhotoList photos = renderer->get_current_selection();
 
+        Engine & engine = application_->get_engine();
         engine.apply_tag_to_photos( photos, tag );
     }
 
@@ -400,8 +403,9 @@ TagManager::on_action_remove_tag() throw()
         if( Tag::ALL_PHOTOS_TAGID == tag->get_tag_id() )
             return;
 
-        Engine &engine = application_->get_engine();
-        IRendererPtr renderer = engine.get_current_renderer();
+        RendererRegistry & renderer_registry
+            = application_->get_renderer_registry();
+        const IRendererPtr renderer = renderer_registry.get_current();
         PhotoList photos = renderer->get_current_selection();
         DeletionQueue &queue
                 = application_->get_engine().get_delete_actions();
@@ -420,14 +424,15 @@ TagManager::on_action_remove_tag() throw()
 }
 
 void
-TagManager::on_renderer_changed(Engine & engine) throw()
+TagManager::on_renderer_changed(RendererRegistry & renderer_registry)
+                                throw()
 {
     if (false == gdl_dock_object_is_bound(GDL_DOCK_OBJECT(dockItem_)))
     {
         return;
     }
 
-    const IRendererPtr & renderer = engine.get_current_renderer();
+    const IRendererPtr & renderer = renderer_registry.get_current();
     renderer->receive_plugin(*this);
 }
 

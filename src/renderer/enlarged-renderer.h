@@ -64,11 +64,15 @@ class EnlargedRenderer :
         virtual PhotoList
         get_current_selection() throw();
 
-        virtual std::string
-        get_name() const throw();
+        virtual void
+        present() throw();
 
         virtual void
         receive_plugin(IPlugin & plugin) throw();
+
+        virtual IRendererPtr
+        receive_selector(IRendererSelector & selector,
+                         const IRendererPtr & renderer) throw();
 
     protected:
         void
@@ -97,9 +101,6 @@ class EnlargedRenderer :
 
         void
         on_action_view_zoom_out() throw();
-
-        void
-        on_item_activated(const Gtk::TreeIter & iter) throw();
 
         bool
         on_main_window_state_event(GdkEventWindowState * event)
@@ -132,8 +133,6 @@ class EnlargedRenderer :
         gint pageNum_;
 
         sigc::connection signalInitEnd_;
-
-        sigc::connection signalItemActivated_;
 
         sigc::connection signalMainWindowStateEvent_;
 

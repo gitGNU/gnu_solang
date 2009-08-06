@@ -32,7 +32,7 @@ namespace Solang
 {
 
 class Application;
-class Engine;
+class RendererRegistry;
 
 class TagManager :
     public Plugin
@@ -78,7 +78,7 @@ protected:
     on_action_remove_tag() throw();
 
     void
-    on_renderer_changed(Engine & engine) throw();
+    on_renderer_changed(RendererRegistry & renderer_registry) throw();
 
     void
     populate_view() throw();

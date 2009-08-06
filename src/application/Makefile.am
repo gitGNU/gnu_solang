@@ -9,7 +9,9 @@ solang_SOURCES = \
 	engine.h \
 	main.cpp \
 	main-window.cpp \
-	main-window.h
+	main-window.h \
+	renderer-registry.cpp \
+	renderer-registry.h
 
 solang_LDFLAGS = 
 

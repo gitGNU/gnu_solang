@@ -18,6 +18,8 @@ libcommon_la_SOURCES = \
 	i-plugin.h \
 	i-renderer.cpp \
 	i-renderer.h \
+	i-renderer-selector.cpp \
+	i-renderer-selector.h \
 	i-storage.cpp \
 	i-storage.h \
 	non-copyable.cpp \
@@ -32,6 +34,7 @@ libcommon_la_SOURCES = \
 	progress-dialog.h \
 	progress-observer.cpp \
 	progress-observer.h \
+	renderer-selector.h \
 	spinner.cpp \
 	spinner.h \
 	spinner-dialog.cpp \

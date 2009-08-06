@@ -80,13 +80,16 @@ PropertyManager::init(Application & application)
 {
     application_ = &application;
     basicExifView_.set_application( application_ );
-    Engine & engine = application.get_engine();
+
+    RendererRegistry & renderer_registry
+                           = application.get_renderer_registry();
 
     signalRendererChanged_
-        = engine.renderer_changed().connect(
+        = renderer_registry.changed().connect(
               sigc::mem_fun(*this,
                             &PropertyManager::on_renderer_changed));
 
+    Engine & engine = application.get_engine();
     engine.selection_changed().connect(
             sigc::mem_fun(*this,
                     &PropertyManager::on_selection_changed ) );
@@ -135,21 +138,31 @@ PropertyManager::visit_renderer(EnlargedRenderer & enlarged_renderer)
 }
 
 void
-PropertyManager::on_renderer_changed(Engine & engine) throw()
+PropertyManager::on_renderer_changed(
+                     RendererRegistry & renderer_registry) throw()
 {
     if (false == gdl_dock_object_is_bound(GDL_DOCK_OBJECT(dockItem_)))
     {
         return;
     }
 
-    const IRendererPtr & renderer = engine.get_current_renderer();
+    const IRendererPtr & renderer = renderer_registry.get_current();
     renderer->receive_plugin(*this);
 }
 
 void
 PropertyManager::on_selection_changed() throw()
 {
-    PhotoList photos = application_->get_engine().get_current_renderer()->get_current_selection();
+    RendererRegistry & renderer_registry
+                           = application_->get_renderer_registry();
+    const IRendererPtr renderer = renderer_registry.get_current();
+
+    if (0 == renderer)
+    {
+        return;
+    }
+
+    PhotoList photos = renderer->get_current_selection();
 
     if( photos.empty() )
         return;

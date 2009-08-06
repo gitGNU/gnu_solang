@@ -24,6 +24,7 @@
 
 #include "console-renderer.h"
 #include "i-plugin.h"
+#include "i-renderer-selector.h"
 #include "photo.h"
 
 namespace Solang
@@ -66,16 +67,23 @@ ConsoleRenderer::final(Application & application) throw()
 {
 }
 
-std::string
-ConsoleRenderer::get_name() const throw()
+void
+ConsoleRenderer::present() throw()
 {
-    return "console-renderer";
 }
 
 void
 ConsoleRenderer::receive_plugin(IPlugin & plugin) throw()
 {
     plugin.visit_renderer(*this);
+}
+
+IRendererPtr
+ConsoleRenderer::receive_selector(IRendererSelector & selector,
+                                  const IRendererPtr & renderer)
+                                  throw()
+{
+    return selector.select(*this, renderer);
 }
 
 } // namespace Solang

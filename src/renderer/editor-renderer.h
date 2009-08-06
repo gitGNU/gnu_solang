@@ -79,17 +79,17 @@ class EditorRenderer :
         virtual PhotoList
         get_current_selection() throw();
 
-        virtual std::string
-        get_name() const throw();
+        virtual void
+        present() throw();
 
         virtual void
         receive_plugin(IPlugin & plugin) throw();
 
+        virtual IRendererPtr
+        receive_selector(IRendererSelector & selector,
+                         const IRendererPtr & renderer) throw();
+
     protected:
-
-        virtual void
-        renderPhotoList(const PhotoList & photos) throw();
-
         virtual void
         renderSelectedPhotos(const EditablePhotoList & photos) throw();
 
@@ -185,8 +185,6 @@ class EditorRenderer :
         gint pageNum_;
 
         sigc::connection signalInitEnd_;
-
-        sigc::connection signalItemActivated_;
 
         sigc::connection signalSwitchPage_;
 
