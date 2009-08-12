@@ -127,7 +127,7 @@ void
 PropertyManager::visit_renderer(EditorRenderer & editor_renderer)
                                 throw()
 {
-    ui_show();
+    ui_hide();
 }
 
 void
