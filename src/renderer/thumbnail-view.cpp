@@ -169,8 +169,9 @@ PhotoList
 ThumbnailView::get_selected_photos() throw()
 {
     PhotoList photos;
-    std::vector<Gtk::TreeModel::Path> items = get_selected_items();
-    std::vector<Gtk::TreeModel::Path>::iterator iter;
+    const std::vector<Gtk::TreeModel::Path> items
+        = get_selected_items();
+    std::vector<Gtk::TreeModel::Path>::const_iterator iter;
 
     for (iter = items.begin(); items.end() != iter; iter++)
     {
