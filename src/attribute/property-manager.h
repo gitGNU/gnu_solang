@@ -63,6 +63,9 @@ public:
     virtual void
     visit_renderer(EnlargedRenderer & enlarged_renderer) throw();
 
+    virtual void
+    visit_renderer(SlideshowRenderer & slideshow_renderer) throw();
+
 protected:
     void
     on_renderer_changed(RendererRegistry & renderer_registry) throw();

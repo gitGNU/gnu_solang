@@ -84,6 +84,9 @@ class BrowserRenderer :
         generate_thumbnails() throw();
 
         void
+        on_action_view_slideshow() throw();
+
+        void
         on_item_activated(const Gtk::TreeModel::Path & path) throw();
 
         void

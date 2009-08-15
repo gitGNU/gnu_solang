@@ -2,6 +2,9 @@
 <ui>
 	<menubar name="MenuBar">
 		<menu action="ActionViewMenu">
+			<placeholder name="PlaceholderFullScreenMenus">
+			<menuitem action="ActionViewEnlargedSlideshow"/>
+			</placeholder>
 			<placeholder name="PlaceholderZoomMenus">
 			<menuitem action="ActionViewZoomIn"/>
 			<menuitem action="ActionViewZoomOut"/>
@@ -32,6 +35,9 @@
 		<toolitem action="ActionViewZoomOut"/>
 		<toolitem action="ActionViewNormalSize"/>
 		<toolitem action="ActionViewBestFit"/>
+		</placeholder>
+		<placeholder name="PlaceholderFullScreenToolBar">
+		<toolitem action="ActionViewEnlargedSlideshow"/>
 		</placeholder>
 	</toolbar>
 	<accelerator action="AccelGoPreviousPhoto"/>

@@ -62,6 +62,9 @@ class Importer :
         virtual void
         visit_renderer(EnlargedRenderer & enlarged_renderer) throw();
 
+        virtual void
+        visit_renderer(SlideshowRenderer & slideshow_renderer) throw();
+
     protected:
         void
         on_action_photo_import() throw();

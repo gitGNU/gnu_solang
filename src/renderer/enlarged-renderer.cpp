@@ -106,6 +106,16 @@ EnlargedRenderer::EnlargedRenderer() throw() :
 
     actionGroup_->add(
         Gtk::Action::create(
+            "ActionViewEnlargedSlideshow",
+            Gtk::StockID(PACKAGE_TARNAME"-slideshow-play"),
+            _("_Slideshow"),
+            _("Start a slideshow view of the photos")),
+        Gtk::AccelKey("F5"),
+        sigc::mem_fun(*this,
+                      &EnlargedRenderer::on_action_view_slideshow));
+
+    actionGroup_->add(
+        Gtk::Action::create(
             "ActionMenuGo", _("_Go")));
 
     {
@@ -658,6 +668,35 @@ EnlargedRenderer::on_action_view_reload() throw()
 
     Engine & engine = application_->get_engine();
     engine.selection_changed().emit();
+}
+
+void
+EnlargedRenderer::on_action_view_slideshow() throw()
+{
+    RendererRegistry & renderer_registry
+        = application_->get_renderer_registry();
+    const IRendererPtr slideshow_renderer
+        = renderer_registry.select<SlideshowRenderer>();
+
+    if (0 == slideshow_renderer)
+    {
+        return;
+    }
+
+    const Gtk::TreeModel::iterator & iter
+        = application_->get_list_store_iter();
+
+    if (false == iter)
+    {
+        return;
+    }
+
+    Gtk::TreeModel::Row row = *iter;
+    BrowserModelColumnRecord model_column_record;
+    const PhotoPtr photo = row[model_column_record.get_column_photo()];
+
+    slideshow_renderer->render(photo);
+    slideshow_renderer->present();
 }
 
 void

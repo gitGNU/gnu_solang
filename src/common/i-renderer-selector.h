@@ -29,6 +29,7 @@ class BrowserRenderer;
 class ConsoleRenderer;
 class EditorRenderer;
 class EnlargedRenderer;
+class SlideshowRenderer;
 
 class IRendererSelector :
     public NonCopyable
@@ -51,6 +52,10 @@ class IRendererSelector :
 
         virtual IRendererPtr
         select(EnlargedRenderer & enlarged_renderer,
+               const IRendererPtr & renderer) throw();
+
+        virtual IRendererPtr
+        select(SlideshowRenderer & enlarged_renderer,
                const IRendererPtr & renderer) throw();
 
     protected:

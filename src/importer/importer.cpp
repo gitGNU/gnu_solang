@@ -196,6 +196,12 @@ Importer::visit_renderer(EnlargedRenderer & enlarged_renderer) throw()
 }
 
 void
+Importer::visit_renderer(SlideshowRenderer & slideshow_renderer)
+                         throw()
+{
+}
+
+void
 Importer::on_action_photo_import() throw()
 {
     photoSource_->init(*application_);

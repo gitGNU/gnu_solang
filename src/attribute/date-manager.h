@@ -59,6 +59,9 @@ class DateManager :
         virtual void
         visit_renderer(EnlargedRenderer & enlarged_renderer) throw();
 
+        virtual void
+        visit_renderer(SlideshowRenderer & slideshow_renderer) throw();
+
         void
         on_photos_changed() throw();
 

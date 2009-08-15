@@ -135,6 +135,12 @@ DateManager::visit_renderer(EnlargedRenderer & enlarged_renderer)
 }
 
 void
+DateManager::visit_renderer(SlideshowRenderer & slideshow_renderer)
+                            throw()
+{
+}
+
+void
 DateManager::on_photos_changed() throw()
 {
     dateView_.populate( );

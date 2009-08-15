@@ -234,6 +234,13 @@ TagManager::visit_renderer(EnlargedRenderer & enlarged_renderer)
 }
 
 void
+TagManager::visit_renderer(SlideshowRenderer & slideshow_renderer)
+                           throw()
+{
+    ui_show();
+}
+
+void
 TagManager::on_action_tag_new() throw()
 {
     TagNewDialog tag_new_dialog;

@@ -62,4 +62,11 @@ IRendererSelector::select(EnlargedRenderer & enlarged_renderer,
     return IRendererPtr();
 }
 
+IRendererPtr
+IRendererSelector::select(SlideshowRenderer & console_renderer,
+                          const IRendererPtr & renderer) throw()
+{
+    return IRendererPtr();
+}
+
 } // namespace Solang

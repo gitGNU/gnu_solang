@@ -98,6 +98,9 @@ class Application :
 
     private:
         void
+        add_icons() throw();
+
+        void
         add_photo_to_model(const PhotoPtr & photo) throw();
 
         void
@@ -113,6 +116,8 @@ class Application :
         on_photo_render_begin() throw();
 
         Glib::ThreadPool threadPool_;
+
+        IconFactoryPtr iconFactory_;
 
         ProgressObserverPtr observer_;
 

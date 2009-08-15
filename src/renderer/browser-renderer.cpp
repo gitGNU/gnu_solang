@@ -21,6 +21,7 @@
 #endif // HAVE_CONFIG_H
 
 #include <sstream>
+#include <vector>
 
 #include <glibmm/i18n.h>
 
@@ -113,6 +114,16 @@ BrowserRenderer::BrowserRenderer() throw() :
     iconFactory_->add(Gtk::StockID(PACKAGE_TARNAME"-mode-browse"),
                       icon_set_mode_browse);
     iconFactory_->add_default();
+
+    actionGroup_->add(
+        Gtk::Action::create(
+            "ActionViewBrowserSlideshow",
+            Gtk::StockID(PACKAGE_TARNAME"-slideshow-play"),
+            _("_Slideshow"),
+            _("Start a slideshow view of the photos")),
+        Gtk::AccelKey("F5"),
+        sigc::mem_fun(*this,
+                      &BrowserRenderer::on_action_view_slideshow));
 
     actionGroup_->add(
         zoomer_.action_zoom_in(),
@@ -427,6 +438,45 @@ BrowserRenderer::receive_selector(IRendererSelector & selector,
                                   throw()
 {
     return selector.select(*this, renderer);
+}
+
+void
+BrowserRenderer::on_action_view_slideshow() throw()
+{
+    RendererRegistry & renderer_registry
+        = application_->get_renderer_registry();
+    const IRendererPtr slideshow_renderer
+        = renderer_registry.select<SlideshowRenderer>();
+
+    if (0 == slideshow_renderer)
+    {
+        return;
+    }
+
+    const std::vector<Gtk::TreeModel::Path> items
+        = thumbnailView_.get_selected_items();
+
+    const Gtk::TreeModel::iterator filter_iter
+        = (true == items.empty())
+          ? treeModelFilter_->children().begin()
+          : treeModelFilter_->get_iter(items.front());
+
+    if (false == filter_iter)
+    {
+        return;
+    }
+
+    const Gtk::TreeModel::iterator model_iter
+        = treeModelFilter_->convert_iter_to_child_iter(filter_iter);
+
+    application_->set_list_store_iter(model_iter);
+
+    Gtk::TreeModel::Row row = *model_iter;
+    BrowserModelColumnRecord model_column_record;
+    const PhotoPtr photo = row[model_column_record.get_column_photo()];
+
+    slideshow_renderer->render(photo);
+    slideshow_renderer->present();
 }
 
 void

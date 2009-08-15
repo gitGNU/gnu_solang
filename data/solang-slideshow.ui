@@ -1,0 +1,18 @@
+<!--*- xml -*-->
+<ui>
+	<toolbar name="ToolBar">
+		<placeholder name="PlaceholderGoToolBar"/>
+		<separator name="ToolBarSeparator0"/>
+		<toolitem action="ActionViewZoomIn"/>
+		<toolitem action="ActionViewZoomOut"/>
+		<toolitem action="ActionViewNormalSize"/>
+		<toolitem action="ActionViewBestFit"/>
+		<separator name="ToolBarSeparator1"/>
+		<placeholder name="PlaceholderFullScreenToolBar"/>
+	</toolbar>
+	<accelerator action="AccelViewZoomIn"/>
+	<accelerator action="AccelViewZoomIn1"/>
+	<accelerator action="AccelViewZoomIn2"/>
+	<accelerator action="AccelViewZoomOut"/>
+	<accelerator action="AccelViewZoomOut1"/>
+</ui>

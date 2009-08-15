@@ -46,6 +46,7 @@
 #include "progress-observer.h"
 #include "property-manager.h"
 #include "search-basket.h"
+#include "slideshow-renderer.h"
 #include "tag-manager.h"
 #include "thumbnail.h"
 #include "thumbnail-store.h"
@@ -178,6 +179,7 @@ Finalizer<T>::operator()(std::pair<const std::string, T> & x) throw()
 Application::Application(int & argc, char ** & argv) throw() :
     sigc::trackable(),
     threadPool_(4, false),
+    iconFactory_(Gtk::IconFactory::create()),
     observer_( new ProgressObserver() ),
     engine_(argc, argv, observer_),
     mainWindow_(),
@@ -264,6 +266,8 @@ Application::Application(int & argc, char ** & argv) throw() :
     engine_.add_current_storage_system(
         directory_storage->get_storage_uri_prefix(), directory_storage);
 
+    add_icons();
+
     engine_.photo_import_begin().connect(sigc::mem_fun(*this,
         &Application::on_photo_import_begin));
     engine_.photo_import_end().connect(sigc::mem_fun(*this,
@@ -328,6 +332,9 @@ Application::init() throw()
     IRendererPtr editor_renderer(new EditorRenderer());
     rendererRegistry_.add(editor_renderer);
 
+    IRendererPtr slideshow_renderer(new SlideshowRenderer());
+    rendererRegistry_.add(slideshow_renderer);
+
     rendererRegistry_.init(*this);
 
     const IRendererPtr renderer
@@ -363,6 +370,47 @@ Application::final() throw()
     std::for_each(plugins_.begin(), plugins_.end(),
                   Finalizer<IPluginPtr>(this));
     plugins_.clear();
+}
+
+void
+Application::add_icons() throw()
+{
+    Gtk::IconSource icon_source;
+    Gtk::IconSet icon_set_slideshow_play;
+
+    icon_source.set_filename(
+        PACKAGE_DATA_DIR"/"PACKAGE_TARNAME
+            "/pixmaps/slideshow-play-16.png");
+    icon_source.set_size(Gtk::IconSize(16));
+    icon_set_slideshow_play.add_source(icon_source);
+
+    icon_source.set_filename(
+        PACKAGE_DATA_DIR"/"PACKAGE_TARNAME
+            "/pixmaps/slideshow-play-22.png");
+    icon_source.set_size(Gtk::IconSize(22));
+    icon_set_slideshow_play.add_source(icon_source);
+
+    icon_source.set_filename(
+        PACKAGE_DATA_DIR"/"PACKAGE_TARNAME
+            "/pixmaps/slideshow-play-24.png");
+    icon_source.set_size(Gtk::IconSize(24));
+    icon_set_slideshow_play.add_source(icon_source);
+
+    icon_source.set_filename(
+        PACKAGE_DATA_DIR"/"PACKAGE_TARNAME
+            "/pixmaps/slideshow-play-32.png");
+    icon_source.set_size(Gtk::IconSize(32));
+    icon_set_slideshow_play.add_source(icon_source);
+
+    icon_source.set_filename(
+        PACKAGE_DATA_DIR"/"PACKAGE_TARNAME
+            "/pixmaps/slideshow-play-48.png");
+    icon_source.set_size(Gtk::IconSize(48));
+    icon_set_slideshow_play.add_source(icon_source);
+
+    iconFactory_->add(Gtk::StockID(PACKAGE_TARNAME"-slideshow-play"),
+                      icon_set_slideshow_play);
+    iconFactory_->add_default();
 }
 
 void

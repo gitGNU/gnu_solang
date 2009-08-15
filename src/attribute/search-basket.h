@@ -65,6 +65,9 @@ class SearchBasket :
         virtual void
         visit_renderer(EnlargedRenderer & enlarged_renderer) throw();
 
+        virtual void
+        visit_renderer(SlideshowRenderer & slideshow_renderer) throw();
+
         bool
         add_item_to_list( const Glib::ustring &key );
 

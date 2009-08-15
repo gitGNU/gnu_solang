@@ -162,6 +162,11 @@ typedef std::tr1::shared_ptr<const IStorage> ConstIStoragePtr;
 typedef std::tr1::shared_ptr<IStorage> IStoragePtr;
 typedef std::vector<IStoragePtr> IStorageList;
 
+class SlideshowWindow;
+typedef std::tr1::shared_ptr<const SlideshowWindow>
+    ConstSlideshowWindowPtr;
+typedef std::tr1::shared_ptr<SlideshowWindow> SlideshowWindowPtr;
+
 class Tag;
 typedef std::tr1::shared_ptr<const Tag> ConstTagPtr;
 typedef std::tr1::shared_ptr<Tag> TagPtr;
@@ -209,6 +214,9 @@ typedef Glib::RefPtr<Gtk::Action> ActionPtr;
 
 typedef Glib::RefPtr<const Gtk::ActionGroup> ConstActionGroupPtr;
 typedef Glib::RefPtr<Gtk::ActionGroup> ActionGroupPtr;
+
+typedef Glib::RefPtr<const Gtk::IconFactory> ConstIconFactoryPtr;
+typedef Glib::RefPtr<Gtk::IconFactory> IconFactoryPtr;
 
 typedef Glib::RefPtr<const Gtk::IconTheme> ConstIconThemePtr;
 typedef Glib::RefPtr<Gtk::IconTheme> IconThemePtr;

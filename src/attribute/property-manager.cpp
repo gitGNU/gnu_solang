@@ -138,6 +138,12 @@ PropertyManager::visit_renderer(EnlargedRenderer & enlarged_renderer)
 }
 
 void
+PropertyManager::visit_renderer(
+                     SlideshowRenderer & slideshow_renderer) throw()
+{
+}
+
+void
 PropertyManager::on_renderer_changed(
                      RendererRegistry & renderer_registry) throw()
 {

@@ -191,6 +191,12 @@ SearchBasket::visit_renderer(EnlargedRenderer & enlarged_renderer)
 }
 
 void
+SearchBasket::visit_renderer(SlideshowRenderer & slideshow_renderer)
+                             throw()
+{
+}
+
+void
 SearchBasket::on_drag_data_received(
                   const DragContextPtr & drag_context,
                   gint x, gint y,

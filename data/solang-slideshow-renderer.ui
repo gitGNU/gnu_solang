@@ -1,0 +1,19 @@
+<!--*- xml -*-->
+<ui>
+	<toolbar name="ToolBar">
+		<placeholder name="PlaceholderGoToolBar">
+		<toolitem action="ActionGoFirstPhoto"/>
+		<toolitem action="ActionGoPreviousPhoto"/>
+		<toolitem action="ActionGoNextPhoto"/>
+		<toolitem action="ActionGoLastPhoto"/>
+		</placeholder>
+		<placeholder name="PlaceholderFullScreenToolBar">
+		<toolitem action="ActionStopSlideshow"/>
+		</placeholder>
+	</toolbar>
+	<accelerator action="AccelGoFirstPhoto"/>
+	<accelerator action="AccelGoPreviousPhoto"/>
+	<accelerator action="AccelGoNextPhoto"/>
+	<accelerator action="AccelGoLastPhoto"/>
+	<accelerator action="AccelStopSlideshow"/>
+</ui>

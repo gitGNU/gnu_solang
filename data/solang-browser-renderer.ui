@@ -2,6 +2,9 @@
 <ui>
 	<menubar name="MenuBar">
 		<menu action="ActionViewMenu">
+			<placeholder name="PlaceholderFullScreenMenus">
+			<menuitem action="ActionViewBrowserSlideshow"/>
+			</placeholder>
 			<placeholder name="PlaceholderZoomMenus">
 			<menuitem action="ActionViewZoomIn"/>
 			<menuitem action="ActionViewZoomOut"/>
@@ -21,6 +24,9 @@
 	<toolbar name="ToolBar">
 		<placeholder name="PlaceholderGoToolBar">
 		<toolitem action="ActionViewEdit"/>
+		</placeholder>
+		<placeholder name="PlaceholderFullScreenToolBar">
+		<toolitem action="ActionViewBrowserSlideshow"/>
 		</placeholder>
 	</toolbar>
 </ui>

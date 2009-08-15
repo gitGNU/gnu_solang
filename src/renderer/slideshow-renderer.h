@@ -16,32 +16,30 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef SOLANG_ENLARGED_RENDERER_H
-#define SOLANG_ENLARGED_RENDERER_H
+#ifndef SOLANG_SLIDESHOW_RENDERER_H
+#define SOLANG_SLIDESHOW_RENDERER_H
 
 #include <string>
 
-#include <gdl/gdl.h>
 #include <glibmm.h>
 #include <gtkmm.h>
 #include <sigc++/sigc++.h>
 
 #include "i-renderer.h"
-#include "thumbnail-view.h"
 #include "types.h"
 
 namespace Solang
 {
 
-class EnlargedRenderer :
+class SlideshowRenderer :
     public IRenderer,
     public sigc::trackable
 {
     public:
-        EnlargedRenderer() throw();
+        SlideshowRenderer() throw();
 
         virtual
-        ~EnlargedRenderer() throw();
+        ~SlideshowRenderer() throw();
 
         virtual void
         init(Application & application) throw();
@@ -54,12 +52,6 @@ class EnlargedRenderer :
 
         virtual void
         final(Application & application) throw();
-
-        void
-        on_init_end(Application & application) throw();
-
-        void
-        on_scroll_event(GdkScrollDirection direction) throw();
 
         virtual PhotoList
         get_current_selection() throw();
@@ -76,10 +68,7 @@ class EnlargedRenderer :
 
     protected:
         void
-        on_action_go_previous() throw();
-
-        void
-        on_action_go_next() throw();
+        create_slideshow_window() throw();
 
         void
         on_action_go_first() throw();
@@ -88,62 +77,34 @@ class EnlargedRenderer :
         on_action_go_last() throw();
 
         void
-        on_action_view_reload() throw();
+        on_action_go_next() throw();
 
         void
-        on_action_view_slideshow() throw();
+        on_action_go_previous() throw();
 
         void
-        on_action_view_best_fit() throw();
-
-        void
-        on_action_view_normal_size() throw();
-
-        void
-        on_action_view_zoom_in() throw();
-
-        void
-        on_action_view_zoom_out() throw();
+        on_action_stop_slideshow() throw();
 
         bool
-        on_main_window_state_event(GdkEventWindowState * event)
-                                   throw();
-
-        void
-        on_switch_page(GtkNotebookPage * notebook_page, guint page_num)
-                       throw();
+        on_timeout() throw();
 
         ApplicationPtr application_;
-
-        Glib::RefPtr<Gtk::IconFactory> iconFactory_;
 
         ActionGroupPtr actionGroup_;
 
         Gtk::UIManager::ui_merge_id uiID_;
 
-        const std::string dockItemName_;
+        Gtk::TreeModel::iterator modelIter_;
 
-        const Glib::ustring dockItemTitle_;
+        IRendererPtr previousRenderer_;
 
-        GdlDockItemBehavior dockItemBehaviour_;
+        SlideshowWindowPtr slideshowWindow_;
 
-        GtkWidget * dockItem_;
-
-        GtkWidget * imageView_;
-
-        GtkWidget * imageScrollWin_;
-
-        gint pageNum_;
-
-        sigc::connection signalInitEnd_;
-
-        sigc::connection signalMainWindowStateEvent_;
-
-        sigc::connection signalSwitchPage_;
+        sigc::connection signalTimeout_;
 
     private:
 };
 
 } // namespace Solang
 
-#endif // SOLANG_ENLARGED_RENDERER_H
+#endif // SOLANG_SLIDESHOW_RENDERER_H
