@@ -1,6 +1,7 @@
 INSTALL
 Makefile
 Makefile.in
+Makefile.in.in
 POTFILES
 aclocal.m4
 autom4te.cache
@@ -17,6 +18,7 @@ stamp-h1
 stamp-it
 .deps
 .libs
+*.gmo
 *.la
 *.lo
 *.loT
