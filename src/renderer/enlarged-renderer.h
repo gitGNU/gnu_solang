@@ -88,9 +88,6 @@ class EnlargedRenderer :
         on_action_go_last() throw();
 
         void
-        on_action_view_reload() throw();
-
-        void
         on_action_view_slideshow() throw();
 
         void
@@ -104,6 +101,9 @@ class EnlargedRenderer :
 
         void
         on_action_view_zoom_out() throw();
+
+        void
+        on_list_store_change_end(Application & application) throw();
 
         bool
         on_main_window_state_event(GdkEventWindowState * event)
@@ -138,6 +138,8 @@ class EnlargedRenderer :
         sigc::connection signalInitEnd_;
 
         sigc::connection signalMainWindowStateEvent_;
+
+        sigc::connection signalListStoreChangeEnd_;
 
         sigc::connection signalSwitchPage_;
 

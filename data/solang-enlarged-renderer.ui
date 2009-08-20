@@ -11,9 +11,6 @@
 			<menuitem action="ActionViewNormalSize"/>
 			<menuitem action="ActionViewBestFit"/>
 			</placeholder>
-			<placeholder name="PlaceholderToolMenus">
-			<menuitem action="ActionViewReload"/>
-			</placeholder>
 		</menu>
 		<placeholder name="PlaceholderGoMenus">
 		<menu action="ActionMenuGo">

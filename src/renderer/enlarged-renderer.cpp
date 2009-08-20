@@ -176,20 +176,6 @@ EnlargedRenderer::EnlargedRenderer() throw() :
 
     {
         ActionPtr action = Gtk::Action::create(
-            "ActionViewReload", Gtk::Stock::REFRESH,
-            _("_Reload Photo"),
-            _("Reload current photo"));
-
-        action->property_short_label().set_value(_("Reload"));
-        action->property_is_important().set_value(true);
-        actionGroup_->add(
-            action, Gtk::AccelKey("<control>R"),
-            sigc::mem_fun(*this,
-                          &EnlargedRenderer::on_action_view_reload));
-    }
-
-    {
-        ActionPtr action = Gtk::Action::create(
             "ActionGoPreviousPhoto", Gtk::Stock::GO_BACK,
             _("_Previous Photo"),
             _("Go to the previous photo in the collection"));
@@ -341,6 +327,11 @@ EnlargedRenderer::init(Application & application) throw()
               sigc::mem_fun(*this,
                             &EnlargedRenderer::on_init_end));
 
+    signalListStoreChangeEnd_
+        = application.list_store_change_end().connect(
+              sigc::mem_fun(*this,
+                            &EnlargedRenderer::on_list_store_change_end));
+
     // initialized_.emit(*this);
 }
 
@@ -451,6 +442,7 @@ void
 EnlargedRenderer::final(Application & application) throw()
 {
     signalMainWindowStateEvent_.disconnect();
+    signalListStoreChangeEnd_.disconnect();
     signalSwitchPage_.disconnect();
 
     MainWindow & main_window = application.get_main_window();
@@ -642,35 +634,6 @@ EnlargedRenderer::on_action_go_last() throw()
 }
 
 void
-EnlargedRenderer::on_action_view_reload() throw()
-{
-    Gtk::TreeModel::iterator & iter
-        = application_->get_list_store_iter();
-
-    if (false == iter)
-    {
-        if (0 != imageScrollWin_)
-        {
-            gtk_container_remove(GTK_CONTAINER(dockItem_),
-                                 imageScrollWin_);
-        }
-
-        imageView_ = 0;
-        imageScrollWin_ = 0;
-        return;
-    }
-
-    Gtk::TreeModel::Row row = *iter;
-    BrowserModelColumnRecord model_column_record;
-    const PhotoPtr photo = row[model_column_record.get_column_photo()];
-
-    render(photo);
-
-    Engine & engine = application_->get_engine();
-    engine.selection_changed().emit();
-}
-
-void
 EnlargedRenderer::on_action_view_slideshow() throw()
 {
     RendererRegistry & renderer_registry
@@ -787,6 +750,36 @@ EnlargedRenderer::on_init_end(Application & application) throw()
                             &EnlargedRenderer::on_switch_page));
 
     signalInitEnd_.disconnect();
+}
+
+void
+EnlargedRenderer::on_list_store_change_end(Application & application)
+                                           throw()
+{
+    Gtk::TreeModel::iterator & iter
+        = application_->get_list_store_iter();
+
+    if (false == iter)
+    {
+        if (0 != imageScrollWin_)
+        {
+            gtk_container_remove(GTK_CONTAINER(dockItem_),
+                                 imageScrollWin_);
+        }
+
+        imageView_ = 0;
+        imageScrollWin_ = 0;
+        return;
+    }
+
+    Gtk::TreeModel::Row row = *iter;
+    BrowserModelColumnRecord model_column_record;
+    const PhotoPtr photo = row[model_column_record.get_column_photo()];
+
+    render(photo);
+
+    Engine & engine = application_->get_engine();
+    engine.selection_changed().emit();
 }
 
 bool
