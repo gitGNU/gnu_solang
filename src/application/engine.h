@@ -23,7 +23,6 @@
 #include <map>
 
 #include <glibmm.h>
-#include <gtkmm.h>
 
 #include "database.h"
 #include "deletion-queue.h"
