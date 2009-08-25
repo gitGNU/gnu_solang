@@ -32,8 +32,6 @@ ImporterDialog::ImporterDialog(Gtk::Widget & browser,
                                const TagList & tags,
                                gint source_options) throw() :
     Gtk::Dialog(_("Import"), true, false),
-    mainHBox_(false, 18),
-    inputVBox_(false, 18),
     generalVBox_(false, 6),
     tagsVBox_(false, 6),
     optionsVBox_(false, 6),
@@ -70,13 +68,10 @@ ImporterDialog::ImporterDialog(Gtk::Widget & browser,
 
     Gtk::VBox * const dialog_vbox = get_vbox();
     dialog_vbox->set_spacing(18);
-    dialog_vbox->pack_start(mainHBox_, Gtk::PACK_EXPAND_WIDGET, 0);
 
-    mainHBox_.pack_start(inputVBox_, Gtk::PACK_EXPAND_WIDGET, 0);
-
-    inputVBox_.pack_start(generalVBox_, Gtk::PACK_SHRINK, 0);
-    inputVBox_.pack_start(tagsVBox_, Gtk::PACK_EXPAND_WIDGET, 0);
-    inputVBox_.pack_start(optionsVBox_, Gtk::PACK_SHRINK, 0);
+    dialog_vbox->pack_start(generalVBox_, Gtk::PACK_SHRINK, 0);
+    dialog_vbox->pack_start(tagsVBox_, Gtk::PACK_EXPAND_WIDGET, 0);
+    dialog_vbox->pack_start(optionsVBox_, Gtk::PACK_SHRINK, 0);
 
     generalLabel_.set_use_markup(true);
     {

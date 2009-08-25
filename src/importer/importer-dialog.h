@@ -57,10 +57,6 @@ class ImporterDialog :
         virtual void
         on_response(int response_id);
 
-        Gtk::HBox mainHBox_;
-
-        Gtk::VBox inputVBox_;
-
         Gtk::VBox generalVBox_;
 
         Gtk::VBox tagsVBox_;
