@@ -178,8 +178,7 @@ TagManager::init(Application & application)
     MainWindow & main_window = application.get_main_window();
     main_window.add_dock_object_left_top(GDL_DOCK_OBJECT(dockItem_));
 
-    const Glib::RefPtr<Gtk::UIManager> & ui_manager
-        = main_window.get_ui_manager();
+    const UIManagerPtr & ui_manager = main_window.get_ui_manager();
 
     uiID_ = ui_manager->add_ui_from_file(uiFile);
     if (0 == uiID_)
@@ -197,8 +196,7 @@ TagManager::final(Application & application)
     throw()
 {
     MainWindow & main_window = application.get_main_window();
-    const Glib::RefPtr<Gtk::UIManager> & ui_manager
-        = main_window.get_ui_manager();
+    const UIManagerPtr & ui_manager = main_window.get_ui_manager();
 
     ui_manager->remove_action_group(actionGroup_);
     ui_manager->remove_ui(uiID_);

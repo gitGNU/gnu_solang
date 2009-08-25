@@ -1,6 +1,6 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 4; tab-width: 4 -*- */
 /*
- * Copyright (C) Debarshi Ray 2009 <rishi@gnu.org>
+ * Copyright (C) 2009 Debarshi Ray <rishi@gnu.org>
  *
  * Solang is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -446,8 +446,7 @@ EnlargedRenderer::final(Application & application) throw()
     signalSwitchPage_.disconnect();
 
     MainWindow & main_window = application.get_main_window();
-    const Glib::RefPtr<Gtk::UIManager> & ui_manager
-        = main_window.get_ui_manager();
+    const UIManagerPtr & ui_manager = main_window.get_ui_manager();
 
     if (0 != uiID_)
     {
@@ -827,8 +826,7 @@ EnlargedRenderer::on_switch_page(GtkNotebookPage * notebook_page,
                                  guint page_num) throw()
 {
     MainWindow & main_window = application_->get_main_window();
-    const Glib::RefPtr<Gtk::UIManager> & ui_manager
-        = main_window.get_ui_manager();
+    const UIManagerPtr & ui_manager = main_window.get_ui_manager();
 
     // NB: Sometimes this gets invoked more than once consecutively
     //     -- no idea why (FIXME). Better safe than sorry.

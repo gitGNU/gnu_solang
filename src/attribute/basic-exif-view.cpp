@@ -20,7 +20,7 @@
 #include "config.h"
 #endif // HAVE_CONFIG_H
 
-#include<iostream>
+#include <iostream>
 
 #include "application.h"
 #include "basic-exif-view.h"

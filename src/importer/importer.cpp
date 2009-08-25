@@ -158,8 +158,7 @@ Importer::final(Application & application) throw()
     signalPhotoImportBegin_.disconnect();
 
     MainWindow & main_window = application.get_main_window();
-    const Glib::RefPtr<Gtk::UIManager> & ui_manager
-        = main_window.get_ui_manager();
+    const UIManagerPtr & ui_manager = main_window.get_ui_manager();
 
     ui_manager->remove_action_group(actionGroup_);
     ui_manager->remove_ui(uiID_);

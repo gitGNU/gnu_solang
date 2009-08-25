@@ -1,6 +1,7 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 4; tab-width: 4 -*- */
 /*
  * Copyright (C) 2009 Debarshi Ray <rishi@gnu.org>
+ * Copyright (C) 2009 Santanu Sinha <santanu.sinha@gmail.com>
  *
  * Solang is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -231,8 +232,7 @@ BrowserRenderer::init(Application & application) throw()
     MainWindow & main_window = application.get_main_window();
     main_window.add_dock_object_center(GDL_DOCK_OBJECT(dockItem_));
 
-    const Glib::RefPtr<Gtk::UIManager> & ui_manager
-        = main_window.get_ui_manager();
+    const UIManagerPtr & ui_manager = main_window.get_ui_manager();
 
     uiID_ = ui_manager->add_ui_from_file(uiFile);
     if (0 == uiID_)
@@ -300,8 +300,7 @@ BrowserRenderer::final(Application & application) throw()
     signalSwitchPage_.disconnect();
 
     MainWindow & main_window = application.get_main_window();
-    const Glib::RefPtr<Gtk::UIManager> & ui_manager
-        = main_window.get_ui_manager();
+    const UIManagerPtr & ui_manager = main_window.get_ui_manager();
 
     if (0 != uiID_)
     {
@@ -630,8 +629,7 @@ BrowserRenderer::on_switch_page(GtkNotebookPage * notebook_page,
                                 guint page_num) throw()
 {
     MainWindow & main_window = application_->get_main_window();
-    const Glib::RefPtr<Gtk::UIManager> & ui_manager
-        = main_window.get_ui_manager();
+    const UIManagerPtr & ui_manager = main_window.get_ui_manager();
 
     // NB: Sometimes this gets invoked more than once consecutively
     //     -- no idea why (FIXME). Better safe than sorry.

@@ -372,8 +372,7 @@ Database::db_file_exists() const throw()
     dbPath += DB_NAME;
     dbPath +=".db";
 
-    Glib::RefPtr<Gio::File> dbFile
-                    = Gio::File::create_for_path( dbPath );
+    FilePtr dbFile = Gio::File::create_for_path( dbPath );
     return dbFile->query_exists() ;
 }
 

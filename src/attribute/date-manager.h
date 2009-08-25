@@ -78,7 +78,7 @@ class DateManager :
 
         ApplicationPtr application_;
 
-        Glib::RefPtr<Gtk::ActionGroup> actionGroup_;
+        ActionGroupPtr actionGroup_;
 
         Gtk::UIManager::ui_merge_id uiID_;
 

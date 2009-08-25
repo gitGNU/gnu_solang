@@ -33,6 +33,7 @@ class BasicExifView :
     public:
         BasicExifView() throw();
 
+        virtual
         ~BasicExifView() throw();
 
         void
@@ -42,9 +43,10 @@ class BasicExifView :
         set_application( ApplicationPtr application ) throw();
 
     protected:
-        virtual void on_drag_data_get(
-          const Glib::RefPtr<Gdk::DragContext>& context,
-          Gtk::SelectionData& selection_data, guint info, guint time);
+        virtual void
+        on_drag_data_get(const DragContextPtr & context,
+                         Gtk::SelectionData & selection_data,
+                         guint info, guint time);
 
         ApplicationPtr application_;
 

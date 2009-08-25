@@ -417,7 +417,7 @@ MainWindow::get_notebook_center() throw()
     return parent;
 }
 
-const Glib::RefPtr<Gtk::UIManager> &
+const UIManagerPtr &
 MainWindow::get_ui_manager() throw()
 {
     return uiManager_;

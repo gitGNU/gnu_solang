@@ -16,7 +16,9 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#ifdef HAVE_CONFIG_H
 #include "config.h"
+#endif // HAVE_CONFIG_H
 
 #include "directory-destination.h"
 
@@ -40,16 +42,18 @@ DirectoryDestination::init() throw()
 }
 
 void
-DirectoryDestination::export_photo(const PhotoPtr & photo,
-                                   const ProgressObserverPtr & observer)
-                                   throw()
+DirectoryDestination::export_photo(
+                          const PhotoPtr & photo,
+                          const ProgressObserverPtr & observer)
+                          throw()
 {
 }
 
 void
 DirectoryDestination::export_photos(
-    const PhotoList & photos,
-    const ProgressObserverPtr & observer) throw()
+                          const PhotoList & photos,
+                          const ProgressObserverPtr & observer)
+                          throw()
 {
 }
 

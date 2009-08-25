@@ -219,8 +219,7 @@ Thumbnail::generate(Exiv2::ExifData & exifData,
 void
 Thumbnail::make_thumb_path() throw(Error)
 {
-     Glib::RefPtr<Gio::File> tFile
-                    = Gio::File::create_for_path( get_path() );
+    FilePtr tFile = Gio::File::create_for_path( get_path() );
     const std::string thumbnail_dir_path
                           = tFile->get_parent()->get_path();
 

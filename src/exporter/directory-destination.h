@@ -42,11 +42,11 @@ class DirectoryDestination :
         export_photo(const PhotoPtr & photo,
                      const ProgressObserverPtr & observer) throw();
 
-		virtual void
+        virtual void
         export_photos(const PhotoList & photos,
                       const ProgressObserverPtr & observer) throw();
 
-		virtual void
+        virtual void
         final() throw();
 
     protected:

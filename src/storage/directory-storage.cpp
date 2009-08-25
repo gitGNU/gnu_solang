@@ -158,14 +158,13 @@ void DirectoryStorage::save(const PhotoPtr &photo, bool move) throw(Error)
         filePath = (*photo).get_disk_file_path();
     }
 
-    Glib::RefPtr<Gio::File> src = Gio::File::create_for_path(
-                                (*photo).get_disk_file_path() );
+    FilePtr src = Gio::File::create_for_path(
+                      photo->get_disk_file_path());
     if( !doNotCopy_ )
     {
 
         {
-            Glib::RefPtr<Gio::File> destPath
-                            = Gio::File::create_for_path( filePath );
+            FilePtr destPath = Gio::File::create_for_path( filePath );
 
             if( !destPath->query_exists() )
             {
@@ -188,8 +187,7 @@ void DirectoryStorage::save(const PhotoPtr &photo, bool move) throw(Error)
 
         filePath += "/";
         filePath += src->get_basename();
-        Glib::RefPtr<Gio::File> dest
-                            = Gio::File::create_for_path( filePath  );
+        FilePtr dest = Gio::File::create_for_path( filePath  );
         Glib::RefPtr<Gio::Cancellable> canc
                                     = Gio::Cancellable::create();
 
@@ -273,7 +271,7 @@ void DirectoryStorage::downloadToDisk(
 void DirectoryStorage::remove(const PhotoPtr &photo) throw(Error)
 {
     Glib::ustring path = retrieve( *photo );
-    Glib::RefPtr<Gio::File> file = Gio::File::create_for_path( path );
+    FilePtr file = Gio::File::create_for_path( path );
     file->remove();
     return;
     

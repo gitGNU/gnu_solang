@@ -99,7 +99,7 @@ class Importer :
 
         bool standard_;
 
-        Glib::RefPtr<Gtk::ActionGroup> actionGroup_;
+        ActionGroupPtr actionGroup_;
 
         Gtk::UIManager::ui_merge_id standardUIID_;
 
