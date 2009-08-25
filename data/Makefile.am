@@ -44,6 +44,7 @@ uidir = $(datadir)/$(PACKAGE_TARNAME)/ui
 ui_DATA = \
 	solang.ui \
 	solang-browser-renderer.ui \
+	solang-browser-renderer-thumbnail.ui \
 	solang-editor.ui \
 	solang-editor-renderer.ui \
 	solang-enlarged-renderer.ui \

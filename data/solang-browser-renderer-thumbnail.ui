@@ -1,0 +1,11 @@
+<!--*- xml -*-->
+<ui>
+	<popup name="ThumbnailPopup">
+		<placeholder name="PlaceholderEditPopup">
+		<menuitem action="ActionViewEdit"/>
+		</placeholder>
+		<placeholder name="PlaceholderFullScreenPopup">
+		<menuitem action="ActionViewBrowserSlideshow"/>
+		</placeholder>
+	</popup>
+</ui>

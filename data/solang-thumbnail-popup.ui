@@ -2,18 +2,15 @@
 <ui>
 	<popup name="ThumbnailPopup">
 		<menu action='ActionOpenWithMenu'>
-			<placeholder name="PlaceholderApplications"/>
+			<placeholder name="PlaceholderApplicationsPopup"/>
 		</menu>
 		<separator name="ThumbnailPopupSeparator0"/>
-		<menuitem action="ActionEdit" />
-		<menuitem action="ActionSave"/>
-		<menuitem action="ActionSaveAs"/>
+		<placeholder name="PlaceholderExportPopup" />
 		<separator name="ThumbnailPopupSeparator1"/>
-		<menuitem action="ActionPrint"/>
+		<placeholder name="PlaceholderPrintPopup" />
 		<separator name="ThumbnailPopupSeparator2"/>
-		<menuitem action="ActionMoveToTrash"/>
+		<placeholder name="PlaceholderEditPopup" />
 		<separator name="ThumbnailPopupSeparator3"/>
-		<menuitem action="ActionProperties"/>
-		<menuitem action="ActionSetAsWallpaper"/>
+		<placeholder name="PlaceholderFullScreenPopup" />
 	</popup>
 </ui>

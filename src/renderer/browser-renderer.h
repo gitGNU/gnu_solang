@@ -123,6 +123,8 @@ class BrowserRenderer :
 
         Gtk::UIManager::ui_merge_id uiID_;
 
+        Gtk::UIManager::ui_merge_id uiIDThumbnail_;
+
         const std::string dockItemName_;
     
         const Glib::ustring dockItemTitle_;

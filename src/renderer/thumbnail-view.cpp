@@ -82,26 +82,6 @@ ThumbnailView::configure(gint thumbnail_renderer_width,
 
     actionGroup_->add(Gtk::Action::create("ActionOpenWithMenu",
                                           "Open _With"));
-
-    actionGroup_->add(Gtk::Action::create("ActionSave",
-                                          Gtk::Stock::SAVE));
-
-    actionGroup_->add(Gtk::Action::create("ActionSaveAs",
-                                          Gtk::Stock::SAVE_AS));
-
-    actionGroup_->add(Gtk::Action::create("ActionPrint",
-                                          Gtk::Stock::PRINT));
-
-    actionGroup_->add(Gtk::Action::create("ActionMoveToTrash",
-                                          Gtk::Stock::DELETE,
-                                          "Move to _Trash"));
-
-    actionGroup_->add(Gtk::Action::create("ActionProperties",
-                                          Gtk::Stock::PROPERTIES));
-
-    actionGroup_->add(Gtk::Action::create("ActionSetAsWallpaper",
-                                          "Set Photo as _Wallpaper"));
-
     uiManager_->insert_action_group(actionGroup_);
 
     Gtk::Widget * menu = uiManager_->get_widget("/ThumbnailPopup");
@@ -194,6 +174,12 @@ ThumbnailView::get_thumbnail_height() const throw()
     return rendererThumbnail_.property_height().get_value();
 }
 
+const UIManagerPtr &
+ThumbnailView::get_ui_manager() throw()
+{
+    return uiManager_;
+}
+
 bool
 ThumbnailView::on_button_press_event(GdkEventButton * event) throw()
 {
@@ -211,15 +197,14 @@ ThumbnailView::on_button_press_event(GdkEventButton * event) throw()
             return false;
         }
 
-        if (false == path_is_selected(path)
-            || 1 != get_selected_items().size())
+        if (false == path_is_selected(path))
         {
             unselect_all();
             select_path(path);
             // set_cursor(path, 0, false);
         }
 
-//        menu_->popup(event->button, event->time);
+        menu_->popup(event->button, event->time);
     }
 
     return return_value;

@@ -58,6 +58,9 @@ class ThumbnailView :
         void
         set_thumbnail_height(gint height) throw();
 
+        const UIManagerPtr &
+        get_ui_manager() throw();
+
     protected:
         PhotoPtr
         get_photo_from_path(const Gtk::TreeModel::Path & path) throw();

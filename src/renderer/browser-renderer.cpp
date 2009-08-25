@@ -58,6 +58,9 @@ static const double ratioHeight
 static const std::string uiFile
     = PACKAGE_DATA_DIR"/"PACKAGE_TARNAME"/ui/"
           PACKAGE_TARNAME"-browser-renderer.ui";
+static const std::string uiFileThumbnail
+    = PACKAGE_DATA_DIR"/"PACKAGE_TARNAME"/ui/"
+          PACKAGE_TARNAME"-browser-renderer-thumbnail.ui";
 
 BrowserRenderer::BrowserRenderer() throw() :
     IRenderer(),
@@ -66,6 +69,7 @@ BrowserRenderer::BrowserRenderer() throw() :
     iconFactory_(Gtk::IconFactory::create()),
     actionGroup_(Gtk::ActionGroup::create()),
     uiID_(0),
+    uiIDThumbnail_(0),
     dockItemName_("browser-dock-item"),
     dockItemTitle_("Browser"),
     dockItemBehaviour_(GDL_DOCK_ITEM_BEH_NO_GRIP),
@@ -185,12 +189,29 @@ BrowserRenderer::BrowserRenderer() throw() :
     zoomer_.get_scale().signal_value_changed().connect(
         sigc::mem_fun(*this,
                       &BrowserRenderer::on_signal_value_changed));
+
+    const UIManagerPtr & ui_manager = thumbnailView_.get_ui_manager();
+    uiIDThumbnail_ = ui_manager->add_ui_from_file(uiFileThumbnail);
+
+    if (0 != uiIDThumbnail_)
+    {
+        ui_manager->insert_action_group(actionGroup_);
+    }
 }
 
 BrowserRenderer::~BrowserRenderer() throw()
 {
     //g_object_unref(dockItem_);
     iconFactory_->remove_default();
+
+    const UIManagerPtr & ui_manager = thumbnailView_.get_ui_manager();
+
+    if (0 != uiIDThumbnail_)
+    {
+        ui_manager->remove_action_group(actionGroup_);
+        ui_manager->remove_ui(uiIDThumbnail_);
+        uiIDThumbnail_ = 0;
+    }
 }
 
 void
