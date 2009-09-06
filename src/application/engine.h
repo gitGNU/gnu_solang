@@ -108,10 +108,13 @@ class Engine :
              const ProgressObserverPtr & observer) throw();
 
         void
-        export_photos(const PhotoList & photos, 
-                      const IPhotoDestinationPtr & destination,
-                      const ProgressObserverPtr & observer 
-                          = ProgressObserverPtr());
+        export_photos(const IPhotoDestinationPtr & destination,
+                      const IStoragePtr & selected_storage) throw();
+
+        void
+        export_photos(const IPhotoDestinationPtr & destination,
+                      const IStoragePtr & selected_storage,
+                      const ProgressObserverPtr & observer) throw();
 
         void
         erase(const PhotoList & photos,
@@ -139,6 +142,12 @@ class Engine :
         DatePhotoInfoList
         get_dates_with_picture_count( gint year, gint month );
     
+        Glib::Dispatcher &
+        photo_export_begin() throw();
+
+        Glib::Dispatcher &
+        photo_export_end() throw();
+
         Glib::Dispatcher &
         photo_import_begin() throw();
 
@@ -180,6 +189,9 @@ class Engine :
         get_current_storage_system(const Glib::ustring & prefix)
                                    const throw();
 
+        PhotoList &
+        get_export_queue() throw();
+
         PhotoList
         get_photos() throw();
 
@@ -201,6 +213,10 @@ class Engine :
 
         ProgressObserverPtr observer_;
 
+        Glib::Dispatcher photoExportBegin_;
+
+        Glib::Dispatcher photoExportEnd_;
+
         Glib::Dispatcher photoImportBegin_;
 
         Glib::Dispatcher photoImportEnd_;
@@ -218,6 +234,8 @@ class Engine :
         sigc::signal<void> selectionChanged_;
 
         Glib::Mutex mutex_;
+
+        PhotoList exportQueue_;
 
         PhotoList photos_;
 

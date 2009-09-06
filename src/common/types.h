@@ -103,6 +103,11 @@ typedef std::vector<IPhotoDestinationPtr> IPhotoDestinationList;
 class ExifData;
 typedef std::tr1::shared_ptr<ExifData> ExifDataPtr;
 
+class ExporterDialog;
+typedef std::tr1::shared_ptr<const ExporterDialog>
+    ConstExporterDialogPtr;
+typedef std::tr1::shared_ptr<ExporterDialog> ExporterDialogPtr;
+
 class Images;
 typedef std::tr1::shared_ptr<const Images> ConstImagesPtr;
 typedef std::tr1::shared_ptr<Images> ImagesPtr;

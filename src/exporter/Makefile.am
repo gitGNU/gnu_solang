@@ -1,8 +1,13 @@
 noinst_LTLIBRARIES =	libexporter.la
 
 libexporter_la_SOURCES = \
+	exporter.cpp \
+	exporter.h \
+	exporter-dialog.cpp \
+	exporter-dialog.h \
 	photo-destination.h \
 	photo-destination.cpp \
+	photo-destination-enums.h \
 	directory-destination.h \
 	directory-destination.cpp
 

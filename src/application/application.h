@@ -107,13 +107,13 @@ class Application :
         add_photos_to_model(const PhotoList & photos) throw();
 
         void
-        on_photo_import_begin() throw();
-
-        void
-        on_photo_import_end() throw();
+        hide_progress_dialog() throw();
 
         void
         on_photo_render_begin() throw();
+
+        void
+        show_progress_dialog() throw();
 
         Glib::ThreadPool threadPool_;
 

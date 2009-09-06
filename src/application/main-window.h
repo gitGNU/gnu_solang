@@ -31,6 +31,8 @@
 namespace Solang
 {
 
+class Application;
+
 class MainWindow :
     public Gtk::Window,
     public NonCopyable
@@ -42,10 +44,10 @@ class MainWindow :
         ~MainWindow() throw();
 
         void
-        init() throw();
+        init(Application & application) throw();
 
         void
-        final() throw();
+        final(Application & application) throw();
 
         void
         add_dock_object_left_top(DockObjectPtr dock_object) throw();
@@ -73,6 +75,12 @@ class MainWindow :
         get_user_layout_file() throw();
 
         void
+        on_action_edit_add_to_export_queue() throw();
+
+        void
+        on_action_edit_clear_export_queue() throw();
+
+        void
         on_action_help_about() throw();
 
         void
@@ -90,6 +98,8 @@ class MainWindow :
 
         virtual bool
         on_delete_event(GdkEventAny * event);
+
+        ApplicationPtr application_;
 
         ActionGroupPtr actionGroup_;
 

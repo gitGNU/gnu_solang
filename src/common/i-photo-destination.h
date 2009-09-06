@@ -1,5 +1,6 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 4; tab-width: 4 -*- */
 /*
+ * Copyright (C) 2009 Debarshi Ray <rishi@gnu.org>
  * Copyright (C) 2009 Santanu Sinha <santanu.sinha@gmail.com>
  *
  * Solang is free software: you can redistribute it and/or modify it
@@ -19,11 +20,17 @@
 #ifndef SOLANG_I_PHOTO_DESTINATION_H
 #define SOLANG_I_PHOTO_DESTINATION_H
 
+#include <glibmm.h>
+#include <gtkmm.h>
+#include <sigc++/sigc++.h>
+
 #include "non-copyable.h"
 #include "types.h"
 
 namespace Solang
 {
+
+class Application;
 
 class IPhotoDestination :
     public NonCopyable
@@ -33,17 +40,46 @@ class IPhotoDestination :
         ~IPhotoDestination() throw() = 0;
 
         virtual void
-        init() throw() = 0;
+        init(Application & application) throw() = 0;
+
+        virtual void
+        final(Application & application) throw() = 0;
 
         virtual void
         export_photo(const PhotoPtr & photo,
+                     const IStoragePtr & storage,
                      const ProgressObserverPtr & observer) throw() = 0;
         virtual void
         export_photos(const PhotoList & photos,
+                      const IStoragePtr & storage,
                       const ProgressObserverPtr & observer) throw() = 0;
 
         virtual void
         final() throw() = 0;
+
+        virtual sigc::signal<void, bool> &
+        init_end() throw() = 0;
+
+        virtual void
+        read_selection() throw() = 0;
+
+        virtual Gtk::Widget &
+        get_browser() throw() = 0;
+
+        virtual Glib::ustring
+        get_label() const throw() = 0;
+
+        virtual Glib::ustring
+        get_name() const throw() = 0;
+
+        virtual gint
+        get_options() const throw() = 0;
+
+        virtual Gtk::StockID
+        get_stock_id() const throw() = 0;
+
+        virtual void
+        set_create_archive(bool value) throw() = 0;
 
     protected:
         IPhotoDestination() throw();

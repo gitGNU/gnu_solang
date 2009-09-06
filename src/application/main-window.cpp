@@ -28,6 +28,7 @@
 #include <glibmm/i18n.h>
 #include <sigc++/sigc++.h>
 
+#include "export-queue-operations.h"
 #include "main-window.h"
 
 namespace Solang
@@ -183,6 +184,7 @@ DockHider::operator()(DockObjectPtr const & dock_object) throw()
 
 MainWindow::MainWindow() throw() :
     Gtk::Window(Gtk::WINDOW_TOPLEVEL),
+    application_(),
     actionGroup_(Gtk::ActionGroup::create()),
     uiManager_(Gtk::UIManager::create()),
     uiID_(uiManager_->add_ui_from_file(uiFile)),
@@ -212,6 +214,24 @@ MainWindow::MainWindow() throw() :
         Gtk::Action::create(
             "ActionPhotoQuit", Gtk::Stock::QUIT),
         sigc::mem_fun(*this, &MainWindow::on_action_photo_quit));
+
+    actionGroup_->add(
+        Gtk::Action::create(
+            "ActionEditMenu", _("_Edit")));
+
+    actionGroup_->add(
+        Gtk::Action::create(
+            "ActionEditAddToExportQueue", Gtk::Stock::ADD,
+            _("_Add to Export Queue")),
+        sigc::mem_fun(*this,
+                      &MainWindow::on_action_edit_add_to_export_queue));
+
+    actionGroup_->add(
+        Gtk::Action::create(
+            "ActionEditClearExportQueue", Gtk::Stock::CLEAR,
+            _("_Clear Export Queue")),
+        sigc::mem_fun(*this,
+                      &MainWindow::on_action_edit_clear_export_queue));
 
     actionGroup_->add(Gtk::Action::create("ActionViewMenu", "_View"));
 
@@ -301,8 +321,10 @@ MainWindow::~MainWindow() throw()
 }
 
 void
-MainWindow::init() throw()
+MainWindow::init(Application & application) throw()
 {
+    application_ = &application;
+
     if (false == dockObjectsCenter_.empty())
     {
         gdl_dock_add_item(GDL_DOCK(dock_),
@@ -361,7 +383,7 @@ MainWindow::init() throw()
 }
 
 void
-MainWindow::final() throw()
+MainWindow::final(Application & application) throw()
 {
 }
 
@@ -429,6 +451,20 @@ MainWindow::get_user_layout_file() throw()
     return Glib::get_user_data_dir() + "/"
                + Glib::get_prgname() + "/"
                + Glib::get_prgname() + "-layout.xml";
+}
+
+void
+MainWindow::on_action_edit_add_to_export_queue() throw()
+{
+    ExportQueueInserter export_queue_inserter(*application_);
+    export_queue_inserter();
+}
+
+void
+MainWindow::on_action_edit_clear_export_queue() throw()
+{
+    ExportQueueCleaner export_queue_cleaner(*application_);
+    export_queue_cleaner();
 }
 
 void

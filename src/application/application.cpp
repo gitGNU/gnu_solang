@@ -34,10 +34,12 @@
 #include "console-renderer.h"
 #include "content-type-repo.h"
 #include "date-manager.h"
+#include "directory-destination.h"
 #include "directory-source.h"
 #include "directory-storage.h"
 #include "editor-renderer.h"
 #include "enlarged-renderer.h"
+#include "exporter.h"
 #include "flickr-source.h"
 #include "i-photo-source.h"
 #include "i-plugin.h"
@@ -268,10 +270,14 @@ Application::Application(int & argc, char ** & argv) throw() :
 
     add_icons();
 
+    engine_.photo_export_begin().connect(sigc::mem_fun(*this,
+        &Application::show_progress_dialog));
+    engine_.photo_export_end().connect(sigc::mem_fun(*this,
+        &Application::hide_progress_dialog));
     engine_.photo_import_begin().connect(sigc::mem_fun(*this,
-        &Application::on_photo_import_begin));
+        &Application::show_progress_dialog));
     engine_.photo_import_end().connect(sigc::mem_fun(*this,
-        &Application::on_photo_import_end));
+        &Application::hide_progress_dialog));
     engine_.photo_render_begin().connect(sigc::mem_fun(*this,
         &Application::on_photo_render_begin));
 }
@@ -301,6 +307,13 @@ Application::init() throw()
 
     IPluginPtr tag_manager(new TagManager( ));
     plugins_.insert(std::make_pair("tag-manager", tag_manager));
+
+    IPhotoDestinationPtr directory_destination(
+                             new DirectoryDestination());
+    IPluginPtr directory_exporter(new Exporter(directory_destination,
+                                               true));
+    plugins_.insert(std::make_pair("directory-exporter",
+                                   directory_exporter));
 
     IPhotoSourcePtr directory_source(new DirectorySource());
     IPluginPtr directory_importer(new Importer(directory_source, true));
@@ -347,7 +360,7 @@ Application::init() throw()
 
     ContentTypeRepo::instance()->init();
 
-    mainWindow_.init();
+    mainWindow_.init(*this);
 
     initEnd_.emit(*this);
 }
@@ -363,7 +376,7 @@ void
 Application::final() throw()
 {
     engine_.final();
-    mainWindow_.final();
+    mainWindow_.final(*this);
 
     rendererRegistry_.final(*this);
 
@@ -467,6 +480,14 @@ Application::init_end() throw()
     return initEnd_;
 }
 
+void
+Application::hide_progress_dialog() throw()
+{
+    progressDialog_.hide();
+    progressDialog_.reset();
+    engine_.get_default_observer()->reset();
+}
+
 sigc::signal<void, Application &> &
 Application::list_store_change_begin() throw()
 {
@@ -480,21 +501,6 @@ Application::list_store_change_end() throw()
 }
 
 void
-Application::on_photo_import_begin() throw()
-{
-    progressDialog_.set_transient_for(mainWindow_);
-    progressDialog_.show_all();
-}
-
-void
-Application::on_photo_import_end() throw()
-{
-    progressDialog_.hide();
-    progressDialog_.reset();
-    engine_.get_default_observer()->reset();
-}
-
-void
 Application::on_photo_render_begin() throw()
 {
     mainWindow_.set_busy(true);
@@ -504,6 +510,14 @@ Application::on_photo_render_begin() throw()
 
     mainWindow_.set_busy(false);
 }
+
+void
+Application::show_progress_dialog() throw()
+{
+    progressDialog_.set_transient_for(mainWindow_);
+    progressDialog_.show_all();
+}
+
 
 Glib::ThreadPool &
 Application::get_thread_pool() throw()

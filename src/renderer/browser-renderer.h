@@ -85,6 +85,9 @@ class BrowserRenderer :
         generate_thumbnails() throw();
 
         void
+        on_action_add_to_export_queue() throw();
+
+        void
         on_action_view_slideshow() throw();
 
         void

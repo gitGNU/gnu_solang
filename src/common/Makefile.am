@@ -5,6 +5,8 @@ libcommon_la_SOURCES = \
 	content-type-repo.h \
 	error.cpp \
 	error.h \
+	export-queue-operations.cpp \
+	export-queue-operations.h \
 	flickr-context.cpp \
 	flickr-context.h \
 	id-base.h \

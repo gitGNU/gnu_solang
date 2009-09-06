@@ -30,6 +30,7 @@
 #include "browser-model-column-record.h"
 #include "browser-renderer.h"
 #include "engine.h"
+#include "export-queue-operations.h"
 #include "i-plugin.h"
 #include "i-renderer-selector.h"
 #include "main-window.h"
@@ -119,6 +120,17 @@ BrowserRenderer::BrowserRenderer() throw() :
     iconFactory_->add(Gtk::StockID(PACKAGE_TARNAME"-mode-browse"),
                       icon_set_mode_browse);
     iconFactory_->add_default();
+
+    actionGroup_->add(
+        Gtk::Action::create(
+            "ActionMenuEdit", _("_Edit")));
+
+    actionGroup_->add(
+        Gtk::Action::create(
+            "ActionEditAddToExportQueue", Gtk::Stock::ADD,
+            _("_Add to Export Queue")),
+        sigc::mem_fun(*this,
+                      &BrowserRenderer::on_action_add_to_export_queue));
 
     actionGroup_->add(
         Gtk::Action::create(
@@ -458,6 +470,13 @@ BrowserRenderer::receive_selector(IRendererSelector & selector,
                                   throw()
 {
     return selector.select(*this, renderer);
+}
+
+void
+BrowserRenderer::on_action_add_to_export_queue() throw()
+{
+    ExportQueueInserter export_queue_inserter(*application_);
+    export_queue_inserter();
 }
 
 void

@@ -1,22 +1,26 @@
 <!--*- xml -*-->
 <ui>
 	<menubar name="MenuBar">
-		<placeholder name="PlaceHolderEditMenus">
-			<menu action="ActionEditMenu">
-				<menuitem action="ActionEditUndo"/>
-				<menuitem action="ActionEditRedo"/>
-				<separator name="EditSeparator0"/>
-				<menuitem action="ActionEditFlipHorizontal"/>
-				<menuitem action="ActionEditFlipVertical"/>
-				<separator name="EditSeparator1"/>
-				<menuitem action="ActionEditRotateClockwise"/>
-				<menuitem action="ActionEditRotateCounterClockwise"/>
-				<separator name="ViewSeparator2"/>
-				<menuitem action="ActionEditScale"/>
-				<separator name="ViewSeparator3"/>
-				<menuitem action="ActionEditSaveAs"/>
-			</menu>
-		</placeholder>
+		<menu action="ActionEditMenu">
+			<placeholder name="PlaceholderUndoRedoMenus">
+			<menuitem action="ActionEditUndo"/>
+			<menuitem action="ActionEditRedo"/>
+			</placeholder>
+			<placeholder name="PlaceholderFlipMenus">
+			<menuitem action="ActionEditFlipHorizontal"/>
+			<menuitem action="ActionEditFlipVertical"/>
+			</placeholder>
+			<placeholder name="PlaceholderRotateMenus">
+			<menuitem action="ActionEditRotateClockwise"/>
+			<menuitem action="ActionEditRotateCounterClockwise"/>
+			</placeholder>
+			<placeholder name="PlaceholderScaleMenus">
+			<menuitem action="ActionEditScale"/>
+			</placeholder>
+			<placeholder name="PlaceholderOtherEditMenus">
+			<menuitem action="ActionEditSaveAs"/>
+			</placeholder>
+		</menu>
 	</menubar>
 </ui>
 

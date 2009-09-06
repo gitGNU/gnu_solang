@@ -1,5 +1,6 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 4; tab-width: 4 -*- */
 /*
+ * Copyright (C) 2009 Debarshi Ray <rishi@gnu.org>
  * Copyright (C) 2009 Santanu Sinha <santanu.sinha@gmail.com>
  *
  * Solang is free software: you can redistribute it and/or modify it
@@ -30,27 +31,62 @@ class DirectoryDestination :
     public PhotoDestination
 {
     public:
-        DirectoryDestination(const Glib::ustring & path) throw();
+        DirectoryDestination() throw();
 
         virtual
         ~DirectoryDestination() throw();
 
         virtual void
-        init() throw();
+        init(Application & application) throw();
+
+        virtual void
+        final(Application & application) throw();
 
         virtual void
         export_photo(const PhotoPtr & photo,
+                     const IStoragePtr & storage,
                      const ProgressObserverPtr & observer) throw();
 
         virtual void
         export_photos(const PhotoList & photos,
+                      const IStoragePtr & storage,
                       const ProgressObserverPtr & observer) throw();
 
         virtual void
         final() throw();
 
+        virtual sigc::signal<void, bool> &
+        init_end() throw();
+
+        virtual void
+        read_selection() throw();
+
+        virtual Gtk::Widget &
+        get_browser() throw();
+
+        virtual Glib::ustring
+        get_label() const throw();
+
+        virtual Glib::ustring
+        get_name() const throw();
+
+        virtual gint
+        get_options() const throw();
+
+        virtual Gtk::StockID
+        get_stock_id() const throw();
+
+        virtual void
+        set_create_archive(bool value) throw();
+
     protected:
-        Glib::ustring path_;
+        bool createArchive_;
+
+        std::string filename_;
+
+        Gtk::FileChooserButton * fileChooserButton_;
+
+        sigc::signal<void, bool> initEnd_;
 
     private:
 };

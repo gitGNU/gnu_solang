@@ -16,6 +16,7 @@ solang_SOURCES = \
 solang_LDFLAGS = 
 
 solang_LDADD = \
+	$(top_builddir)/src/exporter/libexporter.la \
 	$(top_builddir)/src/importer/libimporter.la \
 	$(top_builddir)/src/renderer/librenderer.la \
 	$(top_builddir)/src/storage/libstorage.la \
@@ -48,6 +49,7 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/common \
 	-I$(top_srcdir)/src/database \
 	-I$(top_srcdir)/src/editor \
+	-I$(top_srcdir)/src/exporter \
 	-I$(top_srcdir)/src/importer \
 	-I$(top_srcdir)/src/renderer \
 	-I$(top_srcdir)/src/storage \

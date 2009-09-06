@@ -21,6 +21,21 @@
 			<placeholder name="PlaceholderToolMenus"/>
 		</menu>
 		<placeholder name="PlaceholderViewMenus"/>
+		<menu action="ActionEditMenu">
+			<placeholder name="PlaceholderUndoRedoMenus"/>
+			<separator name="EditSeparator0"/>
+			<placeholder name="PlaceholderFlipMenus"/>
+			<separator name="EditSeparator1"/>
+			<placeholder name="PlaceholderRotateMenus"/>
+			<separator name="EditSeparator2"/>
+			<placeholder name="PlaceholderScaleMenus"/>
+			<separator name="EditSeparator3"/>
+			<menuitem action="ActionEditAddToExportQueue"/>
+			<menuitem action="ActionEditClearExportQueue"/>
+			<placeholder name="PlaceholderExportQueueMenus"/>
+			<separator name="EditSeparator4"/>
+			<placeholder name="PlaceholderOtherEditMenus"/>
+		</menu>
 		<placeholder name="PlaceHolderEditMenus"/>
 		<placeholder name="PlaceholderFindMenus"/>
 		<placeholder name="PlaceholderGoMenus"/>

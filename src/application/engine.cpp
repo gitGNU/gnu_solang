@@ -37,6 +37,8 @@ namespace Solang
 Engine::Engine(int & argc, char ** & argv,
                const ProgressObserverPtr & observer) throw() :
     observer_(observer),
+    photoExportBegin_(),
+    photoExportEnd_(),
     photoImportBegin_(),
     photoImportEnd_(),
     photoRenderBegin_(),
@@ -46,6 +48,7 @@ Engine::Engine(int & argc, char ** & argv,
     criterionChanged_(),
     selectionChanged_(),
     mutex_(),
+    exportQueue_(),
     photos_(),
     currentStorageSystems_(),
     database_(""),
@@ -238,14 +241,24 @@ Engine::show(const PhotoSearchCriteriaList & criterion,
 }
 
 void
-Engine::export_photos(const PhotoList & photos,
-                      const IPhotoDestinationPtr & destination,
-                      const ProgressObserverPtr & observer)
+Engine::export_photos(const IPhotoDestinationPtr & destination,
+                      const IStoragePtr & selected_storage) throw()
 {
-    ProgressObserverPtr obs = (observer) ? observer : observer_;
+    export_photos(destination, selected_storage, observer_);
+    return;
+}
 
-    destination->export_photos(create_renderable_list_from_photos(
-                               photos, obs), obs);
+void
+Engine::export_photos(const IPhotoDestinationPtr & destination,
+                      const IStoragePtr & selected_storage,
+                      const ProgressObserverPtr & observer) throw()
+{
+    photoExportBegin_.emit();
+    destination->export_photos(exportQueue_, selected_storage,
+                               observer);
+    observer->reset();
+    photoExportEnd_.emit();
+
     return;
 }
 
@@ -389,6 +402,18 @@ Engine::get_dates_with_picture_count( gint year, gint month )
 }
 
 Glib::Dispatcher &
+Engine::photo_export_begin() throw()
+{
+    return photoExportBegin_;
+}
+
+Glib::Dispatcher &
+Engine::photo_export_end() throw()
+{
+    return photoExportEnd_;
+}
+
+Glib::Dispatcher &
 Engine::photo_import_begin() throw()
 {
     return photoImportBegin_;
@@ -462,6 +487,12 @@ Engine::get_current_storage_system(const Glib::ustring & prefix) const
     }
 
     return it->second;
+}
+
+PhotoList &
+Engine::get_export_queue() throw()
+{
+    return exportQueue_;
 }
 
 PhotoList
