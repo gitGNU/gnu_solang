@@ -295,6 +295,8 @@ MainWindow::MainWindow() throw() :
 
     if (NULL != tool_bar)
     {
+        tool_bar->set_toolbar_style( Gtk::TOOLBAR_ICONS );
+        //We don't need no stinkin' text :-P
         gtk_separator_tool_item_set_draw(separatorToolItem_.gobj(),
                                          FALSE);
         separatorToolItem_.set_expand(true);
