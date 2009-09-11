@@ -696,7 +696,7 @@ MainWindow::on_delete_event(GdkEventAny * event)
     bool return_value = Gtk::Window::on_delete_event(event);
 
     hide();
-    return return_value;	
+    return return_value;
 }
 
 void

@@ -6,19 +6,6 @@
 			<menuitem action="ActionEditUndo"/>
 			<menuitem action="ActionEditRedo"/>
 			</placeholder>
-			<!--
-			<placeholder name="PlaceholderFlipMenus">
-			<menuitem action="ActionEditFlipHorizontal"/>
-			<menuitem action="ActionEditFlipVertical"/>
-			</placeholder>
-			<placeholder name="PlaceholderRotateMenus">
-			<menuitem action="ActionEditRotateClockwise"/>
-			<menuitem action="ActionEditRotateCounterClockwise"/>
-			</placeholder>
-			<placeholder name="PlaceholderScaleMenus">
-			<menuitem action="ActionEditScale"/>
-			</placeholder>
-			-->
 			<placeholder name="PlaceholderOtherEditMenus">
 			<menuitem action="ActionEditSaveAs"/>
 			</placeholder>

@@ -39,7 +39,7 @@ class MainWindow :
 {
     public:
         MainWindow() throw();
-    
+
         virtual
         ~MainWindow() throw();
 
@@ -130,7 +130,7 @@ class MainWindow :
         ProgressObserverPtr observer_;
 
         GtkWidget * const dock_;
-    
+
         GtkWidget * const dockBar_;
 
         GdlDockLayout * const layout_;
