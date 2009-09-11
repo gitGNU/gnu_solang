@@ -31,15 +31,11 @@ solang_LDADD = \
 	$(GTKIMAGEVIEW_LIBS) \
 	$(WEBKIT_LIBS) \
 	$(GTKMM_LIBS) \
-	$(CAIROMM_LIBS) \
 	$(GDAMM_LIBS) \
 	$(SOUP_LIBS) \
-	$(GIOMM_LIBS) \
-	$(GLIBMM_LIBS) \
 	$(GDL_LIBS) \
 	$(BABL_LIBS) \
-	$(GEGL_LIBS) \
-	$(SIGC_LIBS)
+	$(GEGL_LIBS)
 
 AM_CPPFLAGS = \
 	-DPACKAGE_LOCALE_DIR=\""${datadir}/locale"\" \
@@ -57,18 +53,14 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/renderer \
 	-I$(top_srcdir)/src/storage \
 	$(SOLANG_CFLAGS) \
-	$(CAIROMM_CFLAGS) \
 	$(EXIV2_CFLAGS) \
 	$(FLICKCURL_CFLAGS) \
 	$(GPHOTO2_CFLAGS) \
 	$(GTKIMAGEVIEW_CFLAGS) \
 	$(GTKMM_CFLAGS) \
 	$(GDAMM_CFLAGS) \
-	$(GIOMM_CFLAGS) \
-	$(GLIBMM_CFLAGS) \
 	$(GDL_CFLAGS) \
-	$(GEGL_CFLAGS) \
-	$(SIGC_CFLAGS)
+	$(GEGL_CFLAGS)
 
 AM_CXXFLAGS = \
 	 -Wall

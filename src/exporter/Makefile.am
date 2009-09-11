@@ -24,14 +24,10 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/renderer \
 	-I$(top_srcdir)/src/storage \
 	$(SOLANG_CFLAGS) \
-	$(CAIROMM_CFLAGS) \
 	$(EXIV2_CFLAGS) \
 	$(GTKMM_CFLAGS) \
 	$(GDAMM_CFLAGS) \
-	$(GIOMM_CFLAGS) \
-	$(GLIBMM_CFLAGS) \
-	$(GDL_CFLAGS) \
-	$(SIGC_CFLAGS)
+	$(GDL_CFLAGS)
 
 AM_CXXFLAGS = \
 	 -Wall
