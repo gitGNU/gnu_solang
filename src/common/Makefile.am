@@ -3,12 +3,18 @@ noinst_LTLIBRARIES =	libcommon.la
 libcommon_la_SOURCES = \
 	content-type-repo.cpp \
 	content-type-repo.h \
+	cursor-changer.cpp \
+	cursor-changer.h \
 	error.cpp \
 	error.h \
 	export-queue-operations.cpp \
 	export-queue-operations.h \
 	flickr-context.cpp \
 	flickr-context.h \
+	histogram-viewer.cpp \
+	histogram-viewer.h \
+	histogram.cpp \
+	histogram.h \
 	id-base.h \
 	id-repo.cpp \
 	id-repo.h \
@@ -56,6 +62,7 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/attribute \
 	-I$(top_srcdir)/src/common \
 	-I$(top_srcdir)/src/database \
+	-I$(top_srcdir)/src/edit-engine \
 	-I$(top_srcdir)/src/importer \
 	-I$(top_srcdir)/src/renderer \
 	-I$(top_srcdir)/src/storage \
@@ -67,6 +74,8 @@ AM_CPPFLAGS = \
 	$(GIOMM_CFLAGS) \
 	$(GLIBMM_CFLAGS) \
 	$(GDL_CFLAGS) \
+	$(GEGL_CFLAGS) \
+	$(BABL_CFLAGS) \
 	$(SIGC_CFLAGS)
 
 AM_CXXFLAGS = \

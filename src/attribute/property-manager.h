@@ -26,6 +26,7 @@
 
 #include "plugin.h"
 #include "basic-exif-view.h"
+#include "histogram-viewer.h"
 
 namespace Solang
 {
@@ -95,6 +96,8 @@ protected:
     Gtk::VBox   vBox_;
     Gtk::ScrolledWindow basicInfo_;
     BasicExifView basicExifView_;
+    Gtk::VBox   histBox_;
+    HistogramViewer histogram_;
 
     sigc::connection signalRendererChanged_;
 

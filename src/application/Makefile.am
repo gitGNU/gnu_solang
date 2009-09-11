@@ -22,8 +22,9 @@ solang_LDADD = \
 	$(top_builddir)/src/storage/libstorage.la \
 	$(top_builddir)/src/attribute/libattribute.la \
 	$(top_builddir)/src/database/libdatabase.la \
-	$(top_builddir)/src/common/libcommon.la \
 	$(top_builddir)/src/editor/libeditor.la \
+	$(top_builddir)/src/edit-engine/libeditengine.la \
+	$(top_builddir)/src/common/libcommon.la \
 	$(EXIV2_LIBS) \
 	$(FLICKCURL_LIBS) \
 	$(GPHOTO2_LIBS) \
@@ -36,6 +37,8 @@ solang_LDADD = \
 	$(GIOMM_LIBS) \
 	$(GLIBMM_LIBS) \
 	$(GDL_LIBS) \
+	$(BABL_LIBS) \
+	$(GEGL_LIBS) \
 	$(SIGC_LIBS)
 
 AM_CPPFLAGS = \
@@ -64,6 +67,7 @@ AM_CPPFLAGS = \
 	$(GIOMM_CFLAGS) \
 	$(GLIBMM_CFLAGS) \
 	$(GDL_CFLAGS) \
+	$(GEGL_CFLAGS) \
 	$(SIGC_CFLAGS)
 
 AM_CXXFLAGS = \

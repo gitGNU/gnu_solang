@@ -52,6 +52,8 @@ PropertyManager::PropertyManager() throw() :
     vBox_(false, 6),
     basicInfo_(),
     basicExifView_(),
+    histBox_(),
+    histogram_(),
     signalRendererChanged_()
 {
     dockItem_ = gdl_dock_item_new_with_stock(dockItemName_.c_str(),
@@ -65,7 +67,10 @@ PropertyManager::PropertyManager() throw() :
                                Gtk::POLICY_AUTOMATIC);
     basicInfo_.add(basicExifView_);
 
+    histBox_.pack_start( histogram_, Gtk::PACK_SHRINK, 6 );
+
     noteBook_.append_page( vBox_, _("Basic") );
+    noteBook_.append_page( histBox_, _("Histogram") );
     vBox_.pack_start( basicInfo_, Gtk::PACK_EXPAND_WIDGET,0 );
 
 }
@@ -175,6 +180,7 @@ PropertyManager::on_selection_changed() throw()
         return;
 
     basicExifView_.populate( (*photos.begin())->get_exif_data() );
+    histogram_.set((*photos.begin())->get_thumbnail_buffer());
 
     return;
 }

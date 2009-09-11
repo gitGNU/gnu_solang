@@ -36,6 +36,7 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/common \
 	-I$(top_srcdir)/src/database \
 	-I$(top_srcdir)/src/editor \
+	-I$(top_srcdir)/src/edit-engine \
 	-I$(top_srcdir)/src/importer \
 	-I$(top_srcdir)/src/renderer \
 	-I$(top_srcdir)/src/storage \
@@ -48,6 +49,8 @@ AM_CPPFLAGS = \
 	$(GIOMM_CFLAGS) \
 	$(GLIBMM_CFLAGS) \
 	$(GDL_CFLAGS) \
+	$(BABL_CFLAGS) \
+	$(GEGL_CFLAGS) \
 	$(SIGC_CFLAGS)
 
 AM_CXXFLAGS = \

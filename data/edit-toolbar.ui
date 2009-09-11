@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<interface>
+  <requires lib="gtk+" version="2.16"/>
+  <!-- interface-naming-policy project-wide -->
+  <object class="GtkToolbar" id="EditToolBar">
+    <property name="visible">True</property>
+    <property name="toolbar_style">icons</property>
+    <property name="icon_size">1</property>
+    <child>
+      <object class="GtkToolButton" id="UndoButton">
+        <property name="visible">True</property>
+        <property name="related_action">ActionEditUndo</property>
+        <property name="label" translatable="yes">Undo</property>
+        <property name="use_underline">True</property>
+        <property name="stock_id">gtk-undo</property>
+      </object>
+      <packing>
+        <property name="expand">False</property>
+        <property name="homogeneous">True</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkToolButton" id="Redo">
+        <property name="visible">True</property>
+        <property name="related_action">EditActionRedo</property>
+        <property name="label" translatable="yes">Redo</property>
+        <property name="use_underline">True</property>
+        <property name="stock_id">gtk-redo</property>
+      </object>
+      <packing>
+        <property name="expand">False</property>
+        <property name="homogeneous">True</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkSeparatorToolItem" id="SepUndoRedo">
+        <property name="visible">True</property>
+      </object>
+      <packing>
+        <property name="expand">False</property>
+        <property name="homogeneous">True</property>
+      </packing>
+    </child>
+  </object>
+  <object class="GtkAction" id="ActionEditUndo"/>
+  <object class="GtkAction" id="EditActionRedo"/>
+</interface>

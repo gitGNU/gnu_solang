@@ -22,13 +22,19 @@
 
 #include <algorithm>
 #include <glibmm/i18n.h>
+#include <iostream>
 
 #include "application.h"
+#include "buffer.h"
+#include "cursor-changer.h"
 #include "edit-action.h"
+#include "edit-engine.h"
 #include "editable-photo.h"
 #include "editor.h"
 #include "flip.h"
+#include "gegl-operation.h"
 #include "main-window.h"
+#include "operation.h"
 #include "rotate.h"
 #include "save-photos-window.h"
 
@@ -62,7 +68,8 @@ Editor::Editor( )
     iconFactory_( Gtk::IconFactory::create()),
     uiID_( 0 ),
     actionPerformed_(),
-    currentPhoto_()
+    currentPhoto_(),
+    engine_( NULL )
 {
     Gtk::IconSource icon_source;
 
@@ -125,6 +132,8 @@ Editor::Editor( )
             Gtk::AccelKey("<control>y"),
             sigc::mem_fun(*this, &Editor::on_action_redo));
 
+#if 0
+
     actionGroup_->add(
          Gtk::Action::create(
             "ActionEditFlipHorizontal",
@@ -169,13 +178,14 @@ Editor::Editor( )
             _("Scale/resize the selected image(s)")),
             Gtk::AccelKey(""),
             sigc::mem_fun(*this, &Editor::on_action_scale));
-
+#endif
      actionGroup_->add(
          Gtk::Action::create(
              "ActionEditSaveAs", Gtk::Stock::SAVE,
             _("_Save")),
             Gtk::AccelKey(""),
             sigc::mem_fun(*this, &Editor::on_action_save));
+
 
 }
 
@@ -211,7 +221,13 @@ Editor::apply( const EditActionPtr &action,
 void
 Editor::apply( const EditActionPtr &action)
 {
-    apply( action, currentPhoto_ );
+    Glib::ThreadPool & thread_pool
+                    = application_->get_thread_pool();
+    thread_pool.push(sigc::bind(
+            sigc::mem_fun2( *this,
+                &Editor::apply_action),
+                    action, currentPhoto_ ));
+    //apply( action, currentPhoto_ );
 }
 
 void
@@ -229,6 +245,8 @@ void
 Editor::init( Application &app )
 {
     application_ = &app;
+    engine_ = new EditEngine();
+    engine_->init( application_->get_engine().get_default_observer() );
 }
 
 void
@@ -268,6 +286,7 @@ void
 Editor::final( Application &app )
 {
     unregister_ui();
+    delete engine_;
 }
 
 void
@@ -311,6 +330,44 @@ void
 Editor::set_current_photo( const EditablePhotoPtr &photo )
 {
     currentPhoto_ = photo;
+
+    if( !currentPhoto_ )
+        return;
+
+#if 0
+    buffer->open_image_file(
+                photo->get_photo()->get_disk_file_path(),
+                engine_);
+#endif
+
+#ifdef SS_LATER
+    Glib::ThreadPool & thread_pool
+                    = application_->get_thread_pool();
+    thread_pool.push(sigc::bind(
+            sigc::mem_fun2( *(photo->get_edit_buffer()),
+                &Buffer::open_image_file),
+                    photo->get_photo()->get_disk_file_path(),
+                    engine_ ));
+#endif
+
+#if 0
+    Glib::Thread * const loader = Glib::Thread::create(
+            sigc::bind(
+                sigc::mem_fun2( *buffer,
+                    &Buffer::open_image_file),
+                    photo->get_photo()->get_disk_file_path(),
+                    engine_ ), true );
+    loader->join();
+#endif
+    return;
+}
+
+void
+Editor::apply_action( const EditActionPtr &action,
+               const EditablePhotoPtr &photo ) throw()
+{
+    CursorChanger tmp( application_->get_main_window() );
+    apply( action, photo );
 }
 
 void
@@ -318,11 +375,32 @@ Editor::on_action_flip_horz() throw()
 {
     EditActionPtr action( new Flip( true ) );
     apply( action );
+
+#if 0
+    FilterPtr filter( new FlipOperation( engine_,
+                        FlipOperation::HORIZONTAL ) );
+    BufferPtr buffer = currentPhoto_->get_edit_buffer();
+    OperationPtr op( new Operation(
+                            engine_, filter, buffer ) );
+    EditActionPtr action( new GeglOperation( op,
+                        application_->get_engine().get_default_observer() ) );
+    apply( action );
+#endif
 }
 
 void
 Editor::on_action_flip_vert() throw()
 {
+#if 0
+    FilterPtr filter( new FlipOperation( engine_,
+                        FlipOperation::VERTICAL) );
+    BufferPtr buffer = currentPhoto_->get_edit_buffer();
+    OperationPtr op( new Operation(
+                            engine_, filter, buffer ) );
+    EditActionPtr action( new GeglOperation( op,
+                        application_->get_engine().get_default_observer() ) );
+    apply( action );
+#endif
     EditActionPtr action( new Flip( false ) );
     apply( action );
 }
@@ -357,6 +435,7 @@ Editor::on_action_save() throw()
 void
 Editor::on_action_undo() throw()
 {
+    CursorChanger tmp( application_->get_main_window() );
     if( !currentPhoto_ )
     {
         return;
@@ -368,6 +447,7 @@ Editor::on_action_undo() throw()
 void
 Editor::on_action_redo() throw()
 {
+    CursorChanger tmp( application_->get_main_window() );
     if( !currentPhoto_ )
     {
         return;

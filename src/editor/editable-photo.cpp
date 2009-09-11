@@ -20,11 +20,18 @@
 #include "config.h"
 #endif
 
-#include <iostream>
+extern "C"
+{
+#include <babl/babl.h>
+}
 
+
+#include <iostream>
+#include <gegl.h>
 #include <glibmm/i18n.h>
 #include <giomm.h>
 
+#include "buffer.h"
 #include "edit-action.h"
 #include "editable-photo.h"
 
@@ -34,6 +41,8 @@ namespace Solang
 EditablePhoto::EditablePhoto( const PhotoPtr &photo ) throw()
     :photo_( photo ),
     buffer_( 0 ),
+    editBuffer_( ),
+    isDirty_( false ),
     image_(),
     toSave_( false )
 {
@@ -51,14 +60,39 @@ EditablePhoto::set_photo( const PhotoPtr &photo ) throw()
     setup_photo_for_edit();
 }
 
+const PixbufPtr
+EditablePhoto::get_buffer() const throw()
+{
+#ifdef FULL_GEGL
+    if( !editBuffer_->is_empty()
+        && isDirty_ )
+    {
+        buffer_ = editBuffer_->get_pixbuf();
+        isDirty_ = false;
+    }
+#endif
+    return buffer_;
+}
+
 void
-EditablePhoto::set_buffer(const PixbufPtr &buffer )
+EditablePhoto::set_buffer(const PixbufPtr &buffer, bool sync )
 {
     buffer_ = buffer;
 //    if( photo_->get_buffer() )
     {
         photo_->set_buffer( buffer_ );
     }
+    if( sync && editBuffer_ && !isDirty_ )
+    {
+        editBuffer_ = pixbuf_to_edit_buffer();
+    }
+}
+
+void
+EditablePhoto::set_edit_buffer( const BufferPtr &buffer ) throw()
+{
+    editBuffer_ = buffer;
+    //isDirty_ = true;
 }
 
 void
@@ -122,6 +156,7 @@ EditablePhoto::setup_photo_for_edit( ) throw()
     buffer_ = loader->get_pixbuf();
 #endif
 
+//CREATE
     buffer_ = photo_->get_buffer();
     if( ! buffer_ )
     {
@@ -191,6 +226,29 @@ EditablePhoto::redo_last_action( ) throw(Error)
         e.add_call_info( __FUNCTION__, __FILE__, __LINE__ );
         throw;
     }
+}
+
+BufferPtr
+EditablePhoto::pixbuf_to_edit_buffer() throw()
+{
+    bool hasAlpha = buffer_->get_has_alpha();
+    const guint8 channels = 3;//(hasAlpha)?4:3;
+    GeglRectangle rect;
+    rect.width = buffer_->get_width();
+    rect.height = buffer_->get_height();
+    rect.x = rect.y = 0;
+    Babl *fmt = babl_format( "RGB u8" );
+                //(hasAlpha) ?"RGBA u8" : "RGB u8" );
+    size_t size = rect.width * rect.height *channels;
+    gpointer pMem = g_new0( guint8,  size );
+    ::memcpy( pMem, (void *)(buffer_->get_pixels()), size );
+    GeglBufferPtr gBuf = gegl_buffer_new( &rect, fmt );
+    gegl_buffer_set( gBuf, //gegl buffer
+                    &rect, //extent
+                    fmt, //format
+                    pMem,
+                    buffer_->get_rowstride() );
+    return BufferPtr ( new Buffer( gBuf ) );
 }
 
 } //namespace Solang

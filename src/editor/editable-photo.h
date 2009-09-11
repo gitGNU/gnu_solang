@@ -61,11 +61,17 @@ class EditablePhoto
         void
         set_photo( const PhotoPtr & ) throw();
 
-        inline const PixbufPtr &
+        const PixbufPtr
         get_buffer() const throw();
 
         void
-        set_buffer(const PixbufPtr &);
+        set_buffer(const PixbufPtr &, bool sync = true);
+
+        inline const BufferPtr
+        get_edit_buffer() throw();
+
+        void
+        set_edit_buffer( const BufferPtr &buffer ) throw();
 
         inline Exiv2::ExifData &  //Modifiable
         get_exif_data() throw();
@@ -96,8 +102,13 @@ class EditablePhoto
         void
         setup_photo_for_edit() throw();
 
+        BufferPtr
+        pixbuf_to_edit_buffer() throw();
+
         PhotoPtr photo_;
-        PixbufPtr buffer_;
+        mutable PixbufPtr buffer_;
+        mutable BufferPtr editBuffer_;
+        mutable bool isDirty_;
         Exiv2::Image::AutoPtr image_;
         bool toSave_;
         EditActionHistory appliedActions_;
@@ -109,10 +120,16 @@ EditablePhoto::get_photo() const throw()
     return photo_;
 }
 
-inline const PixbufPtr &
-EditablePhoto::get_buffer() const throw()
+inline const BufferPtr
+EditablePhoto::get_edit_buffer() throw()
 {
-    return buffer_;
+#if 0
+    if( !editBuffer_ )
+    {
+        editBuffer_ = pixbuf_to_edit_buffer();
+    }
+#endif
+    return pixbuf_to_edit_buffer();
 }
 
 inline Exiv2::ExifData &  //Modifiable

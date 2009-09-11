@@ -27,6 +27,7 @@
 #include <sigc++/sigc++.h>
 
 #include "editor.h"
+#include "editor-toolbar.h"
 #include "i-renderer.h"
 #include "thumbnail-view.h"
 #include "types.h"
@@ -94,7 +95,7 @@ class EditorRenderer :
         renderSelectedPhotos(const EditablePhotoList & photos) throw();
 
         virtual void
-        render(const EditablePhotoPtr & photo) throw();
+        show(const EditablePhotoPtr & photo) throw();
 
         void
         refresh_image() throw();
@@ -136,6 +137,9 @@ class EditorRenderer :
         on_switch_page(GtkNotebookPage * notebook_page, guint page_num)
                        throw();
 
+        void
+        on_edit_action( const EditActionPtr &) throw();
+
         ApplicationPtr application_;
 
         Glib::RefPtr<Gtk::IconFactory> iconFactory_;
@@ -154,7 +158,11 @@ class EditorRenderer :
 
         GtkWidget * dockItem_;
 
-        Gtk::VPaned vPane_;
+        Gtk::VBox vPane_;
+
+        Gtk::HBox hPane_;
+
+        EditorToolbar filters_;
 
         GtkWidget * imageView_;
 

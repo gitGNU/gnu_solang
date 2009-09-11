@@ -6,6 +6,7 @@
 			<menuitem action="ActionEditUndo"/>
 			<menuitem action="ActionEditRedo"/>
 			</placeholder>
+			<!--
 			<placeholder name="PlaceholderFlipMenus">
 			<menuitem action="ActionEditFlipHorizontal"/>
 			<menuitem action="ActionEditFlipVertical"/>
@@ -17,10 +18,20 @@
 			<placeholder name="PlaceholderScaleMenus">
 			<menuitem action="ActionEditScale"/>
 			</placeholder>
+			-->
 			<placeholder name="PlaceholderOtherEditMenus">
 			<menuitem action="ActionEditSaveAs"/>
 			</placeholder>
 		</menu>
 	</menubar>
+	<toolbar name="ToolBar">
+		<placeholder name="PlaceHolderEditToolbar">
+			<separator name="EditSeparator0"/>
+			<toolitem action="ActionEditSaveAs"/>
+			<separator name="EditSeparator1"/>
+			<toolitem action="ActionEditUndo"/>
+			<toolitem action="ActionEditRedo"/>
+		</placeholder>
+	</toolbar>
 </ui>
 

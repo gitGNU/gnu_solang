@@ -75,6 +75,7 @@ ProgressObserver::set_current_events(guint64 current_events) throw()
 {
     Glib::Mutex::Lock lock(mutex_);
     currentEvents_ = current_events;
+    progress_.emit();
 }
 
 void
@@ -112,6 +113,7 @@ ProgressObserver::reset() throw()
     currentEvents_ = 0;
     numEvents_ = 0;
     stop_ = false;
+    progress_.emit();
 }
 
 } // namespace Solang

@@ -23,11 +23,13 @@ AM_PROG_LIBTOOL
 
 
 PKG_CHECK_MODULES(CAIROMM, [cairomm-1.0])
+PKG_CHECK_MODULES(BABL, [babl])
 PKG_CHECK_MODULES(EXIV2, [exiv2 >= 0.18])
 PKG_CHECK_MODULES(FLICKCURL, [flickcurl])
 PKG_CHECK_MODULES(GDAMM, [libgdamm-3.0 <= 3.0.1])
 PKG_CHECK_MODULES(GDA_SQLITE, [libgda-sqlite-3.0])
 PKG_CHECK_MODULES(GDL, [gdl-1.0])
+PKG_CHECK_MODULES(GEGL, [gegl])
 PKG_CHECK_MODULES(GIOMM, [giomm-2.4])
 PKG_CHECK_MODULES(GLIBMM, [glibmm-2.4])
 PKG_CHECK_MODULES(GPHOTO2, [libgphoto2])
@@ -46,6 +48,7 @@ src/application/Makefile
 src/attribute/Makefile
 src/common/Makefile
 src/database/Makefile
+src/edit-engine/Makefile
 src/editor/Makefile
 src/exporter/Makefile
 src/importer/Makefile

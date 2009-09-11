@@ -362,6 +362,8 @@ Application::init() throw()
 
     mainWindow_.init(*this);
 
+    mainWindow_.connect_progress( engine_.get_default_observer() );
+
     initEnd_.emit(*this);
 }
 

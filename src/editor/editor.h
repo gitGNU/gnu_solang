@@ -64,8 +64,17 @@ class Editor
         inline Glib::Dispatcher &
         edit_action_performed() throw();
 
+        inline EditEnginePtr &
+        get_engine() throw();
+
+        inline EditablePhotoPtr
+        get_current_photo() throw();
+
         void
         set_current_photo( const EditablePhotoPtr &photo );
+
+        inline ApplicationPtr
+        get_application() throw();
 
     private:
 
@@ -102,6 +111,10 @@ class Editor
         void
         on_action_paste_actions() throw();
 
+        void
+        apply_action( const EditActionPtr &action,
+               const EditablePhotoPtr &photo ) throw();
+
         ApplicationPtr application_;
         EditablePhotoList modifiedPhotos_;
         Glib::Mutex mutex_;
@@ -111,12 +124,31 @@ class Editor
         Glib::Dispatcher actionPerformed_;
         EditablePhotoPtr currentPhoto_;
         EditActionList copiedActions_;
+        EditEnginePtr engine_;
 };
 
 inline Glib::Dispatcher &
 Editor::edit_action_performed() throw()
 {
     return actionPerformed_;
+}
+
+inline EditEnginePtr &
+Editor::get_engine() throw()
+{
+    return engine_;
+}
+
+inline EditablePhotoPtr
+Editor::get_current_photo() throw()
+{
+    return currentPhoto_;
+}
+
+inline ApplicationPtr
+Editor::get_application() throw()
+{
+    return application_;
 }
 
 } //namespace solang

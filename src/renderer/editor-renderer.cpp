@@ -25,12 +25,15 @@
 #include <gtkimageview/gtkimagescrollwin.h>
 #include <gtkimageview/gtkimageview.h>
 #include <gtk/gtk.h>
+#include <iostream>
 
 #include "application.h"
 #include "browser-model-column-record.h"
+#include "buffer.h"
 #include "editable-photo.h"
 #include "editor-renderer.h"
 #include "engine.h"
+#include "histogram.h"
 #include "i-plugin.h"
 #include "i-renderer-selector.h"
 #include "main-window.h"
@@ -40,8 +43,31 @@
 #include "thumbnail.h"
 #include "types.h"
 
+//WIDGETS
+#include "brightness-widget.h"
+#include "contrast-widget.h"
+#include "desaturate-widget.h"
+#include "flip-widget.h"
+#include "rotate-widget.h"
+#include "scale-widget.h"
+
+
 namespace Solang
 {
+
+PixbufPtr
+scale_buffer( const PixbufPtr &src )
+{
+    const guint8 width = 64; //Will change on orientation
+    const guint8 height = 48;
+    guint8 pictWidth = src->get_width();
+    guint8 pictHeight = src->get_height();
+    return src->scale_simple( height
+                * ( static_cast<gdouble>(pictWidth)
+                    / static_cast<gdouble>(pictHeight) )
+                , height, Gdk::INTERP_NEAREST );
+}
+
 
 static const std::string uiFile
     = PACKAGE_DATA_DIR"/"PACKAGE_TARNAME"/ui/"
@@ -76,6 +102,7 @@ EditorRenderer::EditorRenderer() throw() :
     editor_(),
     dockItem_(NULL),
     vPane_(),
+    hPane_(),
     imageView_(0),
     imageScrollWin_(0),
     imagesArea_( false, 6 ),
@@ -343,15 +370,15 @@ EditorRenderer::EditorRenderer() throw() :
         {
             return;
         }
-        gtk_paned_pack1( GTK_PANED( vPane_.gobj() ), imageScrollWin_,
-                        TRUE, FALSE );
+        gtk_box_pack_start( GTK_BOX( vPane_.gobj() ), imageScrollWin_,
+                        TRUE, TRUE, 6 );
         gtk_widget_show_all(GTK_WIDGET(imageScrollWin_));
     }
     btPrev_.add( left_ );
     btPrev_.set_relief( Gtk::RELIEF_NONE );
     imagesArea_.pack_start( btPrev_, Gtk::PACK_SHRINK, 2 );
-    vPane_.pack2( imagesArea_, false, true );
-    editablePhotosView_.set_size_request( -1, 100 );
+    //imagesArea_.set_size_request( -1, 128 );
+    editablePhotosView_.set_size_request( iconWindow_.get_width(), 48 );
 //    editablePhotosView_.set_item_height( 100 );
 //    editablePhotosView_.set_pixbuf_column( columns_.buffer_ );
     editablePhotosView_.set_model( photosModel_ );
@@ -365,7 +392,7 @@ EditorRenderer::EditorRenderer() throw() :
     gtk_cell_layout_set_attributes( iconLayout, renderer,
                     "pixbuf", 0, NULL  );
 
-    iconRenderer_.property_height().set_value( 100 );
+    iconRenderer_.property_height().set_value( 48 );
 
     editablePhotosView_.set_orientation( Gtk::ORIENTATION_HORIZONTAL);
     editablePhotosView_.set_selection_mode( Gtk::SELECTION_SINGLE );
@@ -374,20 +401,23 @@ EditorRenderer::EditorRenderer() throw() :
     editablePhotosView_.set_column_spacing( 8 );
     editablePhotosView_.set_has_tooltip( false );
 
+        iconWindow_.set_policy( Gtk::POLICY_AUTOMATIC, Gtk::POLICY_NEVER);
     iconWindow_.add( editablePhotosView_ );
-    iconWindow_.set_policy( Gtk::POLICY_AUTOMATIC, Gtk::POLICY_NEVER);
     imagesArea_.pack_start( iconWindow_, Gtk::PACK_EXPAND_WIDGET, 0 );
     btNext_.add( right_ );
     btNext_.set_relief( Gtk::RELIEF_NONE );
     imagesArea_.pack_start( btNext_, Gtk::PACK_SHRINK, 2 );
-
+    hPane_.pack_start( vPane_, Gtk::PACK_EXPAND_WIDGET, 6);
+    vPane_.pack_start( imagesArea_, Gtk::PACK_SHRINK );
+    hPane_.pack_start( filters_, Gtk::PACK_SHRINK, 6 );
+    filters_.set_size_request( 200, -1 );
     dockItem_ = gdl_dock_item_new_with_stock(dockItemName_.c_str(),
                     dockItemTitle_.c_str(),
                     Gtk::Stock::EDIT.id,
                     dockItemBehaviour_);
     gtk_container_add(GTK_CONTAINER(dockItem_),
-                    GTK_WIDGET(vPane_.gobj()));
-    vPane_.show_all_children();
+                    GTK_WIDGET(hPane_.gobj()));
+    hPane_.show_all_children();
 }
 
 EditorRenderer::~EditorRenderer() throw()
@@ -398,6 +428,38 @@ EditorRenderer::~EditorRenderer() throw()
 void
 EditorRenderer::init(Application & application) throw()
 {
+    //setup actions
+    Glib::RefPtr<EditActionWidget> rotate(
+                    Glib::RefPtr<EditActionWidget>(
+                        new RotateWidget( filters_, editor_ ) ) );
+    filters_.add( rotate );
+    Glib::RefPtr<EditActionWidget> flip(
+                    Glib::RefPtr<EditActionWidget>(
+                        new FlipWidget( filters_, editor_ ) ) );
+    filters_.add( flip );
+    Glib::RefPtr<EditActionWidget> scale(
+                    Glib::RefPtr<EditActionWidget>(
+                        new ScaleWidget( filters_, editor_ ) ) );
+    filters_.add( scale );
+    Glib::RefPtr<EditActionWidget> brightness(
+                    Glib::RefPtr<EditActionWidget>(
+                        new BrightnessWidget( filters_, editor_ ) ) );
+    filters_.add( brightness );
+
+    Glib::RefPtr<EditActionWidget> contrast(
+                    Glib::RefPtr<EditActionWidget>(
+                        new ContrastWidget( filters_, editor_ ) ) );
+    filters_.add( contrast );
+
+    Glib::RefPtr<EditActionWidget> desaturate(
+                    Glib::RefPtr<EditActionWidget>(
+                        new DesaturateWidget( filters_, editor_ ) ) );
+    filters_.add( desaturate );
+
+    filters_.setup();
+    filters_.signal_apply().connect(
+                        sigc::mem_fun( *this,
+                        &EditorRenderer::on_edit_action ) );
     application_ = &application;
     editor_.init( application );
 
@@ -414,6 +476,19 @@ EditorRenderer::init(Application & application) throw()
                         &EditorRenderer::on_photo_activated));
 
     MainWindow & main_window = application.get_main_window();
+
+#if 0
+    const Glib::RefPtr<Gtk::UIManager> & ui_manager
+        = main_window.get_ui_manager();
+    Gtk::Toolbar * const tool_bar
+            = dynamic_cast<Gtk::Toolbar *>(
+                    ui_manager->get_widget("/ToolBarEdit"));
+    tool_bar->set_toolbar_style( Gtk::TOOLBAR_ICONS );
+
+    tool_bar->set_orientation( Gtk::ORIENTATION_VERTICAL );
+    hPane_.pack_end( *tool_bar, Gtk::PACK_SHRINK, 0);
+#endif
+
     main_window.add_dock_object_center(GDL_DOCK_OBJECT(dockItem_));
 
     signalInitEnd_
@@ -524,8 +599,8 @@ EditorRenderer::on_action_go_previous() throw()
 
     Gtk::TreeModel::Path path = photosModel_->get_path( currentItem_ );
     editablePhotosView_.set_cursor( path, iconRenderer_, false );
-    editablePhotosView_.item_activated( path );
     editablePhotosView_.grab_focus();
+    editablePhotosView_.item_activated( path );
 }
 
 void
@@ -550,8 +625,8 @@ EditorRenderer::on_action_go_next() throw()
 
     Gtk::TreeModel::Path path = photosModel_->get_path( currentItem_ );
     editablePhotosView_.set_cursor( path, iconRenderer_, false );
-    editablePhotosView_.item_activated( path );
     editablePhotosView_.grab_focus();
+    editablePhotosView_.item_activated( path );
 }
 
 void
@@ -773,7 +848,7 @@ EditorRenderer::on_switch_page(GtkNotebookPage * notebook_page,
             gtk_image_view_set_pixbuf( GTK_IMAGE_VIEW(imageView_),
                                     0 , TRUE );
             editor_.save();
-			editor_.set_current_photo( EditablePhotoPtr() );
+            editor_.set_current_photo( EditablePhotoPtr() );
             ui_manager->remove_action_group(actionGroup_);
             ui_manager->remove_ui(uiID_);
             editor_.unregister_ui();
@@ -789,10 +864,9 @@ EditorRenderer::renderSelectedPhotos(const EditablePhotoList & photos) throw()
     for( EditablePhotoList::const_iterator photo = photos.begin();
                     photo != photos.end(); photo ++ )
     {
-        ThumbbufMaker thumbbuf_maker( 128, 96 );
+        ThumbbufMaker thumbbuf_maker( 48, 36 );
         Gtk::TreeModel::Row row = *(photosModel_->append());
-        row[ columns_.buffer_ ] = (*photo)->get_photo()->get_thumbnail_buffer();
-                    //->scale_simple( 128, 96, Gdk::INTERP_BILINEAR );
+        row[ columns_.buffer_ ] = scale_buffer((*photo)->get_photo()->get_thumbnail_buffer());
         row[ columns_.photo_ ] = (*photo);
     }
     signalPhotoSelected_.unblock();
@@ -804,11 +878,14 @@ EditorRenderer::renderSelectedPhotos(const EditablePhotoList & photos) throw()
 }
 
 void
-EditorRenderer::render(const EditablePhotoPtr & photo) throw()
+EditorRenderer::show(const EditablePhotoPtr & photo) throw()
 try
 {
+    if( !photo )
+        return;
     PixbufPtr pixbuf = photo->get_buffer();
 
+#if 0
     if( !pixbuf )
     {
         Engine & engine = application_->get_engine();
@@ -821,10 +898,14 @@ try
         pixbuf = Gdk::Pixbuf::create_from_file(path);
         photo->set_buffer( pixbuf );
     }
+#endif
 
+    if( !pixbuf )
+        return;
 
     gtk_image_view_set_pixbuf(GTK_IMAGE_VIEW(imageView_),
                               pixbuf->gobj(), TRUE);
+    filters_.get_histogram_viewer().set( pixbuf );
 }
 catch (const Glib::ConvertError & e)
 {
@@ -848,9 +929,13 @@ EditorRenderer::refresh_image() throw()
     Gtk::TreeModel::Row row = *currentItem_;
     EditablePhotoPtr photo = row[ columns_.photo_ ];
     ThumbbufMaker thumbbuf_maker( 128, 96 );
-    row[ columns_.buffer_ ] = photo->get_photo()->get_thumbnail_buffer();
+    row[ columns_.buffer_ ] = scale_buffer( photo->get_photo()->get_thumbnail_buffer() );
+#if 0
     gtk_image_view_set_pixbuf(GTK_IMAGE_VIEW(imageView_),
                               photo->get_buffer()->gobj(), TRUE);
+#endif
+    std::cout<<"Showing..."<<std::endl;
+    show( photo );
 }
 
 void
@@ -872,8 +957,20 @@ EditorRenderer::on_photo_activated(
     currentItem_ = photosModel_->get_iter( path );
     Gtk::TreeModel::Row row = *currentItem_;
     EditablePhotoPtr photo = row[ columns_.photo_ ];
+#if 0
+    photo->get_edit_buffer()->get_refresh().connect(
+                sigc::bind(
+                sigc::mem_fun1( *this, &EditorRenderer::show ), photo ));
+#endif
     editor_.set_current_photo( photo );
-    render( photo );
+    editor_.edit_action_performed().emit();
+    //render( photo );
+}
+
+void
+EditorRenderer::on_edit_action( const EditActionPtr &action ) throw()
+{
+    editor_.apply( action );
 }
 
 } // namespace Solang

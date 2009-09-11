@@ -55,4 +55,9 @@
 		<toolitem action="ActionViewFullScreen"/>
 		<placeholder name="PlaceholderFullScreenToolBar"/>
 	</toolbar>
+	<toolbar name="ToolBarEdit">
+		<separator name="ToolBarSeparator3"/>
+		<placeholder name="PlaceHolderEditToolbar"/>
+	</toolbar>
+
 </ui>

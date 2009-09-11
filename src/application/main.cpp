@@ -24,6 +24,7 @@
 #include <cstdlib>
 
 #include <flickcurl.h>
+#include <gegl.h>
 #include <giomm.h>
 #include <glibmm.h>
 #include <glibmm/i18n.h>
@@ -46,6 +47,7 @@ main(int argc, char *argv[])
     Glib::thread_init();
     Gio::init();
     Gnome::Gda::init(PACKAGE_NAME, PACKAGE_VERSION, argc, argv);
+    gegl_init( &argc, &argv );
 
     if (0 != flickcurl_init())
     {
@@ -57,6 +59,32 @@ main(int argc, char *argv[])
     Glib::set_application_name(_(PACKAGE_NAME));
 
     Gtk::Main kit(argc, argv, true);
+#if (GEGL_MINOR_VERSION == 0 )
+    GObject *pConfig = gegl_config();
+#else
+    GeglConfig *pConfig = gegl_config();
+#endif
+    {
+        GValue cacheSize = {0};
+        g_value_init( &cacheSize, G_TYPE_INT );
+        g_value_set_int( &cacheSize, 102400 );
+        g_object_set_property( (GObject *)pConfig, "cache-size", &cacheSize );
+        g_value_unset( &cacheSize );
+    }
+    {
+        GValue quality = {0};
+        g_value_init( &quality, G_TYPE_DOUBLE );
+        g_value_set_double( &quality, 0.1 );
+        g_object_set_property( (GObject *)pConfig, "quality", &quality );
+        g_value_unset( &quality );
+    }
+    {
+        GValue swap = {0};
+        g_value_init( &swap, G_TYPE_STRING );
+        g_value_set_string( &swap, "/tmp" );
+        g_object_set_property( (GObject *)pConfig, "swap", &swap );
+        g_value_unset( &swap );
+    }
     Solang::Application application(argc, argv);
 
     application.init();

@@ -157,6 +157,8 @@ class ProgressDialog;
 typedef Glib::RefPtr<const ProgressDialog> ConstProgressDialogPtr;
 typedef Glib::RefPtr<ProgressDialog> ProgressDialogPtr;
 
+typedef Glib::RefPtr<Glib::Dispatcher> DispatcherPtr;
+
 class ProgressObserver;
 typedef std::tr1::shared_ptr<const ProgressObserver>
     ConstProgressObserverPtr;
@@ -258,6 +260,20 @@ typedef std::vector<TreePathPtr> TreePathList;
 
 typedef Glib::RefPtr<const Gtk::UIManager> ConstUIManagerPtr;
 typedef Glib::RefPtr<Gtk::UIManager> UIManagerPtr;
+
+//Editing engine
+class Buffer;
+typedef std::tr1::shared_ptr<Buffer> BufferPtr;
+
+class EditEngine;
+typedef EditEngine *EditEnginePtr;
+
+class Filter;
+typedef std::tr1::shared_ptr<Filter> FilterPtr;
+
+class Operation;
+typedef std::tr1::shared_ptr<Operation> OperationPtr;
+
 
 } // namespace Solang
 
