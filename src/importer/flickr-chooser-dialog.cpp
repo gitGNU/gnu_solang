@@ -24,6 +24,7 @@
 
 #include <gdkmm.h>
 #include <glibmm/i18n.h>
+#include <libsoup/soup-method.h>
 
 #include "flickr-chooser-dialog.h"
 #include "flickr-context.h"

@@ -27,6 +27,7 @@
 
 #include <glibmm/i18n.h>
 #include <libsoup/soup.h>
+#include <libsoup/soup-method.h>
 
 #include "application.h"
 #include "flickr-auth-dialog.h"
