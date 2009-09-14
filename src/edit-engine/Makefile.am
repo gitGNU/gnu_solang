@@ -12,14 +12,10 @@ libeditengine_la_SOURCES = \
 	edit-engine.cpp \
 	filter.cpp \
 	filter.h \
-	flip-operation.cpp \
-	flip-operation.h \
 	load-file.cpp \
 	load-file.h \
 	operation.cpp \
-	operation.h \
-	scale-operation.cpp \
-	scale-operation.h
+	operation.h
 
 AM_CPPFLAGS = \
 	-DPACKAGE_LOCALE_DIR=\""${datadir}/locale"\" \
