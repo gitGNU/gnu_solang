@@ -44,14 +44,11 @@
 		<separator name="ToolBarSeparator0"/>
 		<placeholder name="PlaceholderGoToolBar"/>
 		<separator name="ToolBarSeparator1"/>
-		<placeholder name="PlaceholderZoomToolBar"/>
+		<placeholder name="PlaceholderEditToolBar"/>
 		<separator name="ToolBarSeparator2"/>
+		<placeholder name="PlaceholderZoomToolBar"/>
+		<separator name="ToolBarSeparator3"/>
 		<toolitem action="ActionViewFullScreen"/>
 		<placeholder name="PlaceholderFullScreenToolBar"/>
 	</toolbar>
-	<toolbar name="ToolBarEdit">
-		<separator name="ToolBarSeparator3"/>
-		<placeholder name="PlaceHolderEditToolbar"/>
-	</toolbar>
-
 </ui>

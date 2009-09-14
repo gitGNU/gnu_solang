@@ -476,19 +476,6 @@ EditorRenderer::init(Application & application) throw()
                         &EditorRenderer::on_photo_activated));
 
     MainWindow & main_window = application.get_main_window();
-
-#if 0
-    const Glib::RefPtr<Gtk::UIManager> & ui_manager
-        = main_window.get_ui_manager();
-    Gtk::Toolbar * const tool_bar
-            = dynamic_cast<Gtk::Toolbar *>(
-                    ui_manager->get_widget("/ToolBarEdit"));
-    tool_bar->set_toolbar_style( Gtk::TOOLBAR_ICONS );
-
-    tool_bar->set_orientation( Gtk::ORIENTATION_VERTICAL );
-    hPane_.pack_end( *tool_bar, Gtk::PACK_SHRINK, 0);
-#endif
-
     main_window.add_dock_object_center(GDL_DOCK_OBJECT(dockItem_));
 
     signalInitEnd_

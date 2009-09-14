@@ -12,7 +12,7 @@
 		</menu>
 	</menubar>
 	<toolbar name="ToolBar">
-		<placeholder name="PlaceHolderEditToolbar">
+		<placeholder name="PlaceholderEditToolBar">
 			<separator name="EditSeparator0"/>
 			<toolitem action="ActionEditSaveAs"/>
 			<separator name="EditSeparator1"/>
