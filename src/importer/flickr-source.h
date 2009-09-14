@@ -98,6 +98,8 @@ protected:
     on_init_end(bool status,
                 FlickrInitializerPtr & flickr_initializer) throw();
 
+    IconFactoryPtr iconFactory_;
+
     FlickrChooserButton * flickrChooserButton_;
 
     FlickrContextPtr flickrContext_;

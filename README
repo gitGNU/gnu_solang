@@ -89,6 +89,13 @@ Solang is licensed under the GNU General Public License as published by the
 Free Software Foundation, either version 3 of the License, or (at your option)
 any later version.
 
+The following pieces of artwork were borrowed from Conduit
+(http://www.conduit-project.org/). These are copyrighted by John Stowers
+<john.stowers@gmail.com>, and originally licensed under the GNU General Public
+License version 2.
+
++ data/flickr.png
+
 The following pieces of artwork were borrowed from Eye of GNOME
 (http://projects.gnome.org/eog/). These are copyrighted by Andreas Nilsson
 <nisses.mail@home.se> and Michael Montreal <michael.monreal@gmx.net>, and

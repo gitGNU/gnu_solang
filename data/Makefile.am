@@ -9,6 +9,7 @@ pixmap_DATA = \
 	camera-photo-24.png \
 	camera-photo-32.png \
 	camera-photo.svg \
+	flickr.png \
 	flip-object-horizontal.png \
 	flip-object-vertical.png \
 	object-rotate-left.png \

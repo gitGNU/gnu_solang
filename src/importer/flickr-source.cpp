@@ -349,16 +349,29 @@ FlickrInitializer::test_login() throw()
 
 FlickrSource::FlickrSource() throw() :
     PhotoSource(),
+    iconFactory_(Gtk::IconFactory::create()),
     flickrChooserButton_(0),
     flickrContext_(),
     uris_(),
     initEnd_(),
     signalInitEnd_()
 {
+    Gtk::IconSource icon_source;
+    Gtk::IconSet icon_set_flickr;
+
+    icon_source.set_filename(
+        PACKAGE_DATA_DIR"/"PACKAGE_TARNAME"/pixmaps/flickr.png");
+    icon_source.set_size(Gtk::IconSize(24));
+    icon_set_flickr.add_source(icon_source);
+
+    iconFactory_->add(Gtk::StockID(PACKAGE_TARNAME"-flickr"),
+                      icon_set_flickr);
+    iconFactory_->add_default();
 }
 
 FlickrSource::~FlickrSource() throw()
 {
+    iconFactory_->remove_default();
 }
 
 void
@@ -599,7 +612,7 @@ FlickrSource::get_options() const throw()
 Gtk::StockID
 FlickrSource::get_stock_id() const throw()
 {
-    return Gtk::StockID();
+    return Gtk::StockID(PACKAGE_TARNAME"-flickr");
 }
 
 void
