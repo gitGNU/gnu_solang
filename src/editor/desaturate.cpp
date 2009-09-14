@@ -85,4 +85,10 @@ Desaturate::reverse( EditablePhoto &photo ) throw(Error)
 
 }
 
+EditActionPtr
+Desaturate::clone()
+{
+    return EditActionPtr( new Desaturate( fraction_ ) );
+}
+
 } //namespace Solang

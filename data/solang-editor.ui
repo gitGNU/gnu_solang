@@ -6,6 +6,10 @@
 			<menuitem action="ActionEditUndo"/>
 			<menuitem action="ActionEditRedo"/>
 			</placeholder>
+			<placeholder name="PlaceholderCopyPasteHistory">
+			<menuitem action="ActionCopyHistory"/>
+			<menuitem action="ActionPasteHistory"/>
+			</placeholder>
 			<placeholder name="PlaceholderOtherEditMenus">
 			<menuitem action="ActionEditSaveAs"/>
 			</placeholder>
@@ -16,6 +20,9 @@
 			<separator name="EditSeparator0"/>
 			<toolitem action="ActionEditSaveAs"/>
 			<separator name="EditSeparator1"/>
+			<toolitem action="ActionCopyHistory"/>
+			<toolitem action="ActionPasteHistory"/>
+			<separator name="EditSeparator2"/>
 			<toolitem action="ActionEditUndo"/>
 			<toolitem action="ActionEditRedo"/>
 		</placeholder>

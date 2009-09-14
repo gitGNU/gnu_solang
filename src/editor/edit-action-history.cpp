@@ -124,8 +124,13 @@ EditActionHistory::redo_actions( size_type steps )
 EditActionList
 EditActionHistory::get_actions_for_copy() const throw()
 {
-    EditActionList actions( actions_.begin(), actions_.end() );
-    return actions;
+	EditActionList copiedActions;
+	for( EditActionList::const_iterator it = actions_.begin();
+									it != actions_.end(); it++ )
+	{
+		copiedActions.push_back( (*it)->clone() );
+	}
+    return copiedActions;
 }
 
 } //namespace Solang

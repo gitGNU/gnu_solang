@@ -97,6 +97,9 @@ class EditablePhoto
         void
         redo_last_action( ) throw(Error);
 
+        inline const EditActionHistory &
+        get_history() const throw();
+
     private:
 
         void
@@ -148,6 +151,12 @@ inline bool
 EditablePhoto::get_to_save() const throw()
 {
     return toSave_;
+}
+
+inline const EditActionHistory &
+EditablePhoto::get_history() const throw()
+{
+    return appliedActions_;
 }
 
 } //namespace Solang

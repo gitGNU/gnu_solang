@@ -52,11 +52,12 @@ GeglOperation::execute( EditablePhoto &photo) throw(Error)
     if( !newBuf_ )
     {
         oldBuf_ = photo.get_buffer();
-        BufferPtr geglBuf = operation_->apply( observer_ );
+        BufferPtr geglBuf = operation_->apply( observer_,
+                                photo.get_edit_buffer() );
         //photo.set_edit_buffer( newBuf );
         PixbufPtr outBuf = geglBuf->get_pixbuf();
         newBuf_ = outBuf;
-        operation_.reset();
+        //operation_.reset();
     }
     photo.set_buffer( newBuf_, false );
     PixbufPtr thumb = photo.get_photo()->get_thumbnail_buffer();
@@ -90,5 +91,12 @@ GeglOperation::reverse( EditablePhoto &photo) throw(Error)
         photo.get_photo()->set_thumbnail_buffer( thumb );
     }
 }
+
+EditActionPtr
+GeglOperation::clone()
+{
+    return EditActionPtr( new GeglOperation( operation_, observer_ ) );
+}
+
 
 } //namespace Solang

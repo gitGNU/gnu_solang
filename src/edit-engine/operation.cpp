@@ -38,7 +38,7 @@ Operation::Operation(
             const BufferPtr &buffer )
     :engine_( engine ),
     filter_( filter ),
-    original_( buffer )
+    original_( )
 {
 }
 
@@ -48,10 +48,15 @@ Operation::~Operation() throw()
 
 BufferPtr
 Operation::apply(
-            const ProgressObserverPtr &observer) throw(Error)
+            const ProgressObserverPtr &observer,
+			const BufferPtr &original ) throw(Error)
 {
+#ifdef SS_LATER
+	original_ = original;
+#endif
+
     GeglBufferPtr pBuf = gegl_buffer_dup(
-                                original_->get_buffer() );
+                                original->get_buffer() );
     GeglNodePtr pRoot = engine_->get_root_node();
     if( !pRoot )
     {
@@ -91,7 +96,7 @@ Operation::apply(
 #endif
     g_object_unref( pRoot );
     engine_->set_root_node( NULL );
-    //original_.reset();
+    original_.reset();
 
     return BufferPtr( new Buffer( pOutBuf ) );
 

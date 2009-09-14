@@ -40,6 +40,8 @@ class EditAction :
 
         virtual void reverse(
                     EditablePhoto &photo) throw(Error) = 0;
+
+        virtual EditActionPtr clone() = 0;
 };
 
 } //namespace Solang

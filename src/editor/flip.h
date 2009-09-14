@@ -37,6 +37,9 @@ class Flip :
         virtual void
         reverse( EditablePhoto &photo) throw(Error);
 
+        virtual EditActionPtr
+        clone();
+
     private:
         bool horizontal_;
 };

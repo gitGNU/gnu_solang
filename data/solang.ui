@@ -24,10 +24,12 @@
 		<menu action="ActionEditMenu">
 			<placeholder name="PlaceholderUndoRedoMenus"/>
 			<separator name="EditSeparator0"/>
+			<placeholder name="PlaceholderCopyPasteHistory"/>
+			<separator name="EditSeparator1"/>
 			<menuitem action="ActionEditAddToExportQueue"/>
 			<menuitem action="ActionEditClearExportQueue"/>
 			<placeholder name="PlaceholderExportQueueMenus"/>
-			<separator name="EditSeparator1"/>
+			<separator name="EditSeparator2"/>
 			<placeholder name="PlaceholderOtherEditMenus"/>
 		</menu>
 		<placeholder name="PlaceHolderEditMenus"/>

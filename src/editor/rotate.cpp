@@ -83,6 +83,12 @@ Rotate::reverse( EditablePhoto &photo ) throw(Error)
     }
 }
 
+EditActionPtr
+Rotate::clone()
+{
+    return EditActionPtr( new Rotate( direction_ ) );
+}
+
 void
 Rotate::rotatePhoto( EditablePhoto &photo,
                     Direction direction ) throw(Error)

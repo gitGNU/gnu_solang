@@ -37,6 +37,9 @@ class Desaturate :
         virtual void
         reverse( EditablePhoto &photo) throw(Error);
 
+        virtual EditActionPtr
+        clone();
+
     private:
         double fraction_;
         PixbufPtr oldBuf_;

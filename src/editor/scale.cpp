@@ -67,4 +67,10 @@ Scale::reverse( EditablePhoto &photo ) throw(Error)
     return;
 }
 
+EditActionPtr
+Scale::clone()
+{
+    return EditActionPtr( new Scale( fraction_ ) );
+}
+
 } //namespace Solang

@@ -44,6 +44,9 @@ class Rotate :
         virtual void
         reverse( EditablePhoto &photo) throw(Error);
 
+        virtual EditActionPtr
+        clone();
+
     private:
         void rotatePhoto( EditablePhoto &photo,
                         Direction direction ) throw(Error);

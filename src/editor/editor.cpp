@@ -132,6 +132,24 @@ Editor::Editor( )
             Gtk::AccelKey("<control>y"),
             sigc::mem_fun(*this, &Editor::on_action_redo));
 
+    actionGroup_->add(
+         Gtk::Action::create(
+            "ActionCopyHistory",
+            Gtk::Stock::COPY,
+            _("Copy Actions"),
+            _("Copy actions applied to this photo")),
+            Gtk::AccelKey("<control>c"),
+            sigc::mem_fun(*this, &Editor::on_action_copy_actions));
+
+    actionGroup_->add(
+         Gtk::Action::create(
+            "ActionPasteHistory",
+            Gtk::Stock::PASTE,
+            _("Paste Actions"),
+            _("Paste copied actions")),
+            Gtk::AccelKey("<control>v"),
+            sigc::mem_fun(*this, &Editor::on_action_paste_actions));
+
 #if 0
 
     actionGroup_->add(
@@ -366,7 +384,9 @@ void
 Editor::apply_action( const EditActionPtr &action,
                const EditablePhotoPtr &photo ) throw()
 {
+	static Glib::Mutex lock;
     CursorChanger tmp( application_->get_main_window() );
+	Glib::Mutex::Lock l(lock);
     apply( action, photo );
 }
 
@@ -455,5 +475,23 @@ Editor::on_action_redo() throw()
     currentPhoto_->redo_last_action( );
     actionPerformed_.emit();
 }
+
+void
+Editor::on_action_copy_actions() throw()
+{
+    copiedActions_ = currentPhoto_->get_history()
+                                .get_actions_for_copy();
+}
+
+void
+Editor::on_action_paste_actions() throw()
+{
+    for( EditActionList::iterator it = copiedActions_.begin();
+                it != copiedActions_.end(); it++ )
+    {
+        apply( *it );
+    }
+}
+
 
 } // namespace Solang

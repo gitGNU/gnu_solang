@@ -38,7 +38,8 @@ class EditEngine
         init(const ProgressObserverPtr &observer) throw();
 
         BufferPtr
-        apply( OperationPtr &op ) throw(Error);
+        apply( const OperationPtr &op,
+                const BufferPtr &buffer ) throw(Error);
 
         BufferPtr
         revert( OperationPtr &op ) throw(Error);

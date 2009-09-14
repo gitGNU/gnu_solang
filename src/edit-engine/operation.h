@@ -38,7 +38,8 @@ class Operation
         ~Operation() throw();
 
         BufferPtr
-        apply( const ProgressObserverPtr &observer) throw(Error);
+        apply( const ProgressObserverPtr &observer,
+                const BufferPtr &buffer) throw(Error);
 
         BufferPtr
         revert( const ProgressObserverPtr &observer) throw(Error);

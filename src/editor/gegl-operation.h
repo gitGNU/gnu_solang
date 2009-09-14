@@ -39,6 +39,9 @@ class GeglOperation :
         virtual void
         reverse( EditablePhoto &photo) throw(Error);
 
+        virtual EditActionPtr
+        clone();
+
     private:
         OperationPtr operation_;
         PixbufPtr oldBuf_;

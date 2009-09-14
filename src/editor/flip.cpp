@@ -81,4 +81,10 @@ Flip::reverse( EditablePhoto &photo) throw(Error)
     }
 }
 
+EditActionPtr
+Flip::clone()
+{
+    return EditActionPtr( new Flip( horizontal_ ) );
+}
+
 } //namespace Solang

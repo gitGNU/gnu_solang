@@ -50,10 +50,11 @@ EditEngine::init( const ProgressObserverPtr &observer ) throw()
 }
 
 BufferPtr
-EditEngine::apply( OperationPtr &op ) throw(Error)
+EditEngine::apply( const OperationPtr &op,
+                const BufferPtr &buffer ) throw(Error)
 try
 {
-    return op->apply( observer_ );
+    return op->apply( observer_, buffer );
 }
 catch(Error &e)
 {
