@@ -22,7 +22,6 @@
 #include <glibmm.h>
 #include <gtkmm.h>
 
-#include "cell-renderer-info.h"
 #include "cell-renderer-thumbnail.h"
 #include "types.h"
 
@@ -88,7 +87,7 @@ class ThumbnailView :
 
         CellRendererThumbnail rendererThumbnail_;
 
-        CellRendererInfo rendererInfo_;
+        Gtk::CellRendererText rendererText_;
 
     private:
         void

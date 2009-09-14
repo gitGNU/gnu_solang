@@ -11,8 +11,6 @@ librenderer_la_SOURCES = \
 	enlarged-renderer.h \
 	browser-model-column-record.cpp \
 	browser-model-column-record.h \
-	cell-renderer-info.cpp \
-	cell-renderer-info.h \
 	cell-renderer-thumbnail.cpp \
 	cell-renderer-thumbnail.h \
 	pagination-bar.cpp \

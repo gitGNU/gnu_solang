@@ -43,7 +43,7 @@ ThumbnailView::ThumbnailView(gint thumbnail_renderer_width,
     uiID_(uiManager_->add_ui_from_file(uiFile)),
     menu_(NULL),
     rendererThumbnail_(),
-    rendererInfo_()
+    rendererText_()
 {
     configure(thumbnail_renderer_width, thumbnail_renderer_height);
 }
@@ -58,7 +58,7 @@ ThumbnailView::ThumbnailView(const TreeModelPtr & model,
     uiID_(uiManager_->add_ui_from_file(uiFile)),
     menu_(NULL),
     rendererThumbnail_(),
-    rendererInfo_()
+    rendererText_()
 {
     configure(thumbnail_renderer_width, thumbnail_renderer_height);
 }
@@ -93,7 +93,7 @@ ThumbnailView::configure(gint thumbnail_renderer_width,
     GtkCellRenderer * const renderer_thumbnail
         = GTK_CELL_RENDERER(rendererThumbnail_.gobj());
     GtkCellRenderer * const renderer_info
-        = GTK_CELL_RENDERER(rendererInfo_.gobj());
+        = GTK_CELL_RENDERER(rendererText_.gobj());
 
     gtk_cell_layout_pack_start(self, renderer_thumbnail, FALSE);
     gtk_cell_layout_set_attributes(self, renderer_thumbnail,
@@ -111,11 +111,11 @@ ThumbnailView::configure(gint thumbnail_renderer_width,
                            thumbnail_renderer_height);
     rendererThumbnail_.set_extra_height(20);
 
-    rendererInfo_.property_ellipsize_set().set_value(true);
-    rendererInfo_.property_xalign().set_value(0.5);
-    rendererInfo_.property_yalign().set_value(0);
-    rendererInfo_.property_height().set_value(20);
-    rendererInfo_.property_rise().set_value(2);
+    rendererText_.property_ellipsize_set().set_value(true);
+    rendererText_.property_xalign().set_value(0.5);
+    rendererText_.property_yalign().set_value(0);
+    rendererText_.property_height().set_value(20);
+    rendererText_.property_rise().set_value(2);
 
     std::vector<Gtk::TargetEntry> targets;
     targets.push_back(Gtk::TargetEntry("text/uri-vector",
