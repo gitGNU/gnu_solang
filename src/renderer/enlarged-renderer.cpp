@@ -407,9 +407,6 @@ EnlargedRenderer::render(const PhotoPtr & photo) throw()
         gtk_binding_entry_remove(binding_set, GDK_Up,
                                  static_cast<GdkModifierType>(0));
 
-        Gtk::Widget * image_view = Glib::wrap(GTK_WIDGET(imageView_),
-                                              false);
-
         g_signal_connect(GTK_IMAGE_VIEW(imageView_),
                          "mouse-wheel-scroll",
                          G_CALLBACK(image_view_on_scroll_event),
