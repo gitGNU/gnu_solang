@@ -22,6 +22,7 @@
 #include <string>
 
 #include <gtkmm.h>
+
 #include "types.h"
 
 namespace Solang

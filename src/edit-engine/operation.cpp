@@ -22,7 +22,6 @@
 
 #include <gegl.h>
 #include <glibmm/i18n.h>
-#include <iostream>
 
 #include "buffer.h"
 #include "edit-engine.h"
@@ -87,7 +86,6 @@ Operation::apply(
     {
         observer->set_current_events( progress * 100.0 );
         observer->progress().emit();
-        std::cout<<"Done:"<<progress<<std::endl;
     }
 
     gegl_processor_destroy (processor);

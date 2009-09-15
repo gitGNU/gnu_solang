@@ -29,7 +29,6 @@ extern "C"
 #include <gegl.h>
 #include <glibmm/i18n.h>
 #include <glibmm.h>
-#include <iostream>
 
 #include "buffer.h"
 #include "edit-engine.h"
@@ -115,7 +114,7 @@ Buffer::get_pixbuf() throw()
     context->set_source( surface, 0, 0 );
     context->paint();
 #endif
-    std::cout<<"Here"<<std::endl;
+
     return Gdk::Pixbuf::create_from_data (
                     reinterpret_cast<guint8 *>(dataBuffer),
                                         //buffer
@@ -153,7 +152,7 @@ Buffer::open_image_file( const Glib::ustring &path,
         refresh_.emit();
         return;
     }
-    std::cout<<"Open: "<<path<<std::endl;
+
     GeglNodePtr pAction = gegl_node_new_child(
                             engine->get_root_node(),
                             "operation", "gegl:load",
@@ -178,7 +177,6 @@ Buffer::open_image_file( const Glib::ustring &path,
     while ( gegl_processor_work (processor, &progress) )
     {
         obs->set_current_events( progress * 100.0 );
-        std::cout<<"Prog: "<<progress<<std::endl;
     }
 
     gegl_processor_destroy (processor);

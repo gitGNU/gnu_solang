@@ -1,18 +1,17 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 4; tab-width: 4 -*- */
 /*
- * modification-date.h
- * Copyright (C) Santanu Sinha 2009 <santanu.sinha@gmail.com>
- * 
- * modification-date.h is free software: you can redistribute it and/or modify it
+ * Copyright (C) 2009 Santanu Sinha <santanu.sinha@gmail.com>
+ *
+ * Solang is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
  * Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
- * modification-date.h is distributed in the hope that it will be useful, but
+ *
+ * Solang is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  * See the GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -26,7 +25,7 @@ namespace Solang
 {
 
 class ModificationDate
-        : public PhotoSearchCriteria
+    : public PhotoSearchCriteria
 {
     private:
 
@@ -59,8 +58,8 @@ class ModificationDate
         {
         }
 
-        ModificationDate& operator =( 
-                            const ModificationDate &rhs )
+        ModificationDate &
+        operator =( const ModificationDate &rhs ) throw()
         {
             if ( this != &rhs )
             {
@@ -71,7 +70,8 @@ class ModificationDate
             return *this;
         }
 
-        bool operator < ( const ModificationDate &rhs )
+        bool
+        operator < ( const ModificationDate &rhs ) const throw()
         {
             if( year_ < rhs.year_ )
             {
@@ -95,14 +95,16 @@ class ModificationDate
             return false;
         }
         
-        bool operator == ( const ModificationDate &rhs )
+        bool
+        operator == ( const ModificationDate &rhs ) const throw()
         {
             return day_ == rhs.day_
                     && month_ == rhs.month_
                     && year_ == rhs.year_;
         }    
 
-        bool operator > ( const ModificationDate &rhs )
+        bool
+        operator > ( const ModificationDate &rhs ) const throw()
         {
             return !operator == ( rhs )
                         && !operator < ( rhs );
@@ -170,7 +172,6 @@ class ModificationDate
 
 };    
 
+} // namespace Solang
 
-}
-
-#endif //SOLANG_MODIFICATION_DATE_H
+#endif // SOLANG_MODIFICATION_DATE_H

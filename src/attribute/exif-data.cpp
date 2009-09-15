@@ -279,4 +279,4 @@ void ExifData::create( DataModelPtr& dataModel, gint32 row)
     return;
 }
 
-} //namespace Solang
+} // namespace Solang

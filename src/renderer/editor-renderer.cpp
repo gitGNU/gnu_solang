@@ -25,7 +25,6 @@
 #include <gtkimageview/gtkimagescrollwin.h>
 #include <gtkimageview/gtkimageview.h>
 #include <gtk/gtk.h>
-#include <iostream>
 
 #include "application.h"
 #include "browser-model-column-record.h"
@@ -921,7 +920,6 @@ EditorRenderer::refresh_image() throw()
     gtk_image_view_set_pixbuf(GTK_IMAGE_VIEW(imageView_),
                               photo->get_buffer()->gobj(), TRUE);
 #endif
-    std::cout<<"Showing..."<<std::endl;
     show( photo );
 }
 

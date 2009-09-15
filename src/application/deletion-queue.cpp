@@ -20,8 +20,6 @@
 #include "config.h"
 #endif
 
-#include <iostream>
-
 #include "deletion-queue.h"
 #include "progress-observer.h"
 
@@ -63,7 +61,6 @@ DeletionQueue::schedule_delete_action(
                 const DeleteActionPtr &action ) throw()
 {
     Glib::Mutex::Lock lock( mutex_ );
-    //std::cout<<"Added: "<<action->get_command_name()<<std::endl;
     actions_.push_back( action );
     return;
 }
@@ -117,7 +114,6 @@ void
 DeletionQueue::execute_action(
                     const DeleteActionPtr &action ) throw(Error)
 {
-    //std::cout<<"Called"<<std::endl;
     action->execute( db_ );
 }
 

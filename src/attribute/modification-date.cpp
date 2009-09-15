@@ -146,5 +146,4 @@ ModificationDate::create(DataModelPtr & data_model, gint32 row)
         data_model->get_value_at( MOD_YEAR_COL, row ).get_int());    
 }
 
-
-} //namespace Solang
+} // namespace Solang
