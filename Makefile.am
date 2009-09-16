@@ -13,6 +13,7 @@ solangdoc_DATA = \
 	README\
 	COPYING\
 	COPYING.GPLv2\
+	ARTISTS\
 	AUTHORS\
 	ChangeLog\
 	INSTALL\

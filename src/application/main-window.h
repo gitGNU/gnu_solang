@@ -22,6 +22,7 @@
 #include <vector>
 
 #include <gdl/gdl.h>
+#include <glibmm.h>
 #include <gtkmm.h>
 
 #include "non-copyable.h"
@@ -78,6 +79,11 @@ class MainWindow :
     protected:
         std::string
         get_user_layout_file() throw();
+
+        void
+        on_about_activate_link_url(Gtk::AboutDialog & about_dialog,
+                                   const Glib::ustring & link)
+                                   throw();
 
         void
         on_action_edit_add_to_export_queue() throw();

@@ -35,6 +35,7 @@
 namespace Solang
 {
 
+static const std::string artistsFile = PACKAGE_DOC_DIR"/ARTISTS";
 static const std::string authorsFile = PACKAGE_DOC_DIR"/AUTHORS";
 static const std::string copyingFile = PACKAGE_DOC_DIR"/COPYING";
 
@@ -52,6 +53,9 @@ static const std::string logoFile
 
 static const std::string uiFile
     = PACKAGE_DATA_DIR"/"PACKAGE_TARNAME"/ui/"PACKAGE_TARNAME".ui";
+
+static const Glib::ustring websiteURL
+    = "https://savannah.nongnu.org/projects/solang";
 
 class Docker :
     public std::unary_function<DockObjectPtr const &, void>
@@ -490,6 +494,16 @@ MainWindow::get_user_layout_file() throw()
 }
 
 void
+MainWindow::on_about_activate_link_url(
+                Gtk::AboutDialog & about_dialog,
+                const Glib::ustring & link) throw()
+{
+    const ScreenPtr screen = about_dialog.get_screen();
+    gtk_show_uri(screen->gobj(), link.c_str(), GDK_CURRENT_TIME,
+                 NULL);
+}
+
+void
 MainWindow::on_action_edit_add_to_export_queue() throw()
 {
     ExportQueueInserter export_queue_inserter(*application_);
@@ -510,13 +524,55 @@ MainWindow::on_action_help_about() throw()
 
     about_dialog.set_transient_for(*this);
 
-    FilePtr file = Gio::File::create_for_path(authorsFile);
-    DataInputStreamPtr fin = Gio::DataInputStream::create(
-                                 file->read());
-    std::vector<Glib::ustring> authors;
-    std::string line;
+    DataInputStreamPtr fin;
+    FilePtr file = Gio::File::create_for_path(artistsFile);
 
-    while (true == fin->read_line(line))
+    try
+    {
+        fin = Gio::DataInputStream::create(file->read());
+    }
+    catch(const Gio::Error & e)
+    {
+        g_warning("%s", e.what().c_str());
+    }
+
+    std::string line;
+    std::vector<Glib::ustring> artists;
+
+    while (0 != fin && true == fin->read_line(line))
+    {
+        if (true == line.empty())
+        {
+            continue;
+        }
+
+        if ('#' == line[0])
+        {
+            continue;
+        }
+
+        artists.push_back(Glib::ustring(line));
+    }
+
+    if (false == artists.empty())
+    {
+        about_dialog.set_artists(artists);
+    }
+
+    file = Gio::File::create_for_path(authorsFile);
+
+    try
+    {
+        fin = Gio::DataInputStream::create(file->read());
+    }
+    catch(const Gio::Error & e)
+    {
+        g_warning("%s", e.what().c_str());
+    }
+
+    std::vector<Glib::ustring> authors;
+
+    while (0 != fin && true == fin->read_line(line))
     {
         if (true == line.empty())
         {
@@ -531,20 +587,38 @@ MainWindow::on_action_help_about() throw()
         authors.push_back(Glib::ustring(line));
     }
 
-    about_dialog.set_authors(authors);
+    if (false == authors.empty())
+    {
+        about_dialog.set_authors(authors);
+    }
+
     about_dialog.set_comments(_("A photo manager for GNOME"));
+    about_dialog.set_copyright(
+        "Copyright \xc2\xa9 2009 The " PACKAGE_NAME " authors");
 
     file = Gio::File::create_for_path(copyingFile);
-    fin = Gio::DataInputStream::create(file->read());
+
+    try
+    {
+        fin = Gio::DataInputStream::create(file->read());
+    }
+    catch(const Gio::Error & e)
+    {
+        g_warning("%s", e.what().c_str());
+    }
+
     Glib::ustring license;
 
-    while (true == fin->read_line(line))
+    while (0 != fin && true == fin->read_line(line))
     {
         license += Glib::ustring(line);
         license += "\n";
     }
 
-    about_dialog.set_license(license);
+    if (false == license.empty())
+    {
+        about_dialog.set_license(license);
+    }
 
     PixbufPtr logo;
 
@@ -570,9 +644,14 @@ MainWindow::on_action_help_about() throw()
 
     about_dialog.set_translator_credits(_("translator-credits"));
     about_dialog.set_version(_(PACKAGE_VERSION));
-    about_dialog.set_website(
-        _("https://savannah.nongnu.org/projects/solang"));
+    about_dialog.set_website(websiteURL);
+    about_dialog.set_website_label(Glib::ustring::compose(
+                                       _("%1 Website"),
+                                       PACKAGE_NAME));
     about_dialog.set_wrap_license(false);
+    about_dialog.set_url_hook(
+        sigc::mem_fun(*this,
+                      &MainWindow::on_about_activate_link_url));
 
     about_dialog.run();
 }
