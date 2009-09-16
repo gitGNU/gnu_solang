@@ -1,0 +1,11 @@
+[Desktop Entry]
+_Name=@PACKAGE_NAME@ Photo Manager
+_GenericName=Photo Manager
+_Comment=Organize, enjoy and share your photos
+TryExec=@PACKAGE_TARNAME@
+Exec=@PACKAGE_TARNAME@
+Icon=@PACKAGE_TARNAME@
+StartupNotify=true
+Terminal=false
+Type=Application
+Categories=GNOME;GTK;Graphics;Photography;

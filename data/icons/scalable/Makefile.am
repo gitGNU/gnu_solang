@@ -1,0 +1,5 @@
+size = scalable
+
+appiconsdir = $(datadir)/icons/hicolor/$(size)/apps
+dist_appicons_DATA = \
+	apps/solang.svg

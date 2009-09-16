@@ -1,3 +1,10 @@
+SUBDIRS = icons
+
+desktopdir = $(datadir)/applications
+desktop_in_files = $(PACKAGE_TARNAME).desktop.in.in
+desktop_DATA = $(desktop_in_files:.desktop.in.in=.desktop)
+@INTLTOOL_DESKTOP_RULE@
+
 layoutdir = $(datadir)/$(PACKAGE_TARNAME)
 layout_DATA = \
 	solang-layout.xml
@@ -56,6 +63,10 @@ ui_DATA = \
 	solang-thumbnail-popup.ui
 
 EXTRA_DIST = \
+	$(desktop_in_files) \
 	$(layout_DATA) \
 	$(pixmap_DATA) \
 	$(ui_DATA)
+
+DISTCLEANFILES = \
+	$(desktop_DATA)

@@ -39,6 +39,16 @@ PKG_CHECK_MODULES(WEBKIT, [webkit-1.0])
 AC_OUTPUT([
 Makefile
 data/Makefile
+data/solang.desktop.in
+data/icons/Makefile
+data/icons/16x16/Makefile
+data/icons/22x22/Makefile
+data/icons/24x24/Makefile
+data/icons/32x32/Makefile
+data/icons/48x48/Makefile
+data/icons/96x96/Makefile
+data/icons/128x128/Makefile
+data/icons/scalable/Makefile
 src/Makefile
 src/application/Makefile
 src/attribute/Makefile

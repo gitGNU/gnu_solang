@@ -38,9 +38,17 @@ namespace Solang
 static const std::string authorsFile = PACKAGE_DOC_DIR"/AUTHORS";
 static const std::string copyingFile = PACKAGE_DOC_DIR"/COPYING";
 
+static const std::string iconFile
+    = PACKAGE_DATA_DIR"/icons/hicolor/22x22/apps/"
+          PACKAGE_TARNAME".png";
+
 static const std::string layoutFile
     = PACKAGE_DATA_DIR"/"PACKAGE_TARNAME"/"
           PACKAGE_TARNAME"-layout.xml";
+
+static const std::string logoFile
+    = PACKAGE_DATA_DIR"/icons/hicolor/96x96/apps/"
+          PACKAGE_TARNAME".png";
 
 static const std::string uiFile
     = PACKAGE_DATA_DIR"/"PACKAGE_TARNAME"/ui/"PACKAGE_TARNAME".ui";
@@ -205,6 +213,28 @@ MainWindow::MainWindow() throw() :
     dockObjectsLeftBottom_(),
     dockObjectsCenter_()
 {
+    PixbufPtr icon;
+
+    try
+    {
+        icon = Gdk::Pixbuf::create_from_file(iconFile);
+    }
+    catch (const Glib::FileError & e)
+    {
+        g_warning("%s", e.what().c_str());
+        return;
+    }
+    catch (const Gdk::PixbufError & e)
+    {
+        g_warning("%s", e.what().c_str());
+        return;
+    }
+
+    if (0 != icon)
+    {
+        set_icon(icon);
+    }
+
     set_title("Solang");
     set_default_size(800, 600);
     add(vBox_);
@@ -515,6 +545,28 @@ MainWindow::on_action_help_about() throw()
     }
 
     about_dialog.set_license(license);
+
+    PixbufPtr logo;
+
+    try
+    {
+        logo = Gdk::Pixbuf::create_from_file(logoFile);
+    }
+    catch (const Glib::FileError & e)
+    {
+        g_warning("%s", e.what().c_str());
+        return;
+    }
+    catch (const Gdk::PixbufError & e)
+    {
+        g_warning("%s", e.what().c_str());
+        return;
+    }
+
+    if (0 != logo)
+    {
+        about_dialog.set_logo(logo);
+    }
 
     about_dialog.set_translator_credits(_("translator-credits"));
     about_dialog.set_version(_(PACKAGE_VERSION));

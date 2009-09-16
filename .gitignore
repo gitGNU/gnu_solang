@@ -17,7 +17,10 @@ solang
 stamp-h1
 stamp-it
 .deps
+.intltool-merge-cache
 .libs
+*.desktop
+*.desktop.in
 *.gmo
 *.la
 *.lo
