@@ -34,12 +34,16 @@ Also, take a look at: http://en.wikipedia.org/wiki/Solang_valley
 
 Features:
 ---------
-- Browser, editor and enlarged renderer for viewing the entire collection,
-  editing and a single photo respectively.
+- Browser, editor, enlarged and slideshow renderer for viewing the entire
+  collection, editing, a single photo and slideshows respectively.
 - Camera, Flickr and folder importer to import photos from cameras in PTP mode
   Flickr and folders respectively.
+- Folder exporter to export selected photos to a folder.
 - Date view for showing photo dates.
-- Basic editing like rotation and flipping, and undo, redo of operations.
+- Basic editing like brightness, contrast, flipping, rotation, saturation and
+  scaling, and undo, redo of operations.
+- Ability to copy a set of applied operations from one photo and paste it
+  onto others.
 - Support for tagging photos and Exif data.
 - Thumbnails for showing RAW files in the browser renderer.
 - Search basket for drag and drop search using multiple tags, Exif fields
@@ -47,41 +51,20 @@ Features:
 
 Dependencies:
 -------------
- - cairomm-1.0
+ - babl
  - exiv2 >= 0.18
  - flickcurl
  - libgdamm-3.0 <= 3.0.1
  - libgda-sqlite-3.0
  - gdl-1.0
- - giomm-2.4
- - glibmm-2.4
+ - gegl
  - libgphoto2
  - gtkimageview
  - gtkmm-2.4 >= 2.8
  - libsoup-2.4
  - webkit-1.0
 
-The following patches are required on gdl 2.24:
-
-  1) Fix for GNOME Bug # 566801 <http://bugzilla.gnome.org/566801>
-     - Corrsponding Debian Bug:
-            http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=530828
-     - Patch:
-            http://cvs.fedoraproject.org/viewvc/rpms/libgdl/F-10/libgdl-2.24.0-docking-undocking-reset.patch?view=markup
-     - For Fedora 10 users an update will fix this issue.
-
-  2) Fix for GNOME Bug #584418 <http://bugzilla.gnome.org/584418>
-     - Patch: http://rishi.fedorapeople.org/libgdl-2.24.0-paned-dock.patch
-     - Updates on their way to Fedora 10.
-
-Gio::File::make_directory_with_parents():
-  - This function was implemented in Glibmm 2.20. Users of Debian Sid will
-    already have this on their system.
-  - Fedora 10 users will get this by an update.
-
-As of today, Solang runs properly on:
-  - Fedora 10 with updates
-  - Debian Sid with GDL patches
+Packages are available for Debian, Fedora and Ubuntu.
 
 ----
 

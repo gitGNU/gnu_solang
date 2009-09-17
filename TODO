@@ -15,7 +15,6 @@ Storage
 
 Exporter
 
-  * Exporter to directory
   * Exporter to web-archive
   * Exporter to Flickr
   * Exporter to PicasaWeb etc.
