@@ -10,6 +10,7 @@ libeditengine_la_SOURCES = \
 	edit-types.h \
 	edit-engine.h \
 	edit-engine.cpp \
+	edit-utils.h \
 	filter.cpp \
 	filter.h \
 	load-file.cpp \

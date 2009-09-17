@@ -1,5 +1,6 @@
 # List of source files containing translatable strings.
 
+data/solang.desktop.in.in
 src/application/engine.cpp
 src/application/main-window.cpp
 src/attribute/date-manager.cpp
@@ -7,9 +8,24 @@ src/attribute/property-manager.cpp
 src/attribute/search-basket.cpp
 src/attribute/tag-manager.cpp
 src/attribute/tag-new-dialog.cpp
+src/common/histogram-viewer.cpp
 src/common/progress-dialog.cpp
+src/edit-engine/brightness-operation.cpp
+src/edit-engine/buffer.cpp
+src/edit-engine/contrast-operation.cpp
+src/edit-engine/load-file.cpp
+src/edit-engine/operation.cpp
+src/editor/brightness-widget.cpp
+src/editor/contrast-widget.cpp
+src/editor/desaturate-widget.cpp
 src/editor/editor.cpp
+src/editor/editor-toolbar.cpp
+src/editor/flip-widget.cpp
+src/editor/rotate-widget.cpp
 src/editor/save-photos-window.cpp
+src/editor/scale-widget.cpp
+src/exporter/directory-destination.cpp
+src/exporter/exporter-dialog.cpp
 src/importer/camera-import-widget.cpp
 src/importer/directory-source.cpp
 src/importer/flickr-auth-dialog.cpp
