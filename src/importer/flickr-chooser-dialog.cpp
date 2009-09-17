@@ -448,8 +448,9 @@ FlickrChooserDialog::on_read_flickr_progress() throw()
     row[flickr_dialog_model_column_record.get_column_photo()]
         = photos_[current_];
 
+    // FIXME: Ubuntu has a thing against SOUP_METHOD_GET.
     SoupMessage * soup_message = soup_message_new(
-                                     SOUP_METHOD_GET,
+                                     "GET",
                                      uris_[current_].c_str());
 
     SoupSessionCBData * const data = new SoupSessionCBData();

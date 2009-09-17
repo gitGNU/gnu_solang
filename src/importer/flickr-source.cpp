@@ -511,8 +511,9 @@ FlickrSource::download_photos(PhotoList & files,
             }
         }
 
+        // FIXME: Ubuntu has a thing against SOUP_METHOD_GET.
         SoupMessage * soup_message = soup_message_new(
-                                         SOUP_METHOD_GET,
+                                         "GET",
                                          iter->c_str());
 
         const guint status = soup_session_send_message(soup_session,
