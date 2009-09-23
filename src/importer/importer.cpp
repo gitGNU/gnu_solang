@@ -49,7 +49,11 @@ Importer::Importer(const IPhotoSourcePtr & photo_source, bool standard)
     application_(NULL),
     photoSource_(photo_source),
     standard_(standard),
-    actionGroup_(Gtk::ActionGroup::create()),
+    actionGroup_(Gtk::ActionGroup::create(
+                     Glib::ustring::compose("%1:%2,%3",
+                         __FILE__,
+                         __LINE__,
+                         photo_source->get_name()))),
     standardUIID_(0),
     uiID_(0),
     signalPhotoImportBegin_(),

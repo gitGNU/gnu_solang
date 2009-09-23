@@ -93,7 +93,10 @@ EditorRenderer::EditorRenderer() throw() :
     IRenderer(),
     sigc::trackable(),
     application_(NULL),
-    actionGroup_(Gtk::ActionGroup::create()),
+    actionGroup_(Gtk::ActionGroup::create(
+                     Glib::ustring::compose("%1:%2",
+                                            __FILE__,
+                                            __LINE__))),
     uiID_(0),
     dockItemName_("editor-dock-item"),
     dockItemTitle_(_("Editor")),

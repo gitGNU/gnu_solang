@@ -54,7 +54,10 @@ image_view_on_scroll_event(GtkImageView * view,
 
 SlideshowWindow::SlideshowWindow() throw() :
     Gtk::Window(Gtk::WINDOW_TOPLEVEL),
-    actionGroup_(Gtk::ActionGroup::create()),
+    actionGroup_(Gtk::ActionGroup::create(
+                     Glib::ustring::compose("%1:%2",
+                                            __FILE__,
+                                            __LINE__))),
     uiManager_(Gtk::UIManager::create()),
     uiID_(uiManager_->add_ui_from_file(uiFile)),
     vBox_(false, 0),

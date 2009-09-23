@@ -64,7 +64,10 @@ Editor::Editor( )
     :application_( NULL ),
     modifiedPhotos_(),
     mutex_(),
-    actionGroup_( Gtk::ActionGroup::create() ),
+    actionGroup_( Gtk::ActionGroup::create(
+                     Glib::ustring::compose("%1:%2",
+                                            __FILE__,
+                                            __LINE__))),
     iconFactory_( Gtk::IconFactory::create()),
     uiID_( 0 ),
     actionPerformed_(),

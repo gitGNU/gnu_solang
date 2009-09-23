@@ -38,7 +38,10 @@ ThumbnailView::ThumbnailView(gint thumbnail_renderer_width,
                              gint thumbnail_renderer_height) throw() :
     Gtk::IconView(),
     selectedItems_(0),
-    actionGroup_(Gtk::ActionGroup::create()),
+    actionGroup_(Gtk::ActionGroup::create(
+                     Glib::ustring::compose("%1:%2",
+                                            __FILE__,
+                                            __LINE__))),
     uiManager_(Gtk::UIManager::create()),
     uiID_(uiManager_->add_ui_from_file(uiFile)),
     menu_(NULL),
@@ -53,7 +56,10 @@ ThumbnailView::ThumbnailView(const TreeModelPtr & model,
                              gint thumbnail_renderer_height) throw() :
     Gtk::IconView(model),
     selectedItems_(0),
-    actionGroup_(Gtk::ActionGroup::create()),
+    actionGroup_(Gtk::ActionGroup::create(
+                     Glib::ustring::compose("%1:%2",
+                                            __FILE__,
+                                            __LINE__))),
     uiManager_(Gtk::UIManager::create()),
     uiID_(uiManager_->add_ui_from_file(uiFile)),
     menu_(NULL),

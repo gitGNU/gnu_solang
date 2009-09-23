@@ -198,7 +198,10 @@ DockHider::operator()(DockObjectPtr const & dock_object) throw()
 MainWindow::MainWindow() throw() :
     Gtk::Window(Gtk::WINDOW_TOPLEVEL),
     application_(),
-    actionGroup_(Gtk::ActionGroup::create()),
+    actionGroup_(Gtk::ActionGroup::create(
+                     Glib::ustring::compose("%1:%2",
+                                            __FILE__,
+                                            __LINE__))),
     uiManager_(Gtk::UIManager::create()),
     uiID_(uiManager_->add_ui_from_file(uiFile)),
     vBox_(false, 0),

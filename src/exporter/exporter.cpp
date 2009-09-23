@@ -39,7 +39,11 @@ Exporter::Exporter(const IPhotoDestinationPtr & photo_destination,
     application_(NULL),
     photoDestination_(photo_destination),
     standard_(standard),
-    actionGroup_(Gtk::ActionGroup::create()),
+    actionGroup_(Gtk::ActionGroup::create(
+                     Glib::ustring::compose("%1:%2,%3",
+                         __FILE__,
+                         __LINE__,
+                         photo_destination->get_name()))),
     standardUIID_(0),
     uiID_(0)
 {

@@ -69,7 +69,10 @@ BrowserRenderer::BrowserRenderer() throw() :
     sigc::trackable(),
     application_(NULL),
     iconFactory_(Gtk::IconFactory::create()),
-    actionGroup_(Gtk::ActionGroup::create()),
+    actionGroup_(Gtk::ActionGroup::create(
+                     Glib::ustring::compose("%1:%2",
+                                            __FILE__,
+                                            __LINE__))),
     uiID_(0),
     uiIDThumbnail_(0),
     dockItemName_("browser-dock-item"),

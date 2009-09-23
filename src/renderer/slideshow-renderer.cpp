@@ -45,7 +45,10 @@ SlideshowRenderer::SlideshowRenderer() throw() :
     IRenderer(),
     sigc::trackable(),
     application_(0),
-    actionGroup_(Gtk::ActionGroup::create()),
+    actionGroup_(Gtk::ActionGroup::create(
+                     Glib::ustring::compose("%1:%2",
+                                            __FILE__,
+                                            __LINE__))),
     uiID_(0),
     modelIter_(),
     previousRenderer_(),

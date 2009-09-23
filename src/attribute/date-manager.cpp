@@ -42,7 +42,10 @@ static const std::string uiFile
 DateManager::DateManager() throw() :
     Plugin(),
     application_(),
-    actionGroup_(Gtk::ActionGroup::create()),
+    actionGroup_(Gtk::ActionGroup::create(
+                     Glib::ustring::compose("%1:%2",
+                                            __FILE__,
+                                            __LINE__))),
     uiID_( 1 ),
     dockItemName_("date-dock-item"),
     dockItemTitle_(_("Picture Taken Date")),
