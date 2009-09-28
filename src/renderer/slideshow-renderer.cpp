@@ -45,16 +45,95 @@ SlideshowRenderer::SlideshowRenderer() throw() :
     IRenderer(),
     sigc::trackable(),
     application_(0),
-    actionGroup_(Gtk::ActionGroup::create(
-                     Glib::ustring::compose("%1:%2",
-                                            __FILE__,
-                                            __LINE__))),
+    firstUse_(true),
+    actionGroup_(0),
     uiID_(0),
     modelIter_(),
     previousRenderer_(),
     slideshowWindow_(),
     signalTimeout_()
 {
+}
+
+SlideshowRenderer::~SlideshowRenderer() throw()
+{
+}
+
+void
+SlideshowRenderer::init(Application & application) throw()
+{
+    application_ = &application;
+}
+
+void
+SlideshowRenderer::render(const PhotoPtr & photo) throw()
+{
+    Engine & engine = application_->get_engine();
+    const IStoragePtr & storage = engine.get_current_storage_system(
+                                      "file");
+    photo->set_disk_file_path(storage);
+
+    PixbufPtr pixbuf;
+    std::string path;
+
+    try
+    {
+        path = Glib::filename_from_utf8(photo->get_disk_file_path());
+    }
+    catch (const Glib::ConvertError & e)
+    {
+        g_warning("%s", e.what().c_str());
+        return;
+    }
+
+    try
+    {
+        pixbuf = Gdk::Pixbuf::create_from_file(path);
+    }
+    catch (const Glib::FileError & e)
+    {
+        g_warning("%s", e.what().c_str());
+        return;
+    }
+    catch (const Gdk::PixbufError & e)
+    {
+        g_warning("%s", e.what().c_str());
+        return;
+    }
+
+    if (0 == slideshowWindow_)
+    {
+        return;
+    }
+    slideshowWindow_->render(pixbuf);
+}
+
+void
+SlideshowRenderer::render(const PhotoList & photos) throw()
+{
+}
+
+void
+SlideshowRenderer::final(Application & application) throw()
+{
+    if (true == firstUse_)
+    {
+        return;
+    }
+
+    slideshowWindow_.reset();
+    actionGroup_.reset();
+    firstUse_ = true;
+}
+
+void
+SlideshowRenderer::create_action_group() throw()
+{
+    actionGroup_ = Gtk::ActionGroup::create(
+                       Glib::ustring::compose("%1:%2",
+                                              __FILE__,
+                                              __LINE__));
+
     actionGroup_->add(
         Gtk::Action::create(
             "ActionGoFirstPhoto", Gtk::Stock::GOTO_FIRST,
@@ -140,69 +219,6 @@ SlideshowRenderer::SlideshowRenderer() throw() :
                       &SlideshowRenderer::on_action_stop_slideshow));
 }
 
-SlideshowRenderer::~SlideshowRenderer() throw()
-{
-}
-
-void
-SlideshowRenderer::init(Application & application) throw()
-{
-    application_ = &application;
-}
-
-void
-SlideshowRenderer::render(const PhotoPtr & photo) throw()
-{
-    Engine & engine = application_->get_engine();
-    const IStoragePtr & storage = engine.get_current_storage_system(
-                                      "file");
-    photo->set_disk_file_path(storage);
-
-    PixbufPtr pixbuf;
-    std::string path;
-
-    try
-    {
-        path = Glib::filename_from_utf8(photo->get_disk_file_path());
-    }
-    catch (const Glib::ConvertError & e)
-    {
-        g_warning("%s", e.what().c_str());
-        return;
-    }
-
-    try
-    {
-        pixbuf = Gdk::Pixbuf::create_from_file(path);
-    }
-    catch (const Glib::FileError & e)
-    {
-        g_warning("%s", e.what().c_str());
-        return;
-    }
-    catch (const Gdk::PixbufError & e)
-    {
-        g_warning("%s", e.what().c_str());
-        return;
-    }
-
-    if (0 == slideshowWindow_)
-    {
-        create_slideshow_window();
-    }
-    slideshowWindow_->render(pixbuf);
-}
-
-void
-SlideshowRenderer::render(const PhotoList & photos) throw()
-{
-}
-
-void
-SlideshowRenderer::final(Application & application) throw()
-{
-}
-
 PhotoList
 SlideshowRenderer::get_current_selection() throw()
 {
@@ -236,16 +252,14 @@ SlideshowRenderer::present() throw()
 
     renderer_registry.set_current(slideshow_renderer);
 
+    prepare_for_first_use();
+
     modelIter_ = application_->get_list_store_iter();
     if (false == modelIter_)
     {
         return;
     }
 
-    if (0 == slideshowWindow_)
-    {
-        create_slideshow_window();
-    }
     slideshowWindow_->fullscreen();
     slideshowWindow_->show_all();
 
@@ -386,6 +400,19 @@ SlideshowRenderer::on_timeout() throw()
 {
     on_action_go_next();
     return true;
+}
+
+void
+SlideshowRenderer::prepare_for_first_use() throw()
+{
+    if (false == firstUse_)
+    {
+        return;
+    }
+
+    create_action_group();
+    create_slideshow_window();
+    firstUse_ = false;
 }
 
 } // namespace Solang

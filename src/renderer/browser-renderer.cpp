@@ -517,8 +517,8 @@ BrowserRenderer::on_action_view_slideshow() throw()
     BrowserModelColumnRecord model_column_record;
     const PhotoPtr photo = row[model_column_record.get_column_photo()];
 
-    slideshow_renderer->render(photo);
     slideshow_renderer->present();
+    slideshow_renderer->render(photo);
 }
 
 void
@@ -574,8 +574,8 @@ BrowserRenderer::on_item_activated(const Gtk::TreeModel::Path & path)
     BrowserModelColumnRecord model_column_record;
     const PhotoPtr photo = row[model_column_record.get_column_photo()];
 
-    enlarged_renderer->render(photo);
     enlarged_renderer->present();
+    enlarged_renderer->render(photo);
 }
 
 void

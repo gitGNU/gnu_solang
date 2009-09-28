@@ -68,6 +68,9 @@ class SlideshowRenderer :
 
     protected:
         void
+        create_action_group() throw();
+
+        void
         create_slideshow_window() throw();
 
         void
@@ -88,7 +91,12 @@ class SlideshowRenderer :
         bool
         on_timeout() throw();
 
+        void
+        prepare_for_first_use() throw();
+
         ApplicationPtr application_;
+
+        bool firstUse_;
 
         ActionGroupPtr actionGroup_;
 

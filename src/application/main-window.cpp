@@ -451,6 +451,25 @@ MainWindow::add_dock_object_center(DockObjectPtr dock_object) throw()
 }
 
 void
+MainWindow::dock_object_center(DockObjectPtr dock_object) throw()
+{
+    gdl_dock_object_dock(dockObjectsCenter_.front(),
+                         dock_object, GDL_DOCK_CENTER, NULL);
+}
+
+void
+MainWindow::undock_object_center(DockObjectPtr dock_object) throw()
+{
+    if (false == GDL_IS_DOCK_ITEM(dock_object))
+    {
+        g_warning("Not a GdlDockItem");
+        return;
+    }
+
+    gdl_dock_item_hide_item(GDL_DOCK_ITEM(dock_object));
+}
+
+void
 MainWindow::present_dock_object(DockObjectPtr dock_object) throw()
 {
     if (0 == dock_object)

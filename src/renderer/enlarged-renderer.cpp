@@ -65,11 +65,9 @@ EnlargedRenderer::EnlargedRenderer() throw() :
     IRenderer(),
     sigc::trackable(),
     application_(NULL),
+    firstUse_(true),
     iconFactory_(Gtk::IconFactory::create()),
-    actionGroup_(Gtk::ActionGroup::create(
-                     Glib::ustring::compose("%1:%2",
-                                            __FILE__,
-                                            __LINE__))),
+    actionGroup_(0),
     uiID_(0),
     dockItemName_("enlarged-dock-item"),
     dockItemTitle_(_("Enlarged")),
@@ -78,7 +76,6 @@ EnlargedRenderer::EnlargedRenderer() throw() :
     imageView_(0),
     imageScrollWin_(0),
     pageNum_(-1),
-    signalInitEnd_(),
     signalMainWindowStateEvent_(),
     signalSwitchPage_()
 {
@@ -106,6 +103,164 @@ EnlargedRenderer::EnlargedRenderer() throw() :
     iconFactory_->add(Gtk::StockID(PACKAGE_TARNAME"-mode-image-edit"),
                       icon_set_mode_image_edit);
     iconFactory_->add_default();
+}
+
+EnlargedRenderer::~EnlargedRenderer() throw()
+{
+    iconFactory_->remove_default();
+}
+
+void
+EnlargedRenderer::init(Application & application) throw()
+{
+    application_ = &application;
+    // initialized_.emit(*this);
+}
+
+void
+EnlargedRenderer::render(const PhotoPtr & photo) throw()
+{
+    Engine & engine = application_->get_engine();
+    const IStoragePtr & storage = engine.get_current_storage_system(
+                                      "file");
+    photo->set_disk_file_path(storage);
+
+    PixbufPtr pixbuf;
+    std::string path;
+
+    try
+    {
+        path = Glib::filename_from_utf8(photo->get_disk_file_path());
+    }
+    catch (const Glib::ConvertError & e)
+    {
+        g_warning("%s", e.what().c_str());
+        return;
+    }
+
+    try
+    {
+        pixbuf = Gdk::Pixbuf::create_from_file(path);
+    }
+    catch (const Glib::FileError & e)
+    {
+        g_warning("%s", e.what().c_str());
+        return;
+    }
+    catch (const Gdk::PixbufError & e)
+    {
+        g_warning("%s", e.what().c_str());
+        return;
+    }
+
+    if (0 == imageView_)
+    {
+        imageView_ = gtk_image_view_new();
+        if (0 == imageView_)
+        {
+            return;
+        }
+
+        gtk_image_view_set_show_frame(GTK_IMAGE_VIEW(imageView_),
+                                      FALSE);
+
+        GtkBindingSet * binding_set = gtk_binding_set_by_class(
+            GTK_IMAGE_VIEW_GET_CLASS(imageView_));
+
+        // Get rid of some of the default keybindings.
+
+        gtk_binding_entry_remove(binding_set, GDK_KP_Add,
+                                 static_cast<GdkModifierType>(0));
+        gtk_binding_entry_remove(binding_set, GDK_equal,
+                                 static_cast<GdkModifierType>(0));
+        gtk_binding_entry_remove(binding_set, GDK_plus,
+                                 static_cast<GdkModifierType>(0));
+        gtk_binding_entry_remove(binding_set, GDK_KP_Subtract,
+                                 static_cast<GdkModifierType>(0));
+        gtk_binding_entry_remove(binding_set, GDK_minus,
+                                 static_cast<GdkModifierType>(0));
+
+        gtk_binding_entry_remove(binding_set, GDK_Right,
+                                 static_cast<GdkModifierType>(0));
+        gtk_binding_entry_remove(binding_set, GDK_Left,
+                                 static_cast<GdkModifierType>(0));
+        gtk_binding_entry_remove(binding_set, GDK_Down,
+                                 static_cast<GdkModifierType>(0));
+        gtk_binding_entry_remove(binding_set, GDK_Up,
+                                 static_cast<GdkModifierType>(0));
+
+        g_signal_connect(GTK_IMAGE_VIEW(imageView_),
+                         "mouse-wheel-scroll",
+                         G_CALLBACK(image_view_on_scroll_event),
+                         this);
+    }
+
+    if (0 == imageScrollWin_)
+    {
+        imageScrollWin_ = gtk_image_scroll_win_new(
+                              GTK_IMAGE_VIEW(imageView_));
+        if (0 == imageScrollWin_)
+        {
+            return;
+        }
+
+        gtk_widget_show_all(GTK_WIDGET(imageScrollWin_));
+
+        if (0 == dockItem_)
+        {
+            return;
+        }
+        gtk_container_add(GTK_CONTAINER(dockItem_), imageScrollWin_);
+    }
+
+    gtk_image_view_set_pixbuf(GTK_IMAGE_VIEW(imageView_),
+                              pixbuf->gobj(), TRUE);
+}
+
+void
+EnlargedRenderer::render(const PhotoList & photos) throw()
+{
+}
+
+void
+EnlargedRenderer::final(Application & application) throw()
+{
+    if (true == firstUse_)
+    {
+        return;
+    }
+
+    MainWindow & main_window = application.get_main_window();
+    const UIManagerPtr & ui_manager = main_window.get_ui_manager();
+
+    if (0 != uiID_)
+    {
+        ui_manager->remove_action_group(actionGroup_);
+        ui_manager->remove_ui(uiID_);
+        uiID_ = 0;
+    }
+
+    actionGroup_.reset();
+
+    signalMainWindowStateEvent_.disconnect();
+    signalListStoreChangeEnd_.disconnect();
+    signalSwitchPage_.disconnect();
+
+    main_window.undock_object_center(GDL_DOCK_OBJECT(dockItem_));
+
+    pageNum_ = -1;
+    firstUse_ = true;
+
+    // finalized_.emit(*this);
+}
+
+void
+EnlargedRenderer::create_action_group() throw()
+{
+    actionGroup_ = Gtk::ActionGroup::create(
+                       Glib::ustring::compose("%1:%2",
+                                              __FILE__,
+                                              __LINE__));
 
     actionGroup_->add(
         Gtk::Action::create(
@@ -298,164 +453,6 @@ EnlargedRenderer::EnlargedRenderer() throw() :
         Gtk::AccelKey("KP_Subtract"),
         sigc::mem_fun(*this,
                       &EnlargedRenderer::on_action_view_zoom_out));
-
-    dockItem_ = gdl_dock_item_new_with_stock(dockItemName_.c_str(),
-                    dockItemTitle_.c_str(),
-                    PACKAGE_TARNAME"-mode-image-edit",
-                    dockItemBehaviour_);
-}
-
-EnlargedRenderer::~EnlargedRenderer() throw()
-{
-    //g_object_unref(dockItem_);
-    iconFactory_->remove_default();
-}
-
-void
-EnlargedRenderer::init(Application & application) throw()
-{
-    application_ = &application;
-
-    MainWindow & main_window = application.get_main_window();
-    main_window.add_dock_object_center(GDL_DOCK_OBJECT(dockItem_));
-
-    signalMainWindowStateEvent_
-        = main_window.signal_window_state_event().connect(
-              sigc::mem_fun(
-                  *this,
-                  &EnlargedRenderer::on_main_window_state_event));
-
-    signalInitEnd_
-        = application.init_end().connect(
-              sigc::mem_fun(*this,
-                            &EnlargedRenderer::on_init_end));
-
-    signalListStoreChangeEnd_
-        = application.list_store_change_end().connect(
-              sigc::mem_fun(*this,
-                            &EnlargedRenderer::on_list_store_change_end));
-
-    // initialized_.emit(*this);
-}
-
-void
-EnlargedRenderer::render(const PhotoPtr & photo) throw()
-{
-    Engine & engine = application_->get_engine();
-    const IStoragePtr & storage = engine.get_current_storage_system(
-                                      "file");
-    photo->set_disk_file_path(storage);
-
-    PixbufPtr pixbuf;
-    std::string path;
-
-    try
-    {
-        path = Glib::filename_from_utf8(photo->get_disk_file_path());
-    }
-    catch (const Glib::ConvertError & e)
-    {
-        g_warning("%s", e.what().c_str());
-        return;
-    }
-
-    try
-    {
-        pixbuf = Gdk::Pixbuf::create_from_file(path);
-    }
-    catch (const Glib::FileError & e)
-    {
-        g_warning("%s", e.what().c_str());
-        return;
-    }
-    catch (const Gdk::PixbufError & e)
-    {
-        g_warning("%s", e.what().c_str());
-        return;
-    }
-
-    if (0 == imageView_)
-    {
-        imageView_ = gtk_image_view_new();
-        if (0 == imageView_)
-        {
-            return;
-        }
-
-        gtk_image_view_set_show_frame(GTK_IMAGE_VIEW(imageView_),
-                                      FALSE);
-
-        GtkBindingSet * binding_set = gtk_binding_set_by_class(
-            GTK_IMAGE_VIEW_GET_CLASS(imageView_));
-
-        // Get rid of some of the default keybindings.
-
-        gtk_binding_entry_remove(binding_set, GDK_KP_Add,
-                                 static_cast<GdkModifierType>(0));
-        gtk_binding_entry_remove(binding_set, GDK_equal,
-                                 static_cast<GdkModifierType>(0));
-        gtk_binding_entry_remove(binding_set, GDK_plus,
-                                 static_cast<GdkModifierType>(0));
-        gtk_binding_entry_remove(binding_set, GDK_KP_Subtract,
-                                 static_cast<GdkModifierType>(0));
-        gtk_binding_entry_remove(binding_set, GDK_minus,
-                                 static_cast<GdkModifierType>(0));
-
-        gtk_binding_entry_remove(binding_set, GDK_Right,
-                                 static_cast<GdkModifierType>(0));
-        gtk_binding_entry_remove(binding_set, GDK_Left,
-                                 static_cast<GdkModifierType>(0));
-        gtk_binding_entry_remove(binding_set, GDK_Down,
-                                 static_cast<GdkModifierType>(0));
-        gtk_binding_entry_remove(binding_set, GDK_Up,
-                                 static_cast<GdkModifierType>(0));
-
-        g_signal_connect(GTK_IMAGE_VIEW(imageView_),
-                         "mouse-wheel-scroll",
-                         G_CALLBACK(image_view_on_scroll_event),
-                         this);
-    }
-
-    if (0 == imageScrollWin_)
-    {
-        imageScrollWin_ = gtk_image_scroll_win_new(
-                              GTK_IMAGE_VIEW(imageView_));
-        if (0 == imageScrollWin_)
-        {
-            return;
-        }
-
-        gtk_container_add(GTK_CONTAINER(dockItem_), imageScrollWin_);
-        gtk_widget_show_all(GTK_WIDGET(imageScrollWin_));
-    }
-
-    gtk_image_view_set_pixbuf(GTK_IMAGE_VIEW(imageView_),
-                              pixbuf->gobj(), TRUE);
-}
-
-void
-EnlargedRenderer::render(const PhotoList & photos) throw()
-{
-}
-
-void
-EnlargedRenderer::final(Application & application) throw()
-{
-    signalMainWindowStateEvent_.disconnect();
-    signalListStoreChangeEnd_.disconnect();
-    signalSwitchPage_.disconnect();
-
-    MainWindow & main_window = application.get_main_window();
-    const UIManagerPtr & ui_manager = main_window.get_ui_manager();
-
-    if (0 != uiID_)
-    {
-        ui_manager->remove_action_group(actionGroup_);
-        ui_manager->remove_ui(uiID_);
-        uiID_ = 0;
-    }
-
-    // finalized_.emit(*this);
 }
 
 PhotoList
@@ -477,6 +474,8 @@ EnlargedRenderer::get_current_selection() throw()
 void
 EnlargedRenderer::present() throw()
 {
+    prepare_for_first_use();
+
     MainWindow & main_window = application_->get_main_window();
     main_window.present_dock_object(GDL_DOCK_OBJECT(dockItem_));
 }
@@ -657,8 +656,8 @@ EnlargedRenderer::on_action_view_slideshow() throw()
     BrowserModelColumnRecord model_column_record;
     const PhotoPtr photo = row[model_column_record.get_column_photo()];
 
-    slideshow_renderer->render(photo);
     slideshow_renderer->present();
+    slideshow_renderer->render(photo);
 }
 
 void
@@ -727,28 +726,6 @@ EnlargedRenderer::on_action_view_zoom_out() throw()
     }
 
     gtk_image_view_zoom_out(GTK_IMAGE_VIEW(imageView_));
-}
-
-void
-EnlargedRenderer::on_init_end(Application & application) throw()
-{
-    MainWindow & main_window = application.get_main_window();
-    Gtk::Notebook * notebook = main_window.get_notebook_center();
-
-    if (0 == notebook)
-    {
-        g_warning("0 == notebook");
-        return;
-    }
-
-    pageNum_ = notebook->page_num(*Glib::wrap(dockItem_, false));
-
-    signalSwitchPage_
-        = notebook->signal_switch_page().connect(
-              sigc::mem_fun(*this,
-                            &EnlargedRenderer::on_switch_page));
-
-    signalInitEnd_.disconnect();
 }
 
 void
@@ -825,9 +802,6 @@ void
 EnlargedRenderer::on_switch_page(GtkNotebookPage * notebook_page,
                                  guint page_num) throw()
 {
-    MainWindow & main_window = application_->get_main_window();
-    const UIManagerPtr & ui_manager = main_window.get_ui_manager();
-
     // NB: Sometimes this gets invoked more than once consecutively
     //     -- no idea why (FIXME). Better safe than sorry.
 
@@ -839,27 +813,80 @@ EnlargedRenderer::on_switch_page(GtkNotebookPage * notebook_page,
             = renderer_registry.select<EnlargedRenderer>();
 
         renderer_registry.set_current(enlarged_renderer);
-
-        if (0 == uiID_)
-        {
-            uiID_ = ui_manager->add_ui_from_file(uiFile);
-            if (0 == uiID_)
-            {
-                // FIXME: error condition.
-            }
-
-            ui_manager->insert_action_group(actionGroup_);
-        }
+        actionGroup_->set_visible(true);
     }
     else
     {
-        if (0 != uiID_)
-        {
-            ui_manager->remove_action_group(actionGroup_);
-            ui_manager->remove_ui(uiID_);
-            uiID_ = 0;
-        }
+        actionGroup_->set_visible(false);
     }
+}
+
+void
+EnlargedRenderer::prepare_for_first_use() throw()
+{
+    if (false == firstUse_)
+    {
+        return;
+    }
+
+    dockItem_ = gdl_dock_item_new_with_stock(
+                    dockItemName_.c_str(),
+                    dockItemTitle_.c_str(),
+                    PACKAGE_TARNAME"-mode-image-edit",
+                    dockItemBehaviour_);
+
+    MainWindow & main_window = application_->get_main_window();
+    main_window.dock_object_center(GDL_DOCK_OBJECT(dockItem_));
+
+    Gtk::Notebook * const notebook
+                              = main_window.get_notebook_center();
+
+    if (0 == notebook)
+    {
+        g_warning("0 == notebook");
+        return;
+    }
+
+    pageNum_ = notebook->page_num(*Glib::wrap(dockItem_, false));
+
+    signalMainWindowStateEvent_
+        = main_window.signal_window_state_event().connect(
+              sigc::mem_fun(
+                  *this,
+                  &EnlargedRenderer::on_main_window_state_event));
+
+    signalSwitchPage_
+        = notebook->signal_switch_page().connect(
+              sigc::mem_fun(*this,
+                            &EnlargedRenderer::on_switch_page));
+
+    signalListStoreChangeEnd_
+        = application_->list_store_change_end().connect(
+              sigc::mem_fun(*this,
+                            &EnlargedRenderer::on_list_store_change_end));
+
+    const UIManagerPtr & ui_manager = main_window.get_ui_manager();
+
+    uiID_ = ui_manager->add_ui_from_file(uiFile);
+    if (0 == uiID_)
+    {
+        // FIXME: error condition.
+    }
+
+    create_action_group();
+    if (true == actionGroup_)
+    {
+        ui_manager->insert_action_group(actionGroup_);
+    }
+
+    RendererRegistry & renderer_registry
+        = application_->get_renderer_registry();
+    const IRendererPtr enlarged_renderer
+        = renderer_registry.select<EnlargedRenderer>();
+
+    renderer_registry.set_current(enlarged_renderer);
+
+    firstUse_ = false;
 }
 
 } // namespace Solang

@@ -56,9 +56,6 @@ class EnlargedRenderer :
         final(Application & application) throw();
 
         void
-        on_init_end(Application & application) throw();
-
-        void
         on_scroll_event(GdkScrollDirection direction) throw();
 
         virtual PhotoList
@@ -75,6 +72,9 @@ class EnlargedRenderer :
                          const IRendererPtr & renderer) throw();
 
     protected:
+        void
+        create_action_group() throw();
+
         void
         on_action_go_previous() throw();
 
@@ -113,7 +113,12 @@ class EnlargedRenderer :
         on_switch_page(GtkNotebookPage * notebook_page, guint page_num)
                        throw();
 
+        void
+        prepare_for_first_use() throw();
+
         ApplicationPtr application_;
+
+        bool firstUse_;
 
         Glib::RefPtr<Gtk::IconFactory> iconFactory_;
 
@@ -134,8 +139,6 @@ class EnlargedRenderer :
         GtkWidget * imageScrollWin_;
 
         gint pageNum_;
-
-        sigc::connection signalInitEnd_;
 
         sigc::connection signalMainWindowStateEvent_;
 

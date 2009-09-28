@@ -60,6 +60,12 @@ class MainWindow :
         add_dock_object_center(DockObjectPtr dock_object) throw();
 
         void
+        dock_object_center(DockObjectPtr dock_object) throw();
+
+        void
+        undock_object_center(DockObjectPtr dock_object) throw();
+
+        void
         present_dock_object(DockObjectPtr dock_object) throw();
 
         Gtk::Notebook *
