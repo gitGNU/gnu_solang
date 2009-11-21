@@ -30,7 +30,7 @@ namespace Solang
 
 ExporterDialog::ExporterDialog(Gtk::Widget & browser,
                                gint source_options) throw() :
-    Gtk::Dialog(_("Import"), true, false),
+    Gtk::Dialog(_("Export"), true, false),
     generalVBox_(false, 6),
     optionsVBox_(false, 6),
     generalLabel_("", Gtk::ALIGN_LEFT, Gtk::ALIGN_CENTER, false),
