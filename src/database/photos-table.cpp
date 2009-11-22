@@ -70,7 +70,7 @@ void
 PhotosTable::receive(Solang::DBTableVisitor & visitor, 
                      Solang::ProgressObserverPtr & observer)
 {
-    gint32 numRows = model_->get_n_rows();
+    gint32 numRows = gdaDataModel_->get_n_rows();
     observer->set_num_events(numRows);
     observer->set_event_description("Generating list of photos");
 
@@ -81,7 +81,7 @@ PhotosTable::receive(Solang::DBTableVisitor & visitor,
         if( !observer->get_stop() )
         {
             PhotoPtr photo( new Photo() );
-            photo->create( model_, row );
+            photo->create( gdaDataModel_, row );
             photos.push_back( photo );
             observer->receive_event_notifiation();
         }

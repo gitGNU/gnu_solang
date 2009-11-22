@@ -1,5 +1,6 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 4; tab-width: 4 -*- */
 /*
+ * Copyright (C) 2009 Debarshi Ray <rishi@gnu.org>
  * Copyright (C) 2009 Santanu Sinha <santanu.sinha@gmail.com>
  *
  * database.cpp is free software: you can redistribute it and/or modify it
@@ -86,18 +87,16 @@ Database::open() throw(Error)
     dbPath += ";DB_NAME=";
     dbPath += DB_NAME;
 
-    gdaClient_ = Gnome::Gda::Client::create();
     bool dbExists = db_file_exists();
-    gdaConnection_ = gdaClient_->open_connection_from_string(
-                                "SQLite", dbPath, "", "",
-                                Gnome::Gda::ConnectionOptions(0));
+    gdaConnection_ = Gnome::Gda::Connection::open_from_string(
+                         "SQLite", dbPath, "",
+                         Gnome::Gda::CONNECTION_OPTIONS_NONE);
     if( !dbExists )
     {
         create_db( );
     }
-    gdaDict_ = Gnome::Gda::Dict::create();
-    gdaDict_->set_connection( gdaConnection_ );
-    gdaDict_->update_dbms_meta_data();
+
+    gdaConnection_->update_meta_store();
     
     const char *tableNames[] = 
     {
@@ -110,7 +109,7 @@ Database::open() throw(Error)
     {
         DBTablePtr table = DBTableFactory::create( *tableName );
         tables_[ *tableName ] = table;
-        table->open( gdaDict_ );
+        table->open(gdaConnection_);
     }
 
 }
@@ -172,7 +171,8 @@ Database::run_sql( const Glib::ustring &sql ) throw(Error)
 {
     try
     {
-        gdaConnection_->execute_non_select_command( sql );
+        gdaConnection_->statement_execute(
+            sql, Gnome::Gda::STATEMENT_MODEL_RANDOM_ACCESS);
     }
     catch(Glib::Error &error)
     {
@@ -249,13 +249,13 @@ Database::search(const PhotoSearchCriteriaList & criterion,
     PhotoList photos;
     try
     {
-        Glib::RefPtr<Gnome::Gda::Query> query 
-                                = Gnome::Gda::Query::create( gdaDict_ );
-        query->set_sql_text( sql );
-        Glib::RefPtr<Gnome::Gda::DataModelQuery> model 
-                            =  Gnome::Gda::DataModelQuery::create( query );
+        const DataModelPtr model
+            = gdaConnection_->statement_execute_select(
+                  sql, Gnome::Gda::STATEMENT_MODEL_RANDOM_ACCESS);
 
-        gint32 numRows = model->get_n_rows();
+        const gint32 numRows
+                         = static_cast<gint32>(model->get_n_rows());
+
         observer->set_num_events( numRows );
         observer->set_event_description( "Generating list of photos" );
         DBTablePtr table = getTable( "photos" );
@@ -330,10 +330,13 @@ Database::get_dates_with_picture_count(
 
     try
     {
-        Glib::RefPtr<Gnome::Gda::DataModel> model
-                    = gdaConnection_->execute_select_command( sql );
+        const DataModelPtr model
+            = gdaConnection_->statement_execute_select(
+                  sql, Gnome::Gda::STATEMENT_MODEL_RANDOM_ACCESS);
 
-        gint32 numRows = model->get_n_rows();
+        const gint32 numRows
+                         = static_cast<gint32>(model->get_n_rows());
+
         observer->set_num_events( numRows );
         observer->set_event_description(
                             "Generating summary of photos" );
@@ -402,7 +405,8 @@ Database::create_db() throw(Error)
                         white_balance varchar(100),\
                         focal_length_in_film varchar(100),\
                         picture_taken_time varchar(100))";
-            gdaConnection_->execute_non_select_command( sql );
+
+            gdaConnection_->statement_execute_non_select(sql);
         }
         //Tags
         {
@@ -411,14 +415,16 @@ Database::create_db() throw(Error)
                                 tag varchar(255),\
                                 description varchar(255),\
                                 iconpath varchar(255))";
-            gdaConnection_->execute_non_select_command( sql );
+
+            gdaConnection_->statement_execute_non_select(sql);
 
             //Create the all photos tag
             {
                 Glib::ustring sql = "INSERT INTO tags\
                                 values(0, 'All Photos', \
                                 'All photos imported in solang','')";
-                gdaConnection_->execute_non_select_command( sql );
+
+                gdaConnection_->statement_execute_non_select(sql);
             }
         }
         //Photo Tags
@@ -427,7 +433,8 @@ Database::create_db() throw(Error)
                                     photoid integer,\
                                     tagid integer,\
                                     primary key (photoid, tagid))";
-            gdaConnection_->execute_non_select_command( sql );
+
+            gdaConnection_->statement_execute_non_select(sql);
         }
     }
     catch (Glib::Error &e)

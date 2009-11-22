@@ -79,7 +79,7 @@ void
 TagsTable::receive(Solang::DBTableVisitor& visitor,
                    Solang::ProgressObserverPtr &observer)
 {
-    gint32 numRows = model_->get_n_rows();
+    gint32 numRows = gdaDataModel_->get_n_rows();
     observer->set_num_events( numRows );
     observer->set_event_description( "Generating list of tags" );
 
@@ -90,7 +90,7 @@ TagsTable::receive(Solang::DBTableVisitor& visitor,
         if( !observer->get_stop() )
         {
             TagPtr tag( new Tag() );
-            tag->create( model_, row );
+            tag->create( gdaDataModel_, row );
             tags.push_back( tag );
             observer->receive_event_notifiation();
         }

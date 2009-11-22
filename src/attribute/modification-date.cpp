@@ -136,7 +136,7 @@ ModificationDate::update(
 }
 
 void
-ModificationDate::create(DataModelPtr & data_model, gint32 row)
+ModificationDate::create(const DataModelPtr & data_model, gint32 row)
 {
     set_day(
         data_model->get_value_at( MOD_DAY_COL, row ).get_int());    

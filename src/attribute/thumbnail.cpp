@@ -328,7 +328,7 @@ catch (Glib::Error & e)
 }
 
 void
-Thumbnail::create(DataModelPtr & dataModel, int32_t row)
+Thumbnail::create(const DataModelPtr & dataModel, int32_t row)
 {
     set_path( dataModel->get_value_at( 
                                     PATH_COL, row ).get_string());

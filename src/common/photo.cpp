@@ -161,7 +161,7 @@ catch(Glib::Error &e)
 }
 
 void
-Photo::create(DataModelPtr & dataModel, int32_t row) throw(Error)
+Photo::create(const DataModelPtr & dataModel, int32_t row) throw(Error)
 {
     set_row( row );
 

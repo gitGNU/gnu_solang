@@ -78,7 +78,8 @@ class DBObject :
         //Construct object from a row in the 
         //given datamodel
         virtual void
-        create(DataModelPtr & dataModel, gint32 row) throw(Error) = 0;
+        create(const DataModelPtr & dataModel, gint32 row)
+               throw(Error) = 0;
         
         //Will be used by DB engine to construct the name
         //of tables in indices

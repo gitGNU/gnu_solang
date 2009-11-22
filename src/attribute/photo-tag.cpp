@@ -88,7 +88,8 @@ PhotoTag::update(DataModelPtr & model, gint32 row) throw(Error)
 }
 
 void
-PhotoTag::create(DataModelPtr & dataModel, gint32 row) throw(Error)
+PhotoTag::create(const DataModelPtr & dataModel, gint32 row)
+                 throw(Error)
 {
     set_row( row );
     set_tagId_( dataModel->get_value_at( 

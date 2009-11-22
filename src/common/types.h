@@ -212,9 +212,14 @@ typedef Glib::RefPtr<Gio::DataInputStream> DataInputStreamPtr;
 typedef Glib::RefPtr<const Gio::File> ConstFilePtr;
 typedef Glib::RefPtr<Gio::File> FilePtr;
 
-typedef Glib::RefPtr<const Gnome::Gda::DataModelQuery>
-    ConstDataModelPtr;
-typedef Glib::RefPtr<Gnome::Gda::DataModelQuery> DataModelPtr;
+typedef Glib::RefPtr<const Gnome::Gda::Connection> ConstConnectionPtr;
+typedef Glib::RefPtr<Gnome::Gda::Connection> ConnectionPtr;
+
+typedef Glib::RefPtr<const Gnome::Gda::DataModel> ConstDataModelPtr;
+typedef Glib::RefPtr<Gnome::Gda::DataModel> DataModelPtr;
+
+typedef Glib::RefPtr<const Gnome::Gda::DataSelect> ConstDataSelectPtr;
+typedef Glib::RefPtr<Gnome::Gda::DataSelect> DataSelectPtr;
 
 typedef Glib::RefPtr<const Gtk::Action> ConstActionPtr;
 typedef Glib::RefPtr<Gtk::Action> ActionPtr;

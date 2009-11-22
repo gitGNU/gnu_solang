@@ -114,7 +114,7 @@ Tag::update(DataModelPtr & model, gint32 row) throw(Error)
 }
 
 void
-Tag::create( DataModelPtr& dataModel, gint32 row) throw(Error)
+Tag::create(const DataModelPtr & dataModel, gint32 row) throw(Error)
 {
     set_row( row );
     set_tag_id( dataModel->get_value_at( 

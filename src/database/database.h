@@ -1,5 +1,6 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 4; tab-width: 4 -*- */
 /*
+ * Copyright (C) 2009 Debarshi Ray <rishi@gnu.org>
  * Copyright (C) 2009 Santanu Sinha <santanu.sinha@gmail.com>
  *
  * Solang is free software: you can redistribute it and/or modify it
@@ -38,9 +39,7 @@ class Database
     private:
         static const Glib::ustring DB_NAME;
         Glib::ustring path_; //Path to SQLLite database
-        Glib::RefPtr<Gnome::Gda::Client> gdaClient_;
-        Glib::RefPtr<Gnome::Gda::Connection> gdaConnection_;
-        Glib::RefPtr<Gnome::Gda::Dict> gdaDict_;
+        ConnectionPtr gdaConnection_;
         std::map<Glib::ustring, DBTablePtr> tables_;
 
     public:

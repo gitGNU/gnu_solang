@@ -68,8 +68,7 @@ DBObject::create(Database &db, gint32 row) throw(Error)
         set_table( table );
     }
     
-    Glib::RefPtr<Gnome::Gda::DataModelQuery> model 
-                                        = table->get_model();
+    const DataModelPtr model = table->get_model();
     create( model, row );
 
     return;

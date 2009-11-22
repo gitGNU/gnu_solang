@@ -121,7 +121,7 @@ class ExifData
 
         void insert( std::vector<Gnome::Gda::Value> &values );
         void update( DataModelPtr &model, gint32 row );
-        void create( DataModelPtr &model, gint32 row );
+        void create(const DataModelPtr & model, gint32 row );
 
 };
 

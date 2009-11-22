@@ -1,6 +1,7 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 4; tab-width: 4 -*- */
 /*
  * db-table.cpp
+ * Copyright (C) Debarshi Ray 2009 <rishi@gnu.org>
  * Copyright (C) Santanu Sinha 2009 <santanu.sinha@gmail.com>
  * 
  * db-table.cpp is free software: you can redistribute it and/or modify it
@@ -29,17 +30,15 @@ namespace Solang
 
 DBTable::DBTable( const Glib::ustring &tableName )
     :tableName_(tableName),
-    query_(),
     lastKey_(0),
-    model_()
+    gdaDataModel_()
 {
 }
 
 DBTable::DBTable( const DBTable &rhs )
     :tableName_( rhs.tableName_ ),
-    query_( rhs.query_ ),
     lastKey_( rhs.lastKey_ ),
-    model_( rhs.model_ )
+    gdaDataModel_( rhs.gdaDataModel_ )
 {
 }
 
@@ -48,36 +47,43 @@ DBTable &DBTable::operator = (const DBTable &rhs)
     if( this != &rhs )
     {
         tableName_ =  rhs.tableName_ ;
-        query_ = rhs.query_ ;
-        model_ = rhs.model_ ;
         lastKey_ = rhs.lastKey_ ;
+        gdaDataModel_ = rhs.gdaDataModel_ ;
     }    
     return *this;
 }
 
-void DBTable::open( 
-            const Glib::RefPtr<Gnome::Gda::Dict> &gdaDict) throw(Error)
+void DBTable::open(const ConnectionPtr & connection) throw(Error)
 {
-    query_ = Gnome::Gda::Query::create( gdaDict );
-    query_->set_sql_text( getSelectionQuery() );
-    model_ = Gnome::Gda::DataModelQuery::create( query_ );
+    gdaDataModel_
+        = connection->statement_execute_select(
+              getSelectionQuery(),
+              Gnome::Gda::STATEMENT_MODEL_RANDOM_ACCESS);
+
+    const DataSelectPtr data_select = Glib::RefPtr<
+        Gnome::Gda::DataSelect>::cast_dynamic(gdaDataModel_);
+
     try
     {
 #if 0
-        model_->set_modification_query( getInsertQuery() );
-        model_->set_modification_query( getUpdateQuery() );
-        model_->set_modification_query( getDeleteQuery() );
+        data_select->set_modification_query( getInsertQuery() );
+        data_select->set_modification_query( getUpdateQuery() );
+        data_select->set_modification_query( getDeleteQuery() );
 #endif
-        model_->compute_modification_queries( tableName_, 
-                    Gnome::Gda::DATA_MODEL_QUERY_OPTION_USE_ALL_FIELDS_IF_NO_PK ); 
+        data_select->compute_modification_statements();
     }
     catch( const Glib::Error &error )
     {
         //TBD::Error
         std::cerr<<"Error:"<<tableName_<<": "<<error.what()<<std::endl;
     }
-    gint32 numRows = model_->get_n_rows();
-    lastKey_ = ( numRows ) ? (model_->get_value_at( 0, numRows -1 ).get_int()) : 0;
+
+    const gint32 numRows
+        = static_cast<gint32>(gdaDataModel_->get_n_rows());
+
+    lastKey_ = ( numRows ) ? (gdaDataModel_->get_value_at(
+                                 0, numRows -1 ).get_int())
+                           : 0;
     return;
     
 }
@@ -86,7 +92,7 @@ void DBTable::insert( DBObject &object )
 {
     try
     {
-        object.insert( model_, lastKey_ );
+        object.insert( gdaDataModel_, lastKey_ );
     }
     catch( Error &error )
     {
@@ -101,7 +107,7 @@ void DBTable::update( DBObject &object )
 {
     try
     {
-        object.update( model_ );
+        object.update( gdaDataModel_ );
     }
     catch( Error &error )
     {
@@ -115,7 +121,7 @@ void DBTable::remove( DBObject &object )
 {
     try
     {
-        object.remove( model_ );
+        object.remove( gdaDataModel_ );
     }
     catch( Error &error )
     {

@@ -256,7 +256,7 @@ void ExifData::update( DataModelPtr &model, gint32 row)
 
 }
 
-void ExifData::create( DataModelPtr& dataModel, gint32 row)
+void ExifData::create(const DataModelPtr & dataModel, gint32 row)
 {
     aperture_ =  dataModel->get_value_at( 
                         APERTURE_COL, row ).get_string() ;

@@ -46,7 +46,7 @@ main(int argc, char *argv[])
 
     Glib::thread_init();
     Gio::init();
-    Gnome::Gda::init(PACKAGE_NAME, PACKAGE_VERSION, argc, argv);
+    Gnome::Gda::init();
     gegl_init( &argc, &argv );
 
     if (0 != flickcurl_init())

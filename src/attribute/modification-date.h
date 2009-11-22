@@ -168,7 +168,7 @@ class ModificationDate
         update(DataModelPtr & model, gint32 row) throw(Glib::Error);
 
         void
-        create(DataModelPtr & data_model, gint32 row);
+        create(const DataModelPtr & data_model, gint32 row);
 
 };    
 

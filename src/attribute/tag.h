@@ -87,7 +87,8 @@ class Tag :
         update(DataModelPtr & model, gint32 row) throw(Error);
 
         virtual void
-        create(DataModelPtr & dataModel, gint32 row) throw(Error);
+        create(const DataModelPtr & dataModel, gint32 row)
+               throw(Error);
         
         virtual Glib::ustring
         get_db_object_type_name() const throw();
