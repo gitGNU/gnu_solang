@@ -273,7 +273,8 @@ MainWindow::MainWindow() throw() :
         sigc::mem_fun(*this,
                       &MainWindow::on_action_edit_clear_export_queue));
 
-    actionGroup_->add(Gtk::Action::create("ActionViewMenu", "_View"));
+    actionGroup_->add(Gtk::Action::create("ActionViewMenu",
+                                          _("_View")));
 
     actionGroup_->add(
         Gtk::ToggleAction::create(
