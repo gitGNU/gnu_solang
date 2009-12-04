@@ -31,7 +31,6 @@
 #include "pagination-bar.h"
 #include "thumbnail-view.h"
 #include "types.h"
-#include "zoomer.h"
 
 namespace Solang
 {
@@ -91,6 +90,18 @@ class BrowserRenderer :
         on_action_view_slideshow() throw();
 
         void
+        on_action_view_zoom_changed(
+            const ScaleActionPtr & scale_action) throw();
+
+        void
+        on_action_view_zoom_in(const ScaleActionPtr & scale_action)
+                               throw();
+
+        void
+        on_action_view_zoom_out(const ScaleActionPtr & scale_action)
+                                throw();
+
+        void
         on_item_activated(const Gtk::TreeModel::Path & path) throw();
 
         void
@@ -101,9 +112,6 @@ class BrowserRenderer :
 
         void
         on_list_store_change_end(Application & application) throw();
-
-        void
-        on_signal_value_changed() throw();
 
         void
         on_switch_page(GtkNotebookPage * notebook_page, guint page_num)
@@ -145,13 +153,13 @@ class BrowserRenderer :
 
         Gtk::Label dummyLabel_;
 
-        Zoomer zoomer_;
-    
         Gtk::ScrolledWindow scrolledWindow_;
 
         TreeModelFilterPtr treeModelFilter_;
 
         ThumbnailView thumbnailView_;
+
+        double zoomValue_;
 
         gint pageNum_;
 

@@ -28,5 +28,8 @@
 		<placeholder name="PlaceholderFullScreenToolBar">
 		<toolitem action="ActionViewBrowserSlideshow"/>
 		</placeholder>
+		<placeholder name="PlaceholderMiscToolBar">
+		<toolitem action="ActionViewZoom"/>
+		</placeholder>
 	</toolbar>
 </ui>

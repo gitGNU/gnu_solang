@@ -20,9 +20,7 @@ librenderer_la_SOURCES = \
 	slideshow-window.cpp \
 	slideshow-window.h \
 	thumbnail-view.h \
-	thumbnail-view.cpp \
-	zoomer.cpp \
-	zoomer.h
+	thumbnail-view.cpp
 
 AM_CPPFLAGS = \
 	-DPACKAGE_LOCALE_DIR=\""${datadir}/locale"\" \

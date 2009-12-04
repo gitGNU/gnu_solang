@@ -43,6 +43,10 @@ libcommon_la_SOURCES = \
 	progress-observer.cpp \
 	progress-observer.h \
 	renderer-selector.h \
+	scale-action.cpp \
+	scale-action.h \
+	scale-tool-item.cpp \
+	scale-tool-item.h \
 	spinner.cpp \
 	spinner.h \
 	spinner-dialog.cpp \

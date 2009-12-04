@@ -169,6 +169,10 @@ typedef std::tr1::shared_ptr<const IStorage> ConstIStoragePtr;
 typedef std::tr1::shared_ptr<IStorage> IStoragePtr;
 typedef std::vector<IStoragePtr> IStorageList;
 
+class ScaleAction;
+typedef Glib::RefPtr<const ScaleAction> ConstScaleActionPtr;
+typedef Glib::RefPtr<ScaleAction> ScaleActionPtr;
+
 class SlideshowWindow;
 typedef std::tr1::shared_ptr<const SlideshowWindow>
     ConstSlideshowWindowPtr;

@@ -36,6 +36,7 @@
 #include "main-window.h"
 #include "photo.h"
 #include "photo-search-criteria.h"
+#include "scale-action.h"
 #include "thumbbuf-maker.h"
 
 namespace Solang
@@ -46,6 +47,7 @@ static const guint higherZoomValue = 100;
 static const guint initialZoomValue
                        = lowerZoomValue
                          + (higherZoomValue - lowerZoomValue) / 2;
+static const guint stepZoomValue = 5;
 
 static const gint thumbnailRendererWidth = 168;
 static const gint thumbnailRendererHeight = 130;
@@ -83,10 +85,10 @@ BrowserRenderer::BrowserRenderer() throw() :
     hBox_(false, 12),
     paginationBar_(),
     dummyLabel_(),
-    zoomer_(lowerZoomValue, higherZoomValue, initialZoomValue, 5.0),
     scrolledWindow_(),
     treeModelFilter_(),
     thumbnailView_(thumbnailRendererWidth, thumbnailRendererHeight),
+    zoomValue_(initialZoomValue),
     pageNum_(-1),
     signalInitEnd_(),
     signalListStoreChangeBegin_(),
@@ -145,13 +147,53 @@ BrowserRenderer::BrowserRenderer() throw() :
         sigc::mem_fun(*this,
                       &BrowserRenderer::on_action_view_slideshow));
 
-    actionGroup_->add(
-        zoomer_.action_zoom_in(),
-        Gtk::AccelKey("<control>plus"));
+    {
+        const Glib::RefPtr<ScaleAction> scale_action
+            = ScaleAction::create(
+                  "ActionViewZoom",
+                  _("Enlarge or shrink the thumbnails"),
+                  Gtk::Adjustment(initialZoomValue,
+                                  lowerZoomValue,
+                                  higherZoomValue,
+                                  stepZoomValue,
+                                  10 * stepZoomValue,
+                                  0));
 
-    actionGroup_->add(
-        zoomer_.action_zoom_out(),
-        Gtk::AccelKey("<control>minus"));
+        scale_action->reference();
+
+        actionGroup_->add(scale_action);
+
+        scale_action->signal_value_changed().connect(
+            sigc::bind(
+                sigc::mem_fun(
+                    *this,
+                    &BrowserRenderer::on_action_view_zoom_changed),
+                scale_action));
+
+        actionGroup_->add(
+            Gtk::Action::create(
+                "ActionViewZoomIn", Gtk::Stock::ZOOM_IN,
+                _("_Zoom In"),
+                _("Enlarge the thumbnails")),
+            Gtk::AccelKey("<control>plus"),
+            sigc::bind(
+                sigc::mem_fun(
+                    *this,
+                    &BrowserRenderer::on_action_view_zoom_in),
+                scale_action));
+
+        actionGroup_->add(
+            Gtk::Action::create(
+                "ActionViewZoomOut", Gtk::Stock::ZOOM_OUT,
+                _("_Zoom Out"),
+                _("Shrink the thumbnails")),
+            Gtk::AccelKey("<control>minus"),
+            sigc::bind(
+                sigc::mem_fun(
+                    *this,
+                    &BrowserRenderer::on_action_view_zoom_out),
+                scale_action));
+    }
 
     actionGroup_->add(Gtk::Action::create(
         "ActionViewEdit", Gtk::Stock::EDIT, _("_Edit"),
@@ -179,8 +221,6 @@ BrowserRenderer::BrowserRenderer() throw() :
         Gtk::AccelKey("<alt>End"));
 
     hBox_.pack_start(paginationBar_, Gtk::PACK_SHRINK, 0);
-    hBox_.pack_start(dummyLabel_, Gtk::PACK_EXPAND_PADDING, 0);
-    hBox_.pack_start(zoomer_, Gtk::PACK_SHRINK, 0);
 
     vBox_.pack_start(hBox_, Gtk::PACK_SHRINK, 0);
 
@@ -201,10 +241,6 @@ BrowserRenderer::BrowserRenderer() throw() :
     paginationBar_.limits_changed().connect(
         sigc::mem_fun(*this,
                       &BrowserRenderer::on_limits_changed));
-
-    zoomer_.get_scale().signal_value_changed().connect(
-        sigc::mem_fun(*this,
-                      &BrowserRenderer::on_signal_value_changed));
 
     const UIManagerPtr & ui_manager = thumbnailView_.get_ui_manager();
     uiIDThumbnail_ = ui_manager->add_ui_from_file(uiFileThumbnail);
@@ -395,15 +431,14 @@ BrowserRenderer::generate_thumbnails() throw()
         return;
     }
 
-    const guint zoom_value = zoomer_.get_scale().get_value();
     const guint thumbnail_width
                     = static_cast<guint>(
                           ratioWidth
-                          * static_cast<double>(zoom_value));
+                          * static_cast<double>(zoomValue_));
     const guint thumbnail_height
                     = static_cast<guint>(
                           ratioHeight
-                          * static_cast<double>(zoom_value));
+                          * static_cast<double>(zoomValue_));
 
     thumbnailView_.set_thumbnail_width(thumbnail_width + 12);
     thumbnailView_.set_thumbnail_height(thumbnail_height + 12);
@@ -633,8 +668,11 @@ BrowserRenderer::on_list_store_change_end(Application & application)
 }
 
 void
-BrowserRenderer::on_signal_value_changed() throw()
+BrowserRenderer::on_action_view_zoom_changed(
+                     const ScaleActionPtr & scale_action) throw()
 {
+    zoomValue_ = scale_action->get_value();
+
     static sigc::connection connection;
 
     connection.disconnect();
@@ -644,6 +682,20 @@ BrowserRenderer::on_signal_value_changed() throw()
                   sigc::mem_fun(*this,
                                 &BrowserRenderer::reload), false),
               1, Glib::PRIORITY_DEFAULT);
+}
+
+void
+BrowserRenderer::on_action_view_zoom_in(
+                     const ScaleActionPtr & scale_action) throw()
+{
+    scale_action->set_value(zoomValue_ + stepZoomValue);
+}
+
+void
+BrowserRenderer::on_action_view_zoom_out(
+                     const ScaleActionPtr & scale_action) throw()
+{
+    scale_action->set_value(zoomValue_ - stepZoomValue);
 }
 
 void

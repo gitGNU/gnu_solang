@@ -1,7 +1,6 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 4; tab-width: 4 -*- */
 /*
  * Copyright (C) 2009 Debarshi Ray <rishi@gnu.org>
- * Copyright (C) 2009 Santanu Sinha <santanu.sinha@gmail.com>
  *
  * Solang is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -17,58 +16,42 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef SOLANG_ZOOMER_H
-#define SOLANG_ZOOMER_H
+#ifndef SOLANG_SCALE_TOOL_ITEM_H
+#define SOLANG_SCALE_TOOL_ITEM_H
 
+#include <glibmm.h>
 #include <gtkmm.h>
-
-#include "types.h"
 
 namespace Solang
 {
 
-class Zoomer :
-    public Gtk::HBox
+class ScaleToolItem :
+    public Gtk::ToolItem
 {
     public:
-        Zoomer(guint min, guint max, guint mid, guint step) throw();
+        ScaleToolItem(Gtk::Adjustment & adjustment) throw();
 
         virtual
-        ~Zoomer() throw();
+        ~ScaleToolItem() throw();
 
-        const ActionPtr &
-        action_zoom_in() throw();
+        double
+        get_value() const throw();
 
-        const ActionPtr &
-        action_zoom_out() throw();
+        Glib::SignalProxy2<bool, Gtk::ScrollType, double>
+        signal_change_value() throw();
 
-        Gtk::HScale &
-        get_scale() throw();
+        Glib::SignalProxy0<void>
+        signal_value_changed() throw();
 
     protected:
-        bool
-        on_action_view_zoom_in(GdkEventButton * event) throw();
-
-        bool
-        on_action_view_zoom_out(GdkEventButton * event) throw();
-
-        ActionPtr actionZoomIn_;
-
-        ActionPtr actionZoomOut_;
-
-        Gtk::EventBox zoomOutEventBox_;
-
-        Gtk::Image zoomOutImage_;
+        virtual void
+        on_toolbar_reconfigured() throw();
 
         Gtk::HScale hScale_;
-
-        Gtk::EventBox zoomInEventBox_;
-
-        Gtk::Image zoomInImage_;
 
     private:
 };
 
 } // namespace Solang
 
-#endif // SOLANG_ZOOMER_H
+#endif // SOLANG_SPINNER_TOOL_ITEM_H
