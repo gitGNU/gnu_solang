@@ -129,8 +129,6 @@ class MainWindow :
 
         Gtk::VBox vBox_;
 
-        Gtk::SeparatorToolItem separatorToolItem_;
-
         SpinnerToolItem spinnerToolItem_;
 
         Gtk::HBox hBox_;

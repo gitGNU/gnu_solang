@@ -205,7 +205,6 @@ MainWindow::MainWindow() throw() :
     uiManager_(Gtk::UIManager::create()),
     uiID_(uiManager_->add_ui_from_file(uiFile)),
     vBox_(false, 0),
-    separatorToolItem_(),
     spinnerToolItem_(),
     hBox_(false, 6),
     statusBar_(),
@@ -335,11 +334,6 @@ MainWindow::MainWindow() throw() :
     {
         tool_bar->set_toolbar_style( Gtk::TOOLBAR_ICONS );
         //We don't need no stinkin' text :-P
-        gtk_separator_tool_item_set_draw(separatorToolItem_.gobj(),
-                                         FALSE);
-        separatorToolItem_.set_expand(true);
-        tool_bar->append(separatorToolItem_);
-
         tool_bar->append(spinnerToolItem_);
 
         vBox_.pack_start(*tool_bar, Gtk::PACK_SHRINK, 0);

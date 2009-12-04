@@ -52,5 +52,6 @@
 		<separator name="ToolBarSeparator3"/>
 		<toolitem action="ActionViewFullScreen"/>
 		<placeholder name="PlaceholderFullScreenToolBar"/>
+		<separator name="ToolBarSeparatorN" expand="true"/>
 	</toolbar>
 </ui>
