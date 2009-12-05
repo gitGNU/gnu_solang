@@ -166,12 +166,14 @@ Thumbnail::generate(Exiv2::ExifData & exifData,
     {
         // Extract from exif if present.
         Exiv2::ExifThumb thumbnail( exifData );
-        if (-1 == thumbnail.writeFile(get_path().c_str()))
+        if (0 <= thumbnail.writeFile(get_path().c_str()))
         {
             thumbnail_generated = false;
         }
-
-        thumbnail_generated = true;
+        else
+        {
+            thumbnail_generated = true;
+        }
 
         //Update resoulution info
         Thumbnail::Resolution res;
