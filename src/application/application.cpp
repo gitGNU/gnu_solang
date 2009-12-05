@@ -28,6 +28,7 @@
 #include <giomm.h>
 
 #include "application.h"
+#include "brasero-destination.h"
 #include "browser-model-column-record.h"
 #include "browser-renderer.h"
 #include "camera-source.h"
@@ -314,6 +315,13 @@ Application::init() throw()
                                                true));
     plugins_.insert(std::make_pair("directory-exporter",
                                    directory_exporter));
+
+    IPhotoDestinationPtr brasero_destination(
+                             new BraseroDestination());
+    IPluginPtr brasero_exporter(new Exporter(brasero_destination,
+                                             true));
+    plugins_.insert(std::make_pair("brasero-exporter",
+                                   brasero_exporter));
 
     IPhotoSourcePtr directory_source(new DirectorySource());
     IPluginPtr directory_importer(new Importer(directory_source, true));

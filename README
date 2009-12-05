@@ -58,6 +58,7 @@ Dependencies:
  - libgda-sqlite-3.0
  - gdl-1.0
  - gegl
+ - libbrasero-burn >= 2.28.3
  - libgphoto2
  - gtkimageview
  - gtkmm-2.4 >= 2.8

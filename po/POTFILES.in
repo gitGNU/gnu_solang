@@ -25,6 +25,7 @@ src/editor/flip-widget.cpp
 src/editor/rotate-widget.cpp
 src/editor/save-photos-window.cpp
 src/editor/scale-widget.cpp
+src/exporter/brasero-destination.cpp
 src/exporter/directory-destination.cpp
 src/exporter/exporter-dialog.cpp
 src/importer/camera-import-widget.cpp

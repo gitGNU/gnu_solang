@@ -8,6 +8,8 @@ libexporter_la_SOURCES = \
 	photo-destination.h \
 	photo-destination.cpp \
 	photo-destination-enums.h \
+	brasero-destination.cpp \
+	brasero-destination.h \
 	directory-destination.h \
 	directory-destination.cpp
 
@@ -24,6 +26,7 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/renderer \
 	-I$(top_srcdir)/src/storage \
 	$(SOLANG_CFLAGS) \
+	$(BRASERO_CFLAGS) \
 	$(EXIV2_CFLAGS) \
 	$(GTKMM_CFLAGS) \
 	$(GDAMM_CFLAGS) \

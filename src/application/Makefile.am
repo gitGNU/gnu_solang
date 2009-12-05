@@ -25,6 +25,7 @@ solang_LDADD = \
 	$(top_builddir)/src/editor/libeditor.la \
 	$(top_builddir)/src/edit-engine/libeditengine.la \
 	$(top_builddir)/src/common/libcommon.la \
+	$(BRASERO_LIBS) \
 	$(EXIV2_LIBS) \
 	$(FLICKCURL_LIBS) \
 	$(GPHOTO2_LIBS) \
@@ -53,6 +54,7 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/renderer \
 	-I$(top_srcdir)/src/storage \
 	$(SOLANG_CFLAGS) \
+	$(BRASERO_CFLAGS) \
 	$(EXIV2_CFLAGS) \
 	$(FLICKCURL_CFLAGS) \
 	$(GPHOTO2_CFLAGS) \
