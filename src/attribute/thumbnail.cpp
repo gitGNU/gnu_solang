@@ -161,7 +161,7 @@ Thumbnail::generate(Exiv2::ExifData & exifData,
     }
 
     if (!ContentTypeRepo::instance()->is_gdk_supported(
-                                          photo.get_disk_file_path())
+                                          photo.get_content_type())
         && !exifData.empty() )
     {
         // Extract from exif if present.
@@ -207,8 +207,8 @@ Thumbnail::generate(Exiv2::ExifData & exifData,
     }
 
     if (false == thumbnail_generated
-            && ContentTypeRepo::instance()->is_gdk_supported(
-                                  photo.get_disk_file_path()))
+        && ContentTypeRepo::instance()->is_gdk_supported(
+                                            photo.get_content_type()))
     {
         set_path( get_path() + ".jpg" );
         generate_using_gdkpixbuf(photo.get_disk_file_path(),

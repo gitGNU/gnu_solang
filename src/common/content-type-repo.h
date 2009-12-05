@@ -52,7 +52,8 @@ class ContentTypeRepo
         get_content_type(const std::string & filename) const throw();
 
         bool
-        is_gdk_supported(const std::string & filename) const throw();
+        is_gdk_supported(const Glib::ustring & content_type) const
+                         throw();
 
         //Static
         static const ContentTypeRepoPtr

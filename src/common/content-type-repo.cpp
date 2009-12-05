@@ -79,14 +79,12 @@ ContentTypeRepo::get_content_type(const std::string &filename ) const throw()
 }
 
 bool
-ContentTypeRepo::is_gdk_supported(
-        const std::string &filename ) const throw()
+ContentTypeRepo::is_gdk_supported(const Glib::ustring & content_type)
+                                  const throw()
 {
-    Glib::ustring contentType = get_content_type( filename );
-    return std::binary_search(
-        supportedTypes_.begin(), supportedTypes_.end(),
-                                        contentType );
-
+    return std::binary_search(supportedTypes_.begin(),
+                              supportedTypes_.end(),
+                              content_type);
 }
 
 const ContentTypeRepoPtr
