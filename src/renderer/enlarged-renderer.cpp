@@ -153,6 +153,9 @@ EnlargedRenderer::render(const PhotoPtr & photo) throw()
         return;
     }
 
+    pixbuf = Glib::wrap(gdk_pixbuf_apply_embedded_orientation(
+                            pixbuf->gobj()), false);
+
     if (0 == imageView_)
     {
         imageView_ = gtk_image_view_new();

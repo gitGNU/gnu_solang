@@ -272,6 +272,8 @@ Thumbnail::generate_using_gdkpixbuf(const Glib::ustring & path,
         return;
     }
 
+    thumbnail = Glib::wrap(gdk_pixbuf_apply_embedded_orientation(
+                               thumbnail->gobj()), false);
     thumbnail->save( get_path(), "jpeg" );    
 
     set_resolution( Resolution( thumbnail->get_width(),
