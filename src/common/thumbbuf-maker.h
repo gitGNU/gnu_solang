@@ -33,7 +33,7 @@ class ThumbbufMaker :
     public std::unary_function<const PhotoPtr &, PixbufPtr>
 {
     public:
-        ThumbbufMaker(guint width, guint height) throw();
+        ThumbbufMaker(guint width, guint height, bool rotate) throw();
 
         ThumbbufMaker(const ThumbbufMaker & source) throw();
 
@@ -48,6 +48,8 @@ class ThumbbufMaker :
     protected:
 
     private:
+        bool rotate_;
+
         guint width_;
 
         guint height_;

@@ -27,8 +27,10 @@
 namespace Solang
 {
 
-ThumbbufMaker::ThumbbufMaker(guint width, guint height) throw() :
+ThumbbufMaker::ThumbbufMaker(guint width, guint height, bool rotate)
+                             throw() :
     std::unary_function<const PhotoPtr &, PixbufPtr>(),
+    rotate_(rotate),
     width_(width),
     height_(height)
 {
@@ -36,6 +38,7 @@ ThumbbufMaker::ThumbbufMaker(guint width, guint height) throw() :
 
 ThumbbufMaker::ThumbbufMaker(const ThumbbufMaker & source) throw() :
     std::unary_function<const PhotoPtr &, PixbufPtr>(source),
+    rotate_(source.rotate_),
     width_(source.width_),
     height_(source.height_)
 {
@@ -52,6 +55,7 @@ ThumbbufMaker::operator=(const ThumbbufMaker & source) throw()
     {
         std::unary_function<const PhotoPtr &, PixbufPtr>
             ::operator=(source);
+        rotate_ = source.rotate_;
         width_ = source.width_;
         height_ = source.height_;
     }
@@ -75,6 +79,20 @@ ThumbbufMaker::operator()(const PhotoPtr & photo) throw()
         return PixbufPtr(0);
     }
 
+    if (false == Glib::file_test(path, Glib::FILE_TEST_EXISTS))
+    {
+        try
+        {
+            path = Glib::filename_from_utf8(
+                             photo->get_disk_file_path());
+        }
+        catch (const Glib::ConvertError & e)
+        {
+            g_warning("%s", e.what().c_str());
+            return PixbufPtr(0);
+        }
+    }
+
     PixbufPtr pixbuf;
     try
     {
@@ -89,6 +107,12 @@ ThumbbufMaker::operator()(const PhotoPtr & photo) throw()
     {
         g_warning("%s", e.what().c_str());
         return PixbufPtr(0);
+    }
+
+    if (true == rotate_)
+    {
+        pixbuf = Glib::wrap(gdk_pixbuf_apply_embedded_orientation(
+                                pixbuf->gobj()), false);
     }
 
     const double height = static_cast<double>(pixbuf->get_height());

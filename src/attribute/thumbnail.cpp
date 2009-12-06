@@ -29,6 +29,7 @@
 #include "content-type-repo.h"
 #include "database.h"
 #include "photo.h"
+#include "thumbbuf-maker.h"
 #include "thumbnail.h"
 
 namespace Solang
@@ -93,7 +94,7 @@ Thumbnail::set_resolution(const Resolution & resolution)
 void
 Thumbnail::generate(const Resolution & new_resolution,
                     const DatabasePtr & db,
-                    const Photo &photo) throw(Error)
+                    const PhotoPtr & photo) throw(Error)
 {
     if( new_resolution == get_resolution() 
             || new_resolution < get_resolution() )
@@ -102,21 +103,21 @@ Thumbnail::generate(const Resolution & new_resolution,
     }
 
     //We assume the photo has physical path
-    if( photo.get_disk_file_path().empty() )
+    if (photo->get_disk_file_path().empty())
     {
         //TBD::Error
     }
 
     // We resize the thumbnail only.
     // Makes it faster.
-    generate_using_gdkpixbuf(get_path(), new_resolution );
+    generate_using_gdkpixbuf(photo, new_resolution);
 
     return;
         
 }
 
 void
-Thumbnail::generate( const Photo &photo )throw(Error)
+Thumbnail::generate(const PhotoPtr & photo) throw(Error)
 {
     try
     {
@@ -128,18 +129,17 @@ Thumbnail::generate( const Photo &photo )throw(Error)
         throw;
     }
 
-    generate_using_gdkpixbuf( photo.get_disk_file_path(), 
-                            Resolution(128, 128) );    
+    generate_using_gdkpixbuf(photo, Resolution(256, 256));
 
     return;
 }
 
 void
 Thumbnail::generate(Exiv2::ExifData & exifData,
-                        const Photo &photo) throw(Error)
+                    const PhotoPtr & photo) throw(Error)
 {
     // We assume the photo has physical path.
-    if (photo.get_disk_file_path().empty())
+    if (photo->get_disk_file_path().empty())
     {
         //TBD::Error
         return;
@@ -161,7 +161,7 @@ Thumbnail::generate(Exiv2::ExifData & exifData,
     }
 
     if (!ContentTypeRepo::instance()->is_gdk_supported(
-                                          photo.get_content_type())
+                                          photo->get_content_type())
         && !exifData.empty() )
     {
         // Extract from exif if present.
@@ -208,11 +208,10 @@ Thumbnail::generate(Exiv2::ExifData & exifData,
 
     if (false == thumbnail_generated
         && ContentTypeRepo::instance()->is_gdk_supported(
-                                            photo.get_content_type()))
+                                            photo->get_content_type()))
     {
         set_path( get_path() + ".jpg" );
-        generate_using_gdkpixbuf(photo.get_disk_file_path(),
-                                   Resolution(256, 256));
+        generate_using_gdkpixbuf(photo, Resolution(256, 256));
     }    
  
     return;
@@ -249,31 +248,14 @@ Thumbnail::make_thumb_path() throw(Error)
 }
 
 void
-Thumbnail::generate_using_gdkpixbuf(const Glib::ustring & path,
-                                      const Resolution & new_size_hint)
+Thumbnail::generate_using_gdkpixbuf(const PhotoPtr & photo,
+                                    const Resolution & new_size_hint)
 {
-    PixbufPtr thumbnail;
-    try
-    {
-        thumbnail = Gdk::Pixbuf::create_from_file(
-                                     path,
-                                     -1, //We keep aspect
-                                     new_size_hint.get_y(),
-                                     true);
-    }
-    catch (const Glib::FileError & e)
-    {
-        g_warning("%s", e.what().c_str());
-        return;
-    }
-    catch (const Gdk::PixbufError & e)
-    {
-        g_warning("%s", e.what().c_str());
-        return;
-    }
+    ThumbbufMaker thumbbuf_maker(new_size_hint.get_x(),
+                                 new_size_hint.get_y(),
+                                 true);
+    const PixbufPtr thumbnail = thumbbuf_maker(photo);
 
-    thumbnail = Glib::wrap(gdk_pixbuf_apply_embedded_orientation(
-                               thumbnail->gobj()), false);
     thumbnail->save( get_path(), "jpeg" );    
 
     set_resolution( Resolution( thumbnail->get_width(),

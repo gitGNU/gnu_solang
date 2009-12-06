@@ -139,14 +139,14 @@ class Thumbnail
         void
         generate(const Resolution & new_resolution,
                  const DatabasePtr & db,
-                 const Photo &photo) throw(Error);
+                 const PhotoPtr & photo) throw(Error);
 
         void
-        generate( const Photo &photo) throw(Error);
+        generate(const PhotoPtr & photo) throw(Error);
 
         void
         generate(Exiv2::ExifData & exifData,
-                 const Photo &photo) throw(Error);
+                 const PhotoPtr & photo) throw(Error);
 
         void
         insert(std::vector<Gnome::Gda::Value> &values);
@@ -162,8 +162,9 @@ class Thumbnail
         make_thumb_path() throw(Error);
 
         void
-        generate_using_gdkpixbuf(const Glib::ustring & path,
-                           const Resolution & new_resolution_hint);
+        generate_using_gdkpixbuf(
+            const PhotoPtr & photo,
+            const Resolution & new_resolution_hint);
 
         static const gint32 PHOTOID_COL;
         static const gint32 PATH_COL;

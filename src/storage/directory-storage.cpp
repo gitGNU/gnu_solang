@@ -229,7 +229,7 @@ void DirectoryStorage::save(const PhotoPtr &photo, bool move) throw(Error)
 
     Thumbnail thumb;
     thumb.set_path( tPath );
-    thumb.generate( exifData, *photo );
+    thumb.generate( exifData, photo );
 
     //tPath += exifData.thumbnailExtension();
     tPath += ".jpg";

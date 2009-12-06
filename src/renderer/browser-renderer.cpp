@@ -459,7 +459,8 @@ BrowserRenderer::generate_thumbnails() throw()
         if (0 == photo->get_thumbnail_buffer() )
         {
             ThumbbufMaker thumbbuf_maker(thumbnail_width,
-                                         thumbnail_height);
+                                         thumbnail_height,
+                                         false);
 
             photo->set_thumbnail_buffer( thumbbuf_maker(photo) );
 

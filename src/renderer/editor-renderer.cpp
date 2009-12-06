@@ -853,7 +853,7 @@ EditorRenderer::renderSelectedPhotos(const EditablePhotoList & photos) throw()
     for( EditablePhotoList::const_iterator photo = photos.begin();
                     photo != photos.end(); photo ++ )
     {
-        ThumbbufMaker thumbbuf_maker( 48, 36 );
+        ThumbbufMaker thumbbuf_maker( 48, 36, false );
         Gtk::TreeModel::Row row = *(photosModel_->append());
         row[ columns_.buffer_ ] = scale_buffer((*photo)->get_photo()->get_thumbnail_buffer());
         row[ columns_.photo_ ] = (*photo);
@@ -917,7 +917,7 @@ EditorRenderer::refresh_image() throw()
 {
     Gtk::TreeModel::Row row = *currentItem_;
     EditablePhotoPtr photo = row[ columns_.photo_ ];
-    ThumbbufMaker thumbbuf_maker( 128, 96 );
+    ThumbbufMaker thumbbuf_maker( 128, 96, false );
     row[ columns_.buffer_ ] = scale_buffer( photo->get_photo()->get_thumbnail_buffer() );
 #if 0
     gtk_image_view_set_pixbuf(GTK_IMAGE_VIEW(imageView_),
