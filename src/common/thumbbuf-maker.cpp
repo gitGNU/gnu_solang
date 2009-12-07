@@ -20,6 +20,11 @@
 #include "config.h"
 #endif // HAVE_CONFIG_H
 
+#include <cstdio>
+
+#include <giomm.h>
+
+#include "content-type-repo.h"
 #include "photo.h"
 #include "thumbbuf-maker.h"
 #include "thumbnail.h"
@@ -46,6 +51,23 @@ ThumbbufMaker::ThumbbufMaker(const ThumbbufMaker & source) throw() :
 
 ThumbbufMaker::~ThumbbufMaker() throw()
 {
+}
+
+PixbufLoaderPtr
+ThumbbufMaker::create_pixbuf_loader(const std::string & path) const
+                                    throw(Gdk::PixbufError)
+{
+    const ContentTypeRepoPtr content_type_repo
+                                 = ContentTypeRepo::instance();
+    const Glib::ustring content_type
+        = content_type_repo->get_content_type(path);
+
+    if (false == content_type_repo->is_gdk_supported(content_type))
+    {
+        throw Gdk::PixbufError(Gdk::PixbufError::UNKNOWN_TYPE, "");
+    }
+
+    return Gdk::PixbufLoader::create(content_type, true);
 }
 
 ThumbbufMaker &
@@ -93,19 +115,67 @@ ThumbbufMaker::operator()(const PhotoPtr & photo) throw()
         }
     }
 
-    PixbufPtr pixbuf;
+    PixbufLoaderPtr pixbuf_loader;
     try
     {
-        pixbuf = Gdk::Pixbuf::create_from_file(path, width_, -1, true);
+        pixbuf_loader = create_pixbuf_loader(path);
     }
-    catch (const Glib::FileError & e)
+    catch(const Gdk::PixbufError & e)
     {
         g_warning("%s", e.what().c_str());
         return PixbufPtr(0);
     }
+
+    const FilePtr file = Gio::File::create_for_path(path);
+    DataInputStreamPtr fin;
+
+    try
+    {
+        fin = Gio::DataInputStream::create(file->read());
+    }
+    catch(const Gio::Error & e)
+    {
+        g_warning("%s", e.what().c_str());
+        return PixbufPtr(0);
+    }
+
+    gssize nread;
+    guint8 buffer[BUFSIZ];
+
+    while (0 < (nread = fin->read(buffer, sizeof(buffer))))
+    {
+        try
+        {
+            pixbuf_loader->write(buffer, nread);
+        }
+        catch (const Glib::FileError & e)
+        {
+            g_warning("%s", e.what().c_str());
+            break;
+        }
+        catch (const Gdk::PixbufError & e)
+        {
+            g_warning("%s", e.what().c_str());
+            break;
+        }
+    }
+
+    try
+    {
+        pixbuf_loader->close();
+    }
+    catch (const Glib::FileError & e)
+    {
+        g_warning("%s", e.what().c_str());
+    }
     catch (const Gdk::PixbufError & e)
     {
         g_warning("%s", e.what().c_str());
+    }
+
+    PixbufPtr pixbuf = pixbuf_loader->get_pixbuf();
+    if (0 == pixbuf)
+    {
         return PixbufPtr(0);
     }
 
@@ -115,15 +185,23 @@ ThumbbufMaker::operator()(const PhotoPtr & photo) throw()
                                 pixbuf->gobj()), false);
     }
 
-    const double height = static_cast<double>(pixbuf->get_height());
+    const gint height = pixbuf->get_height();
+    const gint width = pixbuf->get_width();
+    const gdouble aspect_ratio = static_cast<gdouble>(width)
+                                 / static_cast<gdouble>(height);
 
-    if (height_ < height)
+    if (height > width)
     {
-        const double width = static_cast<double>(pixbuf->get_width());
-        const double aspect_ratio = width / height;
         pixbuf = pixbuf->scale_simple(
                      static_cast<gint>(height_ * aspect_ratio),
                      height_, Gdk::INTERP_BILINEAR);
+    }
+    else
+    {
+        pixbuf = pixbuf->scale_simple(
+                     width_,
+                     static_cast<gint>(width_ / aspect_ratio),
+                     Gdk::INTERP_BILINEAR);
     }
 
     return pixbuf;

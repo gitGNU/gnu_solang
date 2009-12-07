@@ -255,6 +255,10 @@ Thumbnail::generate_using_gdkpixbuf(const PhotoPtr & photo,
                                  new_size_hint.get_y(),
                                  true);
     const PixbufPtr thumbnail = thumbbuf_maker(photo);
+    if (0 == thumbnail)
+    {
+        return;
+    }
 
     thumbnail->save( get_path(), "jpeg" );    
 

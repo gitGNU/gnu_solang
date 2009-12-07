@@ -46,6 +46,9 @@ class ThumbbufMaker :
         operator()(const PhotoPtr & photo) throw();
 
     protected:
+        PixbufLoaderPtr
+        create_pixbuf_loader(const std::string & path) const
+                             throw(Gdk::PixbufError);
 
     private:
         bool rotate_;

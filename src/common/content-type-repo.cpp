@@ -67,10 +67,35 @@ ContentTypeRepo::init() throw()
 Glib::ustring
 ContentTypeRepo::get_content_type(const std::string &filename ) const throw()
 {
+    DataInputStreamPtr fin;
+
+    if (true == Glib::file_test(filename, Glib::FILE_TEST_EXISTS))
+    {
+        const FilePtr file = Gio::File::create_for_path(filename);
+
+        try
+        {
+            fin = Gio::DataInputStream::create(file->read());
+        }
+        catch(const Gio::Error & e)
+        {
+            g_warning("%s", e.what().c_str());
+        }
+    }
+
+    const gint SNIFF_BUFFER_SIZE = 4096; // From gdk-pixbuf-io.c
+    guint8 buffer[SNIFF_BUFFER_SIZE];
+    gssize nread = 0;
+
+    if (0 != fin)
+    {
+        nread = fin->read(buffer, sizeof(buffer));
+    }
+
     bool uncertain = false;
     Glib::ustring contentType
         = Gio::content_type_guess(
-                filename, std::string(), uncertain );
+                filename, buffer, nread, uncertain );
 
     if( uncertain )
         return Glib::ustring();
