@@ -34,6 +34,7 @@
 #include "main-window.h"
 #include "photo.h"
 #include "photo-search-criteria.h"
+#include "pixbuf-maker.h"
 #include "thumbnail.h"
 #include "types.h"
 
@@ -76,6 +77,7 @@ EnlargedRenderer::EnlargedRenderer() throw() :
     imageView_(0),
     imageScrollWin_(0),
     pageNum_(-1),
+    pixbufMaker_(),
     signalMainWindowStateEvent_(),
     signalSwitchPage_()
 {
@@ -125,36 +127,46 @@ EnlargedRenderer::render(const PhotoPtr & photo) throw()
                                       "file");
     photo->set_disk_file_path(storage);
 
-    PixbufPtr pixbuf;
-    std::string path;
+    if (0 == pixbufMaker_)
+    {
+        pixbufMaker_ = PixbufMaker::create(true);
+    }
+    else
+    {
+        pixbufMaker_->stop_async();
+    }
 
     try
     {
-        path = Glib::filename_from_utf8(photo->get_disk_file_path());
+        pixbufMaker_->make_async(
+            sigc::mem_fun(
+                *this,
+                &EnlargedRenderer::on_pixbuf_maker_async_ready),
+            photo);
+
+        MainWindow & main_window = application_->get_main_window();
+        main_window.set_busy(true);
     }
     catch (const Glib::ConvertError & e)
     {
         g_warning("%s", e.what().c_str());
-        return;
-    }
-
-    try
-    {
-        pixbuf = Gdk::Pixbuf::create_from_file(path);
     }
     catch (const Glib::FileError & e)
     {
         g_warning("%s", e.what().c_str());
-        return;
     }
     catch (const Gdk::PixbufError & e)
     {
         g_warning("%s", e.what().c_str());
-        return;
     }
+}
 
-    pixbuf = Glib::wrap(gdk_pixbuf_apply_embedded_orientation(
-                            pixbuf->gobj()), false);
+void
+EnlargedRenderer::on_pixbuf_maker_async_ready(
+                      const PixbufPtr & pixbuf) throw()
+{
+    MainWindow & main_window = application_->get_main_window();
+    main_window.set_busy(false);
 
     if (0 == imageView_)
     {

@@ -110,6 +110,9 @@ class EnlargedRenderer :
                                    throw();
 
         void
+        on_pixbuf_maker_async_ready(const PixbufPtr & pixbuf) throw();
+
+        void
         on_switch_page(GtkNotebookPage * notebook_page, guint page_num)
                        throw();
 
@@ -139,6 +142,8 @@ class EnlargedRenderer :
         GtkWidget * imageScrollWin_;
 
         gint pageNum_;
+
+        PixbufMakerPtr pixbufMaker_;
 
         sigc::connection signalMainWindowStateEvent_;
 

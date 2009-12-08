@@ -38,6 +38,8 @@ libcommon_la_SOURCES = \
 	photo-search-criteria.h \
 	plugin.cpp \
 	plugin.h \
+	pixbuf-maker.cpp \
+	pixbuf-maker.h \
 	progress-dialog.cpp \
 	progress-dialog.h \
 	progress-observer.cpp \

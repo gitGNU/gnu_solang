@@ -153,6 +153,10 @@ typedef std::tr1::shared_ptr<PhotoSearchCriteria>
 typedef std::vector<PhotoSearchCriteriaPtr> PhotoSearchCriteriaList;
 typedef std::map<Glib::ustring,PhotoSearchCriteriaPtr> DragDropCriteriaMap;
 
+class PixbufMaker;
+typedef std::tr1::shared_ptr<const PixbufMaker> ConstPixbufMakerPtr;
+typedef std::tr1::shared_ptr<PixbufMaker> PixbufMakerPtr;
+
 class ProgressDialog;
 typedef Glib::RefPtr<const ProgressDialog> ConstProgressDialogPtr;
 typedef Glib::RefPtr<ProgressDialog> ProgressDialogPtr;
