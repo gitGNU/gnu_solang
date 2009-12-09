@@ -45,9 +45,6 @@ class ProgressDialog :
         void
         set_progress_title();
 
-        void
-        reset() throw();
-
     protected:
         virtual bool
         on_delete_event(GdkEventAny * event);
@@ -60,6 +57,9 @@ class ProgressDialog :
 
         void
         on_progress() throw();
+
+        void
+        on_reset() throw();
 
         ProgressObserverPtr observer_;
 

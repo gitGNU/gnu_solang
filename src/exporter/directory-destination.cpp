@@ -92,8 +92,6 @@ DirectoryDestination::export_photo(
     {
         g_warning("%s", e.what().c_str());
     }
-
-    observer->receive_event_notifiation();
 }
 
 void
@@ -103,8 +101,12 @@ DirectoryDestination::export_photos(
                           const ProgressObserverPtr & observer)
                           throw()
 {
-    observer->set_event_description(_("Exporting Photos"));
-    observer->set_num_events(photos.size());
+    if (0 != observer)
+    {
+        observer->set_event_description(_("Exporting photos"));
+        observer->set_num_events(photos.size());
+        observer->set_current_events(0);
+    }
 
     if (true == createArchive_)
     {
@@ -135,6 +137,11 @@ DirectoryDestination::export_photos(
     for (it = photos.begin(); photos.end() != it; it++)
     {
         export_photo(*it, storage, observer);
+
+        if (0 != observer)
+        {
+            observer->receive_event_notifiation();
+        }
     }
 
     if (true == createArchive_)
@@ -145,6 +152,11 @@ DirectoryDestination::export_photos(
 
         Glib::spawn_command_line_sync(command_line);
         g_remove(filename_.c_str());
+    }
+
+    if (0 != observer)
+    {
+        observer->reset();
     }
 
     return;

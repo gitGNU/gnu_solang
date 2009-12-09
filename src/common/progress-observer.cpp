@@ -63,6 +63,13 @@ ProgressObserver::~ProgressObserver() throw()
 {
 }
 
+Glib::Dispatcher &
+ProgressObserver::dispatcher_reset() throw()
+{
+    Glib::Mutex::Lock lock(mutex_);
+    return reset_;
+}
+
 void
 ProgressObserver::set_num_events(guint64 num_events) throw()
 {
@@ -113,7 +120,7 @@ ProgressObserver::reset() throw()
     currentEvents_ = 0;
     numEvents_ = 0;
     stop_ = false;
-    progress_.emit();
+    reset_.emit();
 }
 
 } // namespace Solang

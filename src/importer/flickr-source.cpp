@@ -435,8 +435,9 @@ FlickrSource::import(const PhotoList & photos,
 {
     if (0 != observer)
     {
-        observer->set_event_description(_("Importing Photos"));
+        observer->set_event_description(_("Importing photos"));
         observer->set_num_events(photos.size());
+        observer->set_current_events(0);
     }
 
     PhotoList imported_photos;
@@ -456,7 +457,16 @@ FlickrSource::import(const PhotoList & photos,
                                       observer);
 
         imported_photos.push_back(photo);
-        observer->receive_event_notifiation();
+
+        if (0 != observer)
+        {
+            observer->receive_event_notifiation();
+        }
+    }
+
+    if (0 != observer)
+    {
+        observer->reset();
     }
 
     return imported_photos;
@@ -485,8 +495,9 @@ FlickrSource::download_photos(PhotoList & files,
 {
     if (0 != observer)
     {
-        observer->set_event_description(_("Downloading Photos"));
+        observer->set_event_description(_("Downloading photos"));
         observer->set_num_events(uris_.size());
+        observer->set_current_events(0);
     }
 
     const std::string cache_dir_path = Glib::get_user_cache_dir()

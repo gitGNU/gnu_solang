@@ -486,7 +486,6 @@ void
 Application::hide_progress_dialog() throw()
 {
     progressDialog_.hide();
-    progressDialog_.reset();
     engine_.get_default_observer()->reset();
 }
 

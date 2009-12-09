@@ -25,6 +25,8 @@
 #include <sstream>
 #include <vector>
 
+#include <glibmm/i18n.h>
+
 #include "database.h"
 #include "db-table-factory.h"
 #include "progress-observer.h"
@@ -132,24 +134,40 @@ void
 Database::save( const DBObjectList &objects,
                 ProgressObserverPtr &observer ) throw(Error)
 {
-    observer->set_num_events( objects.size() );
-    observer->set_event_description( "Saving objects" );
+    if (0 != observer)
+    {
+        observer->set_event_description(_("Saving objects"));
+        observer->set_num_events(objects.size());
+        observer->set_current_events(0);
+    }
+
     for( DBObjectList::const_iterator it = objects.begin(); 
                                         it != objects.end(); it++ )
     {
-        if( !observer->get_stop() )
+        if (0 != observer && true == observer->get_stop())
         {
-            try
-            {
-                (*it)->save( *this );
-                observer->receive_event_notifiation();    
-            }
-            catch(Error &e)
-            {
-                e.add_call_info( __FUNCTION__, __FILE__, __LINE__ );
-                throw;
-            }
+            break;
         }
+
+        try
+        {
+            (*it)->save( *this );
+        }
+        catch(Error &e)
+        {
+            e.add_call_info( __FUNCTION__, __FILE__, __LINE__ );
+            throw;
+        }
+
+        if (0 != observer)
+        {
+            observer->receive_event_notifiation();
+        }
+    }
+
+    if (0 != observer)
+    {
+        observer->reset();
     }
 }
 
@@ -256,20 +274,37 @@ Database::search(const PhotoSearchCriteriaList & criterion,
         const gint32 numRows
                          = static_cast<gint32>(model->get_n_rows());
 
-        observer->set_num_events( numRows );
-        observer->set_event_description( "Generating list of photos" );
+        if (0 != observer)
+        {
+            observer->set_event_description(
+                          _("Generating list of photos"));
+            observer->set_num_events(numRows);
+            observer->set_current_events(0);
+        }
+
         DBTablePtr table = getTable( "photos" );
 
         for( gint32 row = 0; row < numRows; row++ )
         {
-            if( !observer->get_stop() )
+            if (0 != observer && true == observer->get_stop())
             {
-                PhotoPtr photo( new Photo() );
-                photo->create( model, row );
-                photo->set_table( table );
-                photos.push_back( photo );
+                break;
+            }
+
+            PhotoPtr photo( new Photo() );
+            photo->create( model, row );
+            photo->set_table( table );
+            photos.push_back( photo );
+
+            if (0 != observer)
+            {
                 observer->receive_event_notifiation();
             }
+        }
+
+        if (0 != observer)
+        {
+            observer->reset();
         }
     }
     catch(Glib::Error &e)
@@ -337,23 +372,37 @@ Database::get_dates_with_picture_count(
         const gint32 numRows
                          = static_cast<gint32>(model->get_n_rows());
 
-        observer->set_num_events( numRows );
-        observer->set_event_description(
-                            "Generating summary of photos" );
+        if (0 != observer)
+        {
+            observer->set_event_description(_("Summarizing photos"));
+            observer->set_num_events(numRows);
+            observer->set_current_events(0);
+        }
 
         for( gint32 row = 0; row < numRows; row++ )
         {
-            if( !observer->get_stop() )
+            if (0 != observer && true == observer->get_stop())
             {
-                infos.push_back(
-                    DatePhotoInfo(
-                        ModificationDate(
-                            model->get_value_at( 0, row ).get_int(),
-                            model->get_value_at( 1, row ).get_int(),
-                            model->get_value_at( 2, row ).get_int()),
-                        model->get_value_at( 3, row ).get_int()));
+                break;
+            }
+
+            infos.push_back(
+                DatePhotoInfo(
+                    ModificationDate(
+                        model->get_value_at( 0, row ).get_int(),
+                        model->get_value_at( 1, row ).get_int(),
+                        model->get_value_at( 2, row ).get_int()),
+                    model->get_value_at( 3, row ).get_int()));
+
+            if (0 != observer)
+            {
                 observer->receive_event_notifiation();
             }
+        }
+
+        if (0 != observer)
+        {
+            observer->reset();
         }
     }
     catch (Glib::Error &e)

@@ -346,7 +346,7 @@ MainWindow::MainWindow() throw() :
 
     statusBar_.set_has_resize_grip(true);
     vBox_.pack_start(statusBar_, Gtk::PACK_SHRINK, 0);
-    statusBar_.pack_start( progress_, Gtk::PACK_EXPAND_WIDGET, 0);
+    statusBar_.pack_start(progress_, Gtk::PACK_SHRINK, 0);
 
     show_all_children();
 }
@@ -874,19 +874,38 @@ MainWindow::connect_progress( const ProgressObserverPtr &observer ) throw()
 {
     observer_ = observer;
     progress_.set_fraction( 0.0L );
-    observer_->progress().connect( sigc::mem_fun(*this,
-        &MainWindow::handle_progress_event)    );
+
+    observer_->progress().connect(
+        sigc::mem_fun(*this,
+                      &MainWindow::on_progress));
+
+    observer_->dispatcher_reset().connect(
+        sigc::mem_fun(*this,
+                      &MainWindow::on_reset));
 }
 
 void
-MainWindow::handle_progress_event() throw()
+MainWindow::on_progress() throw()
 {
-    double percentage =
-                static_cast<double>(
-                    observer_->get_current_events())
-                / static_cast<double>(
-                    observer_->get_num_events()) ;
+    const guint64 num_events = observer_->get_num_events();
+    if (0 == num_events)
+    {
+        return;
+    }
+
+    const double percentage =
+        static_cast<double>(observer_->get_current_events())
+        / static_cast<double>(num_events);
+
     progress_.set_fraction( percentage );
+    progress_.show();
+}
+
+void
+MainWindow::on_reset() throw()
+{
+    progress_.hide();
+    progress_.set_fraction(0.0);
 }
 
 } // namespace Solang

@@ -58,6 +58,10 @@ ProgressDialog::ProgressDialog(const ProgressObserverPtr & observer)
 
     observer_->progress().connect(sigc::mem_fun(*this,
         &ProgressDialog::on_progress));
+
+    observer_->dispatcher_reset().connect(
+        sigc::mem_fun(*this,
+                      &ProgressDialog::on_reset));
 }
 
 ProgressDialog::~ProgressDialog() throw()
@@ -102,15 +106,20 @@ ProgressDialog::on_observer_description_changed() throw()
 void
 ProgressDialog::on_progress() throw()
 {
-    std::ostringstream sout;
+    const guint64 num_events = observer_->get_num_events();
+    if (0 == num_events)
+    {
+        return;
+    }
 
+    std::ostringstream sout;
     sout << observer_->get_current_events() << " of "
-         << observer_->get_num_events() << " completed";
+         << num_events << " completed";
 
     progressBar_.set_text(sout.str());
     progressBar_.set_fraction(
         static_cast<double>(observer_->get_current_events())
-        / static_cast<double>(observer_->get_num_events()));
+        / static_cast<double>(num_events));
 }
 
 void
@@ -121,7 +130,7 @@ ProgressDialog::on_response(int response_id)
 }
 
 void
-ProgressDialog::reset() throw()
+ProgressDialog::on_reset() throw()
 {
     primaryLabel_.set_markup("");
     progressBar_.set_fraction(0.0);

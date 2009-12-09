@@ -109,7 +109,6 @@ Engine::import(const PhotoPtr & photo,
 #endif
     PhotoPtr imp_photo = source->import(photo, selected_storage,
                                     tags, database_, observer);
-    observer->reset();
     photoImportEnd_.emit();
 
     PhotoList imp_photos;
@@ -150,7 +149,6 @@ Engine::import(const PhotoList & photos,
 #endif
     PhotoList imp_photos = source->import(photos, selected_storage,
                                           tags, database_, observer);
-    observer->reset();
     photoImportEnd_.emit();
 
     {
@@ -177,8 +175,6 @@ Engine::import(const IPhotoSourcePtr & source,
                const TagList & tags,
                const ProgressObserverPtr & observer) throw()
 {
-    observer_->set_event_description(_("Beginning to Import Photos"));
-
     photoImportBegin_.emit();
 #if 0
     for (TagList::const_iterator it = tags.begin();
@@ -189,7 +185,6 @@ Engine::import(const IPhotoSourcePtr & source,
 #endif
     PhotoList imp_photos = source->import(selected_storage, tags,
                                           database_, observer);
-    observer->reset();
     photoImportEnd_.emit();
 
     {
@@ -256,7 +251,6 @@ Engine::export_photos(const IPhotoDestinationPtr & destination,
     photoExportBegin_.emit();
     destination->export_photos(exportQueue_, selected_storage,
                                observer);
-    observer->reset();
     photoExportEnd_.emit();
 
     return;
@@ -327,8 +321,9 @@ Engine::create_renderable_list_from_photos(
 
     if( obs )
     {
-        obs->set_num_events( photos.size() );
-        obs->set_event_description( "Updating path info" );
+        observer->set_event_description(_("Updating path information"));
+        observer->set_num_events(photos.size());
+        observer->set_current_events(0);
     }
 
     for( PhotoList::const_iterator photo = photos.begin();
@@ -346,6 +341,11 @@ Engine::create_renderable_list_from_photos(
             if( obs )
                 obs->receive_event_notifiation();
         }
+    }
+
+    if (0 != obs)
+    {
+        obs->reset();
     }
 
     return photos;

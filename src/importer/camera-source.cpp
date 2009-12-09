@@ -26,6 +26,7 @@
 #include <sys/types.h>
 #include <fcntl.h>
 
+#include <glibmm/i18n.h>
 #include <gphoto2.h>
 
 #include "camera-source.h"
@@ -126,8 +127,12 @@ CameraSource::import(const PhotoList & photos,
                      const TagList &tags, Database & db,
                      const ProgressObserverPtr & observer) throw()
 {
-    observer->set_num_events(photos.size());
-    observer->set_event_description("Importing photos");
+    if (0 != observer)
+    {
+        observer->set_event_description(_("Importing photos"));
+        observer->set_num_events(photos.size());
+        observer->set_current_events(0);
+    }
 
     PhotoList imported_photos;
     for (PhotoList::const_iterator it = photos.begin();
@@ -143,7 +148,16 @@ CameraSource::import(const PhotoList & photos,
         PhotoPtr photo = (*it);
         imported_photos.push_back(import(photo, storage, tags, db,
                                          observer));
-        observer->receive_event_notifiation();
+
+        if (0 != observer)
+        {
+            observer->receive_event_notifiation();
+        }
+    }
+
+    if (0 != observer)
+    {
+        observer->reset();
     }
 
     return imported_photos;

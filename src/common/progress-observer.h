@@ -72,6 +72,9 @@ class ProgressObserver
         inline Glib::Dispatcher &
         progress() throw();
 
+        Glib::Dispatcher &
+        dispatcher_reset() throw();
+
         void 
         reset() throw();
 
@@ -83,6 +86,8 @@ class ProgressObserver
         Glib::Dispatcher descriptionChanged_;
 
         Glib::Dispatcher progress_;
+
+        Glib::Dispatcher reset_;
 
         mutable Glib::Mutex mutex_;
 

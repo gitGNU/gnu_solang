@@ -116,10 +116,13 @@ class MainWindow :
         virtual bool
         on_delete_event(GdkEventAny * event);
 
-        ApplicationPtr application_;
+        void
+        on_progress() throw();
 
         void
-        handle_progress_event() throw();
+        on_reset() throw();
+
+        ApplicationPtr application_;
 
         ActionGroupPtr actionGroup_;
 

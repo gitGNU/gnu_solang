@@ -10,6 +10,7 @@ src/attribute/tag-manager.cpp
 src/attribute/tag-new-dialog.cpp
 src/common/histogram-viewer.cpp
 src/common/progress-dialog.cpp
+src/database/database.cpp
 src/edit-engine/brightness-operation.cpp
 src/edit-engine/buffer.cpp
 src/edit-engine/contrast-operation.cpp
