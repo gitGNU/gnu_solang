@@ -42,10 +42,10 @@ class ProgressDialog :
         void
         set_pulse_step(double fraction) throw();
 
-        void 
+        void
         set_progress_title();
 
-        void 
+        void
         reset() throw();
 
     protected:
