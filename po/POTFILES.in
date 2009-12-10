@@ -41,4 +41,3 @@ src/renderer/enlarged-renderer.cpp
 src/renderer/pagination-bar.cpp
 src/renderer/slideshow-renderer.cpp
 src/renderer/slideshow-window.cpp
-src/renderer/zoomer.cpp
