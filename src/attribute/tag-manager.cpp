@@ -342,11 +342,17 @@ TagManager::on_action_tag_delete() throw()
     DeletionQueue &queue
                 = application_->get_engine().get_delete_actions();
 
-    for( Gtk::TreeModel::iterator item = selected->get_selected();
-            item != selected->get_model()->children().end(); item++ )
+    const TreeModelPtr model = tagView_.get_model();
+    const TreePathList selected_rows = selected->get_selected_rows();
+
+    for (TreePathList::const_iterator iter = selected_rows.begin();
+         selected_rows.end() != iter;
+         iter++)
     {
-        Gtk::TreeModel::Row row= (*item);
+        Gtk::TreeModel::iterator model_iter = model->get_iter(*iter);
+        Gtk::TreeModel::Row row = *model_iter;
         TagPtr tag = row[ rec.get_column_tag() ];
+
         if( tag && tag->get_tag_id() )
         {
             DeleteActionPtr action = tag->get_delete_action();
