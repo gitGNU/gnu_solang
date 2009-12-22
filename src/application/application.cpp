@@ -50,7 +50,6 @@
 #include "search-basket.h"
 #include "slideshow-renderer.h"
 #include "tag-manager.h"
-#include "thumbnail.h"
 #include "thumbnail-store.h"
 
 namespace Solang
