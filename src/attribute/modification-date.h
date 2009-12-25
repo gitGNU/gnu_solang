@@ -1,5 +1,6 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 4; tab-width: 4 -*- */
 /*
+ * Copyright (C) 2009 Debarshi Ray <rishi@gnu.org>
  * Copyright (C) 2009 Santanu Sinha <santanu.sinha@gmail.com>
  *
  * Solang is free software: you can redistribute it and/or modify it
@@ -28,11 +29,6 @@ class ModificationDate
     : public PhotoSearchCriteria
 {
     private:
-
-        static const gint32 MOD_DAY_COL;
-        static const gint32 MOD_MONTH_COL;
-        static const gint32 MOD_YEAR_COL;
-
         gint32 day_;
         gint32 month_;
         gint32 year_;    
@@ -160,16 +156,6 @@ class ModificationDate
 
         virtual Glib::ustring
         get_criteria_icon_path() const throw();
-
-        void
-        insert(std::vector<Gnome::Gda::Value> &values);
-
-        void
-        update(DataModelPtr & model, gint32 row) throw(Glib::Error);
-
-        void
-        create(const DataModelPtr & data_model, gint32 row);
-
 };    
 
 } // namespace Solang

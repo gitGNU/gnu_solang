@@ -1,13 +1,14 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 4; tab-width: 4 -*- */
 /*
+ * Copyright (C) 2009 Debarshi Ray <rishi@gnu.org>
  * Copyright (C) 2009 Santanu Sinha <santanu.sinha@gmail.com>
  *
- * db-table-visitor.cpp is free software: you can redistribute it and/or modify it
+ * Solang is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
  * Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * d-b-table-visitor.cpp is distributed in the hope that it will be useful, but
+ * Solang is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  * See the GNU General Public License for more details.
@@ -16,17 +17,29 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "db-table-visitor.h"
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif // HAVE_CONFIG_H
+
+#include "database.h"
+#include "db-object.h"
 
 namespace Solang
 {
 
-DBTableVisitor::DBTableVisitor()
+DBObject::DBObject() throw()
+    :isDeleted_()
 {
 }
 
-DBTableVisitor::~DBTableVisitor() throw()
+DBObject::~DBObject() throw()
 {
 }
 
-} // namespace Solang
+void
+DBObject::set_is_deleted( bool value ) throw()
+{
+    isDeleted_ = value;
+}
+
+} //namespace Solang

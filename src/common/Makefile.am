@@ -1,12 +1,33 @@
 noinst_LTLIBRARIES =	libcommon.la
 
+libcommon_la_built_sources = \
+	solang-marshal.c \
+	solang-marshal.h \
+	org-freedesktop-thumbnails-thumbnailer1-dbus-bindings.h
+
+BUILT_SOURCES = \
+	$(libcommon_la_built_sources)
+
 libcommon_la_SOURCES = \
+	$(libcommon_la_built_sources) \
+	database.cpp \
+	database.h \
+	delete-action.cpp \
+	delete-action.h \
+	db-object.cpp \
+	db-object.h \
+	tracker-client.cpp \
+	tracker-client.h \
 	content-type-repo.cpp \
 	content-type-repo.h \
 	cursor-changer.cpp \
 	cursor-changer.h \
 	error.cpp \
 	error.h \
+	exif-data-key.cpp \
+	exif-data-key.h \
+	exif-data.cpp \
+	exif-data.h \
 	export-queue-operations.cpp \
 	export-queue-operations.h \
 	flickr-context.cpp \
@@ -57,6 +78,10 @@ libcommon_la_SOURCES = \
 	spinner-tool-item.h \
 	thumbbuf-maker.cpp \
 	thumbbuf-maker.h \
+	thumbnailer.cpp \
+	thumbnailer.h \
+	thumbnailer-proxy.cpp \
+	thumbnailer-proxy.h \
 	types.h
 
 AM_CPPFLAGS = \
@@ -73,13 +98,55 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/renderer \
 	-I$(top_srcdir)/src/storage \
 	$(SOLANG_CFLAGS) \
-	$(EXIV2_CFLAGS) \
+	$(DBUS_CFLAGS) \
 	$(FLICKCURL_CFLAGS) \
 	$(GTKMM_CFLAGS) \
-	$(GDAMM_CFLAGS) \
 	$(GDL_CFLAGS) \
 	$(GEGL_CFLAGS) \
-	$(BABL_CFLAGS)
+	$(BABL_CFLAGS) \
+	$(TRACKER_CFLAGS)
 
 AM_CXXFLAGS = \
 	 -Wall
+
+EXTRA_DIST = \
+	solang-marshal.list \
+	org-freedesktop-thumbnails-thumbnailer1-dbus.xml
+
+if MAINTAINER_MODE
+CLEANFILES = \
+	xgen-tmc \
+	xgen-tmh
+
+DISTCLEANFILES = \
+	$(libcommon_la_built_sources) \
+	stamp-solang-marshal.h
+
+org-freedesktop-thumbnails-thumbnailer1-dbus-bindings.h: org-freedesktop-thumbnails-thumbnailer1-dbus.xml Makefile
+	$(AM_V_GEN) $(DBUS_BINDING_TOOL) --mode=glib-client --prefix=org-freedesktop-thumbnails-thumbnailer1 $< > $@
+
+solang-marshal.h: stamp-solang-marshal.h
+	@true
+
+stamp-solang-marshal.h: solang-marshal.list Makefile
+	$(AM_V_GEN) ( \
+		cd $(srcdir) \
+		&& ( glib-genmarshal \
+			--prefix=solang_marshal \
+			--header solang-marshal.list ) >> xgen-tmh \
+		&& ( cmp -s xgen-tmh solang-marshal.h || cp xgen-tmh solang-marshal.h ) \
+		&& rm -f xgen-tmh \
+		&& echo timestamp > $(@F) \
+	)
+
+solang-marshal.c: solang-marshal.list solang-marshal.h Makefile
+	$(AM_V_GEN) ( \
+		cd $(srcdir) \
+		&& echo "#include \"solang-marshal.h\"" > xgen-tmc \
+		&& ( glib-genmarshal \
+			--prefix=solang_marshal \
+			--body solang-marshal.list ) >> xgen-tmc \
+		&& cp xgen-tmc solang-marshal.c \
+		&& rm -f xgen-tmc \
+	)
+endif

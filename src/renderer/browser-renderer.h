@@ -155,6 +155,8 @@ class BrowserRenderer :
 
         Gtk::ScrolledWindow scrolledWindow_;
 
+        PixbufPtr imageLoading_;
+
         TreeModelFilterPtr treeModelFilter_;
 
         ThumbnailView thumbnailView_;

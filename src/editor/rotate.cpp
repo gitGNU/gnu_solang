@@ -20,8 +20,8 @@
 #include "config.h"
 #endif
 
-#include <exiv2/image.hpp>
-#include <exiv2/exif.hpp>
+#include <iostream>
+
 #include <gdkmm.h>
 
 #include "editable-photo.h"
@@ -123,20 +123,20 @@ Rotate::rotatePhoto( EditablePhoto &photo,
         }
 
         //Update exif
-        {
-            Exiv2::ExifData &exifData = photo.get_exif_data();
-            int32_t width = exifData["Exif.Photo.PixelXDimension"].toLong();
-            int32_t height = exifData["Exif.Photo.PixelYDimension"].toLong();
-            exifData["Exif.Photo.PixelXDimension"] = height;
-            exifData["Exif.Photo.PixelYDimension"] = width;
-        }
-        {
-            Exiv2::XmpData &xmpData = photo.get_xmp_data();
-            int32_t width = xmpData["Xmp.exif.PixelXDimension"].toLong();
-            int32_t height = xmpData["Xmp.exif.PixelYDimension"].toLong();
-            xmpData["Xmp.exif.PixelXDimension"] = height;
-            xmpData["Xmp.exif.PixelYDimension"] = width;
-        }
+//        {
+//            Exiv2::ExifData &exifData = photo.get_exif_data();
+//            int32_t width = exifData["Exif.Photo.PixelXDimension"].toLong();
+//            int32_t height = exifData["Exif.Photo.PixelYDimension"].toLong();
+//            exifData["Exif.Photo.PixelXDimension"] = height;
+//            exifData["Exif.Photo.PixelYDimension"] = width;
+//        }
+//        {
+//            Exiv2::XmpData &xmpData = photo.get_xmp_data();
+//            int32_t width = xmpData["Xmp.exif.PixelXDimension"].toLong();
+//            int32_t height = xmpData["Xmp.exif.PixelYDimension"].toLong();
+//            xmpData["Xmp.exif.PixelXDimension"] = height;
+//            xmpData["Xmp.exif.PixelYDimension"] = width;
+//        }
 
     }
     catch( Error &e )

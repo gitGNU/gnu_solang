@@ -43,7 +43,7 @@ EditablePhoto::EditablePhoto( const PhotoPtr &photo ) throw()
     buffer_( 0 ),
     editBuffer_( ),
     isDirty_( false ),
-    image_(),
+//    image_(),
     toSave_( false )
 {
     setup_photo_for_edit();
@@ -110,22 +110,21 @@ EditablePhoto::save( Engine &engine ) throw(Error)
 
         buffer_->save_to_buffer( buf, size, "jpeg", keys, values );
 
-        Exiv2::Image::AutoPtr target = Exiv2::ImageFactory::open(
-                                         (Exiv2::byte *)buf, size );
-        target->setMetadata( *image_ );
-        target->writeMetadata();
+//        Exiv2::Image::AutoPtr target = Exiv2::ImageFactory::open(
+//                                         (Exiv2::byte *)buf, size );
+//        target->setMetadata( *image_ );
+//        target->writeMetadata();
 
-        Exiv2::FileIo file( "/tmp/test.jpg" );
-        file.open("w");
-        file.write( target->io() );
-        file.close();
+//        Exiv2::FileIo file( "/tmp/test.jpg" );
+//        file.open("w");
+//        file.write( target->io() );
+//        file.close();
 
-        Glib::RefPtr<Gio::File> src = Gio::File::create_for_path(
-                                            "/tmp/test.jpg");
-        Glib::RefPtr<Gio::File> dest = Gio::File::create_for_path(
-                                        photo_->get_disk_file_path());
-        src->copy( dest, Gio::FILE_COPY_OVERWRITE );
-        engine.save( photo_ );
+//        Glib::RefPtr<Gio::File> src = Gio::File::create_for_path(
+//                                            "/tmp/test.jpg");
+//        Glib::RefPtr<Gio::File> dest = Gio::File::create_for_uri(
+//                                           photo_->get_uri());
+//        src->copy( dest, Gio::FILE_COPY_OVERWRITE );
     }
 }
 
@@ -135,23 +134,20 @@ EditablePhoto::setup_photo_for_edit( ) throw()
     if( !photo_ )
         return;
 
-    if( photo_->get_disk_file_path().empty() )
-        return;
+//    image_ = Exiv2::ImageFactory::open(
+//                 Glib::filename_from_uri(photo_->get_uri()));
 
-    image_ = Exiv2::ImageFactory::open(
-                            photo_->get_disk_file_path() );
-
-    image_->readMetadata();
+//    image_->readMetadata();
 
 #if 0
 
     gchar *buf;
 
-    image_->io()->read( (Exiv2::byte *)buf, image_->io()->size());
+//    image_->io()->read( (Exiv2::byte *)buf, image_->io()->size());
 
     Glib::Ref<Gdk::PixbufLoader> loader = Gdk::PixbufLoader::create();
 
-    loader->write( buf, image_->io()->size() );
+//    loader->write( buf, image_->io()->size() );
 
     buffer_ = loader->get_pixbuf();
 #endif
@@ -161,7 +157,7 @@ EditablePhoto::setup_photo_for_edit( ) throw()
     if( ! buffer_ )
     {
         buffer_ = Gdk::Pixbuf::create_from_file(
-                            photo_->get_disk_file_path());
+                      Glib::filename_from_uri(photo_->get_uri()));
     }
 }
 

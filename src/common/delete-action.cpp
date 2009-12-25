@@ -17,6 +17,7 @@
  */
 
 #include "database.h"
+#include "db-object.h"
 #include "delete-action.h"
 
 namespace Solang
@@ -71,11 +72,11 @@ DeleteAction::execute( Database &db ) throw()
     for( std::vector<Glib::ustring>::iterator sql = commands_.begin();
                                 sql != commands_.end(); sql++ )
     {
-        db.run_sql( *sql );
+//        db.run_sql( *sql );
     }
 
-    if( object_ )
-        object_->remove_physical_existence();
+//    if( object_ )
+//        object_->remove_physical_existence();
 
     return;
 }

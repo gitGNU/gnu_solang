@@ -31,6 +31,7 @@
 #include "photo.h"
 #include "photo-search-criteria.h"
 #include "search-criterion-repo.h"
+#include "thumbnailer.h"
 #include "types.h"
 
 namespace Solang
@@ -56,6 +57,9 @@ class Engine :
         final();
 
         void
+        criteria_changed() throw();
+
+        void
         import(const PhotoPtr & photo,
                const IPhotoSourcePtr & source,
                const IStoragePtr & selected_storage,
@@ -92,28 +96,17 @@ class Engine :
                const TagList & tags,
                const ProgressObserverPtr & observer) throw();
 
-        PhotoList
-        search(const PhotoSearchCriteriaList & criterion,
-               const ProgressObserverPtr & observer
-                   = ProgressObserverPtr()) throw();
+        void
+        search_async(const PhotoSearchCriteriaList & criteria,
+                     const Database::SlotAsyncPhotos & slot) const
+                     throw();
 
         void
-        on_criterion_changed();
-
-        void
-        show(const PhotoSearchCriteriaList & criterion) throw();
-
-        void
-        show(const PhotoSearchCriteriaList & criterion,
-             const ProgressObserverPtr & observer) throw();
+        export_photos(const IPhotoDestinationPtr & destination)
+                      throw();
 
         void
         export_photos(const IPhotoDestinationPtr & destination,
-                      const IStoragePtr & selected_storage) throw();
-
-        void
-        export_photos(const IPhotoDestinationPtr & destination,
-                      const IStoragePtr & selected_storage,
                       const ProgressObserverPtr & observer) throw();
 
         void
@@ -122,13 +115,8 @@ class Engine :
                   = ProgressObserverPtr());
 
         void
-        save(const PhotoPtr &photo);
-
-        TagList
-        get_tags() const throw();
-
-        void
-        apply_tag_to_photos( PhotoList &photos, const TagPtr &tag );
+        get_tags_async(const Database::SlotAsyncTags & slot) const
+                       throw();
 
         //Group by year
         DatePhotoInfoList
@@ -154,20 +142,14 @@ class Engine :
         Glib::Dispatcher &
         photo_import_end() throw();
 
-        Glib::Dispatcher &
-        photo_render_begin() throw();
-
-        Glib::Dispatcher &
-        photo_render_end() throw();
+        sigc::signal<void, PhotoSearchCriteriaList &> &
+        signal_criteria_changed() throw();
 
         Glib::Dispatcher &
         tag_add_begin() throw();
 
         Glib::Dispatcher &
         tag_add_end() throw();
-
-        Glib::Dispatcher &
-        criterion_changed() throw();
 
         sigc::signal<void> &
         selection_changed() throw();
@@ -177,17 +159,6 @@ class Engine :
         {
             return DatabasePtr(&database_);
         }
-
-        void
-        set_current_storage_systems(const StorageMap & storages);
-
-        void
-        add_current_storage_system(const Glib::ustring & prefix,
-                                   const IStoragePtr & storage);
-
-        IStoragePtr
-        get_current_storage_system(const Glib::ustring & prefix)
-                                   const throw();
 
         PhotoList &
         get_export_queue() throw();
@@ -204,13 +175,10 @@ class Engine :
         inline DeletionQueue &
         get_delete_actions();
 
-    private:
-        PhotoList
-        create_renderable_list_from_photos(
-            const PhotoList & photos,
-            const ProgressObserverPtr & observer
-                = ProgressObserverPtr());
+        Thumbnailer &
+        get_thumbnailer() throw();
 
+    private:
         ProgressObserverPtr observer_;
 
         Glib::Dispatcher photoExportBegin_;
@@ -221,15 +189,12 @@ class Engine :
 
         Glib::Dispatcher photoImportEnd_;
 
-        Glib::Dispatcher photoRenderBegin_;
-
-        Glib::Dispatcher photoRenderEnd_;
-        
         Glib::Dispatcher tagAddBegin_;
 
         Glib::Dispatcher tagAddEnd_;
 
-        Glib::Dispatcher criterionChanged_;
+        sigc::signal<void, PhotoSearchCriteriaList &>
+            criteriaChanged_;
 
         sigc::signal<void> selectionChanged_;
 
@@ -243,6 +208,8 @@ class Engine :
         //from gconf
 
         StorageMap currentStorageSystems_;
+
+        Thumbnailer thumbnailer_;
 
         Database database_;
 

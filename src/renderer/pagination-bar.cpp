@@ -285,6 +285,8 @@ PaginationBar::scroll_to_position(guint position) throw()
     }
 
     const guint step = get_step();
+    const guint old_lower_limit = lowerLimit_;
+    const guint old_upper_limit = upperLimit_;
 
     if (position < lowerLimit_)
     {
@@ -325,7 +327,11 @@ PaginationBar::scroll_to_position(guint position) throw()
         }
     }
 
-    limitsChanged_.emit();
+    if (old_lower_limit != lowerLimit_
+        || old_upper_limit != upperLimit_)
+    {
+        limitsChanged_.emit();
+    }
 }
 
 void

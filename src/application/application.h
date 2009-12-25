@@ -110,7 +110,11 @@ class Application :
         hide_progress_dialog() throw();
 
         void
-        on_photo_render_begin() throw();
+        on_async_search(PhotoList & photos) throw();
+
+        void
+        on_criteria_changed(PhotoSearchCriteriaList & criteria)
+                            throw();
 
         void
         show_progress_dialog() throw();

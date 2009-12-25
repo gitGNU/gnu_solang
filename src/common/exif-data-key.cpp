@@ -11,9 +11,7 @@ namespace Solang
 Glib::ustring
 ExifDataKey::get_query_criteria() const throw()
 {
-    std::ostringstream sout;
-    sout<<key_<<" = '"<<value_<<"' ";
-    return sout.str();
+    return Glib::ustring::compose("%1 '%2' .", key_, value_);
 }
 
 PhotoSearchCriteria::ClubbingOperationType

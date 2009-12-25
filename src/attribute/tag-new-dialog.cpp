@@ -210,20 +210,20 @@ TagNewDialog::setup_gui() throw()
     iconButton_.set_size_request(64, 64);
     iconButton_.signal_clicked().connect(sigc::mem_fun(*this,
         &TagNewDialog::on_icon_button_clicked));
-    mainTable_.attach(iconButton_, 0, 1, 0, 2,
-                      Gtk::FILL | Gtk::EXPAND,
-                      Gtk::FILL | Gtk::EXPAND,
-                      0, 0);
+//    mainTable_.attach(iconButton_, 0, 1, 0, 2,
+//                      Gtk::FILL | Gtk::EXPAND,
+//                      Gtk::FILL | Gtk::EXPAND,
+//                      0, 0);
 
-    mainTable_.attach(parentLabel_, 1, 2, 0, 1,
-                      Gtk::FILL | Gtk::EXPAND,
-                      Gtk::FILL | Gtk::EXPAND,
-                      0, 0);
+//    mainTable_.attach(parentLabel_, 1, 2, 0, 1,
+//                      Gtk::FILL | Gtk::EXPAND,
+//                      Gtk::FILL | Gtk::EXPAND,
+//                      0, 0);
 
-    mainTable_.attach(parentComboBox_, 2, 3, 0, 1,
-                      Gtk::FILL | Gtk::EXPAND,
-                      Gtk::FILL | Gtk::EXPAND,
-                      0, 0);
+//    mainTable_.attach(parentComboBox_, 2, 3, 0, 1,
+//                      Gtk::FILL | Gtk::EXPAND,
+//                      Gtk::FILL | Gtk::EXPAND,
+//                      0, 0);
 
     mainTable_.attach(nameLabel_, 1, 2, 1, 2,
                       Gtk::FILL | Gtk::EXPAND,
@@ -235,19 +235,19 @@ TagNewDialog::setup_gui() throw()
                       Gtk::FILL | Gtk::EXPAND,
                       0, 0);
 
-    mainTable_.attach(descriptionLabel_, 1, 2, 2, 3,
-                      Gtk::FILL | Gtk::EXPAND,
-                      Gtk::FILL | Gtk::EXPAND,
-                      0, 0);
+//    mainTable_.attach(descriptionLabel_, 1, 2, 2, 3,
+//                      Gtk::FILL | Gtk::EXPAND,
+//                      Gtk::FILL | Gtk::EXPAND,
+//                      0, 0);
 
     descriptionScrolledWindow_.set_policy(Gtk::POLICY_AUTOMATIC,
                                           Gtk::POLICY_AUTOMATIC);
-    mainTable_.attach(descriptionScrolledWindow_, 2, 3, 2, 3,
-                      Gtk::FILL | Gtk::EXPAND,
-                      Gtk::FILL | Gtk::EXPAND,
-                      0, 0);
+//    mainTable_.attach(descriptionScrolledWindow_, 2, 3, 2, 3,
+//                      Gtk::FILL | Gtk::EXPAND,
+//                      Gtk::FILL | Gtk::EXPAND,
+//                      0, 0);
 
-    descriptionScrolledWindow_.add(descriptionTextView_);
+//    descriptionScrolledWindow_.add(descriptionTextView_);
 
     add_button(Gtk::Stock::CANCEL, Gtk::RESPONSE_CANCEL);
     add_button(Gtk::Stock::OK, Gtk::RESPONSE_OK);

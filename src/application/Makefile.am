@@ -17,25 +17,22 @@ solang_LDFLAGS =
 
 solang_LDADD = \
 	$(top_builddir)/src/exporter/libexporter.la \
-	$(top_builddir)/src/importer/libimporter.la \
 	$(top_builddir)/src/renderer/librenderer.la \
-	$(top_builddir)/src/storage/libstorage.la \
 	$(top_builddir)/src/attribute/libattribute.la \
-	$(top_builddir)/src/database/libdatabase.la \
 	$(top_builddir)/src/editor/libeditor.la \
 	$(top_builddir)/src/edit-engine/libeditengine.la \
 	$(top_builddir)/src/common/libcommon.la \
-	$(EXIV2_LIBS) \
+	$(DBUS_LIBS) \
 	$(FLICKCURL_LIBS) \
 	$(GPHOTO2_LIBS) \
 	$(GTKIMAGEVIEW_LIBS) \
 	$(WEBKIT_LIBS) \
 	$(GTKMM_LIBS) \
-	$(GDAMM_LIBS) \
 	$(SOUP_LIBS) \
 	$(GDL_LIBS) \
 	$(BABL_LIBS) \
-	$(GEGL_LIBS)
+	$(GEGL_LIBS) \
+	$(TRACKER_LIBS)
 
 AM_CPPFLAGS = \
 	-DPACKAGE_LOCALE_DIR=\""${datadir}/locale"\" \
@@ -49,18 +46,16 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/database \
 	-I$(top_srcdir)/src/editor \
 	-I$(top_srcdir)/src/exporter \
-	-I$(top_srcdir)/src/importer \
 	-I$(top_srcdir)/src/renderer \
-	-I$(top_srcdir)/src/storage \
 	$(SOLANG_CFLAGS) \
-	$(EXIV2_CFLAGS) \
+	$(DBUS_CFLAGS) \
 	$(FLICKCURL_CFLAGS) \
 	$(GPHOTO2_CFLAGS) \
 	$(GTKIMAGEVIEW_CFLAGS) \
 	$(GTKMM_CFLAGS) \
-	$(GDAMM_CFLAGS) \
 	$(GDL_CFLAGS) \
-	$(GEGL_CFLAGS)
+	$(GEGL_CFLAGS) \
+	$(TRACKER_CFLAGS)
 
 AM_CXXFLAGS = \
 	 -Wall

@@ -34,6 +34,7 @@
 #include "i-renderer.h"
 #include "main-window.h"
 #include "photo-tag.h"
+#include "tag.h"
 #include "tag-manager.h"
 #include "tag-new-dialog.h"
 
@@ -168,8 +169,6 @@ TagManager::init(Application & application)
     application_ = &application;
     tagView_.set_application( &application );
 
-    populate_view();
-
     RendererRegistry & renderer_registry
                            = application.get_renderer_registry();
 
@@ -190,6 +189,12 @@ TagManager::init(Application & application)
     }
 
     ui_manager->insert_action_group(actionGroup_);
+
+    Glib::signal_idle().connect_once(
+        sigc::mem_fun(
+            *this,
+            &TagManager::populate_view),
+        Glib::PRIORITY_DEFAULT_IDLE);
 
     initialized_.emit(*this);
 }
@@ -253,13 +258,12 @@ TagManager::on_action_tag_new() throw()
     {
         case Gtk::RESPONSE_OK:
         {
-            TagPtr tag( new Tag() );
-            tag->set_name( tag_new_dialog.get_name() );
-            tag->set_description( tag_new_dialog.get_description() );
-            tag->set_icon_path( tag_new_dialog.get_icon_path() );
+            TagPtr tag(new Tag(tag_new_dialog.get_name()));
             DatabasePtr db = application_->get_engine().get_db();
-            tag->save( *db );
-            populate_view();
+            tag->save_async(
+                *db,
+                sigc::mem_fun(*this,
+                              &TagManager::on_updated_tag));
             break;
         }
 
@@ -282,9 +286,6 @@ TagManager::on_action_tag_edit() throw()
     Glib::RefPtr<Gtk::TreeSelection> selected
                                             = tagView_.get_selection();
 
-    if( Tag::ALL_PHOTOS_TAGID == selected->count_selected_rows() )
-        return;
-
     Gtk::TreeModel::iterator item = selected->get_selected();
     const TagViewModelColumnRecord &rec
                                 = tagView_.get_column_records();
@@ -304,12 +305,12 @@ TagManager::on_action_tag_edit() throw()
         {
             case Gtk::RESPONSE_OK:
             {
-                tag->set_name( tag_new_dialog.get_name() );
-                tag->set_description( tag_new_dialog.get_description() );
-                tag->set_icon_path( tag_new_dialog.get_icon_path() );
                 DatabasePtr db = application_->get_engine().get_db();
-                tag->save( *db );
-                populate_view();
+                tag->edit_async(
+                    tag_new_dialog.get_name(),
+                    *db,
+                    sigc::mem_fun(*this,
+                                  &TagManager::on_updated_tag));
                 break;
             }
 
@@ -333,14 +334,10 @@ TagManager::on_action_tag_delete() throw()
     Glib::RefPtr<Gtk::TreeSelection> selected
                                             = tagView_.get_selection();
 
-    if( Tag::ALL_PHOTOS_TAGID == selected->count_selected_rows() )
-        return;
-
     const TagViewModelColumnRecord &rec
                                 = tagView_.get_column_records();
 
-    DeletionQueue &queue
-                = application_->get_engine().get_delete_actions();
+    DatabasePtr db = application_->get_engine().get_db();
 
     const TreeModelPtr model = tagView_.get_model();
     const TreePathList selected_rows = selected->get_selected_rows();
@@ -353,12 +350,9 @@ TagManager::on_action_tag_delete() throw()
         Gtk::TreeModel::Row row = *model_iter;
         TagPtr tag = row[ rec.get_column_tag() ];
 
-        if( tag && tag->get_tag_id() )
-        {
-            DeleteActionPtr action = tag->get_delete_action();
-            queue.schedule_delete_action( action );
-        }
-
+        tag->delete_async(*db,
+                          sigc::mem_fun(*this,
+                                        &TagManager::on_updated_tag));
     }
 }
 
@@ -367,30 +361,32 @@ TagManager::on_action_apply_tag() throw()
 {
     Glib::RefPtr<Gtk::TreeSelection> selected
                                             = tagView_.get_selection();
-
-    if( 0 == selected->count_selected_rows() )
-        return;
-
     Gtk::TreeModel::iterator item = selected->get_selected();
+
+    if (false == item)
+    {
+        return;
+    }
+
     const TagViewModelColumnRecord &rec
                                 = tagView_.get_column_records();
 
-    if( item != selected->get_model()->children().end() )
+    Gtk::TreeModel::Row row= (*item);
+    TagPtr tag = row[ rec.get_column_tag() ];
+
+    RendererRegistry & renderer_registry
+        = application_->get_renderer_registry();
+    const IRendererPtr renderer = renderer_registry.get_current();
+
+    const DatabasePtr db = application_->get_engine().get_db();
+    PhotoList photos = renderer->get_current_selection();
+
+    for (PhotoList::const_iterator photos_iter = photos.begin();
+         photos.end() != photos_iter;
+         photos_iter++)
     {
-        Gtk::TreeModel::Row row= (*item);
-        TagPtr tag = row[ rec.get_column_tag() ];
-
-        if( Tag::ALL_PHOTOS_TAGID == tag->get_tag_id() )
-            return;
-
-        RendererRegistry & renderer_registry
-            = application_->get_renderer_registry();
-        const IRendererPtr renderer = renderer_registry.get_current();
-
-        PhotoList photos = renderer->get_current_selection();
-
-        Engine & engine = application_->get_engine();
-        engine.apply_tag_to_photos( photos, tag );
+        PhotoTag photo_tag(*photos_iter, tag);
+        photo_tag.save_async(*db, sigc::slot<void>());
     }
 
     return;
@@ -399,7 +395,7 @@ TagManager::on_action_apply_tag() throw()
 void
 TagManager::on_action_remove_tag() throw()
 {
-    Glib::RefPtr<Gtk::TreeSelection> selected
+/*    Glib::RefPtr<Gtk::TreeSelection> selected
                                             = tagView_.get_selection();
 
     if( 0 == selected->count_selected_rows() )
@@ -432,9 +428,15 @@ TagManager::on_action_remove_tag() throw()
             DeleteActionPtr action = photoTag.get_delete_action();
             queue.schedule_delete_action( action );
         }
-    }
+    }*/
 
     return;
+}
+
+void
+TagManager::on_get_tags(TagList & tags) throw()
+{
+    tagView_.populate(tags);
 }
 
 void
@@ -451,11 +453,18 @@ TagManager::on_renderer_changed(RendererRegistry & renderer_registry)
 }
 
 void
+TagManager::on_updated_tag() throw()
+{
+    populate_view();
+}
+
+void
 TagManager::populate_view() throw()
 {
     Engine & engine = application_->get_engine();
-    TagList tags = engine.get_tags();
-    tagView_.populate(tags);
+    engine.get_tags_async(sigc::mem_fun(
+                              *this,
+                              &TagManager::on_get_tags));
 }
 
 void

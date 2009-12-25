@@ -62,25 +62,10 @@ DirectoryDestination::final(Application & application) throw()
 void
 DirectoryDestination::export_photo(
                           const PhotoPtr & photo,
-                          const IStoragePtr & storage,
                           const ProgressObserverPtr & observer)
                           throw()
 {
-    photo->set_disk_file_path(storage);
-
-    std::string path;
-
-    try
-    {
-        path = Glib::filename_from_utf8(photo->get_disk_file_path());
-    }
-    catch (const Glib::ConvertError & e)
-    {
-        g_warning("%s", e.what().c_str());
-        return;
-    }
-
-    const FilePtr file = Gio::File::create_for_path(path);
+    const FilePtr file = Gio::File::create_for_uri(photo->get_uri());
     const FilePtr dest = Gio::File::create_for_path(
                              filename_ + "/" + file->get_basename());
 
@@ -97,7 +82,6 @@ DirectoryDestination::export_photo(
 void
 DirectoryDestination::export_photos(
                           const PhotoList & photos,
-                          const IStoragePtr & storage,
                           const ProgressObserverPtr & observer)
                           throw()
 {
@@ -136,7 +120,7 @@ DirectoryDestination::export_photos(
 
     for (it = photos.begin(); photos.end() != it; it++)
     {
-        export_photo(*it, storage, observer);
+        export_photo(*it, observer);
 
         if (0 != observer)
         {

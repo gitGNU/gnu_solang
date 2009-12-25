@@ -47,8 +47,6 @@ ConsoleRenderer::init(Application & application) throw()
 void
 ConsoleRenderer::render(const PhotoPtr & photo) throw()
 {
-    std::cout << "Photo Path:" << photo->get_disk_file_path()
-              << std::endl;
     std::cout << "Photo Path:" << photo->get_uri() << std::endl;
 }
 

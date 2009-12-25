@@ -20,31 +20,44 @@
 #include "config.h"
 #endif // HAVE_CONFIG_H
 
-#include <iostream>
-#include <libgdamm.h>
-
 #include "database.h"
+#include "exif-data.h"
 #include "photo.h"
 #include "i-storage.h"
 
 namespace Solang
 {
 
-const gint32 Photo::PHOTOID_COL                        = 0;
-const gint32 Photo::URI_COL                            = 1;
-const gint32 Photo::CONTENT_TYPE_COL                   = 2;
+void
+Photo::parse_exif_data(const UStringList & data, ExifData & exif_data)
+                       throw()
+{
+    exif_data.set_camera(data[0]);
+    exif_data.set_exposure_time(data[1]);
+    exif_data.set_fnumber(data[2]);
+    exif_data.set_focal_length(data[3]);
+    exif_data.set_iso_speed(data[4]);
+    exif_data.set_metering_mode(data[5]);
+}
 
-Photo::Photo() throw() :
+Photo::Photo(const Glib::ustring & uri,
+             const Glib::ustring & content_type) throw() :
     DBObject(),
-    photoId_(-1),
-    uri_(),
-    diskFilePath_(),
-    thumbnail_(),
-    exifData_(),
+    uri_(uri),
+    contentType_(content_type),
+    thumbnailPath_(),
+    thumbnailState_(THUMBNAIL_STATE_NONE),
     buffer_( 0 ),
     thumbnailBuffer_( 0 ),
     hasUnsavedData_( false )
 {
+    const std::string md5_checksum = Glib::Checksum::compute_checksum(
+                                         Glib::Checksum::CHECKSUM_MD5,
+                                         uri);
+    thumbnailPath_ = Glib::get_home_dir()
+                     + G_DIR_SEPARATOR_S + ".thumbnails"
+                     + G_DIR_SEPARATOR_S + "normal"
+                     + G_DIR_SEPARATOR_S + md5_checksum + ".png";
 }
 
 Photo::~Photo() throw()
@@ -52,9 +65,59 @@ Photo::~Photo() throw()
 }
 
 void
-Photo::set_photo_id( gint64 photoId ) throw()
+Photo::delete_async(Database & database, const SlotAsyncReady & slot)
+                    const throw()
 {
-    photoId_ = photoId;
+}
+
+Glib::ustring
+Photo::get_delete_query() const throw()
+{
+    return Glib::ustring();
+}
+
+Glib::ustring
+Photo::get_save_query() const throw()
+{
+    return Glib::ustring();
+}
+
+void
+Photo::save_async(Database & database, const SlotAsyncReady & slot)
+                  const throw()
+{
+    database.save_async(*this, slot);
+}
+
+const std::string &
+Photo::get_thumbnail_path() const throw()
+{
+    return thumbnailPath_;
+}
+
+Glib::ustring
+Photo::get_exif_data_query() const throw()
+{
+    return Glib::ustring::compose(
+        "SELECT ?camera ?exposure ?fn ?focal ?iso ?metering "
+        "WHERE {"
+        "  ?photo nie:isStoredAs '%1' ."
+        "  OPTIONAL { ?photo nmm:camera ?camera . }"
+        "  OPTIONAL { ?photo nmm:exposureTime ?exposure . }"
+        "  OPTIONAL { ?photo nmm:fnumber ?fn . }"
+        "  OPTIONAL { ?photo nmm:focalLength ?focal . }"
+        "  OPTIONAL { ?photo nmm:isoSpeed ?iso . }"
+        "  OPTIONAL { ?photo nmm:meteringMode ?metering . }"
+        "}",
+        uri_);
+}
+
+void
+Photo::get_exif_data_async(const Database & database,
+                           const SlotAsyncExifData & slot) const
+                           throw()
+{
+    database.get_exif_data_async(*this, slot);
 }
 
 void
@@ -64,126 +127,9 @@ Photo::set_uri(const Glib::ustring & uri)
 }
 
 void
-Photo::set_thumbnail( const Thumbnail &thumb ) throw()
-{
-    thumbnail_ = thumb;
-}
-
-void
-Photo::set_exif_data( const ExifData &exifData ) throw()
-{
-    exifData_ = exifData;
-}
-
-void
-Photo::set_disk_file_path(const IStoragePtr & storage)
-{
-    diskFilePath_ = storage->retrieve(*this);
-}
-
-void
-Photo::set_disk_file_path(const Glib::ustring & disk_file_path)
-{
-    diskFilePath_ = disk_file_path;
-}
-
-void
 Photo::set_content_type(const Glib::ustring & contentType) throw()
 {
     contentType_ = contentType;
-}
-
-void
-Photo::insert( DataModelPtr &model, gint32 lastIndex) throw(Error)
-{
-    std::vector<Gnome::Gda::Value> values;
-
-    values.push_back( Gnome::Gda::Value( lastIndex + 1 ) ); //photoid
-    values.push_back( Gnome::Gda::Value( get_uri() ) );
-    values.push_back( Gnome::Gda::Value( get_content_type() ) );
-
-    modDate_.insert( values );
-    thumbnail_.insert( values );
-    exifData_.insert( values );
-
-    gint32 row=0;
-    try
-    {
-        row = model->append_values( values );
-    }
-    catch (Glib::Error & e)
-    {
-        std::cerr << "Error: " << e.what() << std::endl;
-        //TBD::Error
-    }
-
-    if( -1 == row )
-    {
-        //TBD::Error
-    }
-
-    set_row( row );
-
-    set_photo_id( lastIndex + 1 );
-
-    return;
-}
-
-void Photo::update( DataModelPtr &model, gint32 row) throw(Error)
-try
-{
-    try
-    {
-        std::vector<Gnome::Gda::Value> values;
-        values.push_back( Gnome::Gda::Value(
-                                            (gint32)get_photo_id() ) );
-        values.push_back( Gnome::Gda::Value( get_uri() ) );
-        values.push_back( Gnome::Gda::Value( get_content_type() ) );
-
-        modDate_.insert( values );
-        thumbnail_.insert( values );
-        exifData_.insert( values );
-
-        model->set_values( row, values );
-    }
-    catch(Glib::Error &e)
-    {
-        std::cerr<<"Error::Could not save: "<<e.what()<<std::endl;
-    }
-
-    return;
-
-}
-catch(Glib::Error &e)
-{
-    std::cerr<<"Error:"<<e.what()<<std::endl;
-    throw;
-}
-
-void
-Photo::create(const DataModelPtr & dataModel, int32_t row) throw(Error)
-{
-    set_row( row );
-
-    set_photo_id( dataModel->get_value_at(
-                                    PHOTOID_COL, row ).get_int());
-    set_uri( dataModel->get_value_at( URI_COL, row ).get_string());
-    set_content_type( dataModel->get_value_at(
-                          CONTENT_TYPE_COL, row ).get_string() );
-
-    ModificationDate date;
-    date.create( dataModel, row );
-    set_modification_date( date );
-
-    Thumbnail thumb;
-    thumb.create( dataModel, row );
-    set_thumbnail( thumb );
-
-    ExifData data;
-    data.create( dataModel, row );
-    set_exif_data( data );
-
-    return;
 }
 
 DeleteActionPtr
@@ -191,32 +137,13 @@ Photo::get_delete_action() throw()
 {
     DeleteActionPtr action(
                         new DeleteAction( "Photo", this ));
-    if( get_is_deleted() )
-        return action;
-
-    {
-        std::ostringstream sout;
-        sout<<"delete from photos where photoid="<<get_photo_id();
-        action->add_command( sout.str() );
-    }
-    {
-        std::ostringstream sout;
-        sout<<"delete from photo_tags where photoid="<<get_photo_id();
-        action->add_command( sout.str() );
-    }
     return action;
 }
 
-Glib::ustring
-Photo::get_db_object_type_name() const throw()
+Photo::ThumbnailState
+Photo::get_thumbnail_state() const throw()
 {
-    return "photos";
-}
-
-void
-Photo::set_modification_date( const ModificationDate &modDate )
-{
-    modDate_ = modDate;
+    return thumbnailState_;
 }
 
 void
@@ -229,6 +156,13 @@ void
 Photo::set_thumbnail_buffer( const PixbufPtr &buffer ) throw()
 {
     thumbnailBuffer_ = buffer;
+}
+
+void
+Photo::set_thumbnail_state(Photo::ThumbnailState thumbnail_state)
+                           throw()
+{
+    thumbnailState_ = thumbnail_state;
 }
 
 void

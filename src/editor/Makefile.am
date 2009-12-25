@@ -55,11 +55,11 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/renderer \
 	-I$(top_srcdir)/src/storage \
 	$(SOLANG_CFLAGS) \
-	$(EXIV2_CFLAGS) \
+	$(DBUS_CFLAGS) \
 	$(GTKMM_CFLAGS) \
-	$(GDAMM_CFLAGS) \
 	$(GDL_CFLAGS) \
-	$(GEGL_CFLAGS)
+	$(GEGL_CFLAGS) \
+	$(TRACKER_CFLAGS)
 
 AM_CXXFLAGS = \
 	 -Wall

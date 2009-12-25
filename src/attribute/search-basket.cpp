@@ -278,7 +278,7 @@ void
 SearchBasket::apply_criterion()
 {
     Engine & engine = application_->get_engine();
-    engine.criterion_changed().emit();
+    engine.criteria_changed();
     return;
 
 }

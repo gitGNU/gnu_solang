@@ -42,13 +42,13 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/renderer \
 	-I$(top_srcdir)/src/storage \
 	$(SOLANG_CFLAGS) \
-	$(EXIV2_CFLAGS) \
+	$(DBUS_CFLAGS) \
 	$(FLICKCURL_CFLAGS) \
 	$(GPHOTO2_CFLAGS) \
 	$(GTKMM_CFLAGS) \
-	$(GDAMM_CFLAGS) \
 	$(GDL_CFLAGS) \
 	$(SOUP_CFLAGS) \
+	$(TRACKER_CFLAGS) \
 	$(WEBKIT_CFLAGS)
 
 AM_CXXFLAGS = \

@@ -19,8 +19,6 @@
 #ifndef SOLANG_EDITABLE_PHOTO_H
 #define SOLANG_EDITABLE_PHOTO_H
 
-#include <exiv2/image.hpp>
-#include <exiv2/exif.hpp>
 #include <gdkmm.h>
 
 #include "edit-action-history.h"
@@ -43,8 +41,8 @@ class EditablePhoto
 
                 bool operator ()( const EditablePhotoPtr &lhs )
                 {
-                    return lhs->get_photo()->get_photo_id()
-                                == photo_->get_photo_id();
+                    return lhs->get_photo()->get_uri()
+                                == photo_->get_uri();
                 }
 
             private:
@@ -73,11 +71,11 @@ class EditablePhoto
         void
         set_edit_buffer( const BufferPtr &buffer ) throw();
 
-        inline Exiv2::ExifData &  //Modifiable
-        get_exif_data() throw();
+//        inline Exiv2::ExifData &  //Modifiable
+//        get_exif_data() throw();
 
-        inline Exiv2::XmpData &  //Modifiable
-        get_xmp_data() throw();
+//        inline Exiv2::XmpData &  //Modifiable
+//        get_xmp_data() throw();
 
         void
         save( Engine &engine ) throw(Error);
@@ -112,7 +110,7 @@ class EditablePhoto
         mutable PixbufPtr buffer_;
         mutable BufferPtr editBuffer_;
         mutable bool isDirty_;
-        Exiv2::Image::AutoPtr image_;
+//        Exiv2::Image::AutoPtr image_;
         bool toSave_;
         EditActionHistory appliedActions_;
 };
@@ -135,17 +133,17 @@ EditablePhoto::get_edit_buffer() throw()
     return pixbuf_to_edit_buffer();
 }
 
-inline Exiv2::ExifData &  //Modifiable
-EditablePhoto::get_exif_data() throw()
-{
-    return image_->exifData();
-}
+//inline Exiv2::ExifData &  //Modifiable
+//EditablePhoto::get_exif_data() throw()
+//{
+//    return image_->exifData();
+//}
 
-inline Exiv2::XmpData &  //Modifiable
-EditablePhoto::get_xmp_data() throw()
-{
-    return image_->xmpData();
-}
+//inline Exiv2::XmpData &  //Modifiable
+//EditablePhoto::get_xmp_data() throw()
+//{
+//    return image_->xmpData();
+//}
 
 inline bool
 EditablePhoto::get_to_save() const throw()

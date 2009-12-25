@@ -23,7 +23,7 @@
 #include <sigc++/sigc++.h>
 
 #include "application.h"
-#include "directory-storage.h"
+//#include "directory-storage.h"
 #include "engine.h"
 #include "exporter-dialog.h"
 #include "exporter.h"
@@ -226,13 +226,11 @@ Exporter::on_exporter_dialog_response(
             Glib::ThreadPool & thread_pool
                 = application_->get_thread_pool();
             Engine & engine = application_->get_engine();
-            const IStoragePtr & storage
-                = engine.get_current_storage_system("file");
 
             thread_pool.push(
-                sigc::bind(sigc::mem_fun2(engine,
-                                         &Engine::export_photos),
-                           photoDestination_, storage));
+                sigc::bind(sigc::mem_fun1(engine,
+                                          &Engine::export_photos),
+                           photoDestination_));
             break;
         }
 

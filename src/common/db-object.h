@@ -17,52 +17,63 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef SOLANG_PHOTO_TAG_H
-#define SOLANG_PHOTO_TAG_H
+#ifndef SOLANG_DB_OBJECT_H
+#define SOLANG_DB_OBJECT_H
 
-#include <exception>
-
-#include <glibmm.h>
-
-#include "db-object.h"
+#include "delete-action.h"
+#include "error.h"
+#include "non-copyable.h"
 #include "types.h"
 
 namespace Solang
 {
 
-//A photo - to - tag association
+class Database;
 
-class PhotoTag :
-    public DBObject
+//Represents an object that is serialized to a database
+
+class DBObject :
+    public NonCopyable
 {
     public:
-        PhotoTag(const PhotoPtr & photo, const TagPtr & tag) throw();
+        typedef sigc::slot<void> SlotAsyncReady;
 
-        ~PhotoTag() throw();
+        virtual
+        ~DBObject() throw();
 
         virtual void
         delete_async(Database & database, const SlotAsyncReady & slot)
-                     const throw();
+                     const throw() = 0;
 
         virtual Glib::ustring
-        get_delete_query() const throw();
+        get_delete_query() const throw() = 0;
 
         virtual Glib::ustring
-        get_save_query() const throw();
+        get_save_query() const throw() = 0;
 
         virtual void
         save_async(Database & database, const SlotAsyncReady & slot)
-                   const throw();
+                   const throw() = 0;
 
-        virtual DeleteActionPtr
-        get_delete_action() throw();
+        inline bool
+        get_is_deleted() const throw();
+
+        void
+        set_is_deleted( bool value ) throw();
+
+    protected:
+        DBObject() throw();
 
     private:
-        PhotoPtr photo_;
-
-        TagPtr tag_;
+        bool isDeleted_;
 };
+
+inline bool
+DBObject::get_is_deleted() const throw()
+{
+    return isDeleted_;
+}
 
 } // namespace Solang
 
-#endif // SOLANG_PHOTO_TAG_H
+#endif // SOLANG_DB_OBJECT_H

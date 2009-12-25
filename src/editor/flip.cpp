@@ -20,8 +20,8 @@
 #include "config.h"
 #endif
 
-#include <exiv2/image.hpp>
-#include <exiv2/exif.hpp>
+#include <iostream>
+
 #include <gdkmm.h>
 
 #include "editable-photo.h"

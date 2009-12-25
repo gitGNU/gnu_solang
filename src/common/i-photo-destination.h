@@ -47,11 +47,9 @@ class IPhotoDestination :
 
         virtual void
         export_photo(const PhotoPtr & photo,
-                     const IStoragePtr & storage,
                      const ProgressObserverPtr & observer) throw() = 0;
         virtual void
         export_photos(const PhotoList & photos,
-                      const IStoragePtr & storage,
                       const ProgressObserverPtr & observer) throw() = 0;
 
         virtual void

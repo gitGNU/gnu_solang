@@ -1,5 +1,6 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 4; tab-width: 4 -*- */
 /*
+ * Copyright (C) 2009 Debarshi Ray <rishi@gnu.org>
  * Copyright (C) 2009 Santanu Sinha <santanu.sinha@gmail.com>
  *
  * Solang is free software: you can redistribute it and/or modify it
@@ -21,6 +22,8 @@
 #endif // HAVE_CONFIG_H
 
 #include <iostream>
+
+#include <glibmm/i18n.h>
 
 #include "application.h"
 #include "basic-exif-view.h"
@@ -83,109 +86,141 @@ BasicExifView::populate(const ExifData& data) throw()
 {
     listStore_->clear();
 
+    const Glib::ustring & camera_data = data.get_camera();
+
+    if (false == camera_data.empty())
     {
+        const Glib::ustring camera_desc = _("Camera");
+        const ExifDataKeyPtr key(new ExifDataKey(camera_desc,
+                                                 "nmm:camera",
+                                                 camera_data));
+
         Gtk::TreeModel::iterator model_iter = listStore_->append();
         Gtk::TreeModel::Row row = *model_iter;
-        const ExifDataKeyPtr key(
-                    new ExifDataKey("Aperture",
-                                    "aperture", data.get_aperture()));
 
-        row[modelColumnRecord_.get_column_key()] = key;
-        row[modelColumnRecord_.get_column_description()] = "Aperture";
-        row[modelColumnRecord_.get_column_value()] = data.get_aperture();
-    }
-
-    {
-        Gtk::TreeModel::iterator model_iter = listStore_->append();
-        Gtk::TreeModel::Row row = *model_iter;
-        const ExifDataKeyPtr key(
-                new ExifDataKey("Shutter Speed",
-                                "shutter_speed",
-                                data.get_shutter_speed()));
-        row[modelColumnRecord_.get_column_key()] = key;
-        row[modelColumnRecord_.get_column_description()] = "Shutter Speed";
-        row[modelColumnRecord_.get_column_value()] = data.get_shutter_speed();
-    }
-
-    {
-        Gtk::TreeModel::iterator model_iter = listStore_->append();
-        Gtk::TreeModel::Row row = *model_iter;
-        const ExifDataKeyPtr key(
-                new ExifDataKey("Exposure Program",
-                                "exposure_program" ,
-                                data.get_exposure_program()));
-        row[modelColumnRecord_.get_column_key()] = key;
-        row[modelColumnRecord_.get_column_description()] = "Exposure Program";
-        row[modelColumnRecord_.get_column_value()] = data.get_exposure_program();
-    }
-
-    {
-        Gtk::TreeModel::iterator model_iter = listStore_->append();
-        Gtk::TreeModel::Row row = *model_iter;
-        std::ostringstream sout;
-        sout<<data.get_iso_speed();
-        const ExifDataKeyPtr key(
-                new ExifDataKey("ISO Rating",
-                                "iso_speed", sout.str() ) );
-        row[modelColumnRecord_.get_column_key()] = key;
-        row[modelColumnRecord_.get_column_description()] = "ISO Rating";
-        row[modelColumnRecord_.get_column_value()] = sout.str();
-    }
-
-    {
-        Gtk::TreeModel::iterator model_iter = listStore_->append();
-        Gtk::TreeModel::Row row = *model_iter;
-        const ExifDataKeyPtr key(
-                new ExifDataKey("Exposure Metering Mode",
-                                "metering_mode" ,
-                                data.get_exposure_metering_mode()));
         row[modelColumnRecord_.get_column_key()] = key;
         row[modelColumnRecord_.get_column_description()]
-                                = "Exposure Metering Mode";
-        row[modelColumnRecord_.get_column_value()]
-                                = data.get_exposure_metering_mode();
+                                   = camera_desc;
+        row[modelColumnRecord_.get_column_value()] = camera_data;
     }
 
+    const Glib::ustring & exposure_time_data
+                              = data.get_exposure_time();
+
+    if (false == exposure_time_data.empty())
     {
+        const Glib::ustring exposure_time_desc = _("Exposure time");
+        const ExifDataKeyPtr key(new ExifDataKey(
+                                         exposure_time_desc,
+                                         "nmm:exposureTime",
+                                         data.get_exposure_time()));
+
         Gtk::TreeModel::iterator model_iter = listStore_->append();
         Gtk::TreeModel::Row row = *model_iter;
-        const ExifDataKeyPtr key(
-                new ExifDataKey("Actual Focal Length",
-                                "focal_length" ,
-                                data.get_focal_length()));
+
         row[modelColumnRecord_.get_column_key()] = key;
         row[modelColumnRecord_.get_column_description()]
-                                = "Actual Focal Length";
+                                   = exposure_time_desc;
         row[modelColumnRecord_.get_column_value()]
-                                = data.get_focal_length();
+                                   = exposure_time_data;
     }
 
+    const Glib::ustring & fnumber_data = data.get_fnumber();
+
+    if (false == fnumber_data.empty())
     {
+        const Glib::ustring fnumber_desc = _("F-number");
+        const ExifDataKeyPtr key(new ExifDataKey(fnumber_desc,
+                                                 "nmm:fnumber",
+                                                 fnumber_data));
+
         Gtk::TreeModel::iterator model_iter = listStore_->append();
         Gtk::TreeModel::Row row = *model_iter;
-        const ExifDataKeyPtr key(
-                new ExifDataKey("White Balance",
-                                "white_balance" ,
-                                data.get_white_balance()));
+
         row[modelColumnRecord_.get_column_key()] = key;
         row[modelColumnRecord_.get_column_description()]
-                                = "White Balance";
+                                   = fnumber_desc;
         row[modelColumnRecord_.get_column_value()]
-                                = data.get_white_balance();
+                                   = data.get_fnumber();
     }
 
+    const Glib::ustring & iso_speed_data = data.get_iso_speed();
+
+    if (false == iso_speed_data.empty())
     {
+        const Glib::ustring iso_speed_desc = _("ISO speed");
+        const ExifDataKeyPtr key(new ExifDataKey(iso_speed_desc,
+                                                 "nmm:isoSpeed",
+                                                 iso_speed_data));
+
         Gtk::TreeModel::iterator model_iter = listStore_->append();
         Gtk::TreeModel::Row row = *model_iter;
-        const ExifDataKeyPtr key(
-                new ExifDataKey("35mm Camera Focal Length",
-                                "focal_length_in_film" ,
-                                data.get_focal_length_film()));
+
         row[modelColumnRecord_.get_column_key()] = key;
         row[modelColumnRecord_.get_column_description()]
-                                = "35mm Camera Focal Length";
+                                   = iso_speed_desc;
+        row[modelColumnRecord_.get_column_value()] = iso_speed_data;
+    }
+
+    const Glib::ustring & metering_mode_data
+                              = data.get_metering_mode();
+
+    if (false == metering_mode_data.empty())
+    {
+        const Glib::ustring metering_mode_desc = _("Metering mode");
+        const ExifDataKeyPtr key(new ExifDataKey(
+                                     metering_mode_desc,
+                                     "nmm:meteringMode",
+                                     data.get_metering_mode_enum()));
+
+        Gtk::TreeModel::iterator model_iter = listStore_->append();
+        Gtk::TreeModel::Row row = *model_iter;
+
+        row[modelColumnRecord_.get_column_key()] = key;
+        row[modelColumnRecord_.get_column_description()]
+                                   = metering_mode_desc;
         row[modelColumnRecord_.get_column_value()]
-                                = data.get_focal_length_film();
+                                   = metering_mode_data;
+    }
+
+    const Glib::ustring & focal_length_data = data.get_focal_length();
+
+    if (false == focal_length_data.empty())
+    {
+        const Glib::ustring focal_length_desc = _("Focal length");
+        const ExifDataKeyPtr key(new ExifDataKey(focal_length_desc,
+                                                 "nmm:focalLength",
+                                                 focal_length_data));
+
+        Gtk::TreeModel::iterator model_iter = listStore_->append();
+        Gtk::TreeModel::Row row = *model_iter;
+
+        row[modelColumnRecord_.get_column_key()] = key;
+        row[modelColumnRecord_.get_column_description()]
+                                   = focal_length_desc;
+        row[modelColumnRecord_.get_column_value()]
+                                   = focal_length_data;
+    }
+
+    const Glib::ustring & white_balance_data
+                              = data.get_white_balance();
+
+    if (false == white_balance_data.empty())
+    {
+        const Glib::ustring white_balance_desc = _("White balance");
+        const ExifDataKeyPtr key(new ExifDataKey(
+                                     white_balance_desc,
+                                     "nmm:whiteBalance",
+                                     data.get_white_balance_enum()));
+
+        Gtk::TreeModel::iterator model_iter = listStore_->append();
+        Gtk::TreeModel::Row row = *model_iter;
+
+        row[modelColumnRecord_.get_column_key()] = key;
+        row[modelColumnRecord_.get_column_description()]
+                                   = white_balance_desc;
+        row[modelColumnRecord_.get_column_value()]
+                                   = white_balance_data;
     }
 }
 

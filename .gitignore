@@ -13,9 +13,13 @@ libtool
 ltmain.sh
 missing
 mkinstalldirs
+org-freedesktop-thumbnails-thumbnailer1-dbus-bindings.h
 solang
+solang-marshal.c
+solang-marshal.h
 stamp-h1
 stamp-it
+stamp-solang-marshal.h
 .deps
 .intltool-merge-cache
 .libs

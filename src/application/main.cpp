@@ -29,7 +29,6 @@
 #include <glibmm.h>
 #include <glibmm/i18n.h>
 #include <gtkmm.h>
-#include <libgdamm.h>
 
 #ifdef ENABLE_NLS
 #include <libintl.h>
@@ -46,7 +45,6 @@ main(int argc, char *argv[])
 
     Glib::thread_init();
     Gio::init();
-    Gnome::Gda::init();
     gegl_init( &argc, &argv );
 
     if (0 != flickcurl_init())

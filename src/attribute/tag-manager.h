@@ -81,7 +81,13 @@ protected:
     on_action_remove_tag() throw();
 
     void
+    on_get_tags(TagList & tags) throw();
+
+    void
     on_renderer_changed(RendererRegistry & renderer_registry) throw();
+
+    void
+    on_updated_tag() throw();
 
     void
     populate_view() throw();

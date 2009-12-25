@@ -230,20 +230,8 @@ ThumbnailView::on_drag_data_get_cb(const DragContextPtr & drag_context,
     for (photo_iter = photos.begin(); photos.end() != photo_iter;
          photo_iter++)
     {
-        PhotoPtr photo = *photo_iter;
-        std::string path;
-
-        try
-        {
-            path = "file://" + Glib::filename_from_utf8(
-                                   photo->get_disk_file_path());
-        }
-        catch (const Glib::ConvertError & e)
-        {
-            continue;
-        }
-
-        uris.push_back(path);
+        const PhotoPtr photo = *photo_iter;
+        uris.push_back(photo->get_uri());
     }
 
     data.set_uris(uris);

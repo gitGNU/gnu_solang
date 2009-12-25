@@ -68,17 +68,12 @@ SlideshowRenderer::init(Application & application) throw()
 void
 SlideshowRenderer::render(const PhotoPtr & photo) throw()
 {
-    Engine & engine = application_->get_engine();
-    const IStoragePtr & storage = engine.get_current_storage_system(
-                                      "file");
-    photo->set_disk_file_path(storage);
-
     PixbufPtr pixbuf;
     std::string path;
 
     try
     {
-        path = Glib::filename_from_utf8(photo->get_disk_file_path());
+        path = Glib::filename_from_uri(photo->get_uri());
     }
     catch (const Glib::ConvertError & e)
     {

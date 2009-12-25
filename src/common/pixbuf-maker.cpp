@@ -96,8 +96,8 @@ PixbufMaker::make_async(const SlotAsyncReady & slot,
                         throw(Gdk::PixbufError, Glib::ConvertError,
                               Glib::FileError)
 {
-    const std::string path = Glib::filename_from_utf8(
-                                 photo->get_disk_file_path());
+    const std::string path = Glib::filename_from_uri(
+                                 photo->get_uri());
     fd_ = create_fd(path);
     pixbufLoader_ = create_pixbuf_loader(path);
 
@@ -116,8 +116,8 @@ PixbufMaker::make_sync(const PhotoPtr & photo)
                        throw(Gdk::PixbufError, Glib::ConvertError,
                              Glib::FileError)
 {
-    const std::string path = Glib::filename_from_utf8(
-                                 photo->get_disk_file_path());
+    const std::string path = Glib::filename_from_uri(
+                                 photo->get_uri());
     fd_ = create_fd(path);
     pixbufLoader_ = create_pixbuf_loader(path);
     gssize nread;

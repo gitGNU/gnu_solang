@@ -30,27 +30,25 @@
 #include "application.h"
 #include "browser-model-column-record.h"
 #include "browser-renderer.h"
-#include "camera-source.h"
-#include "console-renderer.h"
+//#include "camera-source.h"
+//#include "console-renderer.h"
 #include "content-type-repo.h"
-#include "date-manager.h"
+//#include "date-manager.h"
 #include "directory-destination.h"
-#include "directory-source.h"
-#include "directory-storage.h"
+//#include "directory-source.h"
 #include "editor-renderer.h"
 #include "enlarged-renderer.h"
 #include "exporter.h"
-#include "flickr-source.h"
-#include "i-photo-source.h"
+//#include "flickr-source.h"
+//#include "i-photo-source.h"
 #include "i-plugin.h"
-#include "importer.h"
+//#include "importer.h"
 #include "photo.h"
 #include "progress-observer.h"
 #include "property-manager.h"
 #include "search-basket.h"
 #include "slideshow-renderer.h"
 #include "tag-manager.h"
-#include "thumbnail-store.h"
 
 namespace Solang
 {
@@ -244,31 +242,11 @@ Application::Application(int & argc, char ** & argv) throw() :
         }
     }
 
-    std::string thumbnail_store_path = Glib::get_user_data_dir() + "/";
-    thumbnail_store_path += Glib::get_prgname();
-    thumbnail_store_path += "/thumbnails/";
-
-    std::string photo_store_path = Glib::get_user_special_dir(
-                                       G_USER_DIRECTORY_PICTURES);
-
-    if( photo_store_path.empty() )
-    {
-        photo_store_path = Glib::get_home_dir();
-        photo_store_path += "/Pictures";
-    }
-    photo_store_path += "/";
-    photo_store_path += Glib::get_application_name();
-
-    ThumbnailStore thumbnail_store(thumbnail_store_path);
-    IStoragePtr directory_storage(new DirectoryStorage(
-                                          thumbnail_store,
-                                          engine_.get_db(),
-                                          photo_store_path));
-    engine_.add_current_storage_system(
-        directory_storage->get_storage_uri_prefix(), directory_storage);
-
     add_icons();
 
+    engine_.signal_criteria_changed().connect(
+        sigc::mem_fun(*this,
+                      &Application::on_criteria_changed));
     engine_.photo_export_begin().connect(sigc::mem_fun(*this,
         &Application::show_progress_dialog));
     engine_.photo_export_end().connect(sigc::mem_fun(*this,
@@ -277,8 +255,6 @@ Application::Application(int & argc, char ** & argv) throw() :
         &Application::show_progress_dialog));
     engine_.photo_import_end().connect(sigc::mem_fun(*this,
         &Application::hide_progress_dialog));
-    engine_.photo_render_begin().connect(sigc::mem_fun(*this,
-        &Application::on_photo_render_begin));
 }
 
 Application::~Application() throw()
@@ -290,12 +266,16 @@ void
 Application::init() throw()
 {
     engine_.init("");
+    engine_.search_async(
+        PhotoSearchCriteriaList(),
+        sigc::mem_fun(*this,
+                      &Application::on_async_search));
 
     // Plugins.
 
-    IPluginPtr date_manager(new DateManager());
-    plugins_.insert(std::make_pair("date-manager",
-                                   date_manager));
+//    IPluginPtr date_manager(new DateManager());
+//    plugins_.insert(std::make_pair("date-manager",
+//                                   date_manager));
 
     IPluginPtr property_manager(new PropertyManager());
     plugins_.insert(std::make_pair("property-manager",
@@ -314,18 +294,18 @@ Application::init() throw()
     plugins_.insert(std::make_pair("directory-exporter",
                                    directory_exporter));
 
-    IPhotoSourcePtr directory_source(new DirectorySource());
-    IPluginPtr directory_importer(new Importer(directory_source, true));
-    plugins_.insert(std::make_pair("directory-importer",
-                                   directory_importer));
+//    IPhotoSourcePtr directory_source(new DirectorySource());
+//    IPluginPtr directory_importer(new Importer(directory_source, true));
+//    plugins_.insert(std::make_pair("directory-importer",
+//                                   directory_importer));
 
-    IPhotoSourcePtr camera_source(new CameraSource());
-    IPluginPtr camera_importer(new Importer(camera_source, false));
-    plugins_.insert(std::make_pair("camera-importer", camera_importer));
+//    IPhotoSourcePtr camera_source(new CameraSource());
+//    IPluginPtr camera_importer(new Importer(camera_source, false));
+//    plugins_.insert(std::make_pair("camera-importer", camera_importer));
 
-    IPhotoSourcePtr flickr_source(new FlickrSource());
-    IPluginPtr flickr_importer(new Importer(flickr_source, false));
-    plugins_.insert(std::make_pair("flickr-importer", flickr_importer));
+//    IPhotoSourcePtr flickr_source(new FlickrSource());
+//    IPluginPtr flickr_importer(new Importer(flickr_source, false));
+//    plugins_.insert(std::make_pair("flickr-importer", flickr_importer));
 
     std::for_each(plugins_.begin(), plugins_.end(),
                   Initializer<IPluginPtr>(this));
@@ -501,14 +481,21 @@ Application::list_store_change_end() throw()
 }
 
 void
-Application::on_photo_render_begin() throw()
+Application::on_async_search(PhotoList & photos) throw()
 {
     mainWindow_.set_busy(true);
-
-    PhotoList photos = engine_.get_photos();
     add_photos_to_model(photos);
-
     mainWindow_.set_busy(false);
+}
+
+void
+Application::on_criteria_changed(PhotoSearchCriteriaList & criteria)
+                                 throw()
+{
+    engine_.search_async(
+        criteria,
+        sigc::mem_fun(*this,
+                      &Application::on_async_search));
 }
 
 void

@@ -22,7 +22,6 @@
 #include <functional>
 
 #include <gdkmm.h>
-#include <glibmm.h>
 
 #include "types.h"
 
@@ -43,12 +42,8 @@ class ThumbbufMaker :
         operator=(const ThumbbufMaker & source) throw();
 
         PixbufPtr
-        operator()(const PhotoPtr & photo) throw();
-
-    protected:
-        PixbufLoaderPtr
-        create_pixbuf_loader(const std::string & path) const
-                             throw(Gdk::PixbufError);
+        operator()(const PhotoPtr & photo) throw(Gdk::PixbufError,
+                                                 Glib::FileError);
 
     private:
         bool rotate_;

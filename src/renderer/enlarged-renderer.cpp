@@ -121,11 +121,6 @@ EnlargedRenderer::init(Application & application) throw()
 void
 EnlargedRenderer::render(const PhotoPtr & photo) throw()
 {
-    Engine & engine = application_->get_engine();
-    const IStoragePtr & storage = engine.get_current_storage_system(
-                                      "file");
-    photo->set_disk_file_path(storage);
-
     if (0 == pixbufMaker_)
     {
         pixbufMaker_ = PixbufMaker::create(true);

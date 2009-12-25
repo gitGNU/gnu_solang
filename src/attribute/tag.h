@@ -30,37 +30,47 @@
 namespace Solang
 {
 
+class Database;
+
 class Tag :
     public DBObject,
     public PhotoSearchCriteria 
 {
-    public:
-        static const gint32 ALL_PHOTOS_TAGID;
-
     private:
-        static const gint32 TAGID_COL;
-        static const gint32 NAME_COL;
-        static const gint32 DESCRIPTION_COL;
-        static const gint32 ICONPATH_COL;
-
-    private:
-        gint        tagId_;
-        Glib::ustring  name_;
+        Glib::ustring name_;
         Glib::ustring  description_;
         Glib::ustring  iconPath_;
+        std::string urn_;
 
     public:
-        Tag() throw();
+        Tag(const Glib::ustring & name,
+            const std::string & urn = std::string())
+            throw();
 
-        Tag(gint tag_id, const Glib::ustring & name) throw();
-
+        virtual
         ~Tag() throw();
 
-        inline gint
-        get_tag_id() const throw();
+        virtual void
+        delete_async(Database & database, const SlotAsyncReady & slot)
+                     const throw();
+
+        virtual Glib::ustring
+        get_delete_query() const throw();
+
+        virtual Glib::ustring
+        get_save_query() const throw();
+
+        virtual void
+        save_async(Database & database, const SlotAsyncReady & slot)
+                   const throw();
 
         void
-        set_tag_id(gint tag_id) throw();
+        edit_async(const Glib::ustring & name,
+                   Database & database,
+                   const SlotAsyncReady & slot) throw();
+
+        Glib::ustring
+        get_edit_query(const Glib::ustring & name) const throw();
 
         inline const Glib::ustring &
         get_name() const throw();
@@ -80,19 +90,6 @@ class Tag :
         void
         set_icon_path(const Glib::ustring & icon_path);
 
-        virtual void
-        insert(DataModelPtr & model, gint32 lastIndex) throw(Error);
-
-        virtual void
-        update(DataModelPtr & model, gint32 row) throw(Error);
-
-        virtual void
-        create(const DataModelPtr & dataModel, gint32 row)
-               throw(Error);
-        
-        virtual Glib::ustring
-        get_db_object_type_name() const throw();
-
         virtual Glib::ustring
         get_query_criteria() const throw();
 
@@ -111,14 +108,9 @@ class Tag :
         virtual Glib::ustring
         get_criteria_icon_path() const throw();
 
-
+        const std::string &
+        get_urn() const throw();
 };
-
-inline gint
-Tag::get_tag_id() const throw()
-{
-    return tagId_;
-}
 
 inline const Glib::ustring &
 Tag::get_name() const throw()

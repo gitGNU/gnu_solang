@@ -52,16 +52,15 @@ Features:
 Dependencies:
 -------------
  - babl
- - exiv2 >= 0.18
+ - dbus-glib-1
  - flickcurl
- - libgdamm-3.0 <= 3.0.1
- - libgda-sqlite-3.0
  - gdl-1.0
  - gegl
  - libgphoto2
  - gtkimageview
  - gtkmm-2.4 >= 2.8
  - libsoup-2.4
+ - tracker-client-0.7
  - webkit-1.0
 
 Packages are available for Debian, Fedora and Ubuntu.

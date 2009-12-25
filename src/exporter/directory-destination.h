@@ -44,12 +44,10 @@ class DirectoryDestination :
 
         virtual void
         export_photo(const PhotoPtr & photo,
-                     const IStoragePtr & storage,
                      const ProgressObserverPtr & observer) throw();
 
         virtual void
         export_photos(const PhotoList & photos,
-                      const IStoragePtr & storage,
                       const ProgressObserverPtr & observer) throw();
 
         virtual void

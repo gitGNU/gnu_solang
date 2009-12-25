@@ -22,17 +22,24 @@ AM_GLIB_GNU_GETTEXT
 AM_PROG_LIBTOOL
 
 
+AC_ARG_VAR(
+    [DBUS_BINDING_TOOL],
+    [Tool to generate C bindings from XML D-Bus interface definitions])
+AC_PATH_PROG([DBUS_BINDING_TOOL], [dbus-binding-tool], [no])
+if test x"$DBUS_BINDING_TOOL" = x"no"; then
+    AC_MSG_ERROR([could not find dbus-binding-tool in \$PATH.])
+fi
+
 PKG_CHECK_MODULES(BABL, [babl])
-PKG_CHECK_MODULES(EXIV2, [exiv2 >= 0.18])
-PKG_CHECK_MODULES(FLICKCURL, [flickcurl])
-PKG_CHECK_MODULES(GDAMM, [libgdamm-4.0])
-PKG_CHECK_MODULES(GDA_SQLITE, [libgda-sqlite-4.0])
+PKG_CHECK_MODULES(DBUS, [dbus-glib-1])
+PKG_CHECK_MODULES(FLICKCURL, [flickcurl libxml-2.0])
 PKG_CHECK_MODULES(GDL, [gdl-1.0])
 PKG_CHECK_MODULES(GEGL, [gegl])
 PKG_CHECK_MODULES(GPHOTO2, [libgphoto2])
 PKG_CHECK_MODULES(GTKIMAGEVIEW, [gtkimageview])
 PKG_CHECK_MODULES(GTKMM, [gtkmm-2.4 >= 2.8])
 PKG_CHECK_MODULES(SOUP, [libsoup-2.4])
+PKG_CHECK_MODULES(TRACKER, [tracker-client-0.7])
 PKG_CHECK_MODULES(WEBKIT, [webkit-1.0])
 
 
@@ -53,12 +60,9 @@ src/Makefile
 src/application/Makefile
 src/attribute/Makefile
 src/common/Makefile
-src/database/Makefile
 src/edit-engine/Makefile
 src/editor/Makefile
 src/exporter/Makefile
-src/importer/Makefile
 src/renderer/Makefile
-src/storage/Makefile
 po/Makefile.in
 ])

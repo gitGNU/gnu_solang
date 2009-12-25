@@ -16,39 +16,53 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef SOLANG_PHOTO_TAGS_TABLE_H
-#define SOLANG_PHOTO_TAGS_TABLE_H
+#ifndef SOLANG_EXIF_DATA_KEY_H
+#define SOLANG_EXIF_DATA_KEY_H
 
-#include "db-table.h"
+#include "photo-search-criteria.h"
 
 namespace Solang
 {
 
-class PhotoTagsTable :
-    public DBTable
+class ExifDataKey :
+    public PhotoSearchCriteria
 {
+    private:
+        Glib::ustring title_;
+        Glib::ustring key_;
+        Glib::ustring value_;
 
     public:
-        PhotoTagsTable( const Glib::ustring &name );
-        ~PhotoTagsTable();
+        ExifDataKey( const Glib::ustring &title,
+                     const Glib::ustring & key,
+                     const Glib::ustring & value )
+            :title_( title ),
+            key_( key ),
+            value_( value )
+        {
+        }
+
+        ~ExifDataKey() throw()
+        {
+        }
 
         virtual Glib::ustring
-        getSelectionQuery() const;
+        get_query_criteria() const throw();
+
+        virtual ClubbingOperationType
+        get_clubbing_type() const throw();
+
+        virtual gint32
+        get_id() const throw();
 
         virtual Glib::ustring
-        getInsertQuery() const;
+        get_criteria_description() const throw();
 
         virtual Glib::ustring
-        getUpdateQuery() const;
+        get_criteria_icon_path() const throw();
 
-        virtual Glib::ustring
-        getDeleteQuery() const;
-
-        virtual void
-        receive(Solang::DBTableVisitor&,
-                Solang::ProgressObserverPtr &);
 };
 
 } // namespace Solang
 
-#endif // SOLANG_PHOTO_TAGS_TABLE_H
+#endif // SOLANG_EXIF_DATA_KEY_H

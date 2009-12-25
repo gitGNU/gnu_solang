@@ -1,5 +1,6 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 4; tab-width: 4 -*- */
 /*
+ * Copyright (C) 2009 Debarshi Ray <rishi@gnu.org>
  * Copyright (C) 2009 Santanu Sinha <santanu.sinha@gmail.com>
  *
  * Solang is free software: you can redistribute it and/or modify it
@@ -29,28 +30,10 @@
 namespace Solang
 {
 
-const gint32 ModificationDate::MOD_DAY_COL   = 3;
-const gint32 ModificationDate::MOD_MONTH_COL = 4;
-const gint32 ModificationDate::MOD_YEAR_COL  = 5;
-
 Glib::ustring
 ModificationDate::get_query_criteria() const throw()
 {
-    std::ostringstream sout;
-    if( get_year() > 0 )
-    {
-        sout<<" ( mod_year="<<get_year();
-        if( get_month() > 0 )
-        {
-            sout<<" and mod_month="<<get_month();
-            if( get_day() > 0 )
-            {
-                sout<<" and mod_day="<<get_day();
-            }
-        }
-        sout<<" )";
-    }
-    return sout.str();
+    return Glib::ustring();
 }
 
 PhotoSearchCriteria::ClubbingOperationType
@@ -95,55 +78,6 @@ ModificationDate::get_criteria_icon_path() const throw()
 {
     //TBD::CORRECT
     return PACKAGE_DATA_DIR"/"PACKAGE_TARNAME"/pixmaps/tag-16.png";
-}
-
-void
-ModificationDate::insert(std::vector<Gnome::Gda::Value> &values)
-{
-    values.push_back( Gnome::Gda::Value( get_day() ) ); 
-    values.push_back( Gnome::Gda::Value( get_month() ) ); 
-    values.push_back( Gnome::Gda::Value( get_year() ) ); 
-}
-
-void
-ModificationDate::update(
-                DataModelPtr & model, gint32 row) throw(Glib::Error)
-{
-    if( get_day() != model->get_value_at(
-                                MOD_DAY_COL, row ).get_int())
-    {
-        model->set_value_at(
-                MOD_DAY_COL, row, 
-                            Gnome::Gda::Value( get_day() ) );
-    }
-    
-    if( get_month() != model->get_value_at(
-                                MOD_MONTH_COL, row ).get_int())
-    {
-        model->set_value_at(
-                MOD_MONTH_COL, row, 
-                            Gnome::Gda::Value( get_month() ) );
-    }
-
-    if( get_year() != model->get_value_at(
-                                MOD_YEAR_COL, row ).get_int())
-    {
-        model->set_value_at(
-                MOD_YEAR_COL, row, 
-                            Gnome::Gda::Value( get_year() ) );
-    }
-
-}
-
-void
-ModificationDate::create(const DataModelPtr & data_model, gint32 row)
-{
-    set_day(
-        data_model->get_value_at( MOD_DAY_COL, row ).get_int());    
-    set_month(
-        data_model->get_value_at( MOD_MONTH_COL, row ).get_int());    
-    set_year(
-        data_model->get_value_at( MOD_YEAR_COL, row ).get_int());    
 }
 
 } // namespace Solang

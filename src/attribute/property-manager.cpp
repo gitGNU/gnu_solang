@@ -153,6 +153,12 @@ PropertyManager::visit_renderer(
 }
 
 void
+PropertyManager::on_get_exif_data(ExifData & exif_data) throw()
+{
+    basicExifView_.populate(exif_data);
+}
+
+void
 PropertyManager::on_renderer_changed(
                      RendererRegistry & renderer_registry) throw()
 {
@@ -182,8 +188,15 @@ PropertyManager::on_selection_changed() throw()
     if( photos.empty() )
         return;
 
-    basicExifView_.populate( (*photos.begin())->get_exif_data() );
-    histogram_.set((*photos.begin())->get_thumbnail_buffer());
+    const PhotoPtr photo = *photos.begin();
+
+    histogram_.set(photo->get_thumbnail_buffer());
+
+    Engine & engine = application_->get_engine();
+    photo->get_exif_data_async(
+        *engine.get_db(),
+        sigc::mem_fun(*this,
+                      &PropertyManager::on_get_exif_data));
 
     return;
 }

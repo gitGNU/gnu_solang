@@ -66,9 +66,8 @@ SavePhotosWindow::SavePhotosWindow( Engine &engine,
                                                 Gdk::INTERP_NEAREST);
         row[ modifiedPhotos_.name_ ] =
                         Glib::filename_display_basename(
-                            Glib::filename_from_utf8(
-                                (*photo)->get_photo()
-                                        ->get_disk_file_path()));
+                            Glib::filename_from_uri(
+                                (*photo)->get_photo()->get_uri()));
         row[ modifiedPhotos_.photo_ ] = *photo;
     }
     show_all_children();

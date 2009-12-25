@@ -24,10 +24,8 @@
 
 #include <giomm.h>
 
-#include "content-type-repo.h"
 #include "photo.h"
 #include "thumbbuf-maker.h"
-#include "thumbnail.h"
 
 namespace Solang
 {
@@ -53,23 +51,6 @@ ThumbbufMaker::~ThumbbufMaker() throw()
 {
 }
 
-PixbufLoaderPtr
-ThumbbufMaker::create_pixbuf_loader(const std::string & path) const
-                                    throw(Gdk::PixbufError)
-{
-    const ContentTypeRepoPtr content_type_repo
-                                 = ContentTypeRepo::instance();
-    const Glib::ustring content_type
-        = content_type_repo->get_content_type(path);
-
-    if (false == content_type_repo->is_gdk_supported(content_type))
-    {
-        throw Gdk::PixbufError(Gdk::PixbufError::UNKNOWN_TYPE, "");
-    }
-
-    return Gdk::PixbufLoader::create(content_type, true);
-}
-
 ThumbbufMaker &
 ThumbbufMaker::operator=(const ThumbbufMaker & source) throw()
 {
@@ -86,98 +67,11 @@ ThumbbufMaker::operator=(const ThumbbufMaker & source) throw()
 }
 
 PixbufPtr
-ThumbbufMaker::operator()(const PhotoPtr & photo) throw()
+ThumbbufMaker::operator()(const PhotoPtr & photo) throw(Gdk::PixbufError,
+                                                        Glib::FileError)
 {
-    const Thumbnail & thumbnail = photo->get_thumbnail();
-
-    std::string path;
-    try
-    {
-        path = Glib::filename_from_utf8(thumbnail.get_path());
-    }
-    catch (const Glib::ConvertError & e)
-    {
-        g_warning("%s", e.what().c_str());
-        return PixbufPtr(0);
-    }
-
-    if (false == Glib::file_test(path, Glib::FILE_TEST_EXISTS))
-    {
-        try
-        {
-            path = Glib::filename_from_utf8(
-                             photo->get_disk_file_path());
-        }
-        catch (const Glib::ConvertError & e)
-        {
-            g_warning("%s", e.what().c_str());
-            return PixbufPtr(0);
-        }
-    }
-
-    PixbufLoaderPtr pixbuf_loader;
-    try
-    {
-        pixbuf_loader = create_pixbuf_loader(path);
-    }
-    catch(const Gdk::PixbufError & e)
-    {
-        g_warning("%s", e.what().c_str());
-        return PixbufPtr(0);
-    }
-
-    const FilePtr file = Gio::File::create_for_path(path);
-    DataInputStreamPtr fin;
-
-    try
-    {
-        fin = Gio::DataInputStream::create(file->read());
-    }
-    catch(const Gio::Error & e)
-    {
-        g_warning("%s", e.what().c_str());
-        return PixbufPtr(0);
-    }
-
-    gssize nread;
-    guint8 buffer[BUFSIZ];
-
-    while (0 < (nread = fin->read(buffer, sizeof(buffer))))
-    {
-        try
-        {
-            pixbuf_loader->write(buffer, nread);
-        }
-        catch (const Glib::FileError & e)
-        {
-            g_warning("%s", e.what().c_str());
-            break;
-        }
-        catch (const Gdk::PixbufError & e)
-        {
-            g_warning("%s", e.what().c_str());
-            break;
-        }
-    }
-
-    try
-    {
-        pixbuf_loader->close();
-    }
-    catch (const Glib::FileError & e)
-    {
-        g_warning("%s", e.what().c_str());
-    }
-    catch (const Gdk::PixbufError & e)
-    {
-        g_warning("%s", e.what().c_str());
-    }
-
-    PixbufPtr pixbuf = pixbuf_loader->get_pixbuf();
-    if (0 == pixbuf)
-    {
-        return PixbufPtr(0);
-    }
+    const std::string path = photo->get_thumbnail_path();
+    PixbufPtr pixbuf = Gdk::Pixbuf::create_from_file(path, width_, -1, true);
 
     if (true == rotate_)
     {
@@ -186,22 +80,14 @@ ThumbbufMaker::operator()(const PhotoPtr & photo) throw()
     }
 
     const gint height = pixbuf->get_height();
-    const gint width = pixbuf->get_width();
-    const gdouble aspect_ratio = static_cast<gdouble>(width)
-                                 / static_cast<gdouble>(height);
 
-    if (height > width)
+    if (height_ < height)
     {
+        const gdouble width = static_cast<gdouble>(pixbuf->get_width());
+        const gdouble aspect_ratio = width / static_cast<gdouble>(height);
         pixbuf = pixbuf->scale_simple(
                      static_cast<gint>(height_ * aspect_ratio),
                      height_, Gdk::INTERP_BILINEAR);
-    }
-    else
-    {
-        pixbuf = pixbuf->scale_simple(
-                     width_,
-                     static_cast<gint>(width_ / aspect_ratio),
-                     Gdk::INTERP_BILINEAR);
     }
 
     return pixbuf;

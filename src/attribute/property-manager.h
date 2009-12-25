@@ -68,6 +68,9 @@ public:
 
 protected:
     void
+    on_get_exif_data(ExifData & exif_data) throw();
+
+    void
     on_renderer_changed(RendererRegistry & renderer_registry) throw();
 
     void

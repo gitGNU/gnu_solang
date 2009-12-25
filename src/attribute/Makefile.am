@@ -13,10 +13,6 @@ libattribute_la_SOURCES = \
 	date-view-model-column-record.h \
 	date-view.cpp \
 	date-view.h \
-	exif-data-key.cpp \
-	exif-data-key.h \
-	exif-data.cpp \
-	exif-data.h \
 	modification-date.cpp \
 	modification-date.h \
 	photo-tag.cpp \
@@ -40,9 +36,7 @@ libattribute_la_SOURCES = \
 	tag-view.h \
 	tag-view.cpp \
 	tag-view-model-column-record.h \
-	tag-view-model-column-record.cpp \
-	thumbnail.cpp \
-	thumbnail.h	
+	tag-view-model-column-record.cpp
 
 AM_CPPFLAGS = \
 	-DPACKAGE_LOCALE_DIR=\""${datadir}/locale"\" \
@@ -58,10 +52,10 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/renderer \
 	-I$(top_srcdir)/src/storage \
 	$(SOLANG_CFLAGS) \
-	$(EXIV2_CFLAGS) \
+	$(DBUS_CFLAGS) \
 	$(GTKMM_CFLAGS) \
-	$(GDAMM_CFLAGS) \
 	$(GDL_CFLAGS) \
+	$(TRACKER_CFLAGS) \
 	$(LIBXML_CFLAGS)
 
 AM_CXXFLAGS = \
