@@ -28,6 +28,7 @@ src/editor/scale-widget.cpp
 src/exporter/directory-destination.cpp
 src/exporter/exporter-dialog.cpp
 src/importer/camera-import-widget.cpp
+src/importer/camera-source.cpp
 src/importer/directory-source.cpp
 src/importer/flickr-auth-dialog.cpp
 src/importer/flickr-chooser-button.cpp
