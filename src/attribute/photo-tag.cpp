@@ -56,7 +56,8 @@ PhotoTag::get_save_query() const throw()
                                   "  ?photo nao:hasTag <%1> ."
                                   "} "
                                   "WHERE {"
-                                  "  ?photo nie:isStoredAs <%2> ."
+                                  "  ?photo nie:isStoredAs ?data ."
+                                  "  ?data nie:url '%2' ."
                                   "}",
                                   tag_->get_urn(), photo_->get_uri());
 }

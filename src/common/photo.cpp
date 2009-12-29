@@ -101,7 +101,8 @@ Photo::get_exif_data_query() const throw()
     return Glib::ustring::compose(
         "SELECT ?camera ?exposure ?fn ?focal ?iso ?metering "
         "WHERE {"
-        "  ?photo nie:isStoredAs '%1' ."
+        "  ?photo nie:isStoredAs ?data ."
+        "  ?data nie:url '%1' ."
         "  OPTIONAL { ?photo nmm:camera ?camera . }"
         "  OPTIONAL { ?photo nmm:exposureTime ?exposure . }"
         "  OPTIONAL { ?photo nmm:fnumber ?fn . }"
