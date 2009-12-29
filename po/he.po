@@ -1,0 +1,650 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: Liel Fridman <lielft@gmail.com>\n"
+"Language-Team: Hebrew\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../src/application/engine.cpp:180
+msgid "Beginning to Import Photos"
+msgstr "מתחיל בייבוא התמונות"
+
+#: ../src/application/main-window.cpp:211
+msgid "_Photo"
+msgstr "_תמונה"
+
+#: ../src/application/main-window.cpp:220
+#: ../src/editor/editor.cpp:108
+#: ../src/renderer/browser-renderer.cpp:126
+#: ../src/renderer/browser-renderer.cpp:154
+msgid "_Edit"
+msgstr "_עריכה"
+
+#: ../src/application/main-window.cpp:225
+#: ../src/renderer/browser-renderer.cpp:131
+msgid "_Add to Export Queue"
+msgstr "_הוספה לתור הייצוא"
+
+#: ../src/application/main-window.cpp:232
+msgid "_Clear Export Queue"
+msgstr "_ניקוי תור הייצוא"
+
+#: ../src/application/main-window.cpp:240
+msgid "_Toolbar"
+msgstr "_סרגל כלים"
+
+#: ../src/application/main-window.cpp:241
+msgid "Show or hide the toolbar in the current window"
+msgstr "הצגה או הסתרה של סרגל הכלים בחלון הנוכחי"
+
+#: ../src/application/main-window.cpp:247
+msgid "_Statusbar"
+msgstr "_שורת המצב"
+
+#: ../src/application/main-window.cpp:248
+msgid "Show or hide the statusbar in the current window"
+msgstr "הצגה או הסתרה של שורת המצב בחלון הנוכחי"
+
+#: ../src/application/main-window.cpp:255
+msgid "_Full Screen"
+msgstr "_מסך מלא"
+
+#: ../src/application/main-window.cpp:256
+msgid "Show the current photo in full screen mode"
+msgstr "הצגת התמונה הנוכחית במצב מסך מלא"
+
+#: ../src/application/main-window.cpp:273
+msgid "_Help"
+msgstr "_עזרה"
+
+#: ../src/application/main-window.cpp:499
+msgid "A photo manager for GNOME"
+msgstr "מנהל תמונות עבור GNOME"
+
+#: ../src/application/main-window.cpp:513
+msgid "translator-credits"
+msgstr "ליאל פרידמן <lielft@gmail.com>"
+
+#: ../src/application/main-window.cpp:516
+msgid "https://savannah.nongnu.org/projects/solang"
+msgstr "https://savannah.nongnu.org/projects/solang"
+
+#: ../src/attribute/date-manager.cpp:48
+msgid "Picture Taken Date"
+msgstr "תאריך צילום התמונה"
+
+#: ../src/attribute/property-manager.cpp:48
+msgid "Properties"
+msgstr "מאפיינים"
+
+#: ../src/attribute/property-manager.cpp:68
+msgid "Basic"
+msgstr "בסיסי"
+
+#: ../src/attribute/search-basket.cpp:45
+msgid "Search"
+msgstr "חיפוש"
+
+#: ../src/attribute/search-basket.cpp:49
+msgid "Auto"
+msgstr "אוטומטי"
+
+#: ../src/attribute/search-basket.cpp:101
+msgid "Apply filters"
+msgstr "החלת מסננים"
+
+#: ../src/attribute/search-basket.cpp:108
+msgid "Clear filters"
+msgstr "ניקוי מסננים"
+
+#: ../src/attribute/search-basket.cpp:115
+msgid "Clear selected filter"
+msgstr "ניקוי המסנן הנבחר"
+
+#: ../src/attribute/tag-manager.cpp:54
+#: ../src/importer/importer-dialog.cpp:91
+msgid "Tags"
+msgstr "תגיות"
+
+#: ../src/attribute/tag-manager.cpp:100
+msgid "_Tags"
+msgstr "_תגיות"
+
+#: ../src/attribute/tag-manager.cpp:105
+msgid "Create New _Tag..."
+msgstr "יצירת _תגית חדשה..."
+
+#: ../src/attribute/tag-manager.cpp:112
+msgid "_Edit Selected Tag..."
+msgstr "_עריכת התגית שנבחרה..."
+
+#: ../src/attribute/tag-manager.cpp:119
+msgid "_Delete Selected Tag"
+msgstr "_מחיקת התגית שנבחרה"
+
+#: ../src/attribute/tag-manager.cpp:125
+msgid "_Attach Tag to Selection"
+msgstr "_צירוף תגית לבחירה"
+
+#: ../src/attribute/tag-manager.cpp:132
+msgid "_Remove Tag From Selection"
+msgstr "_הסרת תגית מהבחירה"
+
+#: ../src/attribute/tag-new-dialog.cpp:39
+#: ../src/attribute/tag-new-dialog.cpp:69
+msgid "Parent:"
+msgstr "הורה:"
+
+#: ../src/attribute/tag-new-dialog.cpp:44
+#: ../src/attribute/tag-new-dialog.cpp:74
+msgid "Name:"
+msgstr "שם:"
+
+#: ../src/attribute/tag-new-dialog.cpp:49
+#: ../src/attribute/tag-new-dialog.cpp:79
+msgid "Description"
+msgstr "תיאור"
+
+#: ../src/attribute/tag-new-dialog.cpp:56
+msgid "Create New Tag"
+msgstr "יצירת תגית חדשה"
+
+#: ../src/attribute/tag-new-dialog.cpp:127
+msgid "Select Tag Icon"
+msgstr "בחירת סמל לתגית"
+
+#: ../src/editor/editor.cpp:114
+msgid "Undo"
+msgstr "ביטול הפעולה"
+
+#: ../src/editor/editor.cpp:115
+msgid "Undo last action"
+msgstr "ביטול הפעולה האחרונה"
+
+#: ../src/editor/editor.cpp:123
+msgid "Redo"
+msgstr "ביצוע הפעולה מחדש"
+
+#: ../src/editor/editor.cpp:124
+msgid "Redo last action"
+msgstr "ביצוע הפעולה האחרונה מחדש"
+
+#: ../src/editor/editor.cpp:132
+msgid "Flip _Horizontally"
+msgstr "היפוך _אופקי"
+
+#: ../src/editor/editor.cpp:133
+msgid "Flip the selected image(s) horizontally"
+msgstr "סיבוב התמונות הנבחרות אופקית"
+
+#: ../src/editor/editor.cpp:141
+msgid "Flip _Vertically"
+msgstr "היפוך _אנכי"
+
+#: ../src/editor/editor.cpp:142
+msgid "Flip the selected image(s) vertically"
+msgstr "סיבוב התמונות הנבחרות אנכית"
+
+#: ../src/editor/editor.cpp:150
+msgid "Rotate _Clockwise"
+msgstr "סיבוב _בכיוון השעון"
+
+#: ../src/editor/editor.cpp:151
+msgid "Rotate the selected image(s) clockwise"
+msgstr "סיבוב התמונה/התמונות הנבחרות בכיוון השעון"
+
+#: ../src/editor/editor.cpp:159
+msgid "Rotate C_ounter Clockwise"
+msgstr "סיבוב _נגד כיוון השעון"
+
+#: ../src/editor/editor.cpp:160
+msgid "Rotate the selected image(s) counter-clockwise"
+msgstr "סיבוב התמונה/התמונות נגד כיוון השעון"
+
+#: ../src/editor/editor.cpp:168
+msgid "Sca_le"
+msgstr "שינוי _גודל"
+
+#: ../src/editor/editor.cpp:169
+msgid "Scale/resize the selected image(s)"
+msgstr "שינוי גודל התמונה/התמונות שנבחרו"
+
+#: ../src/editor/editor.cpp:176
+msgid "_Save"
+msgstr "_שמירה"
+
+#: ../src/editor/save-photos-window.cpp:28
+msgid "Unsaved Photos"
+msgstr "תמונות שלא נשמרו"
+
+#: ../src/editor/save-photos-window.cpp:30
+msgid "Unsaved photos"
+msgstr "תמונות שלא נשמרו"
+
+#: ../src/editor/save-photos-window.cpp:43
+#: ../src/importer/camera-import-widget.cpp:411
+msgid "Preview"
+msgstr "תצוגה מקדימה"
+
+#: ../src/editor/save-photos-window.cpp:44
+msgid "Name"
+msgstr "שם"
+
+#: ../src/importer/camera-import-widget.cpp:158
+msgid "Importing list of photos.. please wait"
+msgstr "מייבא רשימת תמונות... נא להמתין"
+
+#: ../src/importer/camera-import-widget.cpp:170
+msgid "Importing previews"
+msgstr "מייבא תצוגות מקדימות"
+
+#: ../src/importer/camera-import-widget.cpp:397
+msgid "Connected Cameras"
+msgstr "מצלמות מחוברות"
+
+#: ../src/importer/camera-import-widget.cpp:409
+msgid "Select All"
+msgstr "בחירת הכל"
+
+#: ../src/importer/camera-import-widget.cpp:410
+msgid "Select None"
+msgstr "ביטול הבחירה"
+
+#: ../src/importer/camera-import-widget.cpp:412
+msgid "Enable Preview"
+msgstr "הפעלת תצוגה מקדימה"
+
+#. Setup
+#: ../src/importer/camera-import-widget.cpp:453
+msgid "Load Pictures"
+msgstr "טעינת תמונות"
+
+#: ../src/importer/directory-source.cpp:93
+#: ../src/importer/flickr-source.cpp:424
+msgid "Importing Photos"
+msgstr "מייבא תמונות"
+
+#: ../src/importer/directory-source.cpp:174
+msgid "Select Folder"
+msgstr "בחירת תיקייה"
+
+#: ../src/importer/directory-source.cpp:183
+msgid "_Folder..."
+msgstr "_תיקייה..."
+
+#: ../src/importer/flickr-auth-dialog.cpp:38
+msgid "_Nine digit code:"
+msgstr "קוד _בן 9 ספרות:"
+
+#: ../src/importer/flickr-auth-dialog.cpp:67
+msgid "_Authorize"
+msgstr "_אימות"
+
+#: ../src/importer/flickr-chooser-button.cpp:206
+msgid "Select photos"
+msgstr "בחירת תמונות"
+
+#: ../src/importer/flickr-chooser-button.cpp:293
+msgid "Favorites"
+msgstr "מועדפים"
+
+#: ../src/importer/flickr-chooser-button.cpp:314
+msgid "Other..."
+msgstr "אחר..."
+
+#: ../src/importer/flickr-chooser-dialog.cpp:187
+msgid "Select Photos"
+msgstr "בחירת תמונות"
+
+#: ../src/importer/flickr-chooser-dialog.cpp:199
+msgid "Loading photo information..."
+msgstr "טוען מידע על התמונה..."
+
+#: ../src/importer/flickr-chooser-dialog.cpp:441
+msgid ""
+"%1\n"
+"<small><i>%2</i></small>"
+msgstr ""
+"%1\n"
+"<small><i>%2</i></small>"
+
+#: ../src/importer/flickr-source.cpp:170
+msgid "Authorization needed to access %1"
+msgstr "נדרש אימות כדי לגשת ל־%1"
+
+#: ../src/importer/flickr-source.cpp:183
+msgid "Authorization needed"
+msgstr "נדרש אימות"
+
+#: ../src/importer/flickr-source.cpp:270
+msgid "Fetching token..."
+msgstr ""
+
+#: ../src/importer/flickr-source.cpp:272
+msgid "<big><b>Fetching token for %1...</b></big>"
+msgstr ""
+
+#: ../src/importer/flickr-source.cpp:286
+msgid "Logging in..."
+msgstr "נכנס..."
+
+#: ../src/importer/flickr-source.cpp:288
+msgid "<big><b>Logging into %1...</b></big>"
+msgstr "<big><b>מתחבר אל %1...</b></big>"
+
+#: ../src/importer/flickr-source.cpp:474
+msgid "Downloading Photos"
+msgstr "מוריד תמונות"
+
+#: ../src/importer/importer-dialog.cpp:34
+msgid "Import"
+msgstr "ייבוא"
+
+#: ../src/importer/importer-dialog.cpp:47
+msgid "_Source:"
+msgstr "_מקור:"
+
+#: ../src/importer/importer-dialog.cpp:49
+msgid "_Detect duplicates"
+msgstr "_איתור שכפולים"
+
+#: ../src/importer/importer-dialog.cpp:53
+msgid "_Copy files to the Pictures folder"
+msgstr "_העתקת קבצים לתיקיית התמונות"
+
+#: ../src/importer/importer-dialog.cpp:59
+msgid "Include su_b-folders"
+msgstr "הכללת _תת־תיקיות"
+
+#: ../src/importer/importer-dialog.cpp:79
+msgid "General"
+msgstr "כללי"
+
+#: ../src/importer/importer-dialog.cpp:103
+msgid "Options"
+msgstr "אפשרויות"
+
+#: ../src/importer/importer-dialog.cpp:150
+msgid "_Import"
+msgstr "_ייבוא"
+
+#: ../src/renderer/browser-renderer.cpp:139
+#: ../src/renderer/enlarged-renderer.cpp:111
+msgid "_Slideshow"
+msgstr "_הצגת שקופיות"
+
+#: ../src/renderer/browser-renderer.cpp:140
+#: ../src/renderer/enlarged-renderer.cpp:112
+msgid "Start a slideshow view of the photos"
+msgstr "הפעלת תצוגת מצגת של התמונות"
+
+#: ../src/renderer/browser-renderer.cpp:155
+msgid "Edit picture"
+msgstr "_עריכת התמונה"
+
+#: ../src/renderer/browser-renderer.cpp:160
+#: ../src/renderer/editor-renderer.cpp:99
+#: ../src/renderer/enlarged-renderer.cpp:119
+msgid "_Go"
+msgstr "_מעבר"
+
+#: ../src/renderer/editor-renderer.cpp:74
+msgid "Editor"
+msgstr "עורך"
+
+#: ../src/renderer/editor-renderer.cpp:104
+#: ../src/renderer/editor-renderer.cpp:251
+#: ../src/renderer/editor-renderer.cpp:260
+#: ../src/renderer/editor-renderer.cpp:269
+#: ../src/renderer/enlarged-renderer.cpp:124
+#: ../src/renderer/enlarged-renderer.cpp:257
+#: ../src/renderer/enlarged-renderer.cpp:266
+#: ../src/renderer/enlarged-renderer.cpp:275
+#: ../src/renderer/zoomer.cpp:41
+msgid "_Zoom In"
+msgstr "_תקריב"
+
+#: ../src/renderer/editor-renderer.cpp:105
+#: ../src/renderer/editor-renderer.cpp:252
+#: ../src/renderer/editor-renderer.cpp:261
+#: ../src/renderer/editor-renderer.cpp:270
+#: ../src/renderer/enlarged-renderer.cpp:125
+#: ../src/renderer/enlarged-renderer.cpp:258
+#: ../src/renderer/enlarged-renderer.cpp:267
+#: ../src/renderer/enlarged-renderer.cpp:276
+#: ../src/renderer/slideshow-window.cpp:72
+#: ../src/renderer/slideshow-window.cpp:107
+#: ../src/renderer/slideshow-window.cpp:116
+#: ../src/renderer/slideshow-window.cpp:125
+msgid "Enlarge the photo"
+msgstr "הגדלת התמונה"
+
+#: ../src/renderer/editor-renderer.cpp:107
+#: ../src/renderer/enlarged-renderer.cpp:127
+#: ../src/renderer/slideshow-window.cpp:71
+#: ../src/renderer/slideshow-window.cpp:106
+#: ../src/renderer/slideshow-window.cpp:115
+#: ../src/renderer/slideshow-window.cpp:124
+msgid "In"
+msgstr "פנימה"
+
+#: ../src/renderer/editor-renderer.cpp:118
+#: ../src/renderer/editor-renderer.cpp:278
+#: ../src/renderer/editor-renderer.cpp:287
+#: ../src/renderer/enlarged-renderer.cpp:138
+#: ../src/renderer/enlarged-renderer.cpp:284
+#: ../src/renderer/enlarged-renderer.cpp:293
+#: ../src/renderer/zoomer.cpp:45
+msgid "Zoom _Out"
+msgstr "_יציאה מתקריב"
+
+#: ../src/renderer/editor-renderer.cpp:119
+#: ../src/renderer/editor-renderer.cpp:279
+#: ../src/renderer/editor-renderer.cpp:288
+#: ../src/renderer/enlarged-renderer.cpp:139
+#: ../src/renderer/enlarged-renderer.cpp:285
+#: ../src/renderer/enlarged-renderer.cpp:294
+#: ../src/renderer/slideshow-window.cpp:81
+#: ../src/renderer/slideshow-window.cpp:134
+#: ../src/renderer/slideshow-window.cpp:143
+msgid "Shrink the photo"
+msgstr "הקטנת התמונה"
+
+#: ../src/renderer/editor-renderer.cpp:121
+#: ../src/renderer/enlarged-renderer.cpp:141
+#: ../src/renderer/slideshow-window.cpp:80
+#: ../src/renderer/slideshow-window.cpp:133
+#: ../src/renderer/slideshow-window.cpp:142
+msgid "Out"
+msgstr "החוצה"
+
+#: ../src/renderer/editor-renderer.cpp:132
+#: ../src/renderer/enlarged-renderer.cpp:152
+msgid "_Normal Size"
+msgstr "_גודל רגיל"
+
+#: ../src/renderer/editor-renderer.cpp:133
+#: ../src/renderer/enlarged-renderer.cpp:153
+#: ../src/renderer/slideshow-window.cpp:90
+msgid "Show the photo at its normal size"
+msgstr "הצגת התמונה בגודלה הרגיל"
+
+#: ../src/renderer/editor-renderer.cpp:135
+#: ../src/renderer/enlarged-renderer.cpp:155
+#: ../src/renderer/slideshow-window.cpp:89
+msgid "Normal"
+msgstr "רגיל"
+
+#: ../src/renderer/editor-renderer.cpp:146
+#: ../src/renderer/enlarged-renderer.cpp:166
+msgid "Best _Fit"
+msgstr "ההתאמה הטובה _ביותר"
+
+#: ../src/renderer/editor-renderer.cpp:147
+#: ../src/renderer/enlarged-renderer.cpp:167
+#: ../src/renderer/slideshow-window.cpp:99
+msgid "Fit the photo to the window"
+msgstr "התאמת גודל התמונה לחלון"
+
+#: ../src/renderer/editor-renderer.cpp:149
+#: ../src/renderer/enlarged-renderer.cpp:169
+#: ../src/renderer/slideshow-window.cpp:98
+msgid "Fit"
+msgstr "התאמה"
+
+#: ../src/renderer/editor-renderer.cpp:160
+msgid "_Reload Photo"
+msgstr "_טעינת תמונה מחדש"
+
+#: ../src/renderer/editor-renderer.cpp:161
+msgid "Reload current photo"
+msgstr "טעינת התמונה הנוכחית מחדש"
+
+#: ../src/renderer/editor-renderer.cpp:163
+msgid "Reload"
+msgstr "טעינה מחדש"
+
+#: ../src/renderer/editor-renderer.cpp:174
+#: ../src/renderer/editor-renderer.cpp:218
+#: ../src/renderer/enlarged-renderer.cpp:180
+#: ../src/renderer/enlarged-renderer.cpp:224
+msgid "_Previous Photo"
+msgstr "_תמונה קודמת"
+
+#: ../src/renderer/editor-renderer.cpp:175
+#: ../src/renderer/editor-renderer.cpp:219
+#: ../src/renderer/enlarged-renderer.cpp:181
+#: ../src/renderer/enlarged-renderer.cpp:225
+#: ../src/renderer/slideshow-renderer.cpp:67
+#: ../src/renderer/slideshow-renderer.cpp:111
+msgid "Go to the previous photo in the collection"
+msgstr "מעבר לתמונה הקודמת באוסף"
+
+#: ../src/renderer/editor-renderer.cpp:177
+#: ../src/renderer/enlarged-renderer.cpp:183
+#: ../src/renderer/pagination-bar.cpp:66
+#: ../src/renderer/slideshow-renderer.cpp:66
+#: ../src/renderer/slideshow-renderer.cpp:110
+msgid "Previous"
+msgstr "הקודם"
+
+#: ../src/renderer/editor-renderer.cpp:188
+#: ../src/renderer/editor-renderer.cpp:227
+#: ../src/renderer/enlarged-renderer.cpp:194
+#: ../src/renderer/enlarged-renderer.cpp:233
+msgid "_Next Photo"
+msgstr "התמונה _הבאה"
+
+#: ../src/renderer/editor-renderer.cpp:189
+#: ../src/renderer/editor-renderer.cpp:228
+#: ../src/renderer/enlarged-renderer.cpp:195
+#: ../src/renderer/enlarged-renderer.cpp:234
+#: ../src/renderer/slideshow-renderer.cpp:76
+#: ../src/renderer/slideshow-renderer.cpp:120
+msgid "Go to the next photo in the collection"
+msgstr "מעבר לתמונה הבאה באוסף"
+
+#: ../src/renderer/editor-renderer.cpp:191
+#: ../src/renderer/enlarged-renderer.cpp:197
+#: ../src/renderer/pagination-bar.cpp:73
+#: ../src/renderer/slideshow-renderer.cpp:75
+#: ../src/renderer/slideshow-renderer.cpp:119
+msgid "Next"
+msgstr "הבא"
+
+#: ../src/renderer/editor-renderer.cpp:202
+#: ../src/renderer/editor-renderer.cpp:235
+#: ../src/renderer/enlarged-renderer.cpp:208
+#: ../src/renderer/enlarged-renderer.cpp:241
+msgid "_First Photo"
+msgstr "התמונה _הראשונה"
+
+#: ../src/renderer/editor-renderer.cpp:203
+#: ../src/renderer/editor-renderer.cpp:236
+#: ../src/renderer/enlarged-renderer.cpp:209
+#: ../src/renderer/enlarged-renderer.cpp:242
+#: ../src/renderer/slideshow-renderer.cpp:59
+#: ../src/renderer/slideshow-renderer.cpp:103
+msgid "Go to the first photo in the collection"
+msgstr "מעבר לתמונה הראשונה באוסף"
+
+#: ../src/renderer/editor-renderer.cpp:210
+#: ../src/renderer/editor-renderer.cpp:243
+#: ../src/renderer/enlarged-renderer.cpp:216
+#: ../src/renderer/enlarged-renderer.cpp:249
+msgid "_Last Photo"
+msgstr "התמונה _האחרונה"
+
+#: ../src/renderer/editor-renderer.cpp:211
+#: ../src/renderer/editor-renderer.cpp:244
+#: ../src/renderer/enlarged-renderer.cpp:217
+#: ../src/renderer/enlarged-renderer.cpp:250
+#: ../src/renderer/slideshow-renderer.cpp:84
+#: ../src/renderer/slideshow-renderer.cpp:128
+msgid "Go to the last photo in the collection"
+msgstr "מעבר לתמונה האחרונה באוסף"
+
+#: ../src/renderer/enlarged-renderer.cpp:72
+msgid "Enlarged"
+msgstr "מוגדל"
+
+#: ../src/renderer/pagination-bar.cpp:38
+msgid "_Previous Page"
+msgstr "העמוד _הקודם"
+
+#: ../src/renderer/pagination-bar.cpp:39
+msgid "Go to the previous page in the collection"
+msgstr "מעבר לעמוד הקודם באוסף"
+
+#: ../src/renderer/pagination-bar.cpp:42
+msgid "_Next Page"
+msgstr "העמוד _הבא"
+
+#: ../src/renderer/pagination-bar.cpp:43
+msgid "Go to the next page in the collection"
+msgstr "מעבר לעמוד הבא באוסף"
+
+#: ../src/renderer/pagination-bar.cpp:46
+msgid "_First Page"
+msgstr "עמוד _ראשון"
+
+#: ../src/renderer/pagination-bar.cpp:47
+msgid "Go to the first page in the collection"
+msgstr "מעבר לעמוד הראשון באוסף"
+
+#: ../src/renderer/pagination-bar.cpp:50
+msgid "_Last Page"
+msgstr "עמוד _אחרון"
+
+#: ../src/renderer/pagination-bar.cpp:51
+msgid "Go to the last page in the collection"
+msgstr "מעבר לעמוד האחרון באוסף"
+
+#: ../src/renderer/pagination-bar.cpp:59
+msgid "Photos per page"
+msgstr "תמונות בעמוד"
+
+#: ../src/renderer/pagination-bar.cpp:78
+#: ../src/renderer/slideshow-renderer.cpp:58
+#: ../src/renderer/slideshow-renderer.cpp:102
+msgid "First"
+msgstr "ראשון"
+
+#: ../src/renderer/pagination-bar.cpp:84
+#: ../src/renderer/slideshow-renderer.cpp:83
+#: ../src/renderer/slideshow-renderer.cpp:127
+msgid "Last"
+msgstr "אחרון"
+
+#: ../src/renderer/zoomer.cpp:42
+msgid "Enlarge the thumbnails"
+msgstr "הגדלת התמונות הממוזערות"
+
+#: ../src/renderer/zoomer.cpp:46
+msgid "Shrink the thumbnails"
+msgstr "כיווץ התמונות הממוזערות"
+
