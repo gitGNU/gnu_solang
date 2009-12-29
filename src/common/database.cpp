@@ -86,6 +86,16 @@ Database::get_exif_data_async(const Photo & photo,
 }
 
 void
+Database::delete_async(const PhotoTag & photo_tag,
+                       const SlotAsyncReady & slot) throw()
+{
+    trackerClient_.sparql_update_async(
+        photo_tag.get_delete_query(),
+        sigc::bind(sigc::mem_fun(*this, &Database::on_async_ready),
+                   slot));
+}
+
+void
 Database::delete_async(const Tag & tag, const SlotAsyncReady & slot)
                        throw()
 {

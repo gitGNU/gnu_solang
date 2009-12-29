@@ -26,8 +26,6 @@
 #include "application.h"
 #include "browser-renderer.h"
 #include "console-renderer.h"
-#include "delete-action.h"
-#include "deletion-queue.h"
 #include "editor-renderer.h"
 #include "engine.h"
 #include "enlarged-renderer.h"
@@ -395,40 +393,35 @@ TagManager::on_action_apply_tag() throw()
 void
 TagManager::on_action_remove_tag() throw()
 {
-/*    Glib::RefPtr<Gtk::TreeSelection> selected
+    Glib::RefPtr<Gtk::TreeSelection> selected
                                             = tagView_.get_selection();
-
-    if( 0 == selected->count_selected_rows() )
-        return;
-
     Gtk::TreeModel::iterator item = selected->get_selected();
+
+    if (false == item)
+    {
+        return;
+    }
+
     const TagViewModelColumnRecord &rec
                                 = tagView_.get_column_records();
 
-    if( item != selected->get_model()->children().end() )
+    Gtk::TreeModel::Row row= (*item);
+    TagPtr tag = row[ rec.get_column_tag() ];
+
+    RendererRegistry & renderer_registry
+        = application_->get_renderer_registry();
+    const IRendererPtr renderer = renderer_registry.get_current();
+
+    const DatabasePtr db = application_->get_engine().get_db();
+    PhotoList photos = renderer->get_current_selection();
+
+    for (PhotoList::const_iterator photos_iter = photos.begin();
+         photos.end() != photos_iter;
+         photos_iter++)
     {
-        Gtk::TreeModel::Row row= (*item);
-        TagPtr tag = row[ rec.get_column_tag() ];
-
-        if( Tag::ALL_PHOTOS_TAGID == tag->get_tag_id() )
-            return;
-
-        RendererRegistry & renderer_registry
-            = application_->get_renderer_registry();
-        const IRendererPtr renderer = renderer_registry.get_current();
-        PhotoList photos = renderer->get_current_selection();
-        DeletionQueue &queue
-                = application_->get_engine().get_delete_actions();
-
-        for( PhotoList::iterator it = photos.begin();
-                            it != photos.end(); it++ )
-        {
-            PhotoTag photoTag( (*it)->get_photo_id(),
-                                tag->get_tag_id() );
-            DeleteActionPtr action = photoTag.get_delete_action();
-            queue.schedule_delete_action( action );
-        }
-    }*/
+        PhotoTag photo_tag(*photos_iter, tag);
+        photo_tag.delete_async(*db, sigc::slot<void>());
+    }
 
     return;
 }

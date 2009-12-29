@@ -41,12 +41,20 @@ void
 PhotoTag::delete_async(Database & database,
                        const SlotAsyncReady & slot) const throw()
 {
+    database.delete_async(*this, slot);
 }
 
 Glib::ustring
 PhotoTag::get_delete_query() const throw()
 {
-    return Glib::ustring();
+    return Glib::ustring::compose("DELETE {"
+                                  "  ?photo nao:hasTag <%1> ."
+                                  "}"
+                                  "WHERE {"
+                                  "  ?photo nie:isStoredAs ?data ."
+                                  "  ?data nie:url '%2' ."
+                                  "}",
+                                  tag_->get_urn(), photo_->get_uri());
 }
 
 Glib::ustring

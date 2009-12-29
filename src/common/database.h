@@ -55,6 +55,10 @@ class Database
         ~Database();
 
         void
+        delete_async(const PhotoTag & photo_tag,
+                     const SlotAsyncReady & slot) throw();
+
+        void
         delete_async(const Tag & tag, const SlotAsyncReady & slot)
                      throw();
 
