@@ -19,7 +19,6 @@
 #ifndef SOLANG_BROWSER_MODEL_COLUMN_RECORD_H
 #define SOLANG_BROWSER_MODEL_COLUMN_RECORD_H
 
-#include <gdkmm.h>
 #include <gtkmm.h>
 
 #include "types.h"
@@ -48,26 +47,10 @@ class BrowserModelColumnRecord :
         gint
         get_column_photo_num() const throw();
 
-        const Gtk::TreeModelColumn<PixbufPtr> &
-        get_column_pixbuf() const throw();
-
-        gint
-        get_column_pixbuf_num() const throw();
-
-        const Gtk::TreeModelColumn<Glib::ustring> &
-        get_column_tag_name() const throw();
-
-        gint
-        get_column_tag_name_num() const throw();
-
     protected:
         Gtk::TreeModelColumn<guint> columnSerial_;
 
         Gtk::TreeModelColumn<PhotoPtr> columnPhoto_;
-
-        Gtk::TreeModelColumn<PixbufPtr> columnPixbuf_;
-
-        Gtk::TreeModelColumn<Glib::ustring> columnTagName_;
 
     private:
 };

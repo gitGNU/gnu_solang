@@ -20,25 +20,108 @@
 #include "config.h"
 #endif // HAVE_CONFIG_H
 
+#include <iostream>
 #include <cmath>
 
 #include <cairomm/cairomm.h>
 
 #include "cell-renderer-thumbnail.h"
+#include "photo.h"
+#include "thumbbuf-maker.h"
+#include "thumbnailer.h"
 
 namespace Solang
 {
 
 CellRendererThumbnail::CellRendererThumbnail() throw() :
     Gtk::CellRendererPixbuf(),
-    extraHeight_(0)
+    extraHeight_(0),
+    imageLoading_(0),
+    photo_()
 {
     property_xalign().set_value(0.5);
     property_yalign().set_value(0.5);
+
+    const IconThemePtr icon_theme = Gtk::IconTheme::get_default();
+    icon_theme->signal_changed().connect(
+        sigc::mem_fun(*this,
+                      &CellRendererThumbnail::on_icon_theme_changed));
+
+    load_icons();
 }
 
 CellRendererThumbnail::~CellRendererThumbnail() throw()
 {
+}
+
+void
+CellRendererThumbnail::create_thumbnail(gint thumbnail_height,
+                                        gint thumbnail_width) throw()
+{
+    if (thumbnail_height < -1 || thumbnail_width < -1)
+    {
+        return;
+    }
+
+    if (Photo::THUMBNAIL_STATE_LOADING
+            == photo_->get_thumbnail_state())
+    {
+        property_pixbuf().set_value(imageLoading_);
+        return;
+    }
+
+    ThumbbufMaker thumbbuf_maker(thumbnail_width,
+                                 thumbnail_height,
+                                 false);
+    PixbufPtr pixbuf;
+    try
+    {
+        pixbuf = thumbbuf_maker(photo_);
+        photo_->set_thumbnail_buffer(pixbuf);
+        photo_->set_thumbnail_state(Photo::THUMBNAIL_STATE_READY);
+    }
+    catch (const Gdk::PixbufError & e)
+    {
+        Thumbnailer & thumbnailer = Thumbnailer::instance();
+        thumbnailer.push(photo_);
+
+        pixbuf = imageLoading_;
+        photo_->set_thumbnail_state(Photo::THUMBNAIL_STATE_LOADING);
+    }
+    catch (const Glib::FileError & e)
+    {
+        Thumbnailer & thumbnailer = Thumbnailer::instance();
+        thumbnailer.push(photo_);
+
+        pixbuf = imageLoading_;
+        photo_->set_thumbnail_state(Photo::THUMBNAIL_STATE_LOADING);
+    }
+
+    property_pixbuf().set_value(pixbuf);
+}
+
+void
+CellRendererThumbnail::load_icons() throw()
+{
+    const IconThemePtr icon_theme = Gtk::IconTheme::get_default();
+    try
+    {
+        imageLoading_ = icon_theme->load_icon(
+                            "image-loading",
+                            96,
+                            static_cast<Gtk::IconLookupFlags>(0));
+    }
+    catch (const Glib::Error & e)
+    {
+        std::cerr << G_STRLOC << ", " << G_STRFUNC << ": "
+                  << e.what() << std::endl;
+    }
+}
+
+void
+CellRendererThumbnail::on_icon_theme_changed() throw()
+{
+    load_icons();
 }
 
 void
@@ -50,6 +133,12 @@ CellRendererThumbnail::render_vfunc(
     const Gdk::Rectangle & expose_area,
     Gtk::CellRendererState flags)
 {
+    if (0 == property_pixbuf().get_value())
+    {
+        create_thumbnail(cell_area.get_height() - 12,
+                         cell_area.get_width() - 12);
+    }
+
     const gint height = background_area.get_height() + extraHeight_;
     const gint width = background_area.get_width();
 
@@ -126,6 +215,12 @@ void
 CellRendererThumbnail::set_extra_height(guint height) throw()
 {
     extraHeight_ = height;
+}
+
+void
+CellRendererThumbnail::set_photo(const PhotoPtr & photo) throw()
+{
+    photo_ = photo;
 }
 
 } // namespace Solang

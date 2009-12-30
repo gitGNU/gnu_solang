@@ -28,22 +28,16 @@ enum
 {
     COLUMN_SERIAL = 0,
     COLUMN_PHOTO,
-    COLUMN_PIXBUF,
-    COLUMN_TAG_NAME,
     COLUMN_COUNT
 };
 
 BrowserModelColumnRecord::BrowserModelColumnRecord() throw() :
     Gtk::TreeModelColumnRecord(),
     columnSerial_(),
-    columnPhoto_(),
-    columnPixbuf_(),
-    columnTagName_()
+    columnPhoto_()
 {
     add(columnSerial_);
     add(columnPhoto_);
-    add(columnPixbuf_);
-    add(columnTagName_);
 }
 
 BrowserModelColumnRecord::~BrowserModelColumnRecord() throw()
@@ -72,30 +66,6 @@ gint
 BrowserModelColumnRecord::get_column_photo_num() const throw()
 {
     return COLUMN_PHOTO;
-}
-
-const Gtk::TreeModelColumn<PixbufPtr> &
-BrowserModelColumnRecord::get_column_pixbuf() const throw()
-{
-    return columnPixbuf_;
-}
-
-gint
-BrowserModelColumnRecord::get_column_pixbuf_num() const throw()
-{
-    return COLUMN_PIXBUF;
-}
-
-const Gtk::TreeModelColumn<Glib::ustring> &
-BrowserModelColumnRecord::get_column_tag_name() const throw()
-{
-    return columnTagName_;
-}
-
-gint
-BrowserModelColumnRecord::get_column_tag_name_num() const throw()
-{
-    return COLUMN_TAG_NAME;
 }
 
 } // namespace Solang

@@ -23,6 +23,8 @@
 #include <glibmm.h>
 #include <gtkmm.h>
 
+#include "types.h"
+
 namespace Solang
 {
 
@@ -38,6 +40,9 @@ class CellRendererThumbnail :
         void
         set_extra_height(guint height) throw();
 
+        void
+        set_photo(const PhotoPtr & photo) throw();
+
     protected:
         virtual void
         render_vfunc(const Glib::RefPtr<Gdk::Drawable> & window,
@@ -47,7 +52,21 @@ class CellRendererThumbnail :
                      const Gdk::Rectangle & expose_area,
                      Gtk::CellRendererState flags);
 
+        void
+        create_thumbnail(gint thumbnail_height,
+                         gint thumbnail_width) throw();
+
+        void
+        load_icons() throw();
+
+        void
+        on_icon_theme_changed() throw();
+
         guint extraHeight_;
+
+        PhotoPtr photo_;
+
+        PixbufPtr imageLoading_;
 
     private:
 };

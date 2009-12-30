@@ -21,8 +21,6 @@
 #include "config.h"
 #endif // HAVE_CONFIG_H
 
-#include <iostream>
-#include <sstream>
 #include <vector>
 
 #include <glibmm/i18n.h>
@@ -38,8 +36,6 @@
 #include "photo.h"
 #include "photo-search-criteria.h"
 #include "scale-action.h"
-#include "thumbbuf-maker.h"
-#include "thumbnailer.h"
 
 namespace Solang
 {
@@ -88,7 +84,6 @@ BrowserRenderer::BrowserRenderer() throw() :
     paginationBar_(),
     dummyLabel_(),
     scrolledWindow_(),
-    imageLoading_(0),
     treeModelFilter_(),
     thumbnailView_(thumbnailRendererWidth, thumbnailRendererHeight),
     zoomValue_(initialZoomValue),
@@ -371,157 +366,15 @@ BrowserRenderer::clear_thumbnails() throw()
         BrowserModelColumnRecord model_column_record;
         Gtk::TreeModel::Row row = *iter;
 
-        row[model_column_record.get_column_pixbuf()] = PixbufPtr(0);
         PhotoPtr photo = row[model_column_record.get_column_photo()];
         if( !photo->get_has_unsaved_data() )
         {
             photo->set_thumbnail_buffer( PixbufPtr(0) );
         }
-        row[model_column_record.get_column_tag_name()] = "";
 
         while (true == Gtk::Main::events_pending())
         {
             Gtk::Main::iteration();
-        }
-    }
-}
-
-void
-BrowserRenderer::generate_thumbnails() throw()
-{
-    std::ostringstream fsout;
-    fsout << paginationBar_.get_lower_limit();
-
-    const Gtk::TreeModel::Path first_path(fsout.str());
-
-    if (true == first_path.empty())
-    {
-        return;
-    }
-
-    const Gtk::TreeModel::iterator first_iter
-        = treeModelFilter_->get_model()->get_iter(first_path);
-
-    if (false == first_iter)
-    {
-        return;
-    }
-
-    std::ostringstream lsout;
-    lsout << paginationBar_.get_upper_limit() - 1;
-
-    const Gtk::TreeModel::Path last_path(lsout.str());
-
-    if (true == last_path.empty())
-    {
-        return;
-    }
-
-    const Gtk::TreeModel::iterator last_iter
-        = treeModelFilter_->get_model()->get_iter(last_path);
-
-    if (false == last_iter)
-    {
-        return;
-    }
-
-    const guint thumbnail_width
-                    = static_cast<guint>(
-                          ratioWidth
-                          * static_cast<double>(zoomValue_));
-    const guint thumbnail_height
-                    = static_cast<guint>(
-                          ratioHeight
-                          * static_cast<double>(zoomValue_));
-
-    thumbnailView_.set_thumbnail_width(thumbnail_width + 12);
-    thumbnailView_.set_thumbnail_height(thumbnail_height + 12);
-
-    if (0 == imageLoading_)
-    {
-        const IconThemePtr icon_theme = Gtk::IconTheme::get_default();
-        try
-        {
-            imageLoading_ = icon_theme->load_icon(
-                                "image-loading",
-                                thumbnail_height,
-                                static_cast<Gtk::IconLookupFlags>(0));
-        }
-        catch (const Glib::Error & e)
-        {
-            std::cerr << G_STRLOC << ", " << G_STRFUNC << ": "
-                      << e.what() << std::endl;
-        }
-    }
-
-    Gtk::TreeModel::iterator iter;
-
-    // operator<= is not defined.
-    for (iter = first_iter; ; iter++)
-    {
-        BrowserModelColumnRecord model_column_record;
-        Gtk::TreeModel::Row row = *iter;
-
-        const PhotoPtr & photo
-            = row[model_column_record.get_column_photo()];
-        const Photo::ThumbnailState thumbnail_state
-            = photo->get_thumbnail_state();
-
-        if (Photo::THUMBNAIL_STATE_NONE == thumbnail_state)
-        {
-            ThumbbufMaker thumbbuf_maker(thumbnail_width,
-                                         thumbnail_height,
-                                         false);
-
-            PixbufPtr pixbuf;
-            try
-            {
-                pixbuf = thumbbuf_maker(photo);
-                photo->set_thumbnail_buffer(pixbuf);
-                photo->set_thumbnail_state(
-                           Photo::THUMBNAIL_STATE_READY);
-            }
-            catch (const Gdk::PixbufError & e)
-            {
-                Engine & engine = application_->get_engine();
-                Thumbnailer & thumbnailer = engine.get_thumbnailer();
-                thumbnailer.push(photo);
-
-                pixbuf = imageLoading_;
-                photo->set_thumbnail_state(
-                           Photo::THUMBNAIL_STATE_LOADING);
-            }
-            catch (const Glib::FileError & e)
-            {
-                Engine & engine = application_->get_engine();
-                Thumbnailer & thumbnailer = engine.get_thumbnailer();
-                thumbnailer.push(photo);
-
-                pixbuf = imageLoading_;
-                photo->set_thumbnail_state(
-                           Photo::THUMBNAIL_STATE_LOADING);
-            }
-
-            row[model_column_record.get_column_pixbuf()] = pixbuf;
-
-//            row[model_column_record.get_column_tag_name()]
-//                = photo->get_exif_data().get_picture_taken_time();
-        }
-        else if (Photo::THUMBNAIL_STATE_LOADING == thumbnail_state)
-        {
-            row[model_column_record.get_column_pixbuf()]
-                = imageLoading_;
-        }
-        else if (Photo::THUMBNAIL_STATE_READY == thumbnail_state)
-        {
-            row[model_column_record.get_column_pixbuf()]
-                = photo->get_thumbnail_buffer();
-        }
-
-        // operator<= is not defined.
-        if (last_iter == iter)
-        {
-            break;
         }
     }
 }
@@ -678,7 +531,7 @@ BrowserRenderer::on_item_edit() throw()
 void
 BrowserRenderer::on_limits_changed() throw()
 {
-    generate_thumbnails();
+    set_thumbnail_size();
     treeModelFilter_->refilter();
 }
 
@@ -715,7 +568,6 @@ BrowserRenderer::on_action_view_zoom_changed(
                      const ScaleActionPtr & scale_action) throw()
 {
     zoomValue_ = scale_action->get_value();
-    imageLoading_.reset();
 
     static sigc::connection connection;
 
@@ -830,9 +682,25 @@ BrowserRenderer::on_visible(
 void
 BrowserRenderer::reload() throw()
 {
+    set_thumbnail_size();
     clear_thumbnails();
-    generate_thumbnails();
     treeModelFilter_->refilter();
+}
+
+void
+BrowserRenderer::set_thumbnail_size() throw()
+{
+    const guint thumbnail_width
+                    = static_cast<guint>(
+                          ratioWidth
+                          * static_cast<double>(zoomValue_));
+    const guint thumbnail_height
+                    = static_cast<guint>(
+                          ratioHeight
+                          * static_cast<double>(zoomValue_));
+
+    thumbnailView_.set_thumbnail_width(thumbnail_width + 12);
+    thumbnailView_.set_thumbnail_height(thumbnail_height + 12);
 }
 
 } // namespace Solang

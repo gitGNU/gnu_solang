@@ -117,6 +117,9 @@ class Application :
                             throw();
 
         void
+        on_thumbnailer_ready(PhotoList & photos) const throw();
+
+        void
         show_progress_dialog() throw();
 
         Glib::ThreadPool threadPool_;

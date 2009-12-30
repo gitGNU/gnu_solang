@@ -34,6 +34,37 @@ static const std::string uiFile
     = PACKAGE_DATA_DIR"/"PACKAGE_TARNAME"/ui/"
           PACKAGE_TARNAME"-thumbnail-popup.ui";
 
+static void
+thumbnail_view_set_renderer_thumbnail_data(
+    GtkCellLayout * cell_layout,
+    GtkCellRenderer * cell_renderer,
+    GtkTreeModel * tree_model,
+    GtkTreeIter * tree_iter,
+    gpointer user_data)
+{
+    CellRendererThumbnail * const renderer_thumbnail
+        = dynamic_cast<CellRendererThumbnail *>(Glib::wrap(
+                                                    cell_renderer,
+                                                    false));
+    const TreeModelPtr list_store = Glib::wrap(tree_model, true);
+
+    // Can not convert a GtkTreeIter * to a Gtk::TreeModel::iterator *
+    // directly.
+    const Gtk::TreePath tree_path(gtk_tree_model_get_path(tree_model,
+                                                          tree_iter),
+                                  false);
+    const Gtk::TreeModel::const_iterator iter = list_store->get_iter(
+                                                    tree_path);
+
+    Gtk::TreeModel::Row row = *iter;
+    BrowserModelColumnRecord model_column_record;
+    const PhotoPtr photo = row[model_column_record.get_column_photo()];
+    PixbufPtr pixbuf = photo->get_thumbnail_buffer();
+
+    renderer_thumbnail->property_pixbuf().set_value(pixbuf);
+    renderer_thumbnail->set_photo(photo);
+}
+
 ThumbnailView::ThumbnailView(gint thumbnail_renderer_width,
                              gint thumbnail_renderer_height) throw() :
     Gtk::IconView(),
@@ -102,14 +133,14 @@ ThumbnailView::configure(gint thumbnail_renderer_width,
         = GTK_CELL_RENDERER(rendererText_.gobj());
 
     gtk_cell_layout_pack_start(self, renderer_thumbnail, FALSE);
-    gtk_cell_layout_set_attributes(self, renderer_thumbnail,
-        "pixbuf", BrowserModelColumnRecord().get_column_pixbuf_num(),
-        NULL);
+    gtk_cell_layout_set_cell_data_func(
+        self,
+        renderer_thumbnail,
+        thumbnail_view_set_renderer_thumbnail_data,
+        0,
+        0);
 
     gtk_cell_layout_pack_start(self, renderer_info, FALSE);
-    gtk_cell_layout_set_attributes(self, renderer_info,
-        "text", BrowserModelColumnRecord().get_column_tag_name_num(),
-        NULL);
     
     rendererThumbnail_.property_width().set_value(
                            thumbnail_renderer_width);

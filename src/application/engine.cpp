@@ -49,7 +49,6 @@ Engine::Engine(int & argc, char ** & argv,
     exportQueue_(),
     photos_(),
     currentStorageSystems_(),
-    thumbnailer_(),
     database_(),
     criterionRepo_(),
     deleteActions_( database_ )
@@ -318,12 +317,6 @@ Engine::get_photos() throw()
 {
     Glib::Mutex::Lock lock(mutex_);
     return photos_;
-}
-
-Thumbnailer &
-Engine::get_thumbnailer() throw()
-{
-    return thumbnailer_;
 }
 
 } //namespace Solang

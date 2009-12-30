@@ -24,23 +24,31 @@
 #include <glibmm.h>
 #include <sigc++/sigc++.h>
 
+#include "singleton.h"
 #include "thumbnailer-proxy.h"
 #include "types.h"
 
 namespace Solang
 {
 
-class Thumbnailer
+class Thumbnailer :
+    public Singleton<Thumbnailer>,
+    public sigc::trackable
 {
     public:
-        Thumbnailer() throw();
-
         ~Thumbnailer() throw();
 
         void
         push(const PhotoPtr & photo) throw();
 
+        sigc::signal<void, PhotoList &> &
+        signal_ready() throw();
+
     private:
+        friend class Singleton<Thumbnailer>;
+
+        Thumbnailer() throw();
+
         void
         on_async_queue(guint handle, const PhotoList & photos)
                        throw();
@@ -68,6 +76,8 @@ class Thumbnailer
         ThumbnailerProxy thumbnailerProxy_;
 
         sigc::connection signalTimeout_;
+
+        sigc::signal<void, PhotoList &> ready_;
 };
 
 } // namespace Solang

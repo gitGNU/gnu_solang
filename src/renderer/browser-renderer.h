@@ -81,9 +81,6 @@ class BrowserRenderer :
         clear_thumbnails() throw();
 
         void
-        generate_thumbnails() throw();
-
-        void
         on_action_add_to_export_queue() throw();
 
         void
@@ -127,6 +124,9 @@ class BrowserRenderer :
         void
         reload() throw();
 
+        void
+        set_thumbnail_size() throw();
+
         ApplicationPtr application_;
 
         IconFactoryPtr iconFactory_;
@@ -154,8 +154,6 @@ class BrowserRenderer :
         Gtk::Label dummyLabel_;
 
         Gtk::ScrolledWindow scrolledWindow_;
-
-        PixbufPtr imageLoading_;
 
         TreeModelFilterPtr treeModelFilter_;
 

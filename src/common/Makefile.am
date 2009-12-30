@@ -70,6 +70,7 @@ libcommon_la_SOURCES = \
 	scale-action.h \
 	scale-tool-item.cpp \
 	scale-tool-item.h \
+	singleton.h \
 	spinner.cpp \
 	spinner.h \
 	spinner-dialog.cpp \

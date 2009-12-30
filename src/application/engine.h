@@ -31,7 +31,6 @@
 #include "photo.h"
 #include "photo-search-criteria.h"
 #include "search-criterion-repo.h"
-#include "thumbnailer.h"
 #include "types.h"
 
 namespace Solang
@@ -175,9 +174,6 @@ class Engine :
         inline DeletionQueue &
         get_delete_actions();
 
-        Thumbnailer &
-        get_thumbnailer() throw();
-
     private:
         ProgressObserverPtr observer_;
 
@@ -208,8 +204,6 @@ class Engine :
         //from gconf
 
         StorageMap currentStorageSystems_;
-
-        Thumbnailer thumbnailer_;
 
         Database database_;
 

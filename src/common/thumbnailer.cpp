@@ -33,7 +33,8 @@ namespace Solang
 Thumbnailer::Thumbnailer() throw() :
     map_(),
     pendingList_(),
-    thumbnailerProxy_()
+    thumbnailerProxy_(),
+    ready_()
 {
     thumbnailerProxy_.error_connect(
         sigc::mem_fun(*this,
@@ -86,6 +87,7 @@ Thumbnailer::on_signal_ready(guint handle, UStringList & uris)
     }
 
     std::map<Glib::ustring, PhotoPtr> & m = map_[handle];
+    PhotoList photos;
 
     for (UStringList::const_iterator iter = uris.begin();
          uris.end() != iter;
@@ -97,8 +99,13 @@ Thumbnailer::on_signal_ready(guint handle, UStringList & uris)
         {
             continue;
         }
-        m[uri]->set_thumbnail_state(Photo::THUMBNAIL_STATE_READY);
+
+        const PhotoPtr photo = m[uri];
+        photo->set_thumbnail_state(Photo::THUMBNAIL_STATE_READY);
+        photos.push_back(photo);
     }
+
+    ready_.emit(photos);
 }
 
 void
@@ -153,6 +160,12 @@ Thumbnailer::push(const PhotoPtr & photo) throw()
                   100,
                   Glib::PRIORITY_DEFAULT);
     }
+}
+
+sigc::signal<void, PhotoList &> &
+Thumbnailer::signal_ready() throw()
+{
+    return ready_;
 }
 
 } // namespace Solang

@@ -49,6 +49,7 @@
 #include "search-basket.h"
 #include "slideshow-renderer.h"
 #include "tag-manager.h"
+#include "thumbnailer.h"
 
 namespace Solang
 {
@@ -255,6 +256,11 @@ Application::Application(int & argc, char ** & argv) throw() :
         &Application::show_progress_dialog));
     engine_.photo_import_end().connect(sigc::mem_fun(*this,
         &Application::hide_progress_dialog));
+
+    Thumbnailer & thumbnailer = Thumbnailer::instance();
+    thumbnailer.signal_ready().connect(
+        sigc::mem_fun(*this,
+                      &Application::on_thumbnailer_ready));
 }
 
 Application::~Application() throw()
@@ -420,7 +426,6 @@ Application::add_photo_to_model(const PhotoPtr & photo) throw()
     row[model_column_record.get_column_serial()]
         = static_cast<guint>(model_path.front());
     row[model_column_record.get_column_photo()] = photo;
-    row[model_column_record.get_column_pixbuf()] = PixbufPtr(0);
 }
 
 void
@@ -496,6 +501,46 @@ Application::on_criteria_changed(PhotoSearchCriteriaList & criteria)
         criteria,
         sigc::mem_fun(*this,
                       &Application::on_async_search));
+}
+
+void
+Application::on_thumbnailer_ready(PhotoList & photos) const throw()
+{
+    const Gtk::TreeModel::Children children = listStore_->children();
+
+    // Hoping that keeping the bigger loop within the smaller loop
+    // will result in better optimization. In this case,
+    // children.size() is likely to be greater than photos.size().
+
+    for (PhotoList::const_iterator photo_iter = photos.begin();
+         photos.end() != photo_iter;
+         photo_iter++)
+    {
+        for (Gtk::TreeModel::const_iterator model_iter
+                                                = children.begin();
+             children.end() != model_iter;
+             model_iter++)
+        {
+            Gtk::TreeModel::Row row = *model_iter;
+            BrowserModelColumnRecord model_column_record;
+            const PhotoPtr photo
+                = row[model_column_record.get_column_photo()];
+
+            if (G_UNLIKELY(photo->get_uri()
+                               == (*photo_iter)->get_uri()))
+            {
+                listStore_->row_changed(listStore_->get_path(
+                                            model_iter),
+                                        model_iter);
+                break;
+            }
+        }
+
+        while (true == Gtk::Main::events_pending())
+        {
+            Gtk::Main::iteration();
+        }
+    }
 }
 
 void
