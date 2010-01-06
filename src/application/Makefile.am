@@ -23,12 +23,8 @@ solang_LDADD = \
 	$(top_builddir)/src/edit-engine/libeditengine.la \
 	$(top_builddir)/src/common/libcommon.la \
 	$(DBUS_LIBS) \
-	$(FLICKCURL_LIBS) \
-	$(GPHOTO2_LIBS) \
 	$(GTKIMAGEVIEW_LIBS) \
-	$(WEBKIT_LIBS) \
 	$(GTKMM_LIBS) \
-	$(SOUP_LIBS) \
 	$(GDL_LIBS) \
 	$(BABL_LIBS) \
 	$(GEGL_LIBS) \
@@ -49,8 +45,6 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/renderer \
 	$(SOLANG_CFLAGS) \
 	$(DBUS_CFLAGS) \
-	$(FLICKCURL_CFLAGS) \
-	$(GPHOTO2_CFLAGS) \
 	$(GTKIMAGEVIEW_CFLAGS) \
 	$(GTKMM_CFLAGS) \
 	$(GDL_CFLAGS) \

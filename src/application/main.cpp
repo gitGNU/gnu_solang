@@ -1,6 +1,6 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 4; tab-width: 4 -*- */
 /*
- * Copyright (C) 2009 Debarshi Ray <rishi@gnu.org>
+ * Copyright (C) 2009, 2010 Debarshi Ray <rishi@gnu.org>
  * Copyright (C) 2009 Santanu Sinha <santanu.sinha@gmail.com>
  *
  * Solang is free software: you can redistribute it and/or modify it
@@ -23,7 +23,6 @@
 
 #include <cstdlib>
 
-#include <flickcurl.h>
 #include <gegl.h>
 #include <giomm.h>
 #include <glibmm.h>
@@ -46,12 +45,6 @@ main(int argc, char *argv[])
     Glib::thread_init();
     Gio::init();
     gegl_init( &argc, &argv );
-
-    if (0 != flickcurl_init())
-    {
-        g_warning ("Failed to initialize FlickCurl");
-        return EXIT_FAILURE;
-    }
 
     Glib::set_prgname(PACKAGE_TARNAME);
     Glib::set_application_name(_(PACKAGE_NAME));
@@ -88,8 +81,6 @@ main(int argc, char *argv[])
     application.init();
     application.run();
     application.final();
-
-    flickcurl_finish();
 
     return EXIT_SUCCESS;
 }

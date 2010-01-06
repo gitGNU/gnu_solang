@@ -1,4 +1,4 @@
-Copyright (C) 2009 Debarshi Ray <rishi@gnu.org>
+Copyright (C) 2009, 2010 Debarshi Ray <rishi@gnu.org>
 Copyright (C) 2009 Santanu Sinha <santanu.sinha@gmail.com>
 All rights reserved.
 
@@ -36,8 +36,6 @@ Features:
 ---------
 - Browser, editor, enlarged and slideshow renderer for viewing the entire
   collection, editing, a single photo and slideshows respectively.
-- Camera, Flickr and folder importer to import photos from cameras in PTP mode
-  Flickr and folders respectively.
 - Folder exporter to export selected photos to a folder.
 - Date view for showing photo dates.
 - Basic editing like brightness, contrast, flipping, rotation, saturation and
@@ -53,15 +51,11 @@ Dependencies:
 -------------
  - babl
  - dbus-glib-1
- - flickcurl
  - gdl-1.0
  - gegl
- - libgphoto2
  - gtkimageview
  - gtkmm-2.4 >= 2.8
- - libsoup-2.4
  - tracker-client-0.7
- - webkit-1.0
 
 Packages are available for Debian, Fedora and Ubuntu.
 

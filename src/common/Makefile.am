@@ -30,8 +30,6 @@ libcommon_la_SOURCES = \
 	exif-data.h \
 	export-queue-operations.cpp \
 	export-queue-operations.h \
-	flickr-context.cpp \
-	flickr-context.h \
 	histogram-viewer.cpp \
 	histogram-viewer.h \
 	histogram.cpp \
@@ -100,7 +98,6 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/storage \
 	$(SOLANG_CFLAGS) \
 	$(DBUS_CFLAGS) \
-	$(FLICKCURL_CFLAGS) \
 	$(GTKMM_CFLAGS) \
 	$(GDL_CFLAGS) \
 	$(GEGL_CFLAGS) \
