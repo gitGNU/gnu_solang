@@ -103,6 +103,10 @@ class EnlargedRenderer :
         on_action_view_zoom_out() throw();
 
         void
+        on_dock_item_parent_changed(Gtk::Widget * previous_parent)
+                                    throw();
+
+        void
         on_list_store_change_end(Application & application) throw();
 
         bool

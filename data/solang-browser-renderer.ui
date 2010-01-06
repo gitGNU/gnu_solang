@@ -8,7 +8,6 @@
 			<placeholder name="PlaceholderZoomMenus">
 			<menuitem action="ActionViewZoomIn"/>
 			<menuitem action="ActionViewZoomOut"/>
-			<menuitem action="ActionViewEdit"/>
 			</placeholder>
 		</menu>
 		<placeholder name="PlaceholderGoMenus">
@@ -22,9 +21,6 @@
 		</placeholder>
 	</menubar>
 	<toolbar name="ToolBar">
-		<placeholder name="PlaceholderGoToolBar">
-		<toolitem action="ActionViewEdit"/>
-		</placeholder>
 		<placeholder name="PlaceholderFullScreenToolBar">
 		<toolitem action="ActionViewBrowserSlideshow"/>
 		</placeholder>

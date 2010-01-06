@@ -3,7 +3,6 @@
 	<popup name="ThumbnailPopup">
 		<placeholder name="PlaceholderEditPopup">
 		<menuitem action="ActionEditAddToExportQueue"/>
-		<menuitem action="ActionViewEdit"/>
 		</placeholder>
 		<placeholder name="PlaceholderFullScreenPopup">
 		<menuitem action="ActionViewBrowserSlideshow"/>

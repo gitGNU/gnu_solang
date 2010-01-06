@@ -193,11 +193,6 @@ BrowserRenderer::BrowserRenderer() throw() :
                 scale_action));
     }
 
-    actionGroup_->add(Gtk::Action::create(
-        "ActionViewEdit", Gtk::Stock::EDIT, _("_Edit"),
-        _("Edit picture")), Gtk::AccelKey("<control>e"),
-        sigc::mem_fun(*this, &BrowserRenderer::on_item_edit));
-
     actionGroup_->add(
         Gtk::Action::create(
             "ActionMenuGo", _("_Go")));
@@ -235,6 +230,11 @@ BrowserRenderer::BrowserRenderer() throw() :
                     dockItemBehaviour_);
     gtk_container_add(GTK_CONTAINER(dockItem_),
                       GTK_WIDGET(vBox_.gobj()));
+
+    Gtk::Widget * const dock_item = Glib::wrap(dockItem_, false);
+    dock_item->signal_parent_changed().connect(
+        sigc::mem_fun(*this,
+                      &BrowserRenderer::on_dock_item_parent_changed));
 
     paginationBar_.limits_changed().connect(
         sigc::mem_fun(*this,
@@ -455,12 +455,29 @@ BrowserRenderer::on_action_view_slideshow() throw()
 void
 BrowserRenderer::on_init_end(Application & application) throw()
 {
-    MainWindow & main_window = application.get_main_window();
-    Gtk::Notebook * notebook = main_window.get_notebook_center();
+    signalInitEnd_.disconnect();
+}
+
+void
+BrowserRenderer::on_selection_changed() throw()
+{
+    application_->get_engine().selection_changed().emit();
+}
+
+void
+BrowserRenderer::on_dock_item_parent_changed(
+                     Gtk::Widget * previous_parent) throw()
+{
+    signalSwitchPage_.disconnect();
+
+    Gtk::Widget * const parent = Glib::wrap(gtk_widget_get_parent(
+                                                dockItem_), false);
+    Gtk::Notebook * const notebook = dynamic_cast<Gtk::Notebook *>(
+                                         parent);
 
     if (0 == notebook)
     {
-        g_warning("0 == notebook");
+        pageNum_ = 0;
         return;
     }
 
@@ -470,14 +487,6 @@ BrowserRenderer::on_init_end(Application & application) throw()
         = notebook->signal_switch_page().connect(
               sigc::mem_fun(*this,
                             &BrowserRenderer::on_switch_page));
-
-    signalInitEnd_.disconnect();
-}
-
-void
-BrowserRenderer::on_selection_changed() throw()
-{
-    application_->get_engine().selection_changed().emit();
 }
 
 void
@@ -507,25 +516,6 @@ BrowserRenderer::on_item_activated(const Gtk::TreeModel::Path & path)
 
     enlarged_renderer->present();
     enlarged_renderer->render(photo);
-}
-
-void
-BrowserRenderer::on_item_edit() throw()
-{
-    RendererRegistry & renderer_registry
-        = application_->get_renderer_registry();
-    const IRendererPtr editor_renderer
-        = renderer_registry.select<EditorRenderer>();
-
-    if (0 == editor_renderer)
-    {
-        return;
-    }
-
-    const PhotoList photos = thumbnailView_.get_selected_photos();
-
-    editor_renderer->render(photos);
-    editor_renderer->present();
 }
 
 void

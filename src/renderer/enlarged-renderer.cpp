@@ -738,6 +738,31 @@ EnlargedRenderer::on_action_view_zoom_out() throw()
 }
 
 void
+EnlargedRenderer::on_dock_item_parent_changed(
+                      Gtk::Widget * previous_parent) throw()
+{
+    signalSwitchPage_.disconnect();
+
+    Gtk::Widget * const parent = Glib::wrap(gtk_widget_get_parent(
+                                                dockItem_), false);
+    Gtk::Notebook * const notebook = dynamic_cast<Gtk::Notebook *>(
+                                         parent);
+
+    if (0 == notebook)
+    {
+        pageNum_ = 0;
+        return;
+    }
+
+    pageNum_ = notebook->page_num(*Glib::wrap(dockItem_, false));
+
+    signalSwitchPage_
+        = notebook->signal_switch_page().connect(
+              sigc::mem_fun(*this,
+                            &EnlargedRenderer::on_switch_page));
+}
+
+void
 EnlargedRenderer::on_list_store_change_end(Application & application)
                                            throw()
 {
@@ -838,42 +863,7 @@ EnlargedRenderer::prepare_for_first_use() throw()
         return;
     }
 
-    dockItem_ = gdl_dock_item_new_with_stock(
-                    dockItemName_.c_str(),
-                    dockItemTitle_.c_str(),
-                    PACKAGE_TARNAME"-mode-image-edit",
-                    dockItemBehaviour_);
-
     MainWindow & main_window = application_->get_main_window();
-    main_window.dock_object_center(GDL_DOCK_OBJECT(dockItem_));
-
-    Gtk::Notebook * const notebook
-                              = main_window.get_notebook_center();
-
-    if (0 == notebook)
-    {
-        g_warning("0 == notebook");
-        return;
-    }
-
-    pageNum_ = notebook->page_num(*Glib::wrap(dockItem_, false));
-
-    signalMainWindowStateEvent_
-        = main_window.signal_window_state_event().connect(
-              sigc::mem_fun(
-                  *this,
-                  &EnlargedRenderer::on_main_window_state_event));
-
-    signalSwitchPage_
-        = notebook->signal_switch_page().connect(
-              sigc::mem_fun(*this,
-                            &EnlargedRenderer::on_switch_page));
-
-    signalListStoreChangeEnd_
-        = application_->list_store_change_end().connect(
-              sigc::mem_fun(*this,
-                            &EnlargedRenderer::on_list_store_change_end));
-
     const UIManagerPtr & ui_manager = main_window.get_ui_manager();
 
     uiID_ = ui_manager->add_ui_from_file(uiFile);
@@ -887,6 +877,30 @@ EnlargedRenderer::prepare_for_first_use() throw()
     {
         ui_manager->insert_action_group(actionGroup_);
     }
+
+    dockItem_ = gdl_dock_item_new_with_stock(
+                    dockItemName_.c_str(),
+                    dockItemTitle_.c_str(),
+                    PACKAGE_TARNAME"-mode-image-edit",
+                    dockItemBehaviour_);
+
+    Gtk::Widget * const dock_item = Glib::wrap(dockItem_, false);
+    dock_item->signal_parent_changed().connect(
+        sigc::mem_fun(*this,
+                      &EnlargedRenderer::on_dock_item_parent_changed));
+
+    main_window.dock_object_center(GDL_DOCK_OBJECT(dockItem_));
+
+    signalMainWindowStateEvent_
+        = main_window.signal_window_state_event().connect(
+              sigc::mem_fun(
+                  *this,
+                  &EnlargedRenderer::on_main_window_state_event));
+
+    signalListStoreChangeEnd_
+        = application_->list_store_change_end().connect(
+              sigc::mem_fun(*this,
+                            &EnlargedRenderer::on_list_store_change_end));
 
     RendererRegistry & renderer_registry
         = application_->get_renderer_registry();

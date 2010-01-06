@@ -99,6 +99,10 @@ class BrowserRenderer :
                                 throw();
 
         void
+        on_dock_item_parent_changed(Gtk::Widget * previous_parent)
+                                    throw();
+
+        void
         on_item_activated(const Gtk::TreeModel::Path & path) throw();
 
         void
@@ -117,9 +121,6 @@ class BrowserRenderer :
         bool
         on_visible(const Gtk::TreeModel::const_iterator & iter)
                    throw();
-
-        void
-        on_item_edit() throw();
 
         void
         reload() throw();

@@ -36,7 +36,6 @@
 //#include "date-manager.h"
 #include "directory-destination.h"
 //#include "directory-source.h"
-#include "editor-renderer.h"
 #include "enlarged-renderer.h"
 #include "exporter.h"
 //#include "flickr-source.h"
@@ -326,9 +325,6 @@ Application::init() throw()
 
     IRendererPtr enlarged_renderer(new EnlargedRenderer());
     rendererRegistry_.add(enlarged_renderer);
-
-    IRendererPtr editor_renderer(new EditorRenderer());
-    rendererRegistry_.add(editor_renderer);
 
     IRendererPtr slideshow_renderer(new SlideshowRenderer());
     rendererRegistry_.add(slideshow_renderer);
