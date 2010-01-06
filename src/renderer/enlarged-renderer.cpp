@@ -902,13 +902,6 @@ EnlargedRenderer::prepare_for_first_use() throw()
               sigc::mem_fun(*this,
                             &EnlargedRenderer::on_list_store_change_end));
 
-    RendererRegistry & renderer_registry
-        = application_->get_renderer_registry();
-    const IRendererPtr enlarged_renderer
-        = renderer_registry.select<EnlargedRenderer>();
-
-    renderer_registry.set_current(enlarged_renderer);
-
     firstUse_ = false;
 }
 
