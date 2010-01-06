@@ -1,6 +1,6 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 4; tab-width: 4 -*- */
 /*
- * Copyright (C) 2009 Debarshi Ray <rishi@gnu.org>
+ * Copyright (C) 2009, 2010 Debarshi Ray <rishi@gnu.org>
  *
  * Solang is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -611,7 +611,7 @@ MainWindow::on_action_help_about() throw()
 
     about_dialog.set_comments(_("A photo manager for GNOME"));
     about_dialog.set_copyright(
-        "Copyright \xc2\xa9 2009 The " PACKAGE_NAME " authors");
+        "Copyright \xc2\xa9 2009 - 2010 The " PACKAGE_NAME " authors");
 
     file = Gio::File::create_for_path(copyingFile);
 
