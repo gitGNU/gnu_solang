@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-01-08 04:05+0000\n"
-"PO-Revision-Date: 2010-01-08 09:58+0530\n"
+"PO-Revision-Date: 2010-01-08 11:09+0530\n"
 "Last-Translator: sankarshan mukhopadhyay <sankarshan@fedoraproject.org>\n"
 "Language-Team: anubad@lists.ankur.org.in\n"
 "Language: en\n"
@@ -27,7 +27,7 @@ msgstr ""
 
 #: ../data/solang.desktop.in.in.h:3
 msgid "Photo Manager"
-msgstr "ছবি"
+msgstr "ছবি ম্যানেজার"
 
 #: ../src/application/engine.cpp:324
 msgid "Updating path information"
@@ -106,16 +106,16 @@ msgstr ""
 
 #: ../src/attribute/property-manager.cpp:75
 msgid "Basic"
-msgstr ""
+msgstr "প্রাথমিক"
 
 #: ../src/attribute/property-manager.cpp:76
 #: ../src/editor/editor-toolbar.cpp:15
 msgid "Histogram"
-msgstr ""
+msgstr "হিস্টোগ্রাম"
 
 #: ../src/attribute/search-basket.cpp:45
 msgid "Search"
-msgstr ""
+msgstr "অনুসন্ধান করুন"
 
 #: ../src/attribute/search-basket.cpp:49
 msgid "Auto"
@@ -135,11 +135,11 @@ msgstr ""
 
 #: ../src/attribute/tag-manager.cpp:57 ../src/importer/importer-dialog.cpp:91
 msgid "Tags"
-msgstr ""
+msgstr "ট্যাগ"
 
 #: ../src/attribute/tag-manager.cpp:103
 msgid "_Tags"
-msgstr ""
+msgstr "ট্যাগ (_T)"
 
 #: ../src/attribute/tag-manager.cpp:108
 msgid "Create New _Tag..."
@@ -169,12 +169,12 @@ msgstr ""
 #: ../src/attribute/tag-new-dialog.cpp:44
 #: ../src/attribute/tag-new-dialog.cpp:74
 msgid "Name:"
-msgstr ""
+msgstr "নাম:"
 
 #: ../src/attribute/tag-new-dialog.cpp:49
 #: ../src/attribute/tag-new-dialog.cpp:79
 msgid "Description"
-msgstr ""
+msgstr "বর্ণনা"
 
 #: ../src/attribute/tag-new-dialog.cpp:56
 msgid "Create New Tag"
@@ -186,11 +186,11 @@ msgstr ""
 
 #: ../src/common/histogram-viewer.cpp:37
 msgid "Type"
-msgstr ""
+msgstr "প্রকার"
 
 #: ../src/common/histogram-viewer.cpp:42
 msgid "Channels"
-msgstr ""
+msgstr "চ্যানেল"
 
 #: ../src/common/histogram-viewer.cpp:67
 msgid "Linear"
@@ -202,7 +202,7 @@ msgstr ""
 
 #: ../src/common/histogram-viewer.cpp:80
 msgid "RGB"
-msgstr ""
+msgstr "RGB"
 
 #: ../src/common/histogram-viewer.cpp:85
 msgid "Red"
@@ -336,7 +336,7 @@ msgstr ""
 
 #: ../src/editor/editor.cpp:206
 msgid "_Save"
-msgstr ""
+msgstr "সংরক্ষণ করুন (_S)"
 
 #: ../src/editor/flip-widget.cpp:16
 msgid "Flip"
@@ -356,7 +356,7 @@ msgstr ""
 
 #: ../src/editor/rotate-widget.cpp:33
 msgid "Clockwise"
-msgstr ""
+msgstr "ঘড়ির কাঁটা অনুরূপ"
 
 #: ../src/editor/rotate-widget.cpp:39
 msgid "Counter-Clockwise"
@@ -373,11 +373,11 @@ msgstr ""
 #: ../src/editor/save-photos-window.cpp:43
 #: ../src/importer/camera-import-widget.cpp:411
 msgid "Preview"
-msgstr ""
+msgstr "প্রাকপ্রদর্শন"
 
 #: ../src/editor/save-photos-window.cpp:44
 msgid "Name"
-msgstr ""
+msgstr "নাম"
 
 #: ../src/editor/scale-widget.cpp:21
 msgid "Scale"
@@ -417,7 +417,7 @@ msgstr ""
 #: ../src/exporter/exporter-dialog.cpp:66
 #: ../src/importer/importer-dialog.cpp:79
 msgid "General"
-msgstr ""
+msgstr "স্বাভাবিক"
 
 #: ../src/exporter/exporter-dialog.cpp:78
 #: ../src/importer/importer-dialog.cpp:103
@@ -426,7 +426,7 @@ msgstr ""
 
 #: ../src/exporter/exporter-dialog.cpp:111
 msgid "_Export"
-msgstr ""
+msgstr "এক্সপোর্ট করুন (_E)"
 
 #: ../src/importer/camera-import-widget.cpp:158
 msgid "Importing list of photos.. please wait"
@@ -481,11 +481,11 @@ msgstr ""
 
 #: ../src/importer/flickr-chooser-button.cpp:314
 msgid "Other..."
-msgstr ""
+msgstr "অন্যান্য..."
 
 #: ../src/importer/flickr-chooser-dialog.cpp:188
 msgid "Select Photos"
-msgstr ""
+msgstr "ফটো নির্বাচন করুন"
 
 #: ../src/importer/flickr-chooser-dialog.cpp:200
 msgid "Loading photo information..."
