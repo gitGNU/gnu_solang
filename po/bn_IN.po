@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-01-08 04:05+0000\n"
-"PO-Revision-Date: 2010-01-08 11:09+0530\n"
+"PO-Revision-Date: 2010-01-08 11:47+0530\n"
 "Last-Translator: sankarshan mukhopadhyay <sankarshan@fedoraproject.org>\n"
 "Language-Team: anubad@lists.ankur.org.in\n"
 "Language: en\n"
@@ -381,7 +381,7 @@ msgstr "নাম"
 
 #: ../src/editor/scale-widget.cpp:21
 msgid "Scale"
-msgstr ""
+msgstr "মাত্রা"
 
 #: ../src/exporter/directory-destination.cpp:106
 msgid "Exporting photos"
@@ -399,7 +399,7 @@ msgstr ""
 
 #: ../src/exporter/exporter-dialog.cpp:33
 msgid "Export"
-msgstr ""
+msgstr "এক্সপোর্ট করা হবে"
 
 #: ../src/exporter/exporter-dialog.cpp:42
 msgid "_Destination:"
@@ -592,17 +592,17 @@ msgstr ""
 
 #: ../src/renderer/browser-renderer.cpp:200
 msgid "Edit picture"
-msgstr ""
+msgstr "ছবি সম্পাদনা করুন"
 
 #: ../src/renderer/browser-renderer.cpp:205
 #: ../src/renderer/editor-renderer.cpp:127
 #: ../src/renderer/enlarged-renderer.cpp:291
 msgid "_Go"
-msgstr ""
+msgstr "শুরু করুন (_G)"
 
 #: ../src/renderer/editor-renderer.cpp:101
 msgid "Editor"
-msgstr ""
+msgstr "এডিটার"
 
 #: ../src/renderer/editor-renderer.cpp:133
 #: ../src/renderer/editor-renderer.cpp:280
@@ -756,7 +756,7 @@ msgstr ""
 #: ../src/renderer/enlarged-renderer.cpp:380
 #: ../src/renderer/enlarged-renderer.cpp:413
 msgid "_First Photo"
-msgstr ""
+msgstr "প্রথম ছবি (_F)"
 
 #: ../src/renderer/editor-renderer.cpp:231
 #: ../src/renderer/editor-renderer.cpp:264
@@ -765,14 +765,14 @@ msgstr ""
 #: ../src/renderer/slideshow-renderer.cpp:141
 #: ../src/renderer/slideshow-renderer.cpp:185
 msgid "Go to the first photo in the collection"
-msgstr ""
+msgstr "সংকলনের প্রথম ছবি প্রদর্শন করা হবে"
 
 #: ../src/renderer/editor-renderer.cpp:238
 #: ../src/renderer/editor-renderer.cpp:271
 #: ../src/renderer/enlarged-renderer.cpp:388
 #: ../src/renderer/enlarged-renderer.cpp:421
 msgid "_Last Photo"
-msgstr ""
+msgstr "শেষ ছবি (_L)"
 
 #: ../src/renderer/editor-renderer.cpp:239
 #: ../src/renderer/editor-renderer.cpp:272
@@ -781,7 +781,7 @@ msgstr ""
 #: ../src/renderer/slideshow-renderer.cpp:166
 #: ../src/renderer/slideshow-renderer.cpp:210
 msgid "Go to the last photo in the collection"
-msgstr ""
+msgstr "সংকলনের শেষ ছবি প্রদর্শন করা হবে"
 
 #: ../src/renderer/enlarged-renderer.cpp:73
 msgid "Enlarged"
@@ -789,7 +789,7 @@ msgstr ""
 
 #: ../src/renderer/pagination-bar.cpp:38
 msgid "_Previous Page"
-msgstr ""
+msgstr "পূর্বের পৃষ্ঠা (_P)"
 
 #: ../src/renderer/pagination-bar.cpp:39
 msgid "Go to the previous page in the collection"
@@ -797,7 +797,7 @@ msgstr ""
 
 #: ../src/renderer/pagination-bar.cpp:42
 msgid "_Next Page"
-msgstr ""
+msgstr "পরের পৃষ্ঠা (_N)"
 
 #: ../src/renderer/pagination-bar.cpp:43
 msgid "Go to the next page in the collection"
@@ -805,7 +805,7 @@ msgstr ""
 
 #: ../src/renderer/pagination-bar.cpp:46
 msgid "_First Page"
-msgstr ""
+msgstr "প্রথম পৃষ্ঠা (_F)"
 
 #: ../src/renderer/pagination-bar.cpp:47
 msgid "Go to the first page in the collection"
@@ -813,7 +813,7 @@ msgstr ""
 
 #: ../src/renderer/pagination-bar.cpp:50
 msgid "_Last Page"
-msgstr ""
+msgstr "শেষ পৃষ্ঠা (_L)"
 
 #: ../src/renderer/pagination-bar.cpp:51
 msgid "Go to the last page in the collection"
@@ -827,10 +827,10 @@ msgstr ""
 #: ../src/renderer/slideshow-renderer.cpp:140
 #: ../src/renderer/slideshow-renderer.cpp:184
 msgid "First"
-msgstr ""
+msgstr "প্রথম"
 
 #: ../src/renderer/pagination-bar.cpp:84
 #: ../src/renderer/slideshow-renderer.cpp:165
 #: ../src/renderer/slideshow-renderer.cpp:209
 msgid "Last"
-msgstr ""
+msgstr "শেষ"
