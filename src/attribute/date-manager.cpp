@@ -26,7 +26,6 @@
 #include "browser-renderer.h"
 #include "console-renderer.h"
 #include "date-manager.h"
-#include "editor-renderer.h"
 #include "engine.h"
 #include "enlarged-renderer.h"
 #include "i-renderer.h"
@@ -120,12 +119,6 @@ DateManager::visit_renderer(BrowserRenderer & browser_renderer)
 void
 DateManager::visit_renderer(ConsoleRenderer & console_renderer)
                             throw()
-{
-    ui_hide();
-}
-
-void
-DateManager::visit_renderer(EditorRenderer & editor_renderer) throw()
 {
     ui_hide();
 }

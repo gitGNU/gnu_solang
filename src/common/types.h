@@ -1,6 +1,6 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 4; tab-width: 4 -*- */
 /*
- * Copyright (C) 2009 Debarshi Ray <rishi@gnu.org>
+ * Copyright (C) 2009, 2010 Debarshi Ray <rishi@gnu.org>
  * Copyright (C) 2009 Santanu Sinha <santanu.sinha@gmail.com>
  *
  * Solang is free software: you can redistribute it and/or modify it
@@ -29,6 +29,15 @@
 #include <giomm.h>
 #include <glibmm.h>
 #include <gtkmm.h>
+
+namespace Gegl
+{
+
+class Buffer;
+class Node;
+class Processor;
+
+} // namespace Gegl
 
 namespace Solang
 {
@@ -77,6 +86,7 @@ typedef std::tr1::shared_ptr<const EditablePhoto>
                                     ConstEditablePhotoPtr;
 typedef std::tr1::shared_ptr<EditablePhoto> EditablePhotoPtr;
 typedef std::vector<EditablePhotoPtr> EditablePhotoList;
+typedef std::map<Glib::ustring, EditablePhotoPtr> EditablePhotoMap;
 
 class ExifDataKey;
 typedef std::tr1::shared_ptr<ExifDataKey> ExifDataKeyPtr;
@@ -121,6 +131,11 @@ class ImporterDialog;
 typedef std::tr1::shared_ptr<const ImporterDialog>
     ConstImporterDialogPtr;
 typedef std::tr1::shared_ptr<ImporterDialog> ImporterDialogPtr;
+
+class IOperation;
+typedef std::tr1::shared_ptr<const IOperation> ConstIOperationPtr;
+typedef std::tr1::shared_ptr<IOperation> IOperationPtr;
+typedef std::vector<IOperationPtr> OperationList;
 
 class IPhotoSource;
 typedef std::tr1::shared_ptr<const IPhotoSource> ConstIPhotoSourcePtr;
@@ -217,6 +232,15 @@ typedef Glib::RefPtr<Gdk::Window> WindowPtr;
 typedef GdlDockObject * DockObjectPtr;
 typedef const GdlDockObject * ConstDockObjectPtr;
 
+typedef Glib::RefPtr<const Gegl::Buffer> ConstBufferPtr;
+typedef Glib::RefPtr<Gegl::Buffer> BufferPtr;
+
+typedef Glib::RefPtr<const Gegl::Node> ConstNodePtr;
+typedef Glib::RefPtr<Gegl::Node> NodePtr;
+
+typedef Glib::RefPtr<const Gegl::Processor> ConstProcessorPtr;
+typedef Glib::RefPtr<Gegl::Processor> ProcessorPtr;
+
 typedef Glib::RefPtr<const Gio::DataInputStream>
     ConstDataInputStreamPtr;
 typedef Glib::RefPtr<Gio::DataInputStream> DataInputStreamPtr;
@@ -226,6 +250,8 @@ typedef Glib::RefPtr<Gio::File> FilePtr;
 
 typedef Glib::RefPtr<const Gtk::Action> ConstActionPtr;
 typedef Glib::RefPtr<Gtk::Action> ActionPtr;
+typedef std::vector<ConstActionPtr> ConstActionList;
+typedef std::vector<ActionPtr> ActionList;
 
 typedef Glib::RefPtr<const Gtk::ActionGroup> ConstActionGroupPtr;
 typedef Glib::RefPtr<Gtk::ActionGroup> ActionGroupPtr;
@@ -267,19 +293,8 @@ typedef std::vector<Gtk::TreeModel::Path> TreePathList;
 typedef Glib::RefPtr<const Gtk::UIManager> ConstUIManagerPtr;
 typedef Glib::RefPtr<Gtk::UIManager> UIManagerPtr;
 
-//Editing engine
-class Buffer;
-typedef std::tr1::shared_ptr<Buffer> BufferPtr;
-
 class EditEngine;
 typedef EditEngine *EditEnginePtr;
-
-class Filter;
-typedef std::tr1::shared_ptr<Filter> FilterPtr;
-
-class Operation;
-typedef std::tr1::shared_ptr<Operation> OperationPtr;
-
 
 } // namespace Solang
 

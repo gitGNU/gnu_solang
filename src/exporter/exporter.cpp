@@ -161,12 +161,6 @@ Exporter::visit_renderer(ConsoleRenderer & console_renderer) throw()
 }
 
 void
-Exporter::visit_renderer(EditorRenderer & editor_renderer) throw()
-{
-    ui_show();
-}
-
-void
 Exporter::visit_renderer(EnlargedRenderer & enlarged_renderer) throw()
 {
     ui_show();

@@ -1,5 +1,6 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 4; tab-width: 4 -*- */
 /*
+ * Copyright (C) 2010 Debarshi Ray <rishi@gnu.org>
  * Copyright (C) 2009 Santanu Sinha <santanu.sinha@gmail.com>
  *
  * Solang is free software: you can redistribute it and/or modify it
@@ -19,138 +20,90 @@
 #ifndef SOLANG_EDITOR_H
 #define SOLANG_EDITOR_H
 
+#include <string>
+#include <tr1/memory>
+
 #include <glibmm.h>
 #include <gtkmm.h>
 
-#include "error.h"
+#include "plugin.h"
 #include "types.h"
 
 namespace Solang
 {
 
-class Editor
+class IOperationFactory;
+typedef std::tr1::shared_ptr<IOperationFactory> IOperationFactoryPtr;
+
+class Editor :
+    public Plugin
 {
     public:
-        Editor();
+        Editor() throw();
 
+        virtual
         ~Editor() throw();
 
-        void
-        init( Application &app );
+        virtual void
+        init(Application & application) throw();
 
-        void
-        final( Application &app );
+        virtual void
+        final(Application & application) throw();
 
-        void
-        apply( const EditActionPtr &action);
+        virtual void
+        visit_renderer(BrowserRenderer & browser_renderer) throw();
 
-        void
-        apply( const EditActionPtr &action,
-                const EditablePhotoPtr &photo ) throw(Error);
+        virtual void
+        visit_renderer(ConsoleRenderer & browser_renderer) throw();
 
-        void
-        apply( const EditActionPtr &action,
-               const EditablePhotoList &photo) throw(Error);
+        virtual void
+        visit_renderer(EnlargedRenderer & editor_renderer) throw();
 
-        void
-        register_ui() throw();
-
-        void
-        unregister_ui() throw();
-
-        void
-        save();
-
-        inline Glib::Dispatcher &
-        edit_action_performed() throw();
-
-        inline EditEnginePtr &
-        get_engine() throw();
-
-        inline EditablePhotoPtr
-        get_current_photo() throw();
-
-        void
-        set_current_photo( const EditablePhotoPtr &photo );
-
-        inline ApplicationPtr
-        get_application() throw();
+        virtual void
+        visit_renderer(SlideshowRenderer & editor_renderer) throw();
 
     private:
+        void
+        apply_async(const IOperationPtr & operation) throw();
 
         void
-        set_target_photo( const EditablePhotoPtr &photo );
+        on_action_edit_photo_end(
+            const EditablePhotoPtr & editable_photo) throw();
 
         void
-        on_action_flip_horz() throw();
+        on_action_edit_photo(const IOperationFactoryPtr & factory)
+                             throw();
 
         void
-        on_action_flip_vert() throw();
+        on_renderer_changed(RendererRegistry & renderer_registry)
+                            throw();
 
         void
-        on_action_rotate_left() throw();
+        on_selection_changed() throw();
 
         void
-        on_action_rotate_right() throw();
+        ui_hide() throw();
 
         void
-        on_action_scale() throw();
+        ui_show() throw();
 
-        void
-        on_action_save() throw();
-
-        void
-        on_action_undo() throw();
-
-        void
-        on_action_redo() throw();
-
-        void
-        on_action_copy_actions() throw();
-
-        void
-        on_action_paste_actions() throw();
-
-        void
-        apply_action( const EditActionPtr &action,
-               const EditablePhotoPtr &photo ) throw();
+        static const std::string uiFile_;
 
         ApplicationPtr application_;
-        EditablePhotoList modifiedPhotos_;
-        Glib::Mutex mutex_;
+
         ActionGroupPtr actionGroup_;
-        Glib::RefPtr<Gtk::IconFactory> iconFactory_;
+
         Gtk::UIManager::ui_merge_id uiID_;
-        Glib::Dispatcher actionPerformed_;
-        EditablePhotoPtr currentPhoto_;
-        EditActionList copiedActions_;
-        EditEnginePtr engine_;
+
+        EditablePhotoMap editablePhotos_;
+
+        PhotoPtr currentPhoto_;
+
+        sigc::connection signalRendererChanged_;
+
+        sigc::connection signalSelectionChanged_;
 };
 
-inline Glib::Dispatcher &
-Editor::edit_action_performed() throw()
-{
-    return actionPerformed_;
-}
+} // namespace solang
 
-inline EditEnginePtr &
-Editor::get_engine() throw()
-{
-    return engine_;
-}
-
-inline EditablePhotoPtr
-Editor::get_current_photo() throw()
-{
-    return currentPhoto_;
-}
-
-inline ApplicationPtr
-Editor::get_application() throw()
-{
-    return application_;
-}
-
-} //namespace solang
-
-#endif
+#endif // SOLANG_EDITOR_H

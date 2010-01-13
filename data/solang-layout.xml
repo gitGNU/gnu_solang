@@ -17,7 +17,6 @@
                 <notebook orientation="vertical" locked="no" page="0">
                     <item name="browser-dock-item" orientation="vertical" locked="no"/>
                     <item name="enlarged-dock-item" orientation="vertical" locked="no"/>
-                    <item name="editor-dock-item" orientation="vertical" locked="no"/>
                     <placeholder name="ph-center" next-placement="center"/>
                 </notebook>
             </paned>

@@ -36,6 +36,7 @@
 //#include "date-manager.h"
 #include "directory-destination.h"
 //#include "directory-source.h"
+#include "editor.h"
 #include "enlarged-renderer.h"
 #include "exporter.h"
 //#include "flickr-source.h"
@@ -281,6 +282,9 @@ Application::init() throw()
 //    IPluginPtr date_manager(new DateManager());
 //    plugins_.insert(std::make_pair("date-manager",
 //                                   date_manager));
+
+    IPluginPtr editor(new Editor());
+    plugins_.insert(std::make_pair("editor", editor));
 
     IPluginPtr property_manager(new PropertyManager());
     plugins_.insert(std::make_pair("property-manager",

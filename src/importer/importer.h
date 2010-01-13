@@ -57,9 +57,6 @@ class Importer :
         visit_renderer(ConsoleRenderer & console_renderer) throw();
 
         virtual void
-        visit_renderer(EditorRenderer & editor_renderer) throw();
-
-        virtual void
         visit_renderer(EnlargedRenderer & enlarged_renderer) throw();
 
         virtual void

@@ -30,7 +30,6 @@ namespace Solang
 class Application;
 class BrowserRenderer;
 class ConsoleRenderer;
-class EditorRenderer;
 class EnlargedRenderer;
 class SlideshowRenderer;
 
@@ -60,9 +59,6 @@ class IPlugin :
         virtual void
         visit_renderer(ConsoleRenderer & browser_renderer)
                        throw() = 0;
-
-        virtual void
-        visit_renderer(EditorRenderer & editor_renderer) throw() = 0;
 
         virtual void
         visit_renderer(EnlargedRenderer & editor_renderer)

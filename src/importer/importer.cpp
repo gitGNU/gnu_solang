@@ -27,7 +27,6 @@
 #include "browser-renderer.h"
 #include "console-renderer.h"
 #include "directory-storage.h"
-#include "editor-renderer.h"
 #include "engine.h"
 #include "enlarged-renderer.h"
 #include "i-photo-source.h"
@@ -184,12 +183,6 @@ void
 Importer::visit_renderer(ConsoleRenderer & console_renderer) throw()
 {
     ui_hide();
-}
-
-void
-Importer::visit_renderer(EditorRenderer & editor_renderer) throw()
-{
-    ui_show();
 }
 
 void

@@ -17,10 +17,6 @@ pixmap_DATA = \
 	camera-photo-32.png \
 	camera-photo.svg \
 	flickr.png \
-	flip-object-horizontal.png \
-	flip-object-vertical.png \
-	object-rotate-left.png \
-	object-rotate-right.png \
 	mode-browse-16.png \
 	mode-browse-22.png \
 	mode-browse-24.png \
@@ -29,7 +25,6 @@ pixmap_DATA = \
 	mode-image-edit-16.png \
 	mode-image-edit-22.png \
 	mode-image-edit-24.png \
-	stock-resize-16.png \
 	slideshow-play-16.png \
 	slideshow-play-22.png \
 	slideshow-play-24.png \

@@ -33,7 +33,7 @@ fi
 PKG_CHECK_MODULES(BABL, [babl])
 PKG_CHECK_MODULES(DBUS, [dbus-glib-1])
 PKG_CHECK_MODULES(GDL, [gdl-1.0])
-PKG_CHECK_MODULES(GEGL, [gegl])
+PKG_CHECK_MODULES(GEGLMM, [geglmm >= 0.1.0])
 PKG_CHECK_MODULES(GTKIMAGEVIEW, [gtkimageview])
 PKG_CHECK_MODULES(GTKMM, [gtkmm-2.4 >= 2.8])
 PKG_CHECK_MODULES(TRACKER, [tracker-client-0.7])
@@ -56,7 +56,6 @@ src/Makefile
 src/application/Makefile
 src/attribute/Makefile
 src/common/Makefile
-src/edit-engine/Makefile
 src/editor/Makefile
 src/exporter/Makefile
 src/renderer/Makefile

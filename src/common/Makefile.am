@@ -37,6 +37,8 @@ libcommon_la_SOURCES = \
 	id-base.h \
 	id-repo.cpp \
 	id-repo.h \
+	i-operation.cpp \
+	i-operation.h \
 	i-photo-destination.cpp \
 	i-photo-destination.h \
 	i-photo-source.cpp \
@@ -51,6 +53,8 @@ libcommon_la_SOURCES = \
 	i-storage.h \
 	non-copyable.cpp \
 	non-copyable.h \
+	operation.cpp \
+	operation.h \
 	photo.cpp \
 	photo.h \
 	photo-search-criteria.cpp \
@@ -92,7 +96,7 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/attribute \
 	-I$(top_srcdir)/src/common \
 	-I$(top_srcdir)/src/database \
-	-I$(top_srcdir)/src/edit-engine \
+	-I$(top_srcdir)/src/editor \
 	-I$(top_srcdir)/src/importer \
 	-I$(top_srcdir)/src/renderer \
 	-I$(top_srcdir)/src/storage \
@@ -100,7 +104,7 @@ AM_CPPFLAGS = \
 	$(DBUS_CFLAGS) \
 	$(GTKMM_CFLAGS) \
 	$(GDL_CFLAGS) \
-	$(GEGL_CFLAGS) \
+	$(GEGLMM_CFLAGS) \
 	$(BABL_CFLAGS) \
 	$(TRACKER_CFLAGS)
 

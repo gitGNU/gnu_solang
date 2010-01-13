@@ -20,14 +20,13 @@ solang_LDADD = \
 	$(top_builddir)/src/renderer/librenderer.la \
 	$(top_builddir)/src/attribute/libattribute.la \
 	$(top_builddir)/src/editor/libeditor.la \
-	$(top_builddir)/src/edit-engine/libeditengine.la \
 	$(top_builddir)/src/common/libcommon.la \
 	$(DBUS_LIBS) \
 	$(GTKIMAGEVIEW_LIBS) \
 	$(GTKMM_LIBS) \
 	$(GDL_LIBS) \
 	$(BABL_LIBS) \
-	$(GEGL_LIBS) \
+	$(GEGLMM_LIBS) \
 	$(TRACKER_LIBS)
 
 AM_CPPFLAGS = \
@@ -48,7 +47,7 @@ AM_CPPFLAGS = \
 	$(GTKIMAGEVIEW_CFLAGS) \
 	$(GTKMM_CFLAGS) \
 	$(GDL_CFLAGS) \
-	$(GEGL_CFLAGS) \
+	$(GEGLMM_CFLAGS) \
 	$(TRACKER_CFLAGS)
 
 AM_CXXFLAGS = \

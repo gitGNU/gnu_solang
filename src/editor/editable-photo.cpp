@@ -1,5 +1,6 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 4; tab-width: 4 -*- */
 /*
+ * Copyright (C) 2010 Debarshi Ray <rishi@gnu.org>
  * Copyright (C) 2009 Santanu Sinha <santanu.sinha@gmail.com>
  *
  * Solang is free software: you can redistribute it and/or modify it
@@ -18,233 +19,121 @@
 
 #ifdef HAVE_CONFIG_H
 #include "config.h"
-#endif
+#endif // HAVE_CONFIG_H
 
-extern "C"
-{
-#include <babl/babl.h>
-}
+#include <geglmm.h>
+#include <geglmm/buffer.h>
 
-
-#include <iostream>
-#include <gegl.h>
-#include <glibmm/i18n.h>
-#include <giomm.h>
-
-#include "buffer.h"
-#include "edit-action.h"
+#include "buffer-maker.h"
+#include "buffer-pixbuf-converter.h"
 #include "editable-photo.h"
+#include "i-operation.h"
+#include "photo.h"
 
 namespace Solang
 {
 
-EditablePhoto::EditablePhoto( const PhotoPtr &photo ) throw()
-    :photo_( photo ),
-    buffer_( 0 ),
-    editBuffer_( ),
-    isDirty_( false ),
-//    image_(),
-    toSave_( false )
+EditablePhoto::EditablePhoto(const PhotoPtr & photo,
+                             const ProgressObserverPtr & observer) throw() :
+    buffer_(0),
+    photo_(photo),
+    pixbuf_(0),
+    pending_(),
+    observer_(observer),
+    applyEnd_(),
+    threadPool_(1, false)
 {
-    setup_photo_for_edit();
+    applyEnd_.connect(sigc::mem_fun(*this,
+                                    &EditablePhoto::on_apply_end));
 }
 
-EditablePhoto::~EditablePhoto()
+EditablePhoto::~EditablePhoto() throw()
 {
 }
 
 void
-EditablePhoto::set_photo( const PhotoPtr &photo ) throw()
+EditablePhoto::apply_async(const IOperationPtr & operation,
+                           const SlotAsyncReady & slot) throw()
 {
-    photo_ = photo;
-    setup_photo_for_edit();
-}
+    const SlotAsyncReadyPtr slot_copy(new SlotAsyncReady(slot));
 
-const PixbufPtr
-EditablePhoto::get_buffer() const throw()
-{
-#ifdef FULL_GEGL
-    if( !editBuffer_->is_empty()
-        && isDirty_ )
+    pending_.push(std::make_pair(operation, slot_copy));
+    if (1 < pending_.size())
     {
-        buffer_ = editBuffer_->get_pixbuf();
-        isDirty_ = false;
-    }
-#endif
-    return buffer_;
-}
-
-void
-EditablePhoto::set_buffer(const PixbufPtr &buffer, bool sync )
-{
-    buffer_ = buffer;
-//    if( photo_->get_buffer() )
-    {
-        photo_->set_buffer( buffer_ );
-    }
-    if( sync && editBuffer_ && !isDirty_ )
-    {
-        editBuffer_ = pixbuf_to_edit_buffer();
-    }
-}
-
-void
-EditablePhoto::set_edit_buffer( const BufferPtr &buffer ) throw()
-{
-    editBuffer_ = buffer;
-    //isDirty_ = true;
-}
-
-void
-EditablePhoto::save( Engine &engine ) throw(Error)
-{
-    if( photo_->get_content_type().find("jpeg") != 0 ) //JPEG
-    {
-        std::vector<Glib::ustring> keys;
-        keys.push_back("quality");
-        std::vector<Glib::ustring> values;
-        values.push_back("100");
-
-        gchar *buf = NULL;
-        gsize size = 0L;
-
-        buffer_->save_to_buffer( buf, size, "jpeg", keys, values );
-
-//        Exiv2::Image::AutoPtr target = Exiv2::ImageFactory::open(
-//                                         (Exiv2::byte *)buf, size );
-//        target->setMetadata( *image_ );
-//        target->writeMetadata();
-
-//        Exiv2::FileIo file( "/tmp/test.jpg" );
-//        file.open("w");
-//        file.write( target->io() );
-//        file.close();
-
-//        Glib::RefPtr<Gio::File> src = Gio::File::create_for_path(
-//                                            "/tmp/test.jpg");
-//        Glib::RefPtr<Gio::File> dest = Gio::File::create_for_uri(
-//                                           photo_->get_uri());
-//        src->copy( dest, Gio::FILE_COPY_OVERWRITE );
-    }
-}
-
-void
-EditablePhoto::setup_photo_for_edit( ) throw()
-{
-    if( !photo_ )
         return;
-
-//    image_ = Exiv2::ImageFactory::open(
-//                 Glib::filename_from_uri(photo_->get_uri()));
-
-//    image_->readMetadata();
-
-#if 0
-
-    gchar *buf;
-
-//    image_->io()->read( (Exiv2::byte *)buf, image_->io()->size());
-
-    Glib::Ref<Gdk::PixbufLoader> loader = Gdk::PixbufLoader::create();
-
-//    loader->write( buf, image_->io()->size() );
-
-    buffer_ = loader->get_pixbuf();
-#endif
-
-//CREATE
-    buffer_ = photo_->get_buffer();
-    if( ! buffer_ )
-    {
-        buffer_ = Gdk::Pixbuf::create_from_file(
-                      Glib::filename_from_uri(photo_->get_uri()));
     }
+
+    apply_begin();
+}
+
+
+void
+EditablePhoto::apply_begin() throw()
+{
+    const std::pair<IOperationPtr, SlotAsyncReadyPtr> & current
+        = pending_.front();
+
+    threadPool_.push(sigc::bind(
+                         sigc::mem_fun(*this,
+                                       &EditablePhoto::apply_worker),
+                         current.first));
 }
 
 void
-EditablePhoto::set_to_save( bool value ) throw()
+EditablePhoto::apply_worker(const IOperationPtr & operation)
+                            throw(Glib::Thread::Exit)
 {
-    toSave_ = value;
+    if (0 == buffer_)
+    {
+        std::string path;
+        try
+        {
+            path = Glib::filename_from_uri(photo_->get_uri());
+        }
+        catch (const Glib::ConvertError & e)
+        {
+            g_warning("%s", e.what().c_str());
+            throw Glib::Thread::Exit();
+        }
+
+        BufferMaker buffer_maker;
+        buffer_ = buffer_maker(path);
+    }
+
+    buffer_ = operation->apply(buffer_, observer_);
+g_warning("done op");
+    BufferPixbufConverter buffer_pixbuf_converter;
+    pixbuf_ = buffer_pixbuf_converter(buffer_);
+g_warning("done pixbuf");
+    applyEnd_.emit();
 }
 
 void
-EditablePhoto::apply_action( const EditActionPtr &action ) throw(Error)
+EditablePhoto::on_apply_end() throw()
 {
-    try
-    {
-        action->execute( *this );
-    }
-    catch( Error & e )
-    {
-        e.add_call_info( __FUNCTION__, __FILE__, __LINE__ );
-        throw;
-    }
-    appliedActions_.insert( action );
-}
+    const std::pair<IOperationPtr, SlotAsyncReadyPtr> current
+        = pending_.front();
 
-void
-EditablePhoto::undo_last_action( ) throw(Error)
-{
-    if( !appliedActions_.is_undo_possible() )
+    pending_.pop();
+    photo_->set_buffer(pixbuf_);
+
+    if (0 != current.second && 0 != *current.second)
+    {
+        (*current.second)();
+    }
+
+    if (true == pending_.empty())
+    {
         return;
-
-    EditActionList actions = appliedActions_.undo_actions( 1 );
-
-    EditActionPtr action = *actions.begin();
-    try
-    {
-        action->reverse( *this );
     }
-    catch( Error & e )
-    {
-        e.add_call_info( __FUNCTION__, __FILE__, __LINE__ );
-        throw;
-    }
-    if( actions.empty() )
-        photo_->set_has_unsaved_data( false );
+
+    apply_begin();
 }
 
-void
-EditablePhoto::redo_last_action( ) throw(Error)
+PhotoPtr &
+EditablePhoto::get_photo() throw()
 {
-    if( !appliedActions_.is_redo_possible() )
-        return;
-
-    EditActionList actions = appliedActions_.redo_actions( 1 );
-
-    EditActionPtr action = *actions.begin();
-    try
-    {
-        action->execute( *this );
-    }
-    catch( Error & e )
-    {
-        e.add_call_info( __FUNCTION__, __FILE__, __LINE__ );
-        throw;
-    }
+    return photo_;
 }
 
-BufferPtr
-EditablePhoto::pixbuf_to_edit_buffer() throw()
-{
-    bool hasAlpha = buffer_->get_has_alpha();
-    const guint8 channels = 3;//(hasAlpha)?4:3;
-    GeglRectangle rect;
-    rect.width = buffer_->get_width();
-    rect.height = buffer_->get_height();
-    rect.x = rect.y = 0;
-    Babl *fmt = babl_format( "RGB u8" );
-                //(hasAlpha) ?"RGBA u8" : "RGB u8" );
-    size_t size = rect.width * rect.height *channels;
-    gpointer pMem = g_new0( guint8,  size );
-    ::memcpy( pMem, (void *)(buffer_->get_pixels()), size );
-    GeglBufferPtr gBuf = gegl_buffer_new( &rect, fmt );
-    gegl_buffer_set( gBuf, //gegl buffer
-                    &rect, //extent
-                    fmt, //format
-                    pMem,
-                    buffer_->get_rowstride() );
-    return BufferPtr ( new Buffer( gBuf ) );
-}
-
-} //namespace Solang
+} // namespace Solang

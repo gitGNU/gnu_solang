@@ -17,8 +17,6 @@
 			<placeholder name="PlaceholderFullScreenMenus"/>
 			<separator name="ViewSeparator1"/>
 			<placeholder name="PlaceholderZoomMenus"/>
-			<separator name="ViewSeparator2"/>
-			<placeholder name="PlaceholderToolMenus"/>
 		</menu>
 		<placeholder name="PlaceholderViewMenus"/>
 		<menu action="ActionEditMenu">
@@ -36,6 +34,7 @@
 		<placeholder name="PlaceholderFindMenus"/>
 		<placeholder name="PlaceholderGoMenus"/>
 		<placeholder name="PlaceHolderTagMenus"/>
+		<placeholder name="PlaceholderToolMenus"/>
 		<menu action="ActionHelpMenu">
 			<menuitem action="ActionHelpAbout"/>
 		</menu>
@@ -46,12 +45,12 @@
 		<separator name="ToolBarSeparator0"/>
 		<placeholder name="PlaceholderGoToolBar"/>
 		<separator name="ToolBarSeparator1"/>
-		<placeholder name="PlaceholderEditToolBar"/>
-		<separator name="ToolBarSeparator2"/>
 		<placeholder name="PlaceholderZoomToolBar"/>
-		<separator name="ToolBarSeparator3"/>
+		<separator name="ToolBarSeparator2"/>
 		<toolitem action="ActionViewFullScreen"/>
 		<placeholder name="PlaceholderFullScreenToolBar"/>
+		<separator name="ToolBarSeparator3"/>
+		<placeholder name="PlaceholderToolsToolBar"/>
 		<separator name="ToolBarSeparatorN" expand="true"/>
 		<placeholder name="PlaceholderMiscToolBar"/>
 	</toolbar>

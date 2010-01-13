@@ -1,5 +1,6 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 4; tab-width: 4 -*- */
 /*
+ * Copyright (C) 2010 Debarshi Ray <rishi@gnu.org>
  * Copyright (C) 2009 Santanu Sinha <santanu.sinha@gmail.com>
  *
  * Solang is free software: you can redistribute it and/or modify it
@@ -18,267 +19,180 @@
 
 #ifdef HAVE_CONFIG_H
 #include "config.h"
-#endif
+#endif // HAVE_CONFIG_H
 
-#include <algorithm>
+#include <geglmm.h>
 #include <glibmm/i18n.h>
-#include <iostream>
 
 #include "application.h"
-#include "buffer.h"
-#include "cursor-changer.h"
-#include "edit-action.h"
-#include "edit-engine.h"
 #include "editable-photo.h"
 #include "editor.h"
-#include "flip.h"
-#include "gegl-operation.h"
-#include "main-window.h"
-#include "operation.h"
-#include "rotate.h"
-#include "save-photos-window.h"
+#include "flip-horiz-operation.h"
+#include "flip-vert-operation.h"
+#include "i-renderer.h"
+#include "non-copyable.h"
+#include "rotate-clock-operation.h"
+#include "rotate-counter-operation.h"
 
 namespace Solang
 {
 
-static const std::string uiFile
+class IOperationFactory :
+    public NonCopyable
+{
+    public:
+        virtual
+        ~IOperationFactory() throw() = 0;
+
+        virtual IOperation *
+        create() throw() = 0;
+
+    protected:
+        IOperationFactory() throw();
+};
+
+IOperationFactory::IOperationFactory() throw() :
+    NonCopyable()
+{
+}
+
+IOperationFactory::~IOperationFactory() throw()
+{
+}
+
+template <typename T>
+class OperationFactory :
+    public IOperationFactory
+{
+    public:
+        OperationFactory() throw();
+
+        virtual
+        ~OperationFactory() throw();
+
+        virtual T *
+        create() throw();
+};
+
+template <typename T>
+OperationFactory<T>::OperationFactory() throw() :
+    IOperationFactory()
+{
+}
+
+template <typename T>
+OperationFactory<T>::~OperationFactory() throw()
+{
+}
+
+template <typename T>
+T *
+OperationFactory<T>::create() throw()
+{
+    return new T();
+}
+
+const std::string Editor::uiFile_
     = PACKAGE_DATA_DIR"/"PACKAGE_TARNAME"/ui/"
           PACKAGE_TARNAME"-editor.ui";
 
-static const std::string flipHorzImageFile
-    = PACKAGE_DATA_DIR"/"PACKAGE_TARNAME"/pixmaps/flip-object-horizontal.png";
-
-static const std::string flipVertImageFile
-    = PACKAGE_DATA_DIR"/"PACKAGE_TARNAME"/pixmaps/flip-object-vertical.png";
-
-static const std::string rotateLeftFile
-    = PACKAGE_DATA_DIR"/"PACKAGE_TARNAME"/pixmaps/object-rotate-left.png";
-
-static const std::string rotateRightFile
-    = PACKAGE_DATA_DIR"/"PACKAGE_TARNAME"/pixmaps/object-rotate-right.png";
-
-static const std::string scaleFile
-    = PACKAGE_DATA_DIR"/"PACKAGE_TARNAME"/pixmaps/stock-resize-16.png";
-
-Editor::Editor( )
-    :application_( NULL ),
-    modifiedPhotos_(),
-    mutex_(),
-    actionGroup_( Gtk::ActionGroup::create(
+Editor::Editor() throw() :
+    Plugin(),
+    application_(),
+    actionGroup_(Gtk::ActionGroup::create(
                      Glib::ustring::compose("%1:%2",
                                             __FILE__,
                                             __LINE__))),
-    iconFactory_( Gtk::IconFactory::create()),
-    uiID_( 0 ),
-    actionPerformed_(),
+    uiID_(0),
+    editablePhotos_(),
     currentPhoto_(),
-    engine_( NULL )
+    signalRendererChanged_()
 {
-    Gtk::IconSource icon_source;
-
-    Gtk::IconSet icon_set_flip_horz;
-    icon_source.set_filename( flipHorzImageFile );
-    icon_source.set_size(Gtk::IconSize(16));
-    icon_set_flip_horz.add_source(icon_source);
-    iconFactory_->add(Gtk::StockID(PACKAGE_TARNAME"-flip-horz"),
-                    icon_set_flip_horz);
-
-    Gtk::IconSet icon_set_flip_vert;
-    icon_source.set_filename( flipVertImageFile );
-    icon_source.set_size(Gtk::IconSize(16));
-    icon_set_flip_vert.add_source(icon_source);
-    iconFactory_->add(Gtk::StockID(PACKAGE_TARNAME"-flip-vert"),
-                    icon_set_flip_vert);
-
-    Gtk::IconSet icon_set_rotate_left;
-    icon_source.set_filename( rotateLeftFile );
-    icon_source.set_size(Gtk::IconSize(16));
-    icon_set_rotate_left.add_source(icon_source);
-    iconFactory_->add(Gtk::StockID(PACKAGE_TARNAME"-rotate-left"),
-                    icon_set_rotate_left);
-
-    Gtk::IconSet icon_set_rotate_right;
-    icon_source.set_filename( rotateRightFile );
-    icon_source.set_size(Gtk::IconSize(16));
-    icon_set_rotate_right.add_source(icon_source);
-    iconFactory_->add(Gtk::StockID(PACKAGE_TARNAME"-rotate-right"),
-                    icon_set_rotate_right);
-
-    Gtk::IconSet icon_set_scale;
-    icon_source.set_filename( scaleFile );
-    icon_source.set_size(Gtk::IconSize(16));
-    icon_set_scale.add_source(icon_source);
-    iconFactory_->add(Gtk::StockID(PACKAGE_TARNAME"-scale"),
-                    icon_set_scale);
-
-    iconFactory_->add_default();
+    actionGroup_->add(
+        Gtk::Action::create(
+            "ActionToolsMenu", _("T_ools")));
 
     actionGroup_->add(
         Gtk::Action::create(
-            "ActionEditMenu", _("_Edit")));
-
-     actionGroup_->add(
-         Gtk::Action::create(
-            "ActionEditUndo",
-            Gtk::Stock::UNDO,
-            _("Undo"),
-            _("Undo last action")),
-            Gtk::AccelKey("<control>z"),
-            sigc::mem_fun(*this, &Editor::on_action_undo));
-
-     actionGroup_->add(
-         Gtk::Action::create(
-            "ActionEditRedo",
-            Gtk::Stock::REDO,
-            _("Redo"),
-            _("Redo last action")),
-            Gtk::AccelKey("<control>y"),
-            sigc::mem_fun(*this, &Editor::on_action_redo));
+            "ActionToolsMenuTransformMenu", _("_Transform")));
 
     actionGroup_->add(
-         Gtk::Action::create(
-            "ActionCopyHistory",
-            Gtk::Stock::COPY,
-            _("Copy Actions"),
-            _("Copy actions applied to this photo")),
-            Gtk::AccelKey("<control>c"),
-            sigc::mem_fun(*this, &Editor::on_action_copy_actions));
+        Gtk::Action::create_with_icon_name(
+            "ActionToolsFlipHorizontal",
+            "object-flip-horizontal",
+            _("Flip _Horizontal"),
+            _("Mirror the photo horizontally")),
+        Gtk::AccelKey(""),
+        sigc::bind(
+            sigc::mem_fun(*this, &Editor::on_action_edit_photo),
+            IOperationFactoryPtr(
+                new OperationFactory<FlipHorizOperation>)));
 
     actionGroup_->add(
-         Gtk::Action::create(
-            "ActionPasteHistory",
-            Gtk::Stock::PASTE,
-            _("Paste Actions"),
-            _("Paste copied actions")),
-            Gtk::AccelKey("<control>v"),
-            sigc::mem_fun(*this, &Editor::on_action_paste_actions));
-
-#if 0
+        Gtk::Action::create_with_icon_name(
+            "ActionToolsFlipVertical",
+            "object-flip-vertical",
+            _("Flip _Vertical"),
+            _("Mirror the photo vertically")),
+        Gtk::AccelKey(""),
+        sigc::bind(
+            sigc::mem_fun(*this, &Editor::on_action_edit_photo),
+            IOperationFactoryPtr(
+                new OperationFactory<FlipVertOperation>)));
 
     actionGroup_->add(
-         Gtk::Action::create(
-            "ActionEditFlipHorizontal",
-            Gtk::StockID(PACKAGE_TARNAME"-flip-horz"),
-            _("Flip _Horizontally"),
-            _("Flip the selected image(s) horizontally")),
-            Gtk::AccelKey(""),
-            sigc::mem_fun(*this, &Editor::on_action_flip_horz));
+        Gtk::Action::create_with_icon_name(
+            "ActionToolsRotateClockwise",
+            "object-rotate-right",
+            _("_Rotate Clockwise"),
+            _("Rotate the photo 90 degrees to the right")),
+        Gtk::AccelKey("<control>R"),
+        sigc::bind(
+            sigc::mem_fun(*this, &Editor::on_action_edit_photo),
+            IOperationFactoryPtr(
+                new OperationFactory<RotateClockOperation>)));
 
-     actionGroup_->add(
-         Gtk::Action::create(
-            "ActionEditFlipVertical",
-            Gtk::StockID(PACKAGE_TARNAME"-flip-vert"),
-            _("Flip _Vertically"),
-            _("Flip the selected image(s) vertically")),
-            Gtk::AccelKey(""),
-            sigc::mem_fun(*this, &Editor::on_action_flip_vert));
-
-     actionGroup_->add(
-         Gtk::Action::create(
-            "ActionEditRotateClockwise",
-            Gtk::StockID(PACKAGE_TARNAME"-rotate-right"),
-            _("Rotate _Clockwise"),
-            _("Rotate the selected image(s) clockwise")),
-            Gtk::AccelKey(""),
-            sigc::mem_fun(*this, &Editor::on_action_rotate_right));
-
-     actionGroup_->add(
-         Gtk::Action::create(
-            "ActionEditRotateCounterClockwise",
-            Gtk::StockID(PACKAGE_TARNAME"-rotate-left"),
-            _("Rotate C_ounter Clockwise"),
-            _("Rotate the selected image(s) counter-clockwise")),
-            Gtk::AccelKey(""),
-            sigc::mem_fun(*this, &Editor::on_action_rotate_left));
-
-     actionGroup_->add(
-         Gtk::Action::create(
-             "ActionEditScale",
-            Gtk::StockID(PACKAGE_TARNAME"-scale"),
-            _("Sca_le"),
-            _("Scale/resize the selected image(s)")),
-            Gtk::AccelKey(""),
-            sigc::mem_fun(*this, &Editor::on_action_scale));
-#endif
-     actionGroup_->add(
-         Gtk::Action::create(
-             "ActionEditSaveAs", Gtk::Stock::SAVE,
-            _("_Save")),
-            Gtk::AccelKey(""),
-            sigc::mem_fun(*this, &Editor::on_action_save));
-
-
+    actionGroup_->add(
+        Gtk::Action::create_with_icon_name(
+            "ActionToolsRotateCounterclockwise",
+            "object-rotate-left",
+            _("Rotate Counterc_lockwise"),
+            _("Rotate the photo 90 degrees to the left")),
+        Gtk::AccelKey("<control><shift>R"),
+        sigc::bind(
+            sigc::mem_fun(*this, &Editor::on_action_edit_photo),
+            IOperationFactoryPtr(
+                new OperationFactory<RotateCounterOperation>)));
 }
 
 Editor::~Editor() throw()
 {
-    iconFactory_->remove_default();
+    //g_object_unref(dockItem_);
 }
 
 void
-Editor::apply( const EditActionPtr &action,
-                const EditablePhotoPtr &photo) throw(Error)
+Editor::init(Application & application) throw()
 {
-    if( !currentPhoto_ )
-        return;
+    Gegl::init(0, 0);
+    application_ = &application;
 
-    {
-        currentPhoto_->apply_action( action );
+    Engine & engine = application.get_engine();
+    signalSelectionChanged_
+        = engine.selection_changed().connect(
+              sigc::mem_fun(*this,
+                            &Editor::on_selection_changed));
 
-        Glib::Mutex::Lock lock( mutex_ );
-        if( !photo->get_photo()->get_has_unsaved_data() )
-        {
-            EditablePhotoList::iterator ptr = std::find_if(
-                    modifiedPhotos_.begin(), modifiedPhotos_.end(),
-                    EditablePhoto::Searcher( photo->get_photo() ) );
-            if( ptr == modifiedPhotos_.end() )
-                modifiedPhotos_.push_back( currentPhoto_ );
-            currentPhoto_->get_photo()->set_has_unsaved_data( true );
-        }
-    }
-    actionPerformed_.emit();
-}
+    RendererRegistry & renderer_registry
+                           = application.get_renderer_registry();
+    signalRendererChanged_
+        = renderer_registry.changed().connect(
+              sigc::mem_fun(*this,
+                            &Editor::on_renderer_changed));
 
-void
-Editor::apply( const EditActionPtr &action)
-{
-    Glib::ThreadPool & thread_pool
-                    = application_->get_thread_pool();
-    thread_pool.push(sigc::bind(
-            sigc::mem_fun2( *this,
-                &Editor::apply_action),
-                    action, currentPhoto_ ));
-    //apply( action, currentPhoto_ );
-}
+    MainWindow & main_window = application.get_main_window();
+    const UIManagerPtr & ui_manager = main_window.get_ui_manager();
 
-void
-Editor::apply( const EditActionPtr &action,
-               const EditablePhotoList &photos) throw(Error)
-{
-    for( EditablePhotoList::const_iterator photo = photos.begin();
-                            photo != photos.end(); photo++ )
-    {
-        apply( action, *photo );
-    }
-}
-
-void
-Editor::init( Application &app )
-{
-    application_ = &app;
-    engine_ = new EditEngine();
-    engine_->init( application_->get_engine().get_default_observer() );
-}
-
-void
-Editor::register_ui() throw()
-{
-    MainWindow & main_window = application_->get_main_window();
-
-    const Glib::RefPtr<Gtk::UIManager> & ui_manager
-        = main_window.get_ui_manager();
-
-    uiID_ = ui_manager->add_ui_from_file(uiFile);
+    uiID_ = ui_manager->add_ui_from_file(uiFile_);
     if (0 == uiID_)
     {
         // FIXME: error condition.
@@ -286,215 +200,167 @@ Editor::register_ui() throw()
 
     ui_manager->insert_action_group(actionGroup_);
 
-    return;
+    initialized_.emit(*this);
 }
 
 void
-Editor::unregister_ui() throw()
+Editor::final(Application & application) throw()
 {
-    if( 0 == uiID_ )
-        return;
+    MainWindow & main_window = application.get_main_window();
+    const UIManagerPtr & ui_manager = main_window.get_ui_manager();
 
-    MainWindow & main_window = application_->get_main_window();
-    const Glib::RefPtr<Gtk::UIManager> & ui_manager
-        = main_window.get_ui_manager();
     ui_manager->remove_action_group(actionGroup_);
     ui_manager->remove_ui(uiID_);
-    uiID_ = 0;
+
+    signalRendererChanged_.disconnect();
+    editablePhotos_.clear();
+    Gegl::exit();
+
+    finalized_.emit(*this);
 }
 
 void
-Editor::final( Application &app )
+Editor::visit_renderer(BrowserRenderer & browser_renderer) throw()
 {
-    unregister_ui();
-    delete engine_;
+    ui_hide();
 }
 
 void
-Editor::save()
+Editor::visit_renderer(ConsoleRenderer & browser_renderer) throw()
 {
-    if( modifiedPhotos_.empty() )
+    ui_hide();
+}
+
+void
+Editor::visit_renderer(EnlargedRenderer & editor_renderer) throw()
+{
+    ui_show();
+}
+
+void
+Editor::visit_renderer(SlideshowRenderer & editor_renderer) throw()
+{
+    ui_hide();
+}
+
+void
+Editor::apply_async(const IOperationPtr & operation) throw()
+{
+    const Glib::ustring current_uri = currentPhoto_->get_uri();
+    EditablePhotoMap::const_iterator iter = editablePhotos_.find(
+                                                current_uri);
+
+    EditablePhotoPtr editable_photo;
+
+    if (editablePhotos_.end() == iter)
+    {
+        Engine & engine = application_->get_engine();
+        const ProgressObserverPtr & observer = engine.get_default_observer();
+
+        editable_photo = EditablePhotoPtr(new EditablePhoto(
+                                              currentPhoto_,
+                                              observer));
+        editablePhotos_.insert(std::make_pair(current_uri,
+                                              editable_photo));
+    }
+    else
+    {
+        editable_photo = iter->second;
+    }
+
+    editable_photo->apply_async(
+        operation,
+        sigc::bind(sigc::mem_fun(*this,
+                                 &Editor::on_action_edit_photo_end),
+                   editable_photo));
+}
+
+void
+Editor::on_action_edit_photo_end(
+            const EditablePhotoPtr & editable_photo) throw()
+{
+    const PhotoPtr & photo = editable_photo->get_photo();
+    if (currentPhoto_->get_uri() != photo->get_uri())
     {
         return;
     }
-    bool hasUnsavedData = false;
-    for( EditablePhotoList::iterator photo = modifiedPhotos_.begin();
-                    photo != modifiedPhotos_.end(); photo++ )
+
+    RendererRegistry & renderer_registry
+                           = application_->get_renderer_registry();
+    const IRendererPtr & current_renderer
+                             = renderer_registry.get_current();
+    const IRendererPtr enlarged_renderer
+        = renderer_registry.select<EnlargedRenderer>();
+
+    if (current_renderer != enlarged_renderer
+        || 0 == enlarged_renderer)
     {
-        hasUnsavedData = hasUnsavedData
-                    || (*photo)->get_photo()->get_has_unsaved_data();
-    }
-    if( !hasUnsavedData )
         return;
-    SavePhotosWindow saveWindow(
-                        application_->get_engine(), modifiedPhotos_ );
-    const gint response = saveWindow.run();
-    if( Gtk::RESPONSE_OK == response )
-    {
-        for( EditablePhotoList::iterator photo = modifiedPhotos_.begin();
-                    photo != modifiedPhotos_.end(); photo++ )
-        {
-            if( (*photo)->get_photo()->get_has_unsaved_data()
-                && (*photo)->get_to_save() )
-            {
-                (*photo)->save( application_->get_engine() );
-            }
-        }
     }
 
-    modifiedPhotos_.clear();
+    enlarged_renderer->render(photo);
+}
 
+void
+Editor::on_action_edit_photo(const IOperationFactoryPtr & factory)
+                             throw()
+{
+    const IOperationPtr operation(factory->create());
+    Gtk::Widget * const widget = operation->get_widget();
+
+    if (0 != widget)
+    {
+        widget->show_all();
+    }
+
+    operation->signal_ready().connect(
+        sigc::bind(
+            sigc::mem_fun(*this,
+                          &Editor::apply_async),
+            operation));
+}
+
+void
+Editor::on_renderer_changed(RendererRegistry & renderer_registry)
+                            throw()
+{
+    const IRendererPtr & renderer = renderer_registry.get_current();
+    renderer->receive_plugin(*this);
+}
+
+void
+Editor::on_selection_changed() throw()
+{
+    RendererRegistry & renderer_registry
+                           = application_->get_renderer_registry();
+    const IRendererPtr renderer = renderer_registry.get_current();
+
+    if (0 == renderer)
+    {
+        return;
+    }
+
+    PhotoList photos = renderer->get_current_selection();
+
+    if (true == photos.empty())
+    {
+        return;
+    }
+
+    currentPhoto_ = *photos.begin();
     return;
 }
 
 void
-Editor::set_current_photo( const EditablePhotoPtr &photo )
+Editor::ui_hide() throw()
 {
-    currentPhoto_ = photo;
-
-    if( !currentPhoto_ )
-        return;
-
-#if 0
-    buffer->open_image_file(
-                photo->get_photo()->get_disk_file_path(),
-                engine_);
-#endif
-
-#ifdef SS_LATER
-    Glib::ThreadPool & thread_pool
-                    = application_->get_thread_pool();
-    thread_pool.push(sigc::bind(
-            sigc::mem_fun2( *(photo->get_edit_buffer()),
-                &Buffer::open_image_file),
-                    photo->get_photo()->get_disk_file_path(),
-                    engine_ ));
-#endif
-
-#if 0
-    Glib::Thread * const loader = Glib::Thread::create(
-            sigc::bind(
-                sigc::mem_fun2( *buffer,
-                    &Buffer::open_image_file),
-                    photo->get_photo()->get_disk_file_path(),
-                    engine_ ), true );
-    loader->join();
-#endif
-    return;
+    actionGroup_->set_visible(false);
 }
 
 void
-Editor::apply_action( const EditActionPtr &action,
-               const EditablePhotoPtr &photo ) throw()
+Editor::ui_show() throw()
 {
-	static Glib::Mutex lock;
-    CursorChanger tmp( application_->get_main_window() );
-	Glib::Mutex::Lock l(lock);
-    apply( action, photo );
+    actionGroup_->set_visible(true);
 }
-
-void
-Editor::on_action_flip_horz() throw()
-{
-    EditActionPtr action( new Flip( true ) );
-    apply( action );
-
-#if 0
-    FilterPtr filter( new FlipOperation( engine_,
-                        FlipOperation::HORIZONTAL ) );
-    BufferPtr buffer = currentPhoto_->get_edit_buffer();
-    OperationPtr op( new Operation(
-                            engine_, filter, buffer ) );
-    EditActionPtr action( new GeglOperation( op,
-                        application_->get_engine().get_default_observer() ) );
-    apply( action );
-#endif
-}
-
-void
-Editor::on_action_flip_vert() throw()
-{
-#if 0
-    FilterPtr filter( new FlipOperation( engine_,
-                        FlipOperation::VERTICAL) );
-    BufferPtr buffer = currentPhoto_->get_edit_buffer();
-    OperationPtr op( new Operation(
-                            engine_, filter, buffer ) );
-    EditActionPtr action( new GeglOperation( op,
-                        application_->get_engine().get_default_observer() ) );
-    apply( action );
-#endif
-    EditActionPtr action( new Flip( false ) );
-    apply( action );
-}
-
-void
-Editor::on_action_rotate_left() throw()
-{
-    EditActionPtr action(
-        new Rotate( Rotate::ROTATE_COUNTERCLOCKWISE ) );
-    apply( action );
-}
-
-void
-Editor::on_action_rotate_right() throw()
-{
-    EditActionPtr action(
-        new Rotate( Rotate::ROTATE_CLOCKWISE ) );
-    apply( action );
-}
-
-void
-Editor::on_action_scale() throw()
-{
-}
-
-void
-Editor::on_action_save() throw()
-{
-    save();
-}
-
-void
-Editor::on_action_undo() throw()
-{
-    CursorChanger tmp( application_->get_main_window() );
-    if( !currentPhoto_ )
-    {
-        return;
-    }
-    currentPhoto_->undo_last_action( );
-    actionPerformed_.emit();
-}
-
-void
-Editor::on_action_redo() throw()
-{
-    CursorChanger tmp( application_->get_main_window() );
-    if( !currentPhoto_ )
-    {
-        return;
-    }
-    currentPhoto_->redo_last_action( );
-    actionPerformed_.emit();
-}
-
-void
-Editor::on_action_copy_actions() throw()
-{
-    copiedActions_ = currentPhoto_->get_history()
-                                .get_actions_for_copy();
-}
-
-void
-Editor::on_action_paste_actions() throw()
-{
-    for( EditActionList::iterator it = copiedActions_.begin();
-                it != copiedActions_.end(); it++ )
-    {
-        apply( *it );
-    }
-}
-
 
 } // namespace Solang

@@ -1,7 +1,6 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 4; tab-width: 4 -*- */
 /*
- * Copyright (C) 2009, 2010 Debarshi Ray <rishi@gnu.org>
- * Copyright (C) 2009 Santanu Sinha <santanu.sinha@gmail.com>
+ * Copyright (C) 2010 Debarshi Ray <rishi@gnu.org>
  *
  * Solang is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -21,38 +20,36 @@
 #include "config.h"
 #endif // HAVE_CONFIG_H
 
-#include <cstdlib>
-
-#include <giomm.h>
-#include <glibmm.h>
 #include <glibmm/i18n.h>
-#include <gtkmm.h>
 
-#ifdef ENABLE_NLS
-#include <libintl.h>
-#endif // ENABLE_NLS
+#include "flip-vert-operation.h"
 
-#include "application.h"
-
-int
-main(int argc, char *argv[])
+namespace Solang
 {
-    bindtextdomain(GETTEXT_PACKAGE, PACKAGE_LOCALE_DIR);
-    bind_textdomain_codeset(GETTEXT_PACKAGE, "UTF-8");
-    textdomain(GETTEXT_PACKAGE);
 
-    Glib::thread_init();
-    Gio::init();
-
-    Glib::set_prgname(PACKAGE_TARNAME);
-    Glib::set_application_name(_(PACKAGE_NAME));
-
-    Gtk::Main kit(argc, argv, true);
-    Solang::Application application(argc, argv);
-
-    application.init();
-    application.run();
-    application.final();
-
-    return EXIT_SUCCESS;
+FlipVertOperation::FlipVertOperation() throw() :
+    FlipOperation()
+{
+    set_x(-1.0);
 }
+
+FlipVertOperation::~FlipVertOperation() throw()
+{
+}
+
+Glib::ustring
+FlipVertOperation::get_description() const throw()
+{
+    return Glib::ustring(_("Flipping vertically..."));
+}
+
+Gtk::Widget *
+FlipVertOperation::get_widget() throw()
+{
+    Glib::signal_idle().connect_once(
+        sigc::mem_fun(signal_ready(),
+                      &SignalReady::emit));
+    return 0;
+}
+
+} // namespace Solang

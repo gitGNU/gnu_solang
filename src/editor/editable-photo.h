@@ -1,5 +1,6 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 4; tab-width: 4 -*- */
 /*
+ * Copyright (C) 2010 Debarshi Ray <rishi@gnu.org>
  * Copyright (C) 2009 Santanu Sinha <santanu.sinha@gmail.com>
  *
  * Solang is free software: you can redistribute it and/or modify it
@@ -19,10 +20,13 @@
 #ifndef SOLANG_EDITABLE_PHOTO_H
 #define SOLANG_EDITABLE_PHOTO_H
 
-#include <gdkmm.h>
+#include <queue>
+#include <utility>
+#include <tr1/memory>
 
-#include "edit-action-history.h"
-#include "engine.h"
+#include <glibmm.h>
+#include <sigc++/sigc++.h>
+
 #include "types.h"
 
 namespace Solang
@@ -31,131 +35,53 @@ namespace Solang
 class EditablePhoto
 {
     public:
-        class Searcher
-        {
-            public:
-                Searcher( const PhotoPtr &photo )
-                    :photo_( photo )
-                {
-                }
+        typedef sigc::slot<void> SlotAsyncReady;
 
-                bool operator ()( const EditablePhotoPtr &lhs )
-                {
-                    return lhs->get_photo()->get_uri()
-                                == photo_->get_uri();
-                }
+        typedef std::tr1::shared_ptr<SlotAsyncReady>
+            SlotAsyncReadyPtr;
 
-            private:
-                PhotoPtr photo_;
-        };
+        typedef std::queue<std::pair<IOperationPtr,
+                                     SlotAsyncReadyPtr> >
+            PendingOperationQueue;
 
-    public:
-        EditablePhoto( const PhotoPtr &photo ) throw();
-        ~EditablePhoto();
+        EditablePhoto(const PhotoPtr & photo,
+                      const ProgressObserverPtr & observer) throw();
 
-        inline const PhotoPtr &
-        get_photo() const throw();
+        ~EditablePhoto() throw();
 
         void
-        set_photo( const PhotoPtr & ) throw();
+        apply_async(const IOperationPtr & operation,
+                    const SlotAsyncReady & slot) throw();
 
-        const PixbufPtr
-        get_buffer() const throw();
-
-        void
-        set_buffer(const PixbufPtr &, bool sync = true);
-
-        inline const BufferPtr
-        get_edit_buffer() throw();
-
-        void
-        set_edit_buffer( const BufferPtr &buffer ) throw();
-
-//        inline Exiv2::ExifData &  //Modifiable
-//        get_exif_data() throw();
-
-//        inline Exiv2::XmpData &  //Modifiable
-//        get_xmp_data() throw();
-
-        void
-        save( Engine &engine ) throw(Error);
-
-        inline bool
-        get_to_save() const throw();
-
-        void
-        set_to_save( bool ) throw();
-
-        void
-        apply_action( const EditActionPtr &action ) throw(Error);
-
-        void
-        undo_last_action( ) throw(Error);
-
-        void
-        redo_last_action( ) throw(Error);
-
-        inline const EditActionHistory &
-        get_history() const throw();
+        PhotoPtr &
+        get_photo() throw();
 
     private:
+        void
+        apply_begin() throw();
 
         void
-        setup_photo_for_edit() throw();
+        apply_worker(const IOperationPtr & operation)
+                     throw(Glib::Thread::Exit);
 
-        BufferPtr
-        pixbuf_to_edit_buffer() throw();
+        void
+        on_apply_end() throw();
+
+        BufferPtr buffer_;
 
         PhotoPtr photo_;
-        mutable PixbufPtr buffer_;
-        mutable BufferPtr editBuffer_;
-        mutable bool isDirty_;
-//        Exiv2::Image::AutoPtr image_;
-        bool toSave_;
-        EditActionHistory appliedActions_;
+
+        PixbufPtr pixbuf_;
+
+        PendingOperationQueue pending_;
+
+        ProgressObserverPtr observer_;
+
+        Glib::Dispatcher applyEnd_;
+
+        Glib::ThreadPool threadPool_;
 };
 
-inline const PhotoPtr &
-EditablePhoto::get_photo() const throw()
-{
-    return photo_;
-}
+} // namespace Solang
 
-inline const BufferPtr
-EditablePhoto::get_edit_buffer() throw()
-{
-#if 0
-    if( !editBuffer_ )
-    {
-        editBuffer_ = pixbuf_to_edit_buffer();
-    }
-#endif
-    return pixbuf_to_edit_buffer();
-}
-
-//inline Exiv2::ExifData &  //Modifiable
-//EditablePhoto::get_exif_data() throw()
-//{
-//    return image_->exifData();
-//}
-
-//inline Exiv2::XmpData &  //Modifiable
-//EditablePhoto::get_xmp_data() throw()
-//{
-//    return image_->xmpData();
-//}
-
-inline bool
-EditablePhoto::get_to_save() const throw()
-{
-    return toSave_;
-}
-
-inline const EditActionHistory &
-EditablePhoto::get_history() const throw()
-{
-    return appliedActions_;
-}
-
-} //namespace Solang
-#endif
+#endif // SOLANG_EDITABLE_PHOTO_H

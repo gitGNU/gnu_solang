@@ -34,7 +34,7 @@ Also, take a look at: http://en.wikipedia.org/wiki/Solang_valley
 
 Features:
 ---------
-- Browser, editor, enlarged and slideshow renderer for viewing the entire
+- Browser, enlarged and slideshow renderers for viewing the entire
   collection, editing, a single photo and slideshows respectively.
 - Folder exporter to export selected photos to a folder.
 - Date view for showing photo dates.

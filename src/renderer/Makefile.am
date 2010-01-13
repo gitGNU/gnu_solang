@@ -5,8 +5,6 @@ librenderer_la_SOURCES = \
 	browser-renderer.h \
 	console-renderer.cpp \
 	console-renderer.h \
-	editor-renderer.cpp \
-	editor-renderer.h \
 	enlarged-renderer.cpp \
 	enlarged-renderer.h \
 	browser-model-column-record.cpp \
@@ -32,7 +30,6 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/common \
 	-I$(top_srcdir)/src/database \
 	-I$(top_srcdir)/src/editor \
-	-I$(top_srcdir)/src/edit-engine \
 	-I$(top_srcdir)/src/importer \
 	-I$(top_srcdir)/src/renderer \
 	-I$(top_srcdir)/src/storage \
@@ -42,7 +39,7 @@ AM_CPPFLAGS = \
 	$(GTKMM_CFLAGS) \
 	$(GDL_CFLAGS) \
 	$(BABL_CFLAGS) \
-	$(GEGL_CFLAGS) \
+	$(GEGLMM_CFLAGS) \
 	$(TRACKER_CFLAGS)
 
 AM_CXXFLAGS = \

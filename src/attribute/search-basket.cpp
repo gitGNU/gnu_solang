@@ -28,7 +28,6 @@
 #include "application.h"
 #include "browser-renderer.h"
 #include "console-renderer.h"
-#include "editor-renderer.h"
 #include "engine.h"
 #include "enlarged-renderer.h"
 #include "main-window.h"
@@ -173,12 +172,6 @@ SearchBasket::visit_renderer(BrowserRenderer & browser_renderer)
 void
 SearchBasket::visit_renderer(ConsoleRenderer & console_renderer)
                              throw()
-{
-    ui_hide();
-}
-
-void
-SearchBasket::visit_renderer(EditorRenderer & editor_renderer) throw()
 {
     ui_hide();
 }

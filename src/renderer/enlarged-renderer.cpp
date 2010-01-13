@@ -76,7 +76,7 @@ EnlargedRenderer::EnlargedRenderer() throw() :
     imageView_(0),
     imageScrollWin_(0),
     pageNum_(-1),
-    pixbufMaker_(),
+    pixbufMaker_(PixbufMaker::create(true)),
     signalMainWindowStateEvent_(),
     signalSwitchPage_()
 {
@@ -121,13 +121,13 @@ EnlargedRenderer::init(Application & application) throw()
 void
 EnlargedRenderer::render(const PhotoPtr & photo) throw()
 {
-    if (0 == pixbufMaker_)
+    pixbufMaker_->stop_async();
+
+    const PixbufPtr & pixbuf = photo->get_buffer();
+    if (0 != pixbuf)
     {
-        pixbufMaker_ = PixbufMaker::create(true);
-    }
-    else
-    {
-        pixbufMaker_->stop_async();
+        on_pixbuf_maker_async_ready(pixbuf);
+        return;
     }
 
     try
