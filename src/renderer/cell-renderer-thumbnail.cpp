@@ -36,8 +36,8 @@ namespace Solang
 CellRendererThumbnail::CellRendererThumbnail() throw() :
     Gtk::CellRendererPixbuf(),
     extraHeight_(0),
-    imageLoading_(0),
-    photo_()
+    photo_(),
+    imageLoading_(0)
 {
     property_xalign().set_value(0.5);
     property_yalign().set_value(0.5);

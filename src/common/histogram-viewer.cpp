@@ -156,8 +156,8 @@ HistogramViewer::update()
 void
 HistogramViewer::on_size_request( Gtk::Requisition *requisition )
 {
-    gint64 oldWidth = get_width();
-    gint64 oldHeight = get_height();
+//    gint64 oldWidth = get_width();
+//    gint64 oldHeight = get_height();
     Gtk::VBox::on_size_request( requisition );
 #if 0
     gint64 width = width_ + requisition->width - oldWidth;

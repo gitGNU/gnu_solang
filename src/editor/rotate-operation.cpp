@@ -36,9 +36,9 @@ RotateOperation::RotateOperation(gdouble origin_x,
                                  gdouble degrees) throw() :
     Operation(),
     hardEdges_(hard_edges),
+    degrees_(degrees),
     originX_(origin_x),
     originY_(origin_y),
-    degrees_(degrees),
     lanczosWidth_(lanczos_width),
     filter_(filter),
     signalReady_()

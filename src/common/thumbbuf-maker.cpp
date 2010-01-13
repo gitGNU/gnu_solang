@@ -79,7 +79,7 @@ ThumbbufMaker::operator()(const PhotoPtr & photo) throw(Gdk::PixbufError,
                                 pixbuf->gobj()), false);
     }
 
-    const gint height = pixbuf->get_height();
+    const guint height = static_cast<guint>(pixbuf->get_height());
 
     if (height_ < height)
     {
