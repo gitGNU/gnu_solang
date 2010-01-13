@@ -1,4 +1,6 @@
-AC_INIT(Solang, 0.3, [solang-devel@nongnu.org], [solang])
+AC_INIT(Solang, 0.3,
+        [https://bugzilla.gnome.org/enter_bug.cgi?product=solang],
+        [solang])
 
 AM_INIT_AUTOMAKE(AC_PACKAGE_TARNAME, AC_PACKAGE_VERSION)
 AC_CONFIG_HEADERS([config.h])

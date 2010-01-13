@@ -55,7 +55,7 @@ static const std::string uiFile
     = PACKAGE_DATA_DIR"/"PACKAGE_TARNAME"/ui/"PACKAGE_TARNAME".ui";
 
 static const Glib::ustring websiteURL
-    = "https://savannah.nongnu.org/projects/solang";
+    = "http://projects.gnome.org/solang";
 
 class Docker :
     public std::unary_function<DockObjectPtr const &, void>
