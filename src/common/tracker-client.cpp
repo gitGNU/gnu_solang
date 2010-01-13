@@ -1,6 +1,6 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 4; tab-width: 4 -*- */
 /*
- * Copyright (C) 2009 Debarshi Ray <rishi@gnu.org>
+ * Copyright (C) 2009, 2010 Debarshi Ray <rishi@gnu.org>
  *
  * Solang is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -84,7 +84,7 @@ signal_proxy_tracker_reply_gptrarray(GPtrArray * result,
     g_ptr_array_foreach (result, (GFunc) g_strfreev, NULL);
     g_ptr_array_free (result, TRUE);
 
-    if (0 != slot)
+    if (0 != slot && 0 != *slot)
     {
         (*slot)(resultv);
     }
@@ -115,7 +115,7 @@ signal_proxy_tracker_reply_void(GError * error, gpointer user_data)
     TrackerClient::SlotAsyncReady * const slot
         = static_cast<TrackerClient::SlotAsyncReady *>(user_data);
 
-    if (0 != slot)
+    if (0 != slot && 0 != *slot)
     {
         (*slot)();
     }
