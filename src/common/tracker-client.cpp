@@ -124,13 +124,14 @@ signal_proxy_tracker_reply_void(GError * error, gpointer user_data)
 }
 
 TrackerClient::TrackerClient() :
-    trackerClient_(tracker_connect(TRUE, -1))
+    trackerClient_(tracker_client_new(TRACKER_CLIENT_ENABLE_WARNINGS,
+                                      G_MAXINT))
 {
 }
 
 TrackerClient::~TrackerClient()
 {
-    tracker_disconnect(trackerClient_);
+    g_object_unref(trackerClient_);
 }
 
 std::vector<UStringList>
