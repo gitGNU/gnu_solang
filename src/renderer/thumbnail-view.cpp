@@ -76,8 +76,7 @@ ThumbnailView::ThumbnailView(gint thumbnail_renderer_width,
     uiManager_(Gtk::UIManager::create()),
     uiID_(uiManager_->add_ui_from_file(uiFile)),
     menu_(NULL),
-    rendererThumbnail_(),
-    rendererText_()
+    rendererThumbnail_()
 {
     configure(thumbnail_renderer_width, thumbnail_renderer_height);
 }
@@ -94,8 +93,7 @@ ThumbnailView::ThumbnailView(const TreeModelPtr & model,
     uiManager_(Gtk::UIManager::create()),
     uiID_(uiManager_->add_ui_from_file(uiFile)),
     menu_(NULL),
-    rendererThumbnail_(),
-    rendererText_()
+    rendererThumbnail_()
 {
     configure(thumbnail_renderer_width, thumbnail_renderer_height);
 }
@@ -113,8 +111,8 @@ ThumbnailView::configure(gint thumbnail_renderer_width,
     set_orientation(Gtk::ORIENTATION_VERTICAL);
     set_selection_mode(Gtk::SELECTION_MULTIPLE);
     set_spacing(0);
-    set_column_spacing(8);
-    set_row_spacing(8);
+    set_column_spacing(6);
+    set_row_spacing(6);
     set_has_tooltip(true);
 
     actionGroup_->add(Gtk::Action::create("ActionOpenWithMenu",
@@ -129,8 +127,6 @@ ThumbnailView::configure(gint thumbnail_renderer_width,
         = GTK_CELL_LAYOUT(Gtk::IconView::gobj());
     GtkCellRenderer * const renderer_thumbnail
         = GTK_CELL_RENDERER(rendererThumbnail_.gobj());
-    GtkCellRenderer * const renderer_info
-        = GTK_CELL_RENDERER(rendererText_.gobj());
 
     gtk_cell_layout_pack_start(self, renderer_thumbnail, FALSE);
     gtk_cell_layout_set_cell_data_func(
@@ -140,19 +136,10 @@ ThumbnailView::configure(gint thumbnail_renderer_width,
         0,
         0);
 
-    gtk_cell_layout_pack_start(self, renderer_info, FALSE);
-    
     rendererThumbnail_.property_width().set_value(
                            thumbnail_renderer_width);
     rendererThumbnail_.property_height().set_value(
                            thumbnail_renderer_height);
-    rendererThumbnail_.set_extra_height(20);
-
-    rendererText_.property_ellipsize_set().set_value(true);
-    rendererText_.property_xalign().set_value(0.5);
-    rendererText_.property_yalign().set_value(0);
-    rendererText_.property_height().set_value(20);
-    rendererText_.property_rise().set_value(2);
 
     std::vector<Gtk::TargetEntry> targets;
     targets.push_back(Gtk::TargetEntry("text/uri-vector",

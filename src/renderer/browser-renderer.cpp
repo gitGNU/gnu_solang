@@ -689,8 +689,8 @@ BrowserRenderer::set_thumbnail_size() throw()
                           ratioHeight
                           * static_cast<double>(zoomValue_));
 
-    thumbnailView_.set_thumbnail_width(thumbnail_width + 12);
-    thumbnailView_.set_thumbnail_height(thumbnail_height + 12);
+    thumbnailView_.set_thumbnail_width(thumbnail_width + 6);
+    thumbnailView_.set_thumbnail_height(thumbnail_height + 6);
 }
 
 } // namespace Solang

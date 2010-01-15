@@ -87,8 +87,6 @@ class ThumbnailView :
 
         CellRendererThumbnail rendererThumbnail_;
 
-        Gtk::CellRendererText rendererText_;
-
     private:
         void
         configure(gint thumbnail_width, gint thumbnail_height)

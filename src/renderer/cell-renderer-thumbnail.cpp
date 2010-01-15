@@ -32,7 +32,6 @@
 
 namespace Solang
 {
-
 CellRendererThumbnail::CellRendererThumbnail() throw() :
     Gtk::CellRendererPixbuf(),
     extraHeight_(0),
