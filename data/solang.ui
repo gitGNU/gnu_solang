@@ -9,16 +9,6 @@
 			<separator name="PhotoSeparator1"/>
 			<menuitem action="ActionPhotoQuit"/>
 		</menu>
-		<menu action="ActionViewMenu">
-			<menuitem action="ActionViewToolBar"/>
-			<menuitem action="ActionViewStatusBar"/>
-			<separator name="ViewSeparator0"/>
-			<menuitem action="ActionViewFullScreen"/>
-			<placeholder name="PlaceholderFullScreenMenus"/>
-			<separator name="ViewSeparator1"/>
-			<placeholder name="PlaceholderZoomMenus"/>
-		</menu>
-		<placeholder name="PlaceholderViewMenus"/>
 		<menu action="ActionEditMenu">
 			<placeholder name="PlaceholderUndoRedoMenus"/>
 			<separator name="EditSeparator0"/>
@@ -31,10 +21,20 @@
 			<placeholder name="PlaceholderOtherEditMenus"/>
 		</menu>
 		<placeholder name="PlaceHolderEditMenus"/>
+		<menu action="ActionViewMenu">
+			<menuitem action="ActionViewToolBar"/>
+			<menuitem action="ActionViewStatusBar"/>
+			<separator name="ViewSeparator0"/>
+			<menuitem action="ActionViewFullScreen"/>
+			<placeholder name="PlaceholderFullScreenMenus"/>
+			<separator name="ViewSeparator1"/>
+			<placeholder name="PlaceholderZoomMenus"/>
+		</menu>
+		<placeholder name="PlaceholderViewMenus"/>
 		<placeholder name="PlaceholderFindMenus"/>
-		<placeholder name="PlaceholderGoMenus"/>
 		<placeholder name="PlaceHolderTagMenus"/>
 		<placeholder name="PlaceholderToolMenus"/>
+		<placeholder name="PlaceholderGoMenus"/>
 		<menu action="ActionHelpMenu">
 			<menuitem action="ActionHelpAbout"/>
 		</menu>
