@@ -100,15 +100,15 @@ msgstr ""
 
 #: ../src/attribute/basic-exif-view.cpp:132
 msgid "F-number"
-msgstr ""
+msgstr "Бленда"
 
 #: ../src/attribute/basic-exif-view.cpp:151
 msgid "ISO speed"
-msgstr ""
+msgstr "Чувствителност (ISO)"
 
 #: ../src/attribute/basic-exif-view.cpp:170
 msgid "Metering mode"
-msgstr ""
+msgstr "Режим на измерване"
 
 #: ../src/attribute/basic-exif-view.cpp:190
 msgid "Focal length"
@@ -116,11 +116,11 @@ msgstr ""
 
 #: ../src/attribute/basic-exif-view.cpp:210
 msgid "White balance"
-msgstr ""
+msgstr "Баланс на бялото"
 
 #: ../src/attribute/date-manager.cpp:50
 msgid "Picture Taken Date"
-msgstr "Дата на заснемане на снимката"
+msgstr "Дата на заснемане"
 
 #: ../src/attribute/property-manager.cpp:50
 msgid "Properties"
@@ -132,7 +132,7 @@ msgstr "Основни"
 
 #: ../src/attribute/property-manager.cpp:75
 msgid "Histogram"
-msgstr ""
+msgstr "Хистограма"
 
 #: ../src/attribute/search-basket.cpp:44
 msgid "Search"
@@ -207,147 +207,135 @@ msgstr "Избор на икона на етикет"
 
 #: ../src/common/exif-data.cpp:158
 msgid "Average"
-msgstr ""
+msgstr "Усреднено"
 
 #: ../src/common/exif-data.cpp:162
 msgid "Center Weighted Average"
 msgstr ""
 
 #: ../src/common/exif-data.cpp:166
-#, fuzzy
 msgid "Spot"
-msgstr "Внасяне"
+msgstr "Точково"
 
 #: ../src/common/exif-data.cpp:170
 msgid "Multi-spot"
-msgstr ""
+msgstr "Многоточково"
 
 #: ../src/common/exif-data.cpp:174
 msgid "Pattern"
-msgstr ""
+msgstr "Шаблон"
 
 #: ../src/common/exif-data.cpp:178
 msgid "Partial"
-msgstr ""
+msgstr "Частично"
 
 #: ../src/common/exif-data.cpp:194
-#, fuzzy
 msgid "Automatic"
 msgstr "Автоматично"
 
 #: ../src/common/exif-data.cpp:198
 msgid "Manual"
-msgstr ""
+msgstr "Ръчно"
 
 #: ../src/common/histogram-viewer.cpp:37
 msgid "Type"
-msgstr ""
+msgstr "Вид"
 
 #: ../src/common/histogram-viewer.cpp:42
 msgid "Channels"
-msgstr ""
+msgstr "Канали"
 
 #: ../src/common/histogram-viewer.cpp:67
 msgid "Linear"
-msgstr ""
+msgstr "Линейно"
 
 #: ../src/common/histogram-viewer.cpp:72
 msgid "Logarithmic"
-msgstr ""
+msgstr "Логаритмично"
 
 #: ../src/common/histogram-viewer.cpp:80
 msgid "RGB"
-msgstr ""
+msgstr "ЧЗС"
 
 #: ../src/common/histogram-viewer.cpp:85
-#, fuzzy
 msgid "Red"
-msgstr "Повтаряне"
+msgstr "Червено"
 
 #: ../src/common/histogram-viewer.cpp:90
 msgid "Green"
-msgstr ""
+msgstr "Зелено"
 
 #: ../src/common/histogram-viewer.cpp:95
 msgid "Blue"
-msgstr ""
+msgstr "Синьо"
 
 #: ../src/editor/editor.cpp:113
 msgid "T_ools"
-msgstr ""
+msgstr "_Инструменти"
 
 #: ../src/editor/editor.cpp:117
 msgid "_Transform"
-msgstr ""
+msgstr "_Преобразуване"
 
 #: ../src/editor/editor.cpp:123
-#, fuzzy
 msgid "Flip _Horizontal"
 msgstr "_Хоризонтално обръщане"
 
 #: ../src/editor/editor.cpp:124
 msgid "Mirror the photo horizontally"
-msgstr ""
+msgstr "Обръщане на снимката хоризонтално"
 
 #: ../src/editor/editor.cpp:135
-#, fuzzy
 msgid "Flip _Vertical"
 msgstr "_Вертикално обръщане"
 
 #: ../src/editor/editor.cpp:136
 msgid "Mirror the photo vertically"
-msgstr ""
+msgstr "Обръщане на снимката вертикално"
 
 #: ../src/editor/editor.cpp:147
-#, fuzzy
 msgid "_Rotate Clockwise"
 msgstr "Завътране по _часовниковата стрелка"
 
 #: ../src/editor/editor.cpp:148
 msgid "Rotate the photo 90 degrees to the right"
-msgstr ""
+msgstr "Завътране на снимката на 90 градуса надясно"
 
 #: ../src/editor/editor.cpp:159
-#, fuzzy
 msgid "Rotate Counterc_lockwise"
 msgstr "Завъртане _обратно на часовниковата стрелка"
 
 #: ../src/editor/editor.cpp:160
 msgid "Rotate the photo 90 degrees to the left"
-msgstr ""
+msgstr "Завътране на снимката на 90 градуса наляво"
 
 #: ../src/editor/flip-horiz-operation.cpp:43
-#, fuzzy
 msgid "Flipping horizontally..."
-msgstr "_Хоризонтално обръщане"
+msgstr "Хоризонтално обръщане..."
 
 #: ../src/editor/flip-operation.cpp:57
 msgid "Flipping..."
-msgstr ""
+msgstr "Обръщане..."
 
 #: ../src/editor/flip-vert-operation.cpp:43
-#, fuzzy
 msgid "Flipping vertically..."
-msgstr "_Вертикално обръщане"
+msgstr "Вертикално обръщане..."
 
 #: ../src/editor/rotate-clock-operation.cpp:43
-#, fuzzy
 msgid "Rotating clockwise..."
-msgstr "Завътране по _часовниковата стрелка"
+msgstr "Завътране по часовниковата стрелка..."
 
 #: ../src/editor/rotate-counter-operation.cpp:43
-#, fuzzy
 msgid "Rotating counterclockwise..."
-msgstr "Завъртане _обратно на часовниковата стрелка"
+msgstr "Завъртане обратно на часовниковата стрелка..."
 
 #: ../src/editor/rotate-operation.cpp:55
 msgid "Rotating..."
-msgstr ""
+msgstr "Завъртане..."
 
 #: ../src/exporter/directory-destination.cpp:90
-#, fuzzy
 msgid "Exporting photos"
-msgstr "Внасяне на снимки"
+msgstr "Изнасяне на снимки"
 
 #: ../src/exporter/directory-destination.cpp:178
 msgid "Select Folder"
@@ -358,14 +346,12 @@ msgid "_Folder..."
 msgstr "_Папка..."
 
 #: ../src/exporter/exporter-dialog.cpp:33
-#, fuzzy
 msgid "Export"
-msgstr "Внасяне"
+msgstr "Изнасяне"
 
 #: ../src/exporter/exporter-dialog.cpp:42
-#, fuzzy
 msgid "_Destination:"
-msgstr "Описание"
+msgstr ""
 
 #: ../src/exporter/exporter-dialog.cpp:44
 msgid "_Detect duplicates"
@@ -373,7 +359,7 @@ msgstr "Откриване на _повтарящи се"
 
 #: ../src/exporter/exporter-dialog.cpp:48
 msgid "_Create an archive"
-msgstr ""
+msgstr "Създаване на _архив"
 
 #: ../src/exporter/exporter-dialog.cpp:66
 msgid "General"
@@ -384,9 +370,8 @@ msgid "Options"
 msgstr "Настройки"
 
 #: ../src/exporter/exporter-dialog.cpp:111
-#, fuzzy
 msgid "_Export"
-msgstr "_Внасяне"
+msgstr "_Изнасяне"
 
 #: ../src/renderer/browser-renderer.cpp:142
 #: ../src/renderer/enlarged-renderer.cpp:278
@@ -399,9 +384,8 @@ msgid "Start a slideshow view of the photos"
 msgstr "Показване на прожекция със снимките"
 
 #: ../src/renderer/browser-renderer.cpp:152
-#, fuzzy
 msgid "Enlarge or shrink the thumbnails"
-msgstr "Увеличаване на умалените копия"
+msgstr "Увеличаване или смаляване на миниатюрите"
 
 #: ../src/renderer/browser-renderer.cpp:174
 #: ../src/renderer/enlarged-renderer.cpp:291
@@ -413,16 +397,15 @@ msgstr "_Увеличаване"
 
 #: ../src/renderer/browser-renderer.cpp:175
 msgid "Enlarge the thumbnails"
-msgstr "Увеличаване на умалените копия"
+msgstr "Увеличаване на миниатюрите"
 
 #: ../src/renderer/browser-renderer.cpp:186
-#, fuzzy
 msgid "_Zoom Out"
-msgstr "_Намаляване"
+msgstr "_Смаляване"
 
 #: ../src/renderer/browser-renderer.cpp:187
 msgid "Shrink the thumbnails"
-msgstr "Смаляване на умалените копия"
+msgstr "Смаляване на миниатюрите"
 
 #: ../src/renderer/browser-renderer.cpp:198
 #: ../src/renderer/enlarged-renderer.cpp:286
@@ -450,7 +433,7 @@ msgstr "Увеличаване на снимката"
 #: ../src/renderer/slideshow-window.cpp:118
 #: ../src/renderer/slideshow-window.cpp:127
 msgid "In"
-msgstr "Навътре"
+msgstr ""
 
 #: ../src/renderer/enlarged-renderer.cpp:305
 #: ../src/renderer/enlarged-renderer.cpp:451
@@ -472,7 +455,7 @@ msgstr "Намаляване на снимката"
 #: ../src/renderer/slideshow-window.cpp:136
 #: ../src/renderer/slideshow-window.cpp:145
 msgid "Out"
-msgstr "Навън"
+msgstr ""
 
 #: ../src/renderer/enlarged-renderer.cpp:319
 msgid "_Normal Size"
