@@ -88,7 +88,7 @@ msgstr "Ясен Праматаров <yasen@lindeas.com>"
 
 #: ../src/application/main-window.cpp:666
 msgid "%1 Website"
-msgstr ""
+msgstr "Уеб-страница на %1"
 
 #: ../src/attribute/basic-exif-view.cpp:93
 msgid "Camera"
@@ -96,7 +96,7 @@ msgstr "Фотоапарат"
 
 #: ../src/attribute/basic-exif-view.cpp:112
 msgid "Exposure time"
-msgstr ""
+msgstr "Експозиция"
 
 #: ../src/attribute/basic-exif-view.cpp:132
 msgid "F-number"
@@ -112,7 +112,7 @@ msgstr "Режим на измерване"
 
 #: ../src/attribute/basic-exif-view.cpp:190
 msgid "Focal length"
-msgstr ""
+msgstr "Фокусно разстояние"
 
 #: ../src/attribute/basic-exif-view.cpp:210
 msgid "White balance"
@@ -211,7 +211,7 @@ msgstr "Усреднено"
 
 #: ../src/common/exif-data.cpp:162
 msgid "Center Weighted Average"
-msgstr ""
+msgstr "Централно мерене"
 
 #: ../src/common/exif-data.cpp:166
 msgid "Spot"
@@ -223,7 +223,7 @@ msgstr "Многоточково"
 
 #: ../src/common/exif-data.cpp:174
 msgid "Pattern"
-msgstr "Шаблон"
+msgstr "Матрично"
 
 #: ../src/common/exif-data.cpp:178
 msgid "Partial"
@@ -351,7 +351,7 @@ msgstr "Изнасяне"
 
 #: ../src/exporter/exporter-dialog.cpp:42
 msgid "_Destination:"
-msgstr ""
+msgstr "_Местоположение:"
 
 #: ../src/exporter/exporter-dialog.cpp:44
 msgid "_Detect duplicates"
@@ -433,7 +433,7 @@ msgstr "Увеличаване на снимката"
 #: ../src/renderer/slideshow-window.cpp:118
 #: ../src/renderer/slideshow-window.cpp:127
 msgid "In"
-msgstr ""
+msgstr "Увеличаване"
 
 #: ../src/renderer/enlarged-renderer.cpp:305
 #: ../src/renderer/enlarged-renderer.cpp:451
@@ -455,7 +455,7 @@ msgstr "Намаляване на снимката"
 #: ../src/renderer/slideshow-window.cpp:136
 #: ../src/renderer/slideshow-window.cpp:145
 msgid "Out"
-msgstr ""
+msgstr "Намаляване"
 
 #: ../src/renderer/enlarged-renderer.cpp:319
 msgid "_Normal Size"
