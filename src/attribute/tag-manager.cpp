@@ -249,7 +249,8 @@ TagManager::on_action_tag_new() throw()
     {
         case Gtk::RESPONSE_OK:
         {
-            TagPtr tag(new Tag(tag_new_dialog.get_name()));
+            TagPtr tag(new Tag(tag_new_dialog.get_name(),
+                               tag_new_dialog.get_description()));
             DatabasePtr db = application_->get_engine().get_db();
             tag->save_async(
                 *db,
@@ -299,6 +300,7 @@ TagManager::on_action_tag_edit() throw()
                 DatabasePtr db = application_->get_engine().get_db();
                 tag->edit_async(
                     tag_new_dialog.get_name(),
+                    tag_new_dialog.get_description(),
                     *db,
                     sigc::mem_fun(*this,
                                   &TagManager::on_updated_tag));

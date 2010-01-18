@@ -108,13 +108,15 @@ Database::delete_async(const Tag & tag, const SlotAsyncReady & slot)
 void
 Database::edit_async(Tag & tag,
                      const Glib::ustring & name,
+                     const Glib::ustring & description,
                      const SlotAsyncReady & slot) throw()
 {
     trackerClient_.sparql_update_async(
-        tag.get_edit_query(name),
+        tag.get_edit_query(name, description),
         sigc::bind(sigc::mem_fun(*this, &Database::on_async_ready),
                    slot));
     tag.set_name(name);
+    tag.set_description(description);
 }
 
 void
@@ -278,10 +280,14 @@ void
 Database::get_tags_async(const SlotAsyncTags & slot) const throw()
 {
     trackerClient_.sparql_query_async(
-        "SELECT DISTINCT ?t ?u "
+        "SELECT DISTINCT ?t ?d ?u "
         "WHERE {"
         "  ?u a nao:Tag ;"
         "  nao:prefLabel ?t ."
+        "  OPTIONAL {"
+        "      ?u a nie:InformationElement ;"
+        "      nie:comment ?d ."
+        "  }"
         "} "
         "ORDER BY ASC(?t)",
         sigc::bind(sigc::mem_fun(*this, &Database::on_async_tags),
@@ -350,7 +356,7 @@ Database::on_async_tags(std::vector<UStringList> & result,
          result.end() != it;
          it++)
     {
-        TagPtr tag(new Tag((*it)[0], (*it)[1]));
+        TagPtr tag(new Tag((*it)[0], (*it)[1], (*it)[2]));
         tags.push_back(tag);
     }
 

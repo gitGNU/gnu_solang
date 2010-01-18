@@ -44,6 +44,7 @@ class Tag :
 
     public:
         Tag(const Glib::ustring & name,
+            const Glib::ustring & description,
             const std::string & urn = std::string())
             throw();
 
@@ -66,11 +67,14 @@ class Tag :
 
         void
         edit_async(const Glib::ustring & name,
+                   const Glib::ustring & description,
                    Database & database,
                    const SlotAsyncReady & slot) throw();
 
         Glib::ustring
-        get_edit_query(const Glib::ustring & name) const throw();
+        get_edit_query(const Glib::ustring & name,
+                       const Glib::ustring & description) const
+                       throw();
 
         inline const Glib::ustring &
         get_name() const throw();

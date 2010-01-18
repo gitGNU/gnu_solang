@@ -65,6 +65,7 @@ class Database
         void
         edit_async(Tag & tag,
                    const Glib::ustring & name,
+                   const Glib::ustring & description,
                    const SlotAsyncReady & slot) throw();
 
         void

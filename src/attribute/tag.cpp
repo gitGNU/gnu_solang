@@ -30,11 +30,13 @@
 namespace Solang
 {
 
-Tag::Tag(const Glib::ustring & name, const std::string & urn)
-         throw() :
+Tag::Tag(const Glib::ustring & name,
+         const Glib::ustring & description,
+         const std::string & urn) throw() :
     DBObject(),
     PhotoSearchCriteria(),
     name_(name),
+    description_(description),
     urn_(urn)
 {
 }
@@ -54,7 +56,7 @@ Glib::ustring
 Tag::get_delete_query() const throw()
 {
     return Glib::ustring::compose("DELETE {"
-                                  "  <%1> a nao:Tag ."
+                                  "  <%1> a rdfs:Resource ."
                                   "}",
                                   urn_);
 }
@@ -70,16 +72,23 @@ Tag::get_save_query() const throw()
 {
     return Glib::ustring::compose("INSERT {"
                                   "  _:tag a nao:Tag ;"
-                                  "  nao:prefLabel '%1' ."
+                                  "  nao:prefLabel '%1' ;"
+                                  "  a nie:InformationElement ;"
+                                  "  nie:comment '%2' ."
                                   "} "
                                   "WHERE {"
                                   "  OPTIONAL {"
                                   "     ?tag a nao:Tag ;"
-                                  "     nao:prefLabel '%2'"
+                                  "     nao:prefLabel '%3' ;"
+                                  "     a nie:InformationElement ;"
+                                  "     nie:comment '%4' ."
                                   "  } ."
                                   "  FILTER (!bound(?tag)) "
                                   "}",
-                                  name_, name_);
+                                  name_,
+                                  description_,
+                                  name_,
+                                  description_);
 }
 
 void
@@ -91,22 +100,31 @@ Tag::save_async(Database & database, const SlotAsyncReady & slot)
 
 void
 Tag::edit_async(const Glib::ustring & name,
+                const Glib::ustring & description,
                 Database & database,
                 const SlotAsyncReady & slot) throw()
 {
-    database.edit_async(*this, name, slot);
+    database.edit_async(*this, name, description, slot);
 }
 
 Glib::ustring
-Tag::get_edit_query(const Glib::ustring & name) const throw()
+Tag::get_edit_query(const Glib::ustring & name,
+                    const Glib::ustring & description) const throw()
 {
     return Glib::ustring::compose("DELETE {"
-                                  "  <%1> nao:prefLabel '%2' ."
+                                  "  <%1> nao:prefLabel '%2' ;"
+                                  "  nie:comment '%3' ."
                                   "} "
                                   "INSERT {"
-                                  "  <%3> nao:prefLabel '%4' ."
+                                  "  <%4> nao:prefLabel '%5' ;"
+                                  "  nie:comment '%6' ."
                                   "}",
-                                  urn_, name_, urn_, name);
+                                  urn_,
+                                  name_,
+                                  description_,
+                                  urn_,
+                                  name,
+                                  description);
 }
 
 void
