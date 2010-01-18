@@ -146,8 +146,8 @@ msgstr "שם:"
 
 #: ../src/attribute/tag-new-dialog.cpp:49
 #: ../src/attribute/tag-new-dialog.cpp:79
-msgid "Description"
-msgstr "תיאור"
+msgid "Description:"
+msgstr "תיאור:"
 
 #: ../src/attribute/tag-new-dialog.cpp:56
 msgid "Create New Tag"

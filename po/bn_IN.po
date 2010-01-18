@@ -173,8 +173,8 @@ msgstr "নাম:"
 
 #: ../src/attribute/tag-new-dialog.cpp:49
 #: ../src/attribute/tag-new-dialog.cpp:79
-msgid "Description"
-msgstr "বর্ণনা"
+msgid "Description:"
+msgstr "বর্ণনা:"
 
 #: ../src/attribute/tag-new-dialog.cpp:56
 msgid "Create New Tag"

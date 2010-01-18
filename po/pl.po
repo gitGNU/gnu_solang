@@ -191,8 +191,8 @@ msgstr "Nazwa:"
 
 #: ../src/attribute/tag-new-dialog.cpp:49
 #: ../src/attribute/tag-new-dialog.cpp:79
-msgid "Description"
-msgstr "Opis"
+msgid "Description:"
+msgstr "Opis:"
 
 #: ../src/attribute/tag-new-dialog.cpp:56
 msgid "Create New Tag"

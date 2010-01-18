@@ -194,7 +194,7 @@ msgstr "Nom:"
 
 #: ../src/attribute/tag-new-dialog.cpp:49
 #: ../src/attribute/tag-new-dialog.cpp:79
-msgid "Description"
+msgid "Description:"
 msgstr "Descriptions:"
 
 #: ../src/attribute/tag-new-dialog.cpp:56
