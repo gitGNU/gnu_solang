@@ -107,12 +107,7 @@ class SearchBasket :
 
         Gtk::VBox vBox_;
 
-        Gtk::CheckButton autoApplyCheck_;
-
         Gtk::HBox hBox_;
-
-        Gtk::Button applyButton_;
-        Gtk::Image  applyImage_;
 
         Gtk::Button clearButton_;
         Gtk::Image  clearImage_;

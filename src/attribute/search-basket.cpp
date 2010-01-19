@@ -45,10 +45,7 @@ SearchBasket::SearchBasket() throw() :
     dockItemBehaviour_(GDL_DOCK_ITEM_BEH_NORMAL),
     dockItem_(NULL),
     vBox_( false, 6 ),
-    autoApplyCheck_(_("Auto")),
     hBox_( false, 2 ),
-    applyButton_(),
-    applyImage_( Gtk::Stock::APPLY, Gtk::ICON_SIZE_SMALL_TOOLBAR ),
     clearButton_(),
     clearImage_( Gtk::Stock::CLEAR, Gtk::ICON_SIZE_SMALL_TOOLBAR ),
     trashButton_(), //Container
@@ -85,19 +82,10 @@ SearchBasket::SearchBasket() throw() :
                       GTK_WIDGET(vBox_.gobj()));
 
     vBox_.pack_start( hBox_, Gtk::PACK_SHRINK, 0 );
-    autoApplyCheck_.set_active( true );
-    hBox_.pack_start( autoApplyCheck_, Gtk::PACK_SHRINK, 0 );
-    hBox_.pack_start( applyButton_, Gtk::PACK_SHRINK, 0 );
     hBox_.pack_start( clearButton_, Gtk::PACK_SHRINK, 0 );
     hBox_.pack_start( trashButton_, Gtk::PACK_SHRINK, 0 );
     vBox_.pack_start( scrolledWindow_, Gtk::PACK_EXPAND_WIDGET,0 );
-    applyButton_.set_size_request( 32, 32 );
-    applyButton_.add( applyImage_ );
-    applyButton_.set_relief( Gtk::RELIEF_HALF);
-    applyButton_.signal_clicked().connect(
-                    sigc::mem_fun(
-                        *this, &SearchBasket::apply_criterion));
-    applyButton_.set_tooltip_text(_("Apply filters"));
+
     clearButton_.set_size_request( 32, 32 );
     clearButton_.add( clearImage_ );
     clearButton_.set_relief( Gtk::RELIEF_HALF);
@@ -259,11 +247,7 @@ SearchBasket::add_item_to_list( const Glib::ustring &key )
     //remove this entry from the map
     dragItemMap.erase( it );
 
-    if( true == autoApplyCheck_.get_active() )
-    {
-        apply_criterion();
-    }
-
+    apply_criterion();
     return true;
 }
 
@@ -297,11 +281,7 @@ SearchBasket::remove_selected()
     Gtk::TreeModel::iterator item = selected->get_selected();
     listStore_->erase( item );
 
-    if( true == autoApplyCheck_.get_active() )
-    {
-        apply_criterion();
-    }
-
+    apply_criterion();
     return;
 }
 
