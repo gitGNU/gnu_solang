@@ -7,12 +7,13 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-01-18 04:05+0000\n"
-"PO-Revision-Date: 2009-11-23 15:20+0100\n"
-"Last-Translator: Adrien Beudin <beudbeud@gmail.com>\n"
+"POT-Creation-Date: 2010-01-19 04:06+0000\n"
+"PO-Revision-Date: 2010-01-20 19:08+0100\n"
+"Last-Translator: Thévenet Florent <feuloren@free.fr>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language-Team: \n"
 
 #: ../data/solang.desktop.in.in.h:1
 msgid "@PACKAGE_NAME@ Photo Manager"
@@ -20,7 +21,7 @@ msgstr "@PACKAGE_NAME@ Photo Manageur"
 
 #: ../data/solang.desktop.in.in.h:2
 msgid "Organize, enjoy and share your photos"
-msgstr ""
+msgstr "Organisez, appréciez et partagez vos photos."
 
 #: ../data/solang.desktop.in.in.h:3
 #, fuzzy
@@ -96,27 +97,27 @@ msgstr "Caméra"
 
 #: ../src/attribute/basic-exif-view.cpp:112
 msgid "Exposure time"
-msgstr ""
+msgstr "Temps d'exposition"
 
 #: ../src/attribute/basic-exif-view.cpp:132
 msgid "F-number"
-msgstr ""
+msgstr "Nombre focal"
 
 #: ../src/attribute/basic-exif-view.cpp:151
 msgid "ISO speed"
-msgstr ""
+msgstr "Vitesse ISO"
 
 #: ../src/attribute/basic-exif-view.cpp:170
 msgid "Metering mode"
-msgstr ""
+msgstr "Mode de mesure"
 
 #: ../src/attribute/basic-exif-view.cpp:190
 msgid "Focal length"
-msgstr ""
+msgstr "Distance focale"
 
 #: ../src/attribute/basic-exif-view.cpp:210
 msgid "White balance"
-msgstr ""
+msgstr "Balance des blancs"
 
 #: ../src/attribute/date-manager.cpp:50
 msgid "Picture Taken Date"
@@ -132,7 +133,7 @@ msgstr "Base"
 
 #: ../src/attribute/property-manager.cpp:75
 msgid "Histogram"
-msgstr ""
+msgstr "Histogramme"
 
 #: ../src/attribute/search-basket.cpp:44
 msgid "Search"
@@ -207,28 +208,27 @@ msgstr "Selectionner une Icone pour l'etiquette"
 
 #: ../src/common/exif-data.cpp:158
 msgid "Average"
-msgstr ""
+msgstr "Moyenne"
 
 #: ../src/common/exif-data.cpp:162
 msgid "Center Weighted Average"
-msgstr ""
+msgstr "Moyenne pondérée au centre"
 
 #: ../src/common/exif-data.cpp:166
-#, fuzzy
 msgid "Spot"
-msgstr ""
+msgstr "Point"
 
 #: ../src/common/exif-data.cpp:170
 msgid "Multi-spot"
-msgstr ""
+msgstr "Multi-point"
 
 #: ../src/common/exif-data.cpp:174
 msgid "Pattern"
-msgstr ""
+msgstr "Motif"
 
 #: ../src/common/exif-data.cpp:178
 msgid "Partial"
-msgstr ""
+msgstr "Partiel"
 
 #: ../src/common/exif-data.cpp:194
 #, fuzzy
@@ -245,15 +245,15 @@ msgstr "Type"
 
 #: ../src/common/histogram-viewer.cpp:42
 msgid "Channels"
-msgstr ""
+msgstr "Canaux"
 
 #: ../src/common/histogram-viewer.cpp:67
 msgid "Linear"
-msgstr ""
+msgstr "Linéaire"
 
 #: ../src/common/histogram-viewer.cpp:72
 msgid "Logarithmic"
-msgstr ""
+msgstr "Logarithmique"
 
 #: ../src/common/histogram-viewer.cpp:80
 msgid "RGB"
@@ -278,7 +278,7 @@ msgstr "_Outils"
 
 #: ../src/editor/editor.cpp:117
 msgid "_Transform"
-msgstr ""
+msgstr "Transformer"
 
 #: ../src/editor/editor.cpp:123
 #, fuzzy
@@ -287,7 +287,7 @@ msgstr "Rotation _Horizontal"
 
 #: ../src/editor/editor.cpp:124
 msgid "Mirror the photo horizontally"
-msgstr ""
+msgstr "Mirroir horizontal"
 
 #: ../src/editor/editor.cpp:135
 #, fuzzy
@@ -296,7 +296,7 @@ msgstr "Rotation _Vertical"
 
 #: ../src/editor/editor.cpp:136
 msgid "Mirror the photo vertically"
-msgstr ""
+msgstr "Mirroir vertical"
 
 #: ../src/editor/editor.cpp:147
 #, fuzzy
@@ -305,7 +305,7 @@ msgstr "Rotation _Horaire"
 
 #: ../src/editor/editor.cpp:148
 msgid "Rotate the photo 90 degrees to the right"
-msgstr ""
+msgstr "Pivoter la photo vers la droite"
 
 #: ../src/editor/editor.cpp:159
 #, fuzzy
@@ -314,7 +314,7 @@ msgstr "Rotation _Anti-horaire"
 
 #: ../src/editor/editor.cpp:160
 msgid "Rotate the photo 90 degrees to the left"
-msgstr ""
+msgstr "Pivoter la photo faire la gauche"
 
 #: ../src/editor/flip-horiz-operation.cpp:43
 #, fuzzy
@@ -323,7 +323,7 @@ msgstr "Rotation _Horizontal"
 
 #: ../src/editor/flip-operation.cpp:57
 msgid "Flipping..."
-msgstr ""
+msgstr "Retournement..."
 
 #: ../src/editor/flip-vert-operation.cpp:43
 #, fuzzy
@@ -614,101 +614,70 @@ msgstr "Dernière"
 
 #~ msgid "Beginning to Import Photos"
 #~ msgstr "Commencer l'import des photos"
-
 #~ msgid "https://savannah.nongnu.org/projects/solang"
 #~ msgstr "https://savannah.nongnu.org/projects/solang"
-
 #~ msgid "Undo"
 #~ msgstr "Annuller"
-
 #~ msgid "Undo last action"
 #~ msgstr "Annuler la dernière action"
-
 #~ msgid "Redo last action"
 #~ msgstr "Répéter la dernière action"
-
 #~ msgid "Flip the selected image(s) horizontally"
 #~ msgstr "Rotation horizontale des images sélectionnées"
-
 #~ msgid "Flip the selected image(s) vertically"
 #~ msgstr "Rotation vertical des images sélectionnées"
-
 #~ msgid "Rotate the selected image(s) clockwise"
 #~ msgstr "Rotation horaire des images sélectionnées"
-
 #~ msgid "Rotate the selected image(s) counter-clockwise"
 #~ msgstr "Rotation anti-horaire des images sélectionnées"
-
 #~ msgid "Sca_le"
 #~ msgstr "Eche_lle"
-
 #~ msgid "Scale/resize the selected image(s)"
 #~ msgstr "Echelle/Redimensionner l'imagine sélectionée"
-
 #~ msgid "_Save"
 #~ msgstr "_Sauvegarde"
-
 #~ msgid "Unsaved Photos"
 #~ msgstr "Photo non sauvegarder"
-
 #~ msgid "Unsaved photos"
 #~ msgstr "Photo non sauvegarder"
-
 #~ msgid "Preview"
 #~ msgstr "Aperçu"
-
 #~ msgid "Importing list of photos.. please wait"
 #~ msgstr "Importation de la liste des photos... patienter"
-
 #~ msgid "Importing previews"
 #~ msgstr "Importation aperçu"
-
 #~ msgid "Connected Cameras"
 #~ msgstr "Caméra connecter"
-
 #~ msgid "Select All"
 #~ msgstr "Tout sélectionner"
-
 #~ msgid "Select None"
 #~ msgstr "Annuler Sélection"
-
 #~ msgid "Enable Preview"
 #~ msgstr "Activer Aperçu"
-
 #~ msgid "Load Pictures"
 #~ msgstr "Chargement Image"
-
 #~ msgid "_Nine digit code:"
 #~ msgstr "_Nine digit code:"
-
 #~ msgid "_Authorize"
 #~ msgstr "_Autorisation"
-
 #~ msgid "Select photos"
 #~ msgstr "Sélectioner photos"
-
 #~ msgid "Favorites"
 #~ msgstr "Favories"
-
 #~ msgid "Other..."
 #~ msgstr "Autre..."
-
 #~ msgid "Select Photos"
 #~ msgstr "Sélectioner Photos"
-
 #~ msgid "Loading photo information..."
 #~ msgstr "Chargement des informations de la photo..."
-
 #~ msgid ""
 #~ "%1\n"
 #~ "<small><i>%2</i></small>"
 #~ msgstr ""
 #~ "%1\n"
 #~ "<small><i>%2</i></small>"
-
 #~ msgid "Authorization needed to access %1"
 #~ msgstr "Une autorisation est nécessaire pour accéder à %1"
-
 #~ msgid ""
 #~ "During authorization, you will be taken to your account and if you agree "
 #~ "to it, you will be given a nine digit code. Please enter this nine digit "
@@ -717,45 +686,32 @@ msgstr "Dernière"
 #~ "During authorization, you will be taken to your account and if you agree "
 #~ "to it, you will be given a nine digit code. Please enter this nine digit "
 #~ "code into the denoted input area."
-
 #~ msgid "Authorization needed"
 #~ msgstr "Authorisation nécessaire"
-
 #~ msgid "Fetching token..."
 #~ msgstr "Souvenir agréable"
-
 #~ msgid "<big><b>Fetching token for %1...</b></big>"
 #~ msgstr "<big><b>Souvenir agréable pour %1...</b></big>"
-
 #~ msgid "Logging in..."
 #~ msgstr "Connections..."
-
 #~ msgid "<big><b>Logging into %1...</b></big>"
 #~ msgstr "<big><b>Connections dans «%1»...</b></big>"
-
 #~ msgid "Downloading Photos"
 #~ msgstr "Téléchargement Photos"
-
 #~ msgid "_Source:"
 #~ msgstr "_Source:"
-
 #~ msgid "_Copy files to the Pictures folder"
 #~ msgstr "_Copier les fichiers dans le dossier «Image»"
-
 #~ msgid "Include su_b-folders"
 #~ msgstr "Inclure les sous-_répertoires"
-
 #~ msgid "Edit picture"
 #~ msgstr "Modifier l'image"
-
 #~ msgid "Editor"
 #~ msgstr "Editeur"
-
 #~ msgid "_Reload Photo"
 #~ msgstr "_Rafraichir la photo"
-
 #~ msgid "Reload current photo"
 #~ msgstr "Rafraichir la photo courante"
-
 #~ msgid "Reload"
 #~ msgstr "Rafraichir"
+
