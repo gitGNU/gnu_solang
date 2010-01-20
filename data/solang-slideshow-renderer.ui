@@ -2,18 +2,18 @@
 <ui>
 	<toolbar name="ToolBar">
 		<placeholder name="PlaceholderGoToolBar">
-		<toolitem action="ActionGoFirstPhoto"/>
-		<toolitem action="ActionGoPreviousPhoto"/>
-		<toolitem action="ActionGoNextPhoto"/>
-		<toolitem action="ActionGoLastPhoto"/>
+		<toolitem action="ActionGoSlideshowFirstPhoto"/>
+		<toolitem action="ActionGoSlideshowPreviousPhoto"/>
+		<toolitem action="ActionGoSlideshowNextPhoto"/>
+		<toolitem action="ActionGoSlideshowLastPhoto"/>
 		</placeholder>
 		<placeholder name="PlaceholderFullScreenToolBar">
 		<toolitem action="ActionStopSlideshow"/>
 		</placeholder>
 	</toolbar>
-	<accelerator action="AccelGoFirstPhoto"/>
-	<accelerator action="AccelGoPreviousPhoto"/>
-	<accelerator action="AccelGoNextPhoto"/>
-	<accelerator action="AccelGoLastPhoto"/>
+	<accelerator action="AccelGoSlideshowFirstPhoto"/>
+	<accelerator action="AccelGoSlideshowPreviousPhoto"/>
+	<accelerator action="AccelGoSlideshowNextPhoto"/>
+	<accelerator action="AccelGoSlideshowLastPhoto"/>
 	<accelerator action="AccelStopSlideshow"/>
 </ui>

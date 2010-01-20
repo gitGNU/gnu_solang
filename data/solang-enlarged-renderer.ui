@@ -6,44 +6,44 @@
 			<menuitem action="ActionViewEnlargedSlideshow"/>
 			</placeholder>
 			<placeholder name="PlaceholderZoomMenus">
-			<menuitem action="ActionViewZoomIn"/>
-			<menuitem action="ActionViewZoomOut"/>
-			<menuitem action="ActionViewNormalSize"/>
-			<menuitem action="ActionViewBestFit"/>
+			<menuitem action="ActionViewEnlargedZoomIn"/>
+			<menuitem action="ActionViewEnlargedZoomOut"/>
+			<menuitem action="ActionViewEnlargedNormalSize"/>
+			<menuitem action="ActionViewEnlargedBestFit"/>
 			</placeholder>
 		</menu>
 		<placeholder name="PlaceholderGoMenus">
-		<menu action="ActionMenuGo">
-			<menuitem action="ActionGoPreviousPhoto"/>
-			<menuitem action="ActionGoNextPhoto"/>
+		<menu action="ActionEnlargedGoMenu">
+			<menuitem action="ActionGoEnlargedPreviousPhoto"/>
+			<menuitem action="ActionGoEnlargedNextPhoto"/>
 			<separator name="GoEnlargedSeparator"/>
-			<menuitem action="ActionGoFirstPhoto"/>
-			<menuitem action="ActionGoLastPhoto"/>
+			<menuitem action="ActionGoEnlargedFirstPhoto"/>
+			<menuitem action="ActionGoEnlargedLastPhoto"/>
 		</menu>
 		</placeholder>
 	</menubar>
 	<toolbar name="ToolBar">
 		<placeholder name="PlaceholderGoToolBar">
-		<toolitem action="ActionGoPreviousPhoto"/>
-		<toolitem action="ActionGoNextPhoto"/>
+		<toolitem action="ActionGoEnlargedPreviousPhoto"/>
+		<toolitem action="ActionGoEnlargedNextPhoto"/>
 		</placeholder>
 		<placeholder name="PlaceholderZoomToolBar">
-		<toolitem action="ActionViewZoomIn"/>
-		<toolitem action="ActionViewZoomOut"/>
-		<toolitem action="ActionViewNormalSize"/>
-		<toolitem action="ActionViewBestFit"/>
+		<toolitem action="ActionViewEnlargedZoomIn"/>
+		<toolitem action="ActionViewEnlargedZoomOut"/>
+		<toolitem action="ActionViewEnlargedNormalSize"/>
+		<toolitem action="ActionViewEnlargedBestFit"/>
 		</placeholder>
 		<placeholder name="PlaceholderFullScreenToolBar">
 		<toolitem action="ActionViewEnlargedSlideshow"/>
 		</placeholder>
 	</toolbar>
-	<accelerator action="AccelGoPreviousPhoto"/>
-	<accelerator action="AccelGoNextPhoto"/>
-	<accelerator action="AccelGoFirstPhoto"/>
-	<accelerator action="AccelGoLastPhoto"/>
-	<accelerator action="AccelViewZoomIn"/>
-	<accelerator action="AccelViewZoomIn1"/>
-	<accelerator action="AccelViewZoomIn2"/>
-	<accelerator action="AccelViewZoomOut"/>
-	<accelerator action="AccelViewZoomOut1"/>
+	<accelerator action="AccelGoEnlargedPreviousPhoto"/>
+	<accelerator action="AccelGoEnlargedNextPhoto"/>
+	<accelerator action="AccelGoEnlargedFirstPhoto"/>
+	<accelerator action="AccelGoEnlargedLastPhoto"/>
+	<accelerator action="AccelViewEnlargedZoomIn"/>
+	<accelerator action="AccelViewEnlargedZoomIn1"/>
+	<accelerator action="AccelViewEnlargedZoomIn2"/>
+	<accelerator action="AccelViewEnlargedZoomOut"/>
+	<accelerator action="AccelViewEnlargedZoomOut1"/>
 </ui>

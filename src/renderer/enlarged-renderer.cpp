@@ -283,11 +283,11 @@ EnlargedRenderer::create_action_group() throw()
 
     actionGroup_->add(
         Gtk::Action::create(
-            "ActionMenuGo", _("_Go")));
+            "ActionEnlargedGoMenu", _("_Go")));
 
     {
         ActionPtr action = Gtk::Action::create(
-            "ActionViewZoomIn", Gtk::Stock::ZOOM_IN,
+            "ActionViewEnlargedZoomIn", Gtk::Stock::ZOOM_IN,
             _("_Zoom In"),
             _("Enlarge the photo"));
 
@@ -301,7 +301,7 @@ EnlargedRenderer::create_action_group() throw()
 
     {
         ActionPtr action = Gtk::Action::create(
-            "ActionViewZoomOut", Gtk::Stock::ZOOM_OUT,
+            "ActionViewEnlargedZoomOut", Gtk::Stock::ZOOM_OUT,
             _("Zoom _Out"),
             _("Shrink the photo"));
 
@@ -315,7 +315,7 @@ EnlargedRenderer::create_action_group() throw()
 
     {
         ActionPtr action = Gtk::Action::create(
-            "ActionViewNormalSize", Gtk::Stock::ZOOM_100,
+            "ActionViewEnlargedNormalSize", Gtk::Stock::ZOOM_100,
             _("_Normal Size"),
             _("Show the photo at its normal size"));
 
@@ -329,7 +329,7 @@ EnlargedRenderer::create_action_group() throw()
 
     {
         ActionPtr action = Gtk::Action::create(
-            "ActionViewBestFit", Gtk::Stock::ZOOM_FIT,
+            "ActionViewEnlargedBestFit", Gtk::Stock::ZOOM_FIT,
             _("Best _Fit"),
             _("Fit the photo to the window"));
 
@@ -343,7 +343,7 @@ EnlargedRenderer::create_action_group() throw()
 
     {
         ActionPtr action = Gtk::Action::create(
-            "ActionGoPreviousPhoto", Gtk::Stock::GO_BACK,
+            "ActionGoEnlargedPreviousPhoto", Gtk::Stock::GO_BACK,
             _("_Previous Photo"),
             _("Go to the previous photo in the collection"));
 
@@ -357,7 +357,7 @@ EnlargedRenderer::create_action_group() throw()
 
     {
         ActionPtr action = Gtk::Action::create(
-            "ActionGoNextPhoto", Gtk::Stock::GO_FORWARD,
+            "ActionGoEnlargedNextPhoto", Gtk::Stock::GO_FORWARD,
             _("_Next Photo"),
             _("Go to the next photo in the collection"));
 
@@ -371,7 +371,7 @@ EnlargedRenderer::create_action_group() throw()
 
     actionGroup_->add(
         Gtk::Action::create(
-            "ActionGoFirstPhoto", Gtk::Stock::GOTO_FIRST,
+            "ActionGoEnlargedFirstPhoto", Gtk::Stock::GOTO_FIRST,
             _("_First Photo"),
             _("Go to the first photo in the collection")),
         Gtk::AccelKey("<alt>Home"),
@@ -379,7 +379,7 @@ EnlargedRenderer::create_action_group() throw()
 
     actionGroup_->add(
         Gtk::Action::create(
-            "ActionGoLastPhoto", Gtk::Stock::GOTO_LAST,
+            "ActionGoEnlargedLastPhoto", Gtk::Stock::GOTO_LAST,
             _("_Last Photo"),
             _("Go to the last photo in the collection")),
         Gtk::AccelKey("<alt>End"),
@@ -387,7 +387,7 @@ EnlargedRenderer::create_action_group() throw()
 
     actionGroup_->add(
         Gtk::Action::create(
-            "AccelGoPreviousPhoto", Gtk::StockID(),
+            "AccelGoEnlargedPreviousPhoto", Gtk::StockID(),
             _("_Previous Photo"),
             _("Go to the previous photo in the collection")),
         Gtk::AccelKey("Left"),
@@ -396,7 +396,7 @@ EnlargedRenderer::create_action_group() throw()
 
     actionGroup_->add(
         Gtk::Action::create(
-            "AccelGoNextPhoto", Gtk::StockID(),
+            "AccelGoEnlargedNextPhoto", Gtk::StockID(),
             _("_Next Photo"),
             _("Go to the next photo in the collection")),
         Gtk::AccelKey("Right"),
@@ -404,7 +404,7 @@ EnlargedRenderer::create_action_group() throw()
 
     actionGroup_->add(
         Gtk::Action::create(
-            "AccelGoFirstPhoto", Gtk::StockID(),
+            "AccelGoEnlargedFirstPhoto", Gtk::StockID(),
             _("_First Photo"),
             _("Go to the first photo in the collection")),
         Gtk::AccelKey("Home"),
@@ -412,7 +412,7 @@ EnlargedRenderer::create_action_group() throw()
 
     actionGroup_->add(
         Gtk::Action::create(
-            "AccelGoLastPhoto", Gtk::StockID(),
+            "AccelGoEnlargedLastPhoto", Gtk::StockID(),
             _("_Last Photo"),
             _("Go to the last photo in the collection")),
         Gtk::AccelKey("End"),
@@ -420,7 +420,7 @@ EnlargedRenderer::create_action_group() throw()
 
     actionGroup_->add(
         Gtk::Action::create(
-            "AccelViewZoomIn", Gtk::StockID(),
+            "AccelViewEnlargedZoomIn", Gtk::StockID(),
             _("_Zoom In"),
             _("Enlarge the photo")),
         Gtk::AccelKey("plus"),
@@ -429,7 +429,7 @@ EnlargedRenderer::create_action_group() throw()
 
     actionGroup_->add(
         Gtk::Action::create(
-            "AccelViewZoomIn1", Gtk::StockID(),
+            "AccelViewEnlargedZoomIn1", Gtk::StockID(),
             _("_Zoom In"),
             _("Enlarge the photo")),
         Gtk::AccelKey("KP_Add"),
@@ -438,7 +438,7 @@ EnlargedRenderer::create_action_group() throw()
 
     actionGroup_->add(
         Gtk::Action::create(
-            "AccelViewZoomIn2", Gtk::StockID(),
+            "AccelViewEnlargedZoomIn2", Gtk::StockID(),
             _("_Zoom In"),
             _("Enlarge the photo")),
         Gtk::AccelKey("equal"),
@@ -447,7 +447,7 @@ EnlargedRenderer::create_action_group() throw()
 
     actionGroup_->add(
         Gtk::Action::create(
-            "AccelViewZoomOut", Gtk::StockID(),
+            "AccelViewEnlargedZoomOut", Gtk::StockID(),
             _("Zoom _Out"),
             _("Shrink the photo")),
         Gtk::AccelKey("minus"),
@@ -456,7 +456,7 @@ EnlargedRenderer::create_action_group() throw()
 
     actionGroup_->add(
         Gtk::Action::create(
-            "AccelViewZoomOut1", Gtk::StockID(),
+            "AccelViewEnlargedZoomOut1", Gtk::StockID(),
             _("Zoom _Out"),
             _("Shrink the photo")),
         Gtk::AccelKey("KP_Subtract"),

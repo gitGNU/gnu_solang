@@ -148,7 +148,7 @@ BrowserRenderer::BrowserRenderer() throw() :
     {
         const Glib::RefPtr<ScaleAction> scale_action
             = ScaleAction::create(
-                  "ActionViewZoom",
+                  "ActionViewBrowserZoom",
                   _("Enlarge or shrink the thumbnails"),
                   Gtk::Adjustment(initialZoomValue,
                                   lowerZoomValue,
@@ -170,7 +170,7 @@ BrowserRenderer::BrowserRenderer() throw() :
 
         actionGroup_->add(
             Gtk::Action::create(
-                "ActionViewZoomIn", Gtk::Stock::ZOOM_IN,
+                "ActionViewBrowserZoomIn", Gtk::Stock::ZOOM_IN,
                 _("_Zoom In"),
                 _("Enlarge the thumbnails")),
             Gtk::AccelKey("<control>plus"),
@@ -182,7 +182,7 @@ BrowserRenderer::BrowserRenderer() throw() :
 
         actionGroup_->add(
             Gtk::Action::create(
-                "ActionViewZoomOut", Gtk::Stock::ZOOM_OUT,
+                "ActionViewBrowserZoomOut", Gtk::Stock::ZOOM_OUT,
                 _("_Zoom Out"),
                 _("Shrink the thumbnails")),
             Gtk::AccelKey("<control>minus"),
@@ -195,7 +195,7 @@ BrowserRenderer::BrowserRenderer() throw() :
 
     actionGroup_->add(
         Gtk::Action::create(
-            "ActionMenuGo", _("_Go")));
+            "ActionBrowserGoMenu", _("_Go")));
 
     actionGroup_->add(
         paginationBar_.action_previous(),

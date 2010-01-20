@@ -3,16 +3,16 @@
 	<toolbar name="ToolBar">
 		<placeholder name="PlaceholderGoToolBar"/>
 		<separator name="ToolBarSeparator0"/>
-		<toolitem action="ActionViewZoomIn"/>
-		<toolitem action="ActionViewZoomOut"/>
-		<toolitem action="ActionViewNormalSize"/>
-		<toolitem action="ActionViewBestFit"/>
+		<toolitem action="ActionViewSlideshowZoomIn"/>
+		<toolitem action="ActionViewSlideshowZoomOut"/>
+		<toolitem action="ActionViewSlideshowNormalSize"/>
+		<toolitem action="ActionViewSlideshowBestFit"/>
 		<separator name="ToolBarSeparator1"/>
 		<placeholder name="PlaceholderFullScreenToolBar"/>
 	</toolbar>
-	<accelerator action="AccelViewZoomIn"/>
-	<accelerator action="AccelViewZoomIn1"/>
-	<accelerator action="AccelViewZoomIn2"/>
-	<accelerator action="AccelViewZoomOut"/>
-	<accelerator action="AccelViewZoomOut1"/>
+	<accelerator action="AccelViewSlideshowZoomIn"/>
+	<accelerator action="AccelViewSlideshowZoomIn1"/>
+	<accelerator action="AccelViewSlideshowZoomIn2"/>
+	<accelerator action="AccelViewSlideshowZoomOut"/>
+	<accelerator action="AccelViewSlideshowZoomOut1"/>
 </ui>

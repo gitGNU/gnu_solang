@@ -1,6 +1,6 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 4; tab-width: 4 -*- */
 /*
- * Copyright (C) 2009 Debarshi Ray <rishi@gnu.org>
+ * Copyright (C) 2009, 2010 Debarshi Ray <rishi@gnu.org>
  * Copyright (C) 2009 Santanu Sinha <santanu.sinha@gmail.com>
  *
  * Solang is free software: you can redistribute it and/or modify it
@@ -34,19 +34,23 @@ namespace Solang
 PaginationBar::PaginationBar() throw() :
     Gtk::HBox(false, 12),
     actionPrevious_(Gtk::Action::create(
-                        "ActionGoPreviousPage", Gtk::Stock::GO_BACK,
+                        "ActionGoBrowserPreviousPage",
+                        Gtk::Stock::GO_BACK,
                         _("_Previous Page"),
                         _("Go to the previous page in the collection"))),
     actionNext_(Gtk::Action::create(
-                        "ActionGoNextPage", Gtk::Stock::GO_FORWARD,
+                        "ActionGoBrowserNextPage",
+                        Gtk::Stock::GO_FORWARD,
                         _("_Next Page"),
                         _("Go to the next page in the collection"))),
     actionFirst_(Gtk::Action::create(
-                        "ActionGoFirstPage", Gtk::Stock::GOTO_FIRST,
+                        "ActionGoBrowserFirstPage",
+                        Gtk::Stock::GOTO_FIRST,
                         _("_First Page"),
                         _("Go to the first page in the collection"))),
     actionLast_(Gtk::Action::create(
-                        "ActionGoLastPage", Gtk::Stock::GOTO_LAST,
+                        "ActionGoBrowserLastPage",
+                        Gtk::Stock::GOTO_LAST,
                         _("_Last Page"),
                         _("Go to the last page in the collection"))),
     firstHBox_(false, 12),

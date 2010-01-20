@@ -1,6 +1,6 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 4; tab-width: 4 -*- */
 /*
- * Copyright (C) 2009 Debarshi Ray <rishi@gnu.org>
+ * Copyright (C) 2009, 2010 Debarshi Ray <rishi@gnu.org>
  *
  * Solang is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -131,7 +131,7 @@ SlideshowRenderer::create_action_group() throw()
 
     actionGroup_->add(
         Gtk::Action::create(
-            "ActionGoFirstPhoto", Gtk::Stock::GOTO_FIRST,
+            "ActionGoSlideshowFirstPhoto", Gtk::Stock::GOTO_FIRST,
             _("First"),
             _("Go to the first photo in the collection")),
         Gtk::AccelKey("<alt>Home"),
@@ -139,7 +139,7 @@ SlideshowRenderer::create_action_group() throw()
 
     actionGroup_->add(
         Gtk::Action::create(
-            "ActionGoPreviousPhoto", Gtk::Stock::GO_BACK,
+            "ActionGoSlideshowPreviousPhoto", Gtk::Stock::GO_BACK,
             _("Previous"),
             _("Go to the previous photo in the collection")),
         Gtk::AccelKey("<alt>Left"),
@@ -148,7 +148,7 @@ SlideshowRenderer::create_action_group() throw()
 
     actionGroup_->add(
         Gtk::Action::create(
-            "ActionGoNextPhoto", Gtk::Stock::GO_FORWARD,
+            "ActionGoSlideshowNextPhoto", Gtk::Stock::GO_FORWARD,
             _("Next"),
             _("Go to the next photo in the collection")),
         Gtk::AccelKey("<alt>Right"),
@@ -156,7 +156,7 @@ SlideshowRenderer::create_action_group() throw()
 
     actionGroup_->add(
         Gtk::Action::create(
-            "ActionGoLastPhoto", Gtk::Stock::GOTO_LAST,
+            "ActionGoSlideshowLastPhoto", Gtk::Stock::GOTO_LAST,
             _("Last"),
             _("Go to the last photo in the collection")),
         Gtk::AccelKey("<alt>End"),
@@ -175,7 +175,7 @@ SlideshowRenderer::create_action_group() throw()
 
     actionGroup_->add(
         Gtk::Action::create(
-            "AccelGoFirstPhoto", Gtk::StockID(),
+            "AccelGoSlideshowFirstPhoto", Gtk::StockID(),
             _("First"),
             _("Go to the first photo in the collection")),
         Gtk::AccelKey("Home"),
@@ -183,7 +183,7 @@ SlideshowRenderer::create_action_group() throw()
 
     actionGroup_->add(
         Gtk::Action::create(
-            "AccelGoPreviousPhoto", Gtk::StockID(),
+            "AccelGoSlideshowPreviousPhoto", Gtk::StockID(),
             _("Previous"),
             _("Go to the previous photo in the collection")),
         Gtk::AccelKey("Left"),
@@ -192,7 +192,7 @@ SlideshowRenderer::create_action_group() throw()
 
     actionGroup_->add(
         Gtk::Action::create(
-            "AccelGoNextPhoto", Gtk::StockID(),
+            "AccelGoSlideshowNextPhoto", Gtk::StockID(),
             _("Next"),
             _("Go to the next photo in the collection")),
         Gtk::AccelKey("Right"),
@@ -200,7 +200,7 @@ SlideshowRenderer::create_action_group() throw()
 
     actionGroup_->add(
         Gtk::Action::create(
-            "AccelGoLastPhoto", Gtk::StockID(),
+            "AccelGoSlideshowLastPhoto", Gtk::StockID(),
             _("Last"),
             _("Go to the last photo in the collection")),
         Gtk::AccelKey("End"),

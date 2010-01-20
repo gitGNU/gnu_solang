@@ -1,6 +1,6 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 4; tab-width: 4 -*- */
 /*
- * Copyright (C) 2009 Debarshi Ray <rishi@gnu.org>
+ * Copyright (C) 2009, 2010 Debarshi Ray <rishi@gnu.org>
  *
  * Solang is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -70,7 +70,7 @@ SlideshowWindow::SlideshowWindow() throw() :
 
     actionGroup_->add(
         Gtk::Action::create(
-            "ActionViewZoomIn", Gtk::Stock::ZOOM_IN,
+            "ActionViewSlideshowZoomIn", Gtk::Stock::ZOOM_IN,
             _("In"),
             _("Enlarge the photo")),
         Gtk::AccelKey("<control>plus"),
@@ -79,7 +79,7 @@ SlideshowWindow::SlideshowWindow() throw() :
 
     actionGroup_->add(
         Gtk::Action::create(
-            "ActionViewZoomOut", Gtk::Stock::ZOOM_OUT,
+            "ActionViewSlideshowZoomOut", Gtk::Stock::ZOOM_OUT,
             _("Out"),
             _("Shrink the photo")),
         Gtk::AccelKey("<control>minus"),
@@ -88,7 +88,7 @@ SlideshowWindow::SlideshowWindow() throw() :
 
     actionGroup_->add(
         Gtk::Action::create(
-            "ActionViewNormalSize", Gtk::Stock::ZOOM_100,
+            "ActionViewSlideshowNormalSize", Gtk::Stock::ZOOM_100,
             _("Normal"),
             _("Show the photo at its normal size")),
         Gtk::AccelKey("<control>0"),
@@ -97,7 +97,7 @@ SlideshowWindow::SlideshowWindow() throw() :
 
     actionGroup_->add(
         Gtk::Action::create(
-            "ActionViewBestFit", Gtk::Stock::ZOOM_FIT,
+            "ActionViewSlideshowBestFit", Gtk::Stock::ZOOM_FIT,
             _("Fit"),
             _("Fit the photo to the window")),
         sigc::mem_fun(*this,
@@ -105,7 +105,7 @@ SlideshowWindow::SlideshowWindow() throw() :
 
     actionGroup_->add(
         Gtk::Action::create(
-            "AccelViewZoomIn", Gtk::StockID(),
+            "AccelViewSlideshowZoomIn", Gtk::StockID(),
             _("In"),
             _("Enlarge the photo")),
         Gtk::AccelKey("plus"),
@@ -114,7 +114,7 @@ SlideshowWindow::SlideshowWindow() throw() :
 
     actionGroup_->add(
         Gtk::Action::create(
-            "AccelViewZoomIn1", Gtk::StockID(),
+            "AccelViewSlideshowZoomIn1", Gtk::StockID(),
             _("In"),
             _("Enlarge the photo")),
         Gtk::AccelKey("KP_Add"),
@@ -123,7 +123,7 @@ SlideshowWindow::SlideshowWindow() throw() :
 
     actionGroup_->add(
         Gtk::Action::create(
-            "AccelViewZoomIn2", Gtk::StockID(),
+            "AccelViewSlideshowZoomIn2", Gtk::StockID(),
             _("In"),
             _("Enlarge the photo")),
         Gtk::AccelKey("equal"),
@@ -132,7 +132,7 @@ SlideshowWindow::SlideshowWindow() throw() :
 
     actionGroup_->add(
         Gtk::Action::create(
-            "AccelViewZoomOut", Gtk::StockID(),
+            "AccelViewSlideshowZoomOut", Gtk::StockID(),
             _("Out"),
             _("Shrink the photo")),
         Gtk::AccelKey("minus"),
@@ -141,7 +141,7 @@ SlideshowWindow::SlideshowWindow() throw() :
 
     actionGroup_->add(
         Gtk::Action::create(
-            "AccelViewZoomOut1", Gtk::StockID(),
+            "AccelViewSlideshowZoomOut1", Gtk::StockID(),
             _("Out"),
             _("Shrink the photo")),
         Gtk::AccelKey("KP_Subtract"),
