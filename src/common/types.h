@@ -66,6 +66,7 @@ class IconTheme;
 class ListStore;
 class Menu;
 class Settings;
+class Style;
 class ToggleAction;
 class TreeModel;
 class TreeModelFilter;
@@ -310,6 +311,9 @@ typedef std::vector<SearchCriterionSourcePtr> SearchCriterionSourceList;
 
 typedef Glib::RefPtr<const Gtk::Settings> ConstSettingsPtr;
 typedef Glib::RefPtr<Gtk::Settings> SettingsPtr;
+
+typedef Glib::RefPtr<const Gtk::Style> ConstStylePtr;
+typedef Glib::RefPtr<Gtk::Style> StylePtr;
 
 typedef Glib::RefPtr<const Gtk::ToggleAction> ConstToggleActionPtr;
 typedef Glib::RefPtr<Gtk::ToggleAction> ToggleActionPtr;

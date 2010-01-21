@@ -1,6 +1,6 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 4; tab-width: 4 -*- */
 /*
- * Copyright (C) Debarshi Ray 2009 <rishi@gnu.org>
+ * Copyright (C) Debarshi Ray 2009, 2010 <rishi@gnu.org>
  * 
  * Solang is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -34,7 +34,6 @@ namespace Solang
 {
 CellRendererThumbnail::CellRendererThumbnail() throw() :
     Gtk::CellRendererPixbuf(),
-    extraHeight_(0),
     photo_(),
     imageLoading_(0)
 {
@@ -138,64 +137,25 @@ CellRendererThumbnail::render_vfunc(
                          cell_area.get_width() - 12);
     }
 
-    const gint height = background_area.get_height() + extraHeight_;
-    const gint width = background_area.get_width();
-
-    // Sometimes width is -1 - not sure what to do here.
-    if (width == -1)
-    {
-        return;
-    }
-
-    const gint x = background_area.get_x();
-    const gint y = background_area.get_y();
-
-    const Cairo::RefPtr<Cairo::Context> context
-              = window->create_cairo_context();
-    const Glib::RefPtr<const Gtk::Style> style = widget.get_style();
-
-    if (0 != (flags & (Gtk::CELL_RENDERER_SELECTED
+    if (0 == (flags & (Gtk::CELL_RENDERER_SELECTED
                        | Gtk::CELL_RENDERER_PRELIT)))
     {
+        const gint height = background_area.get_height();
+        const gint width = background_area.get_width();
 
-        Gtk::StateType state;
-
-        if (0 != (flags & Gtk::CELL_RENDERER_SELECTED))
+        // Sometimes width is -1 - not sure what to do here.
+        if (width == -1)
         {
-            if (true == widget.has_focus())
-            {
-                state = Gtk::STATE_SELECTED;
-            }
-            else
-            {
-                state = Gtk::STATE_ACTIVE;
-            }
-        }
-        else
-        {
-            state = Gtk::STATE_PRELIGHT;
+            return;
         }
 
-        const Gdk::Color color = style->get_base(state);
-        Gdk::Cairo::set_source_color(context, color);
+        const gint x = background_area.get_x();
+        const gint y = background_area.get_y();
 
-        const gint radius = 3;
+        const Cairo::RefPtr<Cairo::Context> context
+            = window->create_cairo_context();
+        const StylePtr style = widget.get_style();
 
-        context->arc(x + radius, y + radius, radius,
-                     M_PI, M_PI * 1.5);
-        context->arc(x + width - radius, y + radius, radius,
-                     M_PI * 1.5, 0);
-        context->arc(x + width - radius, y + height - radius, radius,
-                     0, M_PI * 0.5);
-        context->arc(x + radius, y + height - radius, radius,
-                     M_PI * 0.5, M_PI);
-        context->close_path();
-
-        context->set_fill_rule(Cairo::FILL_RULE_WINDING);
-        context->fill();
-    }
-    else
-    {
         const Gdk::Color color = style->get_dark(Gtk::STATE_NORMAL);
         Gdk::Cairo::set_source_color(context, color);
 
@@ -208,12 +168,6 @@ CellRendererThumbnail::render_vfunc(
 
     Gtk::CellRendererPixbuf::render_vfunc(window, widget, background_area,
                                           cell_area, expose_area, flags);
-}
-
-void
-CellRendererThumbnail::set_extra_height(guint height) throw()
-{
-    extraHeight_ = height;
 }
 
 void

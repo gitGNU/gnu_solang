@@ -1,6 +1,6 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 4; tab-width: 4 -*- */
 /*
- * Copyright (C) Debarshi Ray 2009 <rishi@gnu.org>
+ * Copyright (C) Debarshi Ray 2009, 2010 <rishi@gnu.org>
  * 
  * Solang is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -38,9 +38,6 @@ class CellRendererThumbnail :
         ~CellRendererThumbnail() throw();
 
         void
-        set_extra_height(guint height) throw();
-
-        void
         set_photo(const PhotoPtr & photo) throw();
 
     protected:
@@ -61,8 +58,6 @@ class CellRendererThumbnail :
 
         void
         on_icon_theme_changed() throw();
-
-        guint extraHeight_;
 
         PhotoPtr photo_;
 
