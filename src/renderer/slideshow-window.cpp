@@ -156,14 +156,6 @@ SlideshowWindow::SlideshowWindow() throw() :
 
     if (0 != tool_bar)
     {
-        Gtk::SeparatorToolItem * const separator
-            = dynamic_cast<Gtk::SeparatorToolItem *>(
-                  uiManager_->get_widget(
-                                  "/ToolBar/ToolBarSeparator1"));
-
-        gtk_separator_tool_item_set_draw(separator->gobj(), FALSE);
-        separator->set_expand(true);
-
         vBox_.pack_start(*tool_bar, Gtk::PACK_SHRINK, 0);
     }
 

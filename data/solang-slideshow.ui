@@ -7,7 +7,7 @@
 		<toolitem action="ActionViewSlideshowZoomOut"/>
 		<toolitem action="ActionViewSlideshowNormalSize"/>
 		<toolitem action="ActionViewSlideshowBestFit"/>
-		<separator name="ToolBarSeparator1"/>
+		<separator name="ToolBarSeparator1" draw="false" expand="true"/>
 		<placeholder name="PlaceholderFullScreenToolBar"/>
 	</toolbar>
 	<accelerator action="AccelViewSlideshowZoomIn"/>
