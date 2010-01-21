@@ -1,6 +1,6 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 4; tab-width: 4 -*- */
 /*
- * Copyright (C) 2009 Debarshi Ray <rishi@gnu.org>
+ * Copyright (C) 2009, 2010 Debarshi Ray <rishi@gnu.org>
  * 
  * Solang is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -278,13 +278,18 @@ TagManager::on_action_tag_edit() throw()
     Glib::RefPtr<Gtk::TreeSelection> selected
                                             = tagView_.get_selection();
 
-    Gtk::TreeModel::iterator item = selected->get_selected();
     const TagViewModelColumnRecord &rec
                                 = tagView_.get_column_records();
 
-    if( item != selected->get_model()->children().end() )
+    const TreeModelPtr model = tagView_.get_model();
+    const TreePathList selected_rows = selected->get_selected_rows();
+
+    for (TreePathList::const_iterator iter = selected_rows.begin();
+         selected_rows.end() != iter;
+         iter++)
     {
-        Gtk::TreeModel::Row row= (*item);
+        Gtk::TreeModel::iterator model_iter = model->get_iter(*iter);
+        Gtk::TreeModel::Row row = *model_iter;
         TagPtr tag = row[ rec.get_column_tag() ];
 
         TagNewDialog tag_new_dialog( tag );
