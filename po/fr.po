@@ -7,13 +7,13 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-01-19 04:06+0000\n"
+"POT-Creation-Date: 2010-01-21 04:08+0000\n"
 "PO-Revision-Date: 2010-01-20 19:08+0100\n"
 "Last-Translator: Thévenet Florent <feuloren@free.fr>\n"
+"Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language-Team: \n"
 
 #: ../data/solang.desktop.in.in.h:1
 msgid "@PACKAGE_NAME@ Photo Manager"
@@ -83,8 +83,11 @@ msgid "A photo manager for GNOME"
 msgstr "Un gestionnaire de photos pour GNOME"
 
 #: ../src/application/main-window.cpp:662
-msgid "translator-credits"
-msgstr "Adrien Beudin <beudbeud@gmail.com>"
+msgid ""
+"translator-credits"
+msgstr ""
+"Adrien Beudin <beudbeud@gmail.com>"
+"Thévenet Florent <feuloren@free.fr>"
 
 #: ../src/application/main-window.cpp:666
 msgid "%1 Website"
@@ -139,19 +142,11 @@ msgstr "Histogramme"
 msgid "Search"
 msgstr "Recherche"
 
-#: ../src/attribute/search-basket.cpp:48
-msgid "Auto"
-msgstr "Auto"
-
-#: ../src/attribute/search-basket.cpp:100
-msgid "Apply filters"
-msgstr "Appliquer le filtre"
-
-#: ../src/attribute/search-basket.cpp:107
+#: ../src/attribute/search-basket.cpp:95
 msgid "Clear filters"
 msgstr "Enlever le filtre"
 
-#: ../src/attribute/search-basket.cpp:114
+#: ../src/attribute/search-basket.cpp:102
 msgid "Clear selected filter"
 msgstr "Enlever le filtre sélectionné"
 
@@ -515,7 +510,7 @@ msgid "Go to the previous photo in the collection"
 msgstr "Aller à la photo précédente de la collection"
 
 #: ../src/renderer/enlarged-renderer.cpp:350
-#: ../src/renderer/pagination-bar.cpp:66
+#: ../src/renderer/pagination-bar.cpp:70
 #: ../src/renderer/slideshow-renderer.cpp:143
 #: ../src/renderer/slideshow-renderer.cpp:187
 msgid "Previous"
@@ -534,7 +529,7 @@ msgid "Go to the next photo in the collection"
 msgstr "Aller à la photo suivante de la collection"
 
 #: ../src/renderer/enlarged-renderer.cpp:364
-#: ../src/renderer/pagination-bar.cpp:73
+#: ../src/renderer/pagination-bar.cpp:77
 #: ../src/renderer/slideshow-renderer.cpp:152
 #: ../src/renderer/slideshow-renderer.cpp:196
 msgid "Next"
@@ -564,120 +559,157 @@ msgstr "D_ernière photo"
 msgid "Go to the last photo in the collection"
 msgstr "Aller à la dernière photo de la collection"
 
-#: ../src/renderer/pagination-bar.cpp:38
+#: ../src/renderer/pagination-bar.cpp:39
 msgid "_Previous Page"
 msgstr "Page pr_ecedente"
 
-#: ../src/renderer/pagination-bar.cpp:39
+#: ../src/renderer/pagination-bar.cpp:40
 msgid "Go to the previous page in the collection"
 msgstr "Aller à la page précédente de la collection"
 
-#: ../src/renderer/pagination-bar.cpp:42
+#: ../src/renderer/pagination-bar.cpp:44
 msgid "_Next Page"
 msgstr "Page sui_vante"
 
-#: ../src/renderer/pagination-bar.cpp:43
+#: ../src/renderer/pagination-bar.cpp:45
 msgid "Go to the next page in the collection"
 msgstr "Aller à la page suivante de la collection"
 
-#: ../src/renderer/pagination-bar.cpp:46
+#: ../src/renderer/pagination-bar.cpp:49
 msgid "_First Page"
 msgstr "_Première Page"
 
-#: ../src/renderer/pagination-bar.cpp:47
+#: ../src/renderer/pagination-bar.cpp:50
 msgid "Go to the first page in the collection"
 msgstr "Aller à la première page de la collection"
 
-#: ../src/renderer/pagination-bar.cpp:50
+#: ../src/renderer/pagination-bar.cpp:54
 msgid "_Last Page"
 msgstr "D_ernière Page"
 
-#: ../src/renderer/pagination-bar.cpp:51
+#: ../src/renderer/pagination-bar.cpp:55
 msgid "Go to the last page in the collection"
 msgstr "Aller à la dernière page de la collection"
 
-#: ../src/renderer/pagination-bar.cpp:59
+#: ../src/renderer/pagination-bar.cpp:63
 msgid "Photos per page"
 msgstr "Photos par page"
 
-#: ../src/renderer/pagination-bar.cpp:78
+#: ../src/renderer/pagination-bar.cpp:82
 #: ../src/renderer/slideshow-renderer.cpp:135
 #: ../src/renderer/slideshow-renderer.cpp:179
 msgid "First"
 msgstr "Première"
 
-#: ../src/renderer/pagination-bar.cpp:84
+#: ../src/renderer/pagination-bar.cpp:88
 #: ../src/renderer/slideshow-renderer.cpp:160
 #: ../src/renderer/slideshow-renderer.cpp:204
 msgid "Last"
 msgstr "Dernière"
 
+#~ msgid "Auto"
+#~ msgstr "Auto"
+
+#~ msgid "Apply filters"
+#~ msgstr "Appliquer le filtre"
+
 #~ msgid "Beginning to Import Photos"
 #~ msgstr "Commencer l'import des photos"
+
 #~ msgid "https://savannah.nongnu.org/projects/solang"
 #~ msgstr "https://savannah.nongnu.org/projects/solang"
+
 #~ msgid "Undo"
 #~ msgstr "Annuller"
+
 #~ msgid "Undo last action"
 #~ msgstr "Annuler la dernière action"
+
 #~ msgid "Redo last action"
 #~ msgstr "Répéter la dernière action"
+
 #~ msgid "Flip the selected image(s) horizontally"
 #~ msgstr "Rotation horizontale des images sélectionnées"
+
 #~ msgid "Flip the selected image(s) vertically"
 #~ msgstr "Rotation vertical des images sélectionnées"
+
 #~ msgid "Rotate the selected image(s) clockwise"
 #~ msgstr "Rotation horaire des images sélectionnées"
+
 #~ msgid "Rotate the selected image(s) counter-clockwise"
 #~ msgstr "Rotation anti-horaire des images sélectionnées"
+
 #~ msgid "Sca_le"
 #~ msgstr "Eche_lle"
+
 #~ msgid "Scale/resize the selected image(s)"
 #~ msgstr "Echelle/Redimensionner l'imagine sélectionée"
+
 #~ msgid "_Save"
 #~ msgstr "_Sauvegarde"
+
 #~ msgid "Unsaved Photos"
 #~ msgstr "Photo non sauvegarder"
+
 #~ msgid "Unsaved photos"
 #~ msgstr "Photo non sauvegarder"
+
 #~ msgid "Preview"
 #~ msgstr "Aperçu"
+
 #~ msgid "Importing list of photos.. please wait"
 #~ msgstr "Importation de la liste des photos... patienter"
+
 #~ msgid "Importing previews"
 #~ msgstr "Importation aperçu"
+
 #~ msgid "Connected Cameras"
 #~ msgstr "Caméra connecter"
+
 #~ msgid "Select All"
 #~ msgstr "Tout sélectionner"
+
 #~ msgid "Select None"
 #~ msgstr "Annuler Sélection"
+
 #~ msgid "Enable Preview"
 #~ msgstr "Activer Aperçu"
+
 #~ msgid "Load Pictures"
 #~ msgstr "Chargement Image"
+
 #~ msgid "_Nine digit code:"
 #~ msgstr "_Nine digit code:"
+
 #~ msgid "_Authorize"
 #~ msgstr "_Autorisation"
+
 #~ msgid "Select photos"
 #~ msgstr "Sélectioner photos"
+
 #~ msgid "Favorites"
 #~ msgstr "Favories"
+
 #~ msgid "Other..."
 #~ msgstr "Autre..."
+
 #~ msgid "Select Photos"
 #~ msgstr "Sélectioner Photos"
+
 #~ msgid "Loading photo information..."
 #~ msgstr "Chargement des informations de la photo..."
+
 #~ msgid ""
 #~ "%1\n"
 #~ "<small><i>%2</i></small>"
 #~ msgstr ""
 #~ "%1\n"
 #~ "<small><i>%2</i></small>"
+
 #~ msgid "Authorization needed to access %1"
 #~ msgstr "Une autorisation est nécessaire pour accéder à %1"
+
 #~ msgid ""
 #~ "During authorization, you will be taken to your account and if you agree "
 #~ "to it, you will be given a nine digit code. Please enter this nine digit "
@@ -686,32 +718,45 @@ msgstr "Dernière"
 #~ "During authorization, you will be taken to your account and if you agree "
 #~ "to it, you will be given a nine digit code. Please enter this nine digit "
 #~ "code into the denoted input area."
+
 #~ msgid "Authorization needed"
 #~ msgstr "Authorisation nécessaire"
+
 #~ msgid "Fetching token..."
 #~ msgstr "Souvenir agréable"
+
 #~ msgid "<big><b>Fetching token for %1...</b></big>"
 #~ msgstr "<big><b>Souvenir agréable pour %1...</b></big>"
+
 #~ msgid "Logging in..."
 #~ msgstr "Connections..."
+
 #~ msgid "<big><b>Logging into %1...</b></big>"
 #~ msgstr "<big><b>Connections dans «%1»...</b></big>"
+
 #~ msgid "Downloading Photos"
 #~ msgstr "Téléchargement Photos"
+
 #~ msgid "_Source:"
 #~ msgstr "_Source:"
+
 #~ msgid "_Copy files to the Pictures folder"
 #~ msgstr "_Copier les fichiers dans le dossier «Image»"
+
 #~ msgid "Include su_b-folders"
 #~ msgstr "Inclure les sous-_répertoires"
+
 #~ msgid "Edit picture"
 #~ msgstr "Modifier l'image"
+
 #~ msgid "Editor"
 #~ msgstr "Editeur"
+
 #~ msgid "_Reload Photo"
 #~ msgstr "_Rafraichir la photo"
+
 #~ msgid "Reload current photo"
 #~ msgstr "Rafraichir la photo courante"
+
 #~ msgid "Reload"
 #~ msgstr "Rafraichir"
-
