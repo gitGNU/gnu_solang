@@ -24,11 +24,20 @@
 #include <vector>
 #include <tr1/memory>
 
-#include <gdkmm.h>
 #include <gdl/gdl.h>
-#include <giomm.h>
 #include <glibmm.h>
-#include <gtkmm.h>
+
+namespace Gdk
+{
+
+class DragContext;
+class GC;
+class Pixbuf;
+class PixbufLoader;
+class Screen;
+class Window;
+
+} // namespace Gdk
 
 namespace Gegl
 {
@@ -38,6 +47,33 @@ class Node;
 class Processor;
 
 } // namespace Gegl
+
+namespace Gio
+{
+
+class DataInputStream;
+class File;
+
+} // namespace Gio
+
+namespace Gtk
+{
+
+class Action;
+class ActionGroup;
+class IconFactory;
+class IconTheme;
+class ListStore;
+class Menu;
+class Settings;
+class ToggleAction;
+class TreeModel;
+class TreeModelFilter;
+class TreePath;
+class TreeStore;
+class UIManager;
+
+} // namespace Gtk
 
 namespace Solang
 {
@@ -288,7 +324,7 @@ typedef Glib::RefPtr<const Gtk::TreeModelFilter>
     ConstTreeModelFilterPtr;
 typedef Glib::RefPtr<Gtk::TreeModelFilter> TreeModelFilterPtr;
 
-typedef std::vector<Gtk::TreeModel::Path> TreePathList;
+typedef std::vector<Gtk::TreePath> TreePathList;
 
 typedef Glib::RefPtr<const Gtk::UIManager> ConstUIManagerPtr;
 typedef Glib::RefPtr<Gtk::UIManager> UIManagerPtr;

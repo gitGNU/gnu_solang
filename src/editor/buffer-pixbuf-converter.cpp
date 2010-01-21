@@ -20,6 +20,7 @@
 #include "config.h"
 #endif // HAVE_CONFIG_H
 
+#include <gdkmm.h>
 #include <geglmm.h>
 #include <geglmm/buffer.h>
 
