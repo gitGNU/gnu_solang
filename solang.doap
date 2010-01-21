@@ -16,11 +16,4 @@
       <gnome:userid>debarshir</gnome:userid>
     </foaf:Person>
   </maintainer>
-  <maintainer>
-    <foaf:Person>
-      <foaf:name>Santanu Sinha</foaf:name>
-      <foaf:mbox rdf:resource="mailto:santanu.sinha@gmail.com" />
-      <gnome:userid>santanus</gnome:userid>
-    </foaf:Person>
-  </maintainer>
 </Project>
