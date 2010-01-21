@@ -99,6 +99,18 @@ class BrowserRenderer :
                                 throw();
 
         void
+        on_action_go_previous() throw();
+
+        void
+        on_action_go_next() throw();
+
+        void
+        on_action_go_first() throw();
+
+        void
+        on_action_go_last() throw();
+
+        void
         on_dock_item_parent_changed(Gtk::Widget * previous_parent)
                                     throw();
 
@@ -127,6 +139,12 @@ class BrowserRenderer :
 
         void
         set_thumbnail_size() throw();
+
+        void
+        status_pop() throw();
+
+        void
+        status_push() throw();
 
         ApplicationPtr application_;
 
@@ -163,6 +181,8 @@ class BrowserRenderer :
         double zoomValue_;
 
         gint pageNum_;
+
+        guint contextID_;
 
         sigc::connection signalInitEnd_;
 

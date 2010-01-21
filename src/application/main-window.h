@@ -71,6 +71,9 @@ class MainWindow :
         Gtk::Notebook *
         get_notebook_center() throw();
 
+        Gtk::Statusbar &
+        get_status_bar() throw();
+
         const UIManagerPtr &
         get_ui_manager() throw();
 

@@ -21,9 +21,8 @@
 #include "config.h"
 #endif
 
-#include <sstream>
+#include <cmath>
 
-#include <glibmm/i18n.h>
 #include <sigc++/sigc++.h>
 
 #include "pagination-bar.h"
@@ -32,148 +31,35 @@ namespace Solang
 {
 
 PaginationBar::PaginationBar() throw() :
-    Gtk::HBox(false, 12),
-    actionPrevious_(Gtk::Action::create(
-                        "ActionGoBrowserPreviousPage",
-                        Gtk::Stock::GO_BACK,
-                        _("_Previous Page"),
-                        _("Go to the previous page in the collection"))),
-    actionNext_(Gtk::Action::create(
-                        "ActionGoBrowserNextPage",
-                        Gtk::Stock::GO_FORWARD,
-                        _("_Next Page"),
-                        _("Go to the next page in the collection"))),
-    actionFirst_(Gtk::Action::create(
-                        "ActionGoBrowserFirstPage",
-                        Gtk::Stock::GOTO_FIRST,
-                        _("_First Page"),
-                        _("Go to the first page in the collection"))),
-    actionLast_(Gtk::Action::create(
-                        "ActionGoBrowserLastPage",
-                        Gtk::Stock::GOTO_LAST,
-                        _("_Last Page"),
-                        _("Go to the last page in the collection"))),
-    firstHBox_(false, 12),
-    previousButton_(),
-    previousImage_(),
-    shownItemsLabel_(),
-    nextButton_(),
-    nextImage_(),
-    secondHBox_(false, 12),
-    pageSizeLabel_(_("Photos per page")),
-    pageSizeSpinButton_(1.0, 0),
+//    pageSizeLabel_(_("Photos per page")),
+//    pageSizeSpinButton_(1.0, 0),
+    step_(50),
+    total_(0),
     lowerLimit_(0),
-    upperLimit_(0),
-    total_(0)
+    upperLimit_(step_)
 {
-    actionPrevious_->connect_proxy(previousButton_);
-    actionPrevious_->property_short_label().set_value(_("Previous"));
-    actionPrevious_->set_sensitive(false);
-    actionPrevious_->signal_activate().connect(
-        sigc::mem_fun(*this,
-                      &PaginationBar::on_action_go_previous));
-
-    actionNext_->connect_proxy(nextButton_);
-    actionNext_->property_short_label().set_value(_("Next"));
-    actionNext_->signal_activate().connect(
-        sigc::mem_fun(*this,
-                      &PaginationBar::on_action_go_next));
-
-    actionFirst_->property_short_label().set_value(_("First"));
-    actionFirst_->set_sensitive(false);
-    actionFirst_->signal_activate().connect(
-        sigc::mem_fun(*this,
-                      &PaginationBar::on_action_go_first));
-
-    actionLast_->property_short_label().set_value(_("Last"));
-    actionLast_->signal_activate().connect(
-        sigc::mem_fun(*this,
-                      &PaginationBar::on_action_go_last));
-
-    pageSizeSpinButton_.set_increments(1.0, 10.0);
-    pageSizeSpinButton_.set_numeric(true);
-    pageSizeSpinButton_.set_range(1.0, 500.0);
-    pageSizeSpinButton_.set_snap_to_ticks(false);
-    pageSizeSpinButton_.set_value(50.0);
-    pageSizeSpinButton_.set_wrap(false);
-    upperLimit_ = static_cast<guint>(
-                      pageSizeSpinButton_.get_value_as_int());
-
-    {
-        ActionPtr action = previousButton_.get_action();
-        previousImage_.set(action->property_stock_id().get_value(),
-                           Gtk::ICON_SIZE_LARGE_TOOLBAR);
-        previousButton_.set_image(previousImage_);
-        previousButton_.set_label(Glib::ustring());
-    }
-    firstHBox_.pack_start(previousButton_, Gtk::PACK_SHRINK, 0);
-
-    std::ostringstream sout;
-    sout << lowerLimit_ << " - " << upperLimit_ << " of " << total_;
-    shownItemsLabel_.set_label(sout.str());
-    firstHBox_.pack_start(shownItemsLabel_, Gtk::PACK_SHRINK, 0);
-
-    {
-        ActionPtr action = nextButton_.get_action();
-        nextImage_.set(action->property_stock_id().get_value(),
-                       Gtk::ICON_SIZE_LARGE_TOOLBAR);
-        nextButton_.set_image(nextImage_);
-        nextButton_.set_label(Glib::ustring());
-    }
-    firstHBox_.pack_start(nextButton_, Gtk::PACK_SHRINK, 0);
-
-    pack_start(firstHBox_, Gtk::PACK_SHRINK, 0);
-
-    secondHBox_.pack_start(pageSizeLabel_, Gtk::PACK_SHRINK, 0);
-    secondHBox_.pack_start(pageSizeSpinButton_, Gtk::PACK_SHRINK, 0);
-
-    pack_start(secondHBox_, Gtk::PACK_SHRINK, 0);
-
-    limitsChanged_.connect(
-        sigc::mem_fun(*this,
-                      &PaginationBar::on_limits_changed));
-
-    pageSizeSpinButton_.signal_activate().connect(
-        sigc::mem_fun(*this,
-                      &PaginationBar::on_spin_button_activate));
-
-    show_all_children();
+//    pageSizeSpinButton_.set_increments(1.0, 10.0);
+//    pageSizeSpinButton_.set_numeric(true);
+//    pageSizeSpinButton_.set_range(1.0, 500.0);
+//    pageSizeSpinButton_.set_snap_to_ticks(false);
+//    pageSizeSpinButton_.set_value(50.0);
+//    pageSizeSpinButton_.set_wrap(false);
 }
 
 PaginationBar::~PaginationBar() throw()
 {
 }
 
-const ActionPtr &
-PaginationBar::action_previous() throw()
-{
-    return actionPrevious_;
-}
-
-const ActionPtr &
-PaginationBar::action_next() throw()
-{
-    return actionNext_;
-}
-
-const ActionPtr &
-PaginationBar::action_first() throw()
-{
-    return actionFirst_;
-}
-
-const ActionPtr &
-PaginationBar::action_last() throw()
-{
-    return actionLast_;
-}
-
 guint
 PaginationBar::get_step() const throw()
 {
-    const guint step = static_cast<guint>(
-                           pageSizeSpinButton_.get_value_as_int());
-    return step;
+    return step_;
+}
+
+guint
+PaginationBar::get_total() const throw()
+{
+    return total_;
 }
 
 guint
@@ -188,92 +74,60 @@ PaginationBar::get_upper_limit() const throw()
     return upperLimit_;
 }
 
-sigc::signal<void> &
-PaginationBar::limits_changed() throw()
-{
-    return limitsChanged_;
-}
-
 void
-PaginationBar::on_action_go_previous() throw()
+PaginationBar::go_previous() throw()
 {
-    const guint step = get_step();
-
-    if (step > lowerLimit_)
+    if (step_ > lowerLimit_)
     {
         lowerLimit_ = 0;
-        upperLimit_ = step;
+        upperLimit_ = step_;
     }
     else
     {
-        lowerLimit_ -= step;
-        upperLimit_ = lowerLimit_ + step;
+        lowerLimit_ -= step_;
+        upperLimit_ = lowerLimit_ + step_;
     }
 
     limitsChanged_.emit();
 }
 
 void
-PaginationBar::on_action_go_next() throw()
+PaginationBar::go_next() throw()
 {
-    const guint step = get_step();
-
-    upperLimit_ += step;
+    upperLimit_ += step_;
     if (total_ < upperLimit_)
     {
         upperLimit_ = total_;
     }
 
-    if (step > upperLimit_)
+    if (step_ > upperLimit_)
     {
         lowerLimit_ = 0;
     }
     else
     {
-        lowerLimit_ = upperLimit_ - step;
+        lowerLimit_ = upperLimit_ - step_;
     }
 
     limitsChanged_.emit();
 }
 
 void
-PaginationBar::on_action_go_first() throw()
+PaginationBar::go_first() throw()
 {
     scroll_to_position(0);
 }
 
 void
-PaginationBar::on_action_go_last() throw()
+PaginationBar::go_last() throw()
 {
     scroll_to_position(total_ - 1);
 }
 
-void
-PaginationBar::on_limits_changed() throw()
+sigc::signal<void> &
+PaginationBar::limits_changed() throw()
 {
-    actionPrevious_->set_sensitive((0 < lowerLimit_) ? true : false);
-    actionFirst_->set_sensitive((0 < lowerLimit_) ? true : false);
-
-    actionNext_->set_sensitive((total_ > upperLimit_) ? true : false);
-    actionLast_->set_sensitive((total_ > upperLimit_) ? true : false);
-
-    std::ostringstream sout;
-    sout << lowerLimit_ << " - " << upperLimit_ << " of " << total_;
-    shownItemsLabel_.set_label(sout.str());
-}
-
-void
-PaginationBar::on_spin_button_activate() throw()
-{
-    const guint step = get_step();
-
-    upperLimit_ = lowerLimit_ + step;
-    if (total_ < upperLimit_)
-    {
-        upperLimit_ = total_;
-    }
-
-    limitsChanged_.emit();
+    return limitsChanged_;
 }
 
 void
@@ -288,7 +142,6 @@ PaginationBar::scroll_to_position(guint position) throw()
         return;
     }
 
-    const guint step = get_step();
     const guint old_lower_limit = lowerLimit_;
     const guint old_upper_limit = upperLimit_;
 
@@ -296,38 +149,40 @@ PaginationBar::scroll_to_position(guint position) throw()
     {
         const double delta = lowerLimit_ - position;
         const guint pages = static_cast<guint>(
-                                ceil(delta / static_cast<double>(step)));
+                                ceil(delta
+                                     / static_cast<double>(step_)));
 
-        if (pages * step > lowerLimit_)
+        if (pages * step_ > lowerLimit_)
         {
             lowerLimit_ = 0;
-            upperLimit_ = step;
+            upperLimit_ = step_;
         }
         else
         {
-            lowerLimit_ -= pages * step;
-            upperLimit_ = lowerLimit_ + step;
+            lowerLimit_ -= pages * step_;
+            upperLimit_ = lowerLimit_ + step_;
         }
     }
     else if (position >= upperLimit_)
     {
         const double delta = position - upperLimit_ + 1;
         const guint pages = static_cast<guint>(
-                                ceil(delta / static_cast<double>(step)));
+                                ceil(delta
+                                     / static_cast<double>(step_)));
 
-        upperLimit_ += pages * step;
+        upperLimit_ += pages * step_;
         if (total_ < upperLimit_)
         {
             upperLimit_ = total_;
         }
 
-        if (step > upperLimit_)
+        if (step_ > upperLimit_)
         {
             lowerLimit_ = 0;
         }
         else
         {
-            lowerLimit_ = upperLimit_ - step;
+            lowerLimit_ = upperLimit_ - step_;
         }
     }
 
@@ -339,12 +194,26 @@ PaginationBar::scroll_to_position(guint position) throw()
 }
 
 void
+PaginationBar::set_step(guint step) throw()
+{
+    step_ = step;
+
+    upperLimit_ = lowerLimit_ + step_;
+    if (total_ < upperLimit_)
+    {
+        upperLimit_ = total_;
+    }
+
+    limitsChanged_.emit();
+}
+
+void
 PaginationBar::set_total(guint total) throw()
 {
     total_ = total;
 
     lowerLimit_ = 0;
-    upperLimit_ = get_step();
+    upperLimit_ = step_;
     if (total_ < upperLimit_)
     {
         upperLimit_ = total_;

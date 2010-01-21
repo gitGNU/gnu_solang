@@ -496,6 +496,12 @@ MainWindow::get_notebook_center() throw()
     return parent;
 }
 
+Gtk::Statusbar &
+MainWindow::get_status_bar() throw()
+{
+    return statusBar_;
+}
+
 const UIManagerPtr &
 MainWindow::get_ui_manager() throw()
 {

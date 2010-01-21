@@ -21,6 +21,10 @@
 		</placeholder>
 	</menubar>
 	<toolbar name="ToolBar">
+		<placeholder name="PlaceholderGoToolBar">
+		<toolitem action="ActionGoBrowserPreviousPage"/>
+		<toolitem action="ActionGoBrowserNextPage"/>
+		</placeholder>
 		<placeholder name="PlaceholderFullScreenToolBar">
 		<toolitem action="ActionViewBrowserSlideshow"/>
 		</placeholder>

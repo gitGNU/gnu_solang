@@ -23,6 +23,5 @@ src/exporter/directory-destination.cpp
 src/exporter/exporter-dialog.cpp
 src/renderer/browser-renderer.cpp
 src/renderer/enlarged-renderer.cpp
-src/renderer/pagination-bar.cpp
 src/renderer/slideshow-renderer.cpp
 src/renderer/slideshow-window.cpp

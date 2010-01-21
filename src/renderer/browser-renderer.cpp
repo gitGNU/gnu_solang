@@ -21,6 +21,7 @@
 #include "config.h"
 #endif // HAVE_CONFIG_H
 
+#include <sstream>
 #include <vector>
 
 #include <glibmm/i18n.h>
@@ -88,6 +89,7 @@ BrowserRenderer::BrowserRenderer() throw() :
     thumbnailView_(thumbnailRendererWidth, thumbnailRendererHeight),
     zoomValue_(initialZoomValue),
     pageNum_(-1),
+    contextID_(),
     signalInitEnd_(),
     signalListStoreChangeBegin_(),
     signalListStoreChangeEnd_(),
@@ -197,23 +199,55 @@ BrowserRenderer::BrowserRenderer() throw() :
         Gtk::Action::create(
             "ActionBrowserGoMenu", _("_Go")));
 
-    actionGroup_->add(
-        paginationBar_.action_previous(),
-        Gtk::AccelKey("<alt>Page_Up"));
+    {
+        ActionPtr action = Gtk::Action::create(
+            "ActionGoBrowserPreviousPage", Gtk::Stock::GO_BACK,
+            _("_Previous Page"),
+            _("Go to the previous page in the collection"));
+
+        action->property_short_label().set_value(_("Previous"));
+        action->property_is_important().set_value(true);
+        action->set_sensitive(false);
+        actionGroup_->add(
+            action, Gtk::AccelKey("<alt>Page_Up"),
+            sigc::mem_fun(*this,
+                          &BrowserRenderer::on_action_go_previous));
+    }
+
+    {
+        ActionPtr action = Gtk::Action::create(
+            "ActionGoBrowserNextPage", Gtk::Stock::GO_FORWARD,
+            _("_Next Page"),
+            _("Go to the next page in the collection"));
+
+        action->property_short_label().set_value(_("Next"));
+        action->property_is_important().set_value(true);
+        actionGroup_->add(
+            action, Gtk::AccelKey("<alt>Page_Down"),
+            sigc::mem_fun(*this,
+                          &BrowserRenderer::on_action_go_next));
+    }
+
+    {
+        ActionPtr action = Gtk::Action::create(
+            "ActionGoBrowserFirstPage", Gtk::Stock::GOTO_FIRST,
+            _("_First Page"),
+            _("Go to the first page in the collection"));
+
+        action->set_sensitive(false);
+        actionGroup_->add(
+            action, Gtk::AccelKey("<alt>Home"),
+            sigc::mem_fun(*this,
+                          &BrowserRenderer::on_action_go_first));
+    }
 
     actionGroup_->add(
-        paginationBar_.action_next(),
-        Gtk::AccelKey("<alt>Page_Down"));
-
-    actionGroup_->add(
-        paginationBar_.action_first(),
-        Gtk::AccelKey("<alt>Home"));
-
-    actionGroup_->add(
-        paginationBar_.action_last(),
-        Gtk::AccelKey("<alt>End"));
-
-    hBox_.pack_start(paginationBar_, Gtk::PACK_SHRINK, 0);
+        Gtk::Action::create(
+            "ActionGoBrowserLastPage", Gtk::Stock::GOTO_LAST,
+            _("_Last Page"),
+            _("Go to the last page in the collection")),
+        Gtk::AccelKey("<alt>End"),
+        sigc::mem_fun(*this, &BrowserRenderer::on_action_go_last));
 
     vBox_.pack_start(hBox_, Gtk::PACK_SHRINK, 0);
 
@@ -278,6 +312,10 @@ BrowserRenderer::init(Application & application) throw()
 
     MainWindow & main_window = application.get_main_window();
     main_window.add_dock_object_center(GDL_DOCK_OBJECT(dockItem_));
+
+    Gtk::Statusbar & status_bar = main_window.get_status_bar();
+    contextID_ = status_bar.get_context_id(
+                     Glib::ustring::compose("%1", G_STRLOC));
 
     const UIManagerPtr & ui_manager = main_window.get_ui_manager();
 
@@ -414,6 +452,30 @@ BrowserRenderer::on_action_add_to_export_queue() throw()
 }
 
 void
+BrowserRenderer::on_action_go_previous() throw()
+{
+    paginationBar_.go_previous();
+}
+
+void
+BrowserRenderer::on_action_go_next() throw()
+{
+    paginationBar_.go_next();
+}
+
+void
+BrowserRenderer::on_action_go_first() throw()
+{
+    paginationBar_.go_first();
+}
+
+void
+BrowserRenderer::on_action_go_last() throw()
+{
+    paginationBar_.go_last();
+}
+
+void
 BrowserRenderer::on_action_view_slideshow() throw()
 {
     RendererRegistry & renderer_registry
@@ -521,8 +583,39 @@ BrowserRenderer::on_item_activated(const Gtk::TreeModel::Path & path)
 void
 BrowserRenderer::on_limits_changed() throw()
 {
+    const guint total = paginationBar_.get_total();
+    const guint lower_limit = paginationBar_.get_lower_limit();
+    const guint upper_limit = paginationBar_.get_upper_limit();
+
+    {
+        const ActionPtr action = actionGroup_->get_action(
+                                     "ActionGoBrowserPreviousPage");
+        action->set_sensitive((0 < lower_limit) ? true : false);
+    }
+
+    {
+        const ActionPtr action = actionGroup_->get_action(
+                                     "ActionGoBrowserFirstPage");
+        action->set_sensitive((0 < lower_limit) ? true : false);
+    }
+
+    {
+        const ActionPtr action = actionGroup_->get_action(
+                                     "ActionGoBrowserNextPage");
+        action->set_sensitive((total > upper_limit) ? true : false);
+    }
+
+    {
+        const ActionPtr action = actionGroup_->get_action(
+                                     "ActionGoBrowserLastPage");
+        action->set_sensitive((total > upper_limit) ? true : false);
+    }
+
     set_thumbnail_size();
     treeModelFilter_->refilter();
+
+    status_pop();
+    status_push();
 }
 
 void
@@ -630,6 +723,7 @@ BrowserRenderer::on_switch_page(GtkNotebookPage * notebook_page,
         }
 
         signalSelectionChanged_.unblock();
+        status_push();
 
         if (0 == uiID_)
         {
@@ -652,6 +746,7 @@ BrowserRenderer::on_switch_page(GtkNotebookPage * notebook_page,
         }
 
         signalSelectionChanged_.block();
+        status_pop();
     }
 }
 
@@ -691,6 +786,29 @@ BrowserRenderer::set_thumbnail_size() throw()
 
     thumbnailView_.set_thumbnail_width(thumbnail_width + 6);
     thumbnailView_.set_thumbnail_height(thumbnail_height + 6);
+}
+
+void
+BrowserRenderer::status_pop() throw()
+{
+    MainWindow & main_window = application_->get_main_window();
+    Gtk::Statusbar & status_bar = main_window.get_status_bar();
+    status_bar.pop(contextID_);
+}
+
+void
+BrowserRenderer::status_push() throw()
+{
+    const guint total = paginationBar_.get_total();
+    const guint lower_limit = paginationBar_.get_lower_limit();
+    const guint upper_limit = paginationBar_.get_upper_limit();
+
+    MainWindow & main_window = application_->get_main_window();
+    Gtk::Statusbar & status_bar = main_window.get_status_bar();
+
+    std::ostringstream sout;
+    sout << lower_limit << " - " << upper_limit << " of " << total;
+    status_bar.push(sout.str(), contextID_);
 }
 
 } // namespace Solang
