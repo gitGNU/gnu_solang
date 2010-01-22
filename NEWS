@@ -1,5 +1,69 @@
 Solang NEWS                                    -*- outline -*-
 
+* Noteworthy changes in release 0.4 (2010-01-22)
+
+** New features
+
+  Replaced our own database with Tracker. SPARQL is used to gain
+  access to the meta information about the photos. Photos are in the
+  Nepomuk desktop ontology represented by the class nmm:Photo [1].
+  Tags are in the same ontology represented in its annotation
+  section [2]. They are represented by the class nao:Tag.
+
+  The folder importer is now obsolete and has been removed because
+  Tracker automatically indexes all photos on the system.
+
+  Photo meta-data are now obtained from Tracker instead of reading
+  Exif directly.
+
+  Improved thumbnail management. Rely on an implementation of the
+  Thumbnail Management Specification [3], such as Tumbler, for creating
+  thumbnails. Created thumbnails are now stored according to the
+  Thumbnail Managing Standard [4].
+
+  No separate editor renderer. Photos can now be edited directly in
+  the enlarged renderer.
+
+  Moved the UI controls for the browser render's pagination bar and
+  zoomer to more standard locations. The previous and next buttons,
+  and slider are now part of the main toolbar, while the currently
+  displayed range is indicated in the status bar.
+
+  UI cleanup. No text is shown in the thumbnail view and all additions
+  or removals to the search basket are now automatic.
+
+  New dependencies on GEGLmm, Tracker, D-Bus GLib and the
+  org.freedesktop.thumbnails.xxx D-Bus services. Minimum required
+  version of GEGL is 0.1.x.
+
+  Dropped dependencies on Exiv2, Flickcurl, LibGdamm, LibGPhoto2,
+  LibSoup and WebKit Gtk+.
+
+** Regressions
+
+  Camera and Flickr importers are absent.
+
+  There is no date view or searching based on dates.
+
+  Changes made to photos can not be saved and there is no undo/redo.
+
+  The scale, brightness, contrast and saturation operations are missing
+  from the editor.
+
+  Tags do not have an icon associated with them.
+
+** New and updated translations
+
+  Bengali (India) (bn_IN), French (fr), Hebrew (he), Polish (pl).
+
+----
+
+[1] http://library.gnome.org/devel/ontology/unstable/nmm-ontology.html
+[2] http://www.semanticdesktop.org/ontologies/nao/
+[3] http://live.gnome.org/ThumbnailerSpec
+[4] http://jens.triq.net/thumbnail-spec/
+
+
 * Noteworthy changes in release 0.3 (2009-09-17)
 
 ** New features
@@ -42,6 +106,7 @@ Solang NEWS                                    -*- outline -*-
 
   Bulgarian (bg), Italian (it).
 
+
 * Noteworthy changes in release 0.2 (2009-07-09)
 
 ** New features
@@ -76,6 +141,7 @@ Solang NEWS                                    -*- outline -*-
 
   Fixed the value of solangdocdir.
 
+
 * Noteworthy changes in release 0.1 (2009-06-01)
 
 ** New features
@@ -103,7 +169,7 @@ Solang NEWS                                    -*- outline -*-
 
 ----
 
-Copyright (C) 2009 Debarshi Ray <rishi@gnu.org>
+Copyright (C) 2009, 2010 Debarshi Ray <rishi@gnu.org>
 All rights reserved.
 
 Copying and distribution of this file, with or without modification,
