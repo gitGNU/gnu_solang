@@ -1,4 +1,4 @@
-AC_INIT(Solang, 0.4,
+AC_INIT(Solang, 0.4.1,
         [https://bugzilla.gnome.org/enter_bug.cgi?product=solang],
         [solang])
 
