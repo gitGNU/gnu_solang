@@ -102,8 +102,7 @@ SearchBasket::SearchBasket() throw() :
     SearchBasketColumnRecord tmp;
     treeView_.set_tooltip_column( tmp.get_column_description_num() );
 
-    const Glib::RefPtr<Gtk::TreeSelection> selection
-        = treeView_.get_selection();
+    const TreeSelectionPtr selection = treeView_.get_selection();
     selection->set_mode(Gtk::SELECTION_MULTIPLE);
 
     scrolledWindow_.add(treeView_);
@@ -201,16 +200,14 @@ SearchBasket::visit_renderer(SlideshowRenderer & slideshow_renderer)
 void
 SearchBasket::on_action_select_all() throw()
 {
-    const Glib::RefPtr<Gtk::TreeSelection> selection
-        = treeView_.get_selection();
+    const TreeSelectionPtr selection = treeView_.get_selection();
     selection->select_all();
 }
 
 void
 SearchBasket::on_action_remove_selected() throw()
 {
-    const Glib::RefPtr<Gtk::TreeSelection> selection
-        = treeView_.get_selection();
+    const ConstTreeSelectionPtr selection = treeView_.get_selection();
 
     const TreePathList selected_rows = selection->get_selected_rows();
 
@@ -255,8 +252,8 @@ SearchBasket::on_button_press_event(GdkEventButton * event) throw()
         {
             action->set_visible(true);
 
-            const Glib::RefPtr<Gtk::TreeSelection> selection
-                = treeView_.get_selection();
+            const TreeSelectionPtr selection
+                                       = treeView_.get_selection();
 
             if (false == selection->is_selected(path))
             {

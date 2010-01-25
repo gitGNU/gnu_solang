@@ -165,7 +165,7 @@ DateView::on_drag_data_get(
     {
         return;
     }
-    Glib::RefPtr<Gtk::TreeSelection> selected = get_selection();
+    const TreeSelectionPtr selected = get_selection();
     if( 0 == selected->count_selected_rows() )
         return;
 

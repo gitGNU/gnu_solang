@@ -71,6 +71,7 @@ class ToggleAction;
 class TreeModel;
 class TreeModelFilter;
 class TreePath;
+class TreeSelection;
 class TreeStore;
 class UIManager;
 
@@ -329,6 +330,9 @@ typedef Glib::RefPtr<const Gtk::TreeModelFilter>
 typedef Glib::RefPtr<Gtk::TreeModelFilter> TreeModelFilterPtr;
 
 typedef std::vector<Gtk::TreePath> TreePathList;
+
+typedef Glib::RefPtr<const Gtk::TreeSelection> ConstTreeSelectionPtr;
+typedef Glib::RefPtr<Gtk::TreeSelection> TreeSelectionPtr;
 
 typedef Glib::RefPtr<const Gtk::UIManager> ConstUIManagerPtr;
 typedef Glib::RefPtr<Gtk::UIManager> UIManagerPtr;

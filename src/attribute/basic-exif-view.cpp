@@ -1,6 +1,6 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 4; tab-width: 4 -*- */
 /*
- * Copyright (C) 2009 Debarshi Ray <rishi@gnu.org>
+ * Copyright (C) 2009, 2010 Debarshi Ray <rishi@gnu.org>
  * Copyright (C) 2009 Santanu Sinha <santanu.sinha@gmail.com>
  *
  * Solang is free software: you can redistribute it and/or modify it
@@ -252,7 +252,7 @@ BasicExifView::on_drag_data_get(
     {
         return;
     }
-    Glib::RefPtr<Gtk::TreeSelection> selected = get_selection();
+    const TreeSelectionPtr selected = get_selection();
     if( 0 == selected->count_selected_rows() )
         return;
 

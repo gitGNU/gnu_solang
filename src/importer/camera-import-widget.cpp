@@ -454,7 +454,7 @@ CameraImportWidget::CameraImportWidget(GPhotoContext &context)
     photos_.set_policy(
             Gtk::POLICY_AUTOMATIC, Gtk::POLICY_AUTOMATIC );
     cameraPhotos_.set_model( picturesModel_ );
-    Glib::RefPtr<Gtk::TreeSelection> refTreeSelection
+    const TreeSelectionPtr refTreeSelection
                                 = cameraPhotos_.get_selection();
     refTreeSelection->set_mode( Gtk::SELECTION_MULTIPLE);
     selectAll_.set_size_request( 90, -1 );

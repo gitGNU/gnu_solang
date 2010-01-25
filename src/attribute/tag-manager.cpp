@@ -275,8 +275,7 @@ TagManager::on_action_tag_new() throw()
 void
 TagManager::on_action_tag_edit() throw()
 {
-    Glib::RefPtr<Gtk::TreeSelection> selected
-                                            = tagView_.get_selection();
+    const ConstTreeSelectionPtr selected = tagView_.get_selection();
 
     const TagViewModelColumnRecord &rec
                                 = tagView_.get_column_records();
@@ -329,8 +328,7 @@ TagManager::on_action_tag_edit() throw()
 void
 TagManager::on_action_tag_delete() throw()
 {
-    Glib::RefPtr<Gtk::TreeSelection> selected
-                                            = tagView_.get_selection();
+    const ConstTreeSelectionPtr selected = tagView_.get_selection();
 
     const TagViewModelColumnRecord &rec
                                 = tagView_.get_column_records();
@@ -357,8 +355,7 @@ TagManager::on_action_tag_delete() throw()
 void
 TagManager::on_action_apply_tag() throw()
 {
-    Glib::RefPtr<Gtk::TreeSelection> selected
-                                            = tagView_.get_selection();
+    const TreeSelectionPtr selected = tagView_.get_selection();
     Gtk::TreeModel::iterator item = selected->get_selected();
 
     if (false == item)
@@ -393,8 +390,7 @@ TagManager::on_action_apply_tag() throw()
 void
 TagManager::on_action_remove_tag() throw()
 {
-    Glib::RefPtr<Gtk::TreeSelection> selected
-                                            = tagView_.get_selection();
+    const TreeSelectionPtr selected = tagView_.get_selection();
     Gtk::TreeModel::iterator item = selected->get_selected();
 
     if (false == item)
