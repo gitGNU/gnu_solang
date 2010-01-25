@@ -1,14 +1,15 @@
-AC_INIT(Solang, 0.4.1,
+AC_INIT([Solang],[0.4.1],
         [https://bugzilla.gnome.org/enter_bug.cgi?product=solang],
         [solang])
+AC_PREREQ(2.63)
 
 AM_INIT_AUTOMAKE(AC_PACKAGE_TARNAME, AC_PACKAGE_VERSION)
 AC_CONFIG_HEADERS([config.h])
 AM_MAINTAINER_MODE
 
-AC_ISC_POSIX
+AC_SEARCH_LIBS([strerror], [cposix])
 AC_PROG_CXX
-AM_PROG_CC_STDC
+AC_PROG_CC
 AC_HEADER_STDC
 
 
@@ -21,7 +22,7 @@ AC_DEFINE_UNQUOTED([GETTEXT_PACKAGE], ["$GETTEXT_PACKAGE"],
 AM_GLIB_GNU_GETTEXT
 
 
-AM_PROG_LIBTOOL
+LT_INIT
 
 
 AC_ARG_VAR(
@@ -41,7 +42,7 @@ PKG_CHECK_MODULES(GTKMM, [gtkmm-2.4 >= 2.8])
 PKG_CHECK_MODULES(TRACKER, [tracker-client-0.7 >= 0.7.16])
 
 
-AC_OUTPUT([
+AC_CONFIG_FILES([
 Makefile
 data/Makefile
 data/solang.desktop.in
@@ -63,3 +64,4 @@ src/exporter/Makefile
 src/renderer/Makefile
 po/Makefile.in
 ])
+AC_OUTPUT
