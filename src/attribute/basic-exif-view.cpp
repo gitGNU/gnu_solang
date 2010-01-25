@@ -125,6 +125,25 @@ BasicExifView::populate(const ExifData& data) throw()
                                    = exposure_time_data;
     }
 
+    const Glib::ustring & flash_data = data.get_flash();
+
+    if (false == flash_data.empty())
+    {
+        const Glib::ustring flash_desc = _("Flash");
+        const ExifDataKeyPtr key(new ExifDataKey(
+                                     flash_desc,
+                                     "nmm:flash",
+                                     data.get_flash_enum()));
+
+        Gtk::TreeModel::iterator model_iter = listStore_->append();
+        Gtk::TreeModel::Row row = *model_iter;
+
+        row[modelColumnRecord_.get_column_key()] = key;
+        row[modelColumnRecord_.get_column_description()]
+                                   = flash_desc;
+        row[modelColumnRecord_.get_column_value()] = flash_data;
+    }
+
     const Glib::ustring & fnumber_data = data.get_fnumber();
 
     if (false == fnumber_data.empty())

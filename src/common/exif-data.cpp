@@ -1,6 +1,6 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 4; tab-width: 4 -*- */
 /*
- * Copyright (C) 2009 Debarshi Ray <rishi@gnu.org>
+ * Copyright (C) 2009, 2010 Debarshi Ray <rishi@gnu.org>
  * Copyright (C) 2009 Santanu Sinha <santanu.sinha@gmail.com>
  * 
  * Solang is free software: you can redistribute it and/or modify it
@@ -29,6 +29,12 @@
 
 namespace Solang
 {
+
+const Glib::ustring ExifData::flashOff_
+    = "http://www.tracker-project.org/temp/nmm#flash-off";
+
+const Glib::ustring ExifData::flashOn_
+    = "http://www.tracker-project.org/temp/nmm#flash-on";
 
 const Glib::ustring ExifData::meteringModeAverage_
     = "http://www.tracker-project.org/temp/nmm#metering-mode-average";
@@ -59,6 +65,8 @@ const Glib::ustring ExifData::whiteBalanceManual_
 ExifData::ExifData() :
     camera_(),
     exposureTime_(),
+    flash_(),
+    flashEnum_(),
     fnumber_(),
     isoSpeed_(),
     meteringMode_(),
@@ -73,6 +81,8 @@ ExifData::ExifData() :
 ExifData::ExifData(const ExifData &rhs) :
     camera_(rhs.camera_),
     exposureTime_(rhs.exposureTime_),
+    flash_(rhs.flash_),
+    flashEnum_(rhs.flashEnum_),
     fnumber_(rhs.fnumber_),
     isoSpeed_(rhs.isoSpeed_),
     meteringMode_(rhs.meteringMode_),
@@ -98,6 +108,18 @@ const Glib::ustring &
 ExifData::get_exposure_time() const throw()
 {
     return exposureTime_;
+}
+
+const Glib::ustring &
+ExifData::get_flash() const throw()
+{
+    return flash_;
+}
+
+const Glib::ustring &
+ExifData::get_flash_enum() const throw()
+{
+    return flashEnum_;
 }
 
 const Glib::ustring &
@@ -129,6 +151,25 @@ ExifData::set_exposure_time(const Glib::ustring & exposure_time)
                             throw()
 {
     exposureTime_ = exposure_time;
+}
+
+void
+ExifData::set_flash(const Glib::ustring & flash) throw()
+{
+    if (flashOff_ == flash)
+    {
+        flash_ = _("Off");
+    }
+    else if (flashOn_ == flash)
+    {
+        flash_ = _("On");
+    }
+    else
+    {
+        flash_ = "";
+    }
+
+    flashEnum_ = flash;
 }
 
 void
@@ -211,6 +252,8 @@ ExifData &ExifData::operator =(const ExifData &rhs)
     {
         camera_ = rhs.camera_;
         exposureTime_ = rhs.exposureTime_;
+        flash_ = rhs.flash_;
+        flashEnum_ = rhs.flashEnum_;
         fnumber_ = rhs.fnumber_;
         isoSpeed_ = rhs.isoSpeed_;
         meteringMode_ = rhs.meteringMode_;

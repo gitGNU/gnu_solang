@@ -1,5 +1,6 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 4; tab-width: 4 -*- */
 /*
+ * Copyright (C) 2009, 2010 Debarshi Ray <rishi@gnu.org>
  * Copyright (C) 2009 Santanu Sinha <santanu.sinha@gmail.com>
  *
  * Solang is free software: you can redistribute it and/or modify it
@@ -34,10 +35,12 @@ Photo::parse_exif_data(const UStringList & data, ExifData & exif_data)
 {
     exif_data.set_camera(data[0]);
     exif_data.set_exposure_time(data[1]);
-    exif_data.set_fnumber(data[2]);
-    exif_data.set_focal_length(data[3]);
-    exif_data.set_iso_speed(data[4]);
-    exif_data.set_metering_mode(data[5]);
+    exif_data.set_flash(data[2]);
+    exif_data.set_fnumber(data[3]);
+    exif_data.set_focal_length(data[4]);
+    exif_data.set_iso_speed(data[5]);
+    exif_data.set_metering_mode(data[6]);
+    exif_data.set_white_balance(data[7]);
 }
 
 Photo::Photo(const Glib::ustring & uri,
@@ -99,17 +102,20 @@ Glib::ustring
 Photo::get_exif_data_query() const throw()
 {
     return Glib::ustring::compose(
-        "SELECT ?camera ?exposure ?fn ?focal ?iso ?metering "
+        "SELECT ?camera ?exposure ?flash ?fn ?focal ?iso ?metering"
+        "       ?white "
         "WHERE {"
         "  ?photo a nmm:Photo ;"
         "  nie:isStoredAs ?data ."
         "  ?data nie:url '%1' ."
         "  OPTIONAL { ?photo nmm:camera ?camera . }"
         "  OPTIONAL { ?photo nmm:exposureTime ?exposure . }"
+        "  OPTIONAL { ?photo nmm:flash ?flash . }"
         "  OPTIONAL { ?photo nmm:fnumber ?fn . }"
         "  OPTIONAL { ?photo nmm:focalLength ?focal . }"
         "  OPTIONAL { ?photo nmm:isoSpeed ?iso . }"
         "  OPTIONAL { ?photo nmm:meteringMode ?metering . }"
+        "  OPTIONAL { ?photo nmm:whiteBalance ?white . }"
         "}",
         uri_);
 }

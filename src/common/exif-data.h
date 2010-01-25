@@ -1,6 +1,6 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 4; tab-width: 4 -*- */
 /*
- * Copyright (C) 2009 Debarshi Ray <rishi@gnu.org>
+ * Copyright (C) 2009, 2010 Debarshi Ray <rishi@gnu.org>
  * Copyright (C) 2009 Santanu Sinha <santanu.sinha@gmail.com>
  *
  * Solang is free software: you can redistribute it and/or modify it
@@ -33,6 +33,10 @@ namespace Solang
 class ExifData
 {
     private:
+        static const Glib::ustring flashOff_;
+
+        static const Glib::ustring flashOn_;
+
         static const Glib::ustring meteringModeAverage_;
 
         static const Glib::ustring meteringModeCenterWeightedAverage_;
@@ -51,6 +55,8 @@ class ExifData
 
         Glib::ustring        camera_;
         Glib::ustring        exposureTime_;
+        Glib::ustring        flash_;
+        Glib::ustring        flashEnum_;
         Glib::ustring        fnumber_;
         Glib::ustring        isoSpeed_;
         Glib::ustring        meteringMode_;
@@ -70,6 +76,12 @@ class ExifData
 
         const Glib::ustring &
         get_camera() const throw();
+
+        const Glib::ustring &
+        get_flash() const throw();
+
+        const Glib::ustring &
+        get_flash_enum() const throw();
 
         const Glib::ustring &
         get_fnumber() const throw();
@@ -119,6 +131,9 @@ class ExifData
         void
         set_exposure_time(const Glib::ustring & exposure_time)
                           throw();
+
+        void
+        set_flash(const Glib::ustring & flash) throw();
 
         void
         set_fnumber(const Glib::ustring & fnumber) throw();
