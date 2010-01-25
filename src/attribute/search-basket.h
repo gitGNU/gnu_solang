@@ -1,6 +1,6 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 4; tab-width: 4 -*- */
 /*
- * Copyright (C) 2009 Debarshi Ray <rishi@gnu.org>
+ * Copyright (C) 2009, 2010 Debarshi Ray <rishi@gnu.org>
  *
  * Solang is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -79,7 +79,13 @@ class SearchBasket :
         apply_criterion();
 
         void
-        clear_criterion();
+        on_action_select_all() throw();
+
+        void
+        on_action_remove_selected() throw();
+
+        bool
+        on_button_press_event(GdkEventButton * event) throw();
 
         void
         on_drag_data_received(const DragContextPtr & drag_context,
@@ -97,6 +103,8 @@ class SearchBasket :
         void
         ui_show() throw();
 
+        ActionGroupPtr actionGroup_;
+
         const std::string dockItemName_;
 
         const Glib::ustring dockItemTitle_;
@@ -107,14 +115,6 @@ class SearchBasket :
 
         Gtk::VBox vBox_;
 
-        Gtk::HBox hBox_;
-
-        Gtk::Button clearButton_;
-        Gtk::Image  clearImage_;
-
-        Gtk::Button trashButton_;
-        Gtk::Image  trashImage_;
-
         Gtk::ScrolledWindow scrolledWindow_;
 
         ListStorePtr listStore_;
@@ -123,9 +123,16 @@ class SearchBasket :
 
         ApplicationPtr application_;
 
+        UIManagerPtr uiManager_;
+
+        Gtk::UIManager::ui_merge_id uiIDTreeView_;
+
+        Gtk::Menu * menu_;
+
         sigc::connection signalRendererChanged_;
 
     private:
+        static const std::string uiFile_;
 };
 
 } // namespace Solang

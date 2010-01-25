@@ -1,6 +1,6 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 4; tab-width: 4 -*- */
 /*
- * Copyright (C) 2009 Debarshi Ray <rishi@gnu.org>
+ * Copyright (C) 2009, 2010 Debarshi Ray <rishi@gnu.org>
  *
  * Solang is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -37,25 +37,55 @@
 namespace Solang
 {
 
+const std::string SearchBasket::uiFile_
+    = PACKAGE_DATA_DIR"/"PACKAGE_TARNAME"/ui/"
+          PACKAGE_TARNAME"-search-basket.ui";
+
 SearchBasket::SearchBasket() throw() :
     Plugin(),
     sigc::trackable(),
+    actionGroup_(Gtk::ActionGroup::create(
+                     Glib::ustring::compose("%1:%2",
+                                            __FILE__,
+                                            __LINE__))),
     dockItemName_("search-basket-dock-item"),
     dockItemTitle_(_("Search")),
     dockItemBehaviour_(GDL_DOCK_ITEM_BEH_NORMAL),
     dockItem_(NULL),
     vBox_( false, 6 ),
-    hBox_( false, 2 ),
-    clearButton_(),
-    clearImage_( Gtk::Stock::CLEAR, Gtk::ICON_SIZE_SMALL_TOOLBAR ),
-    trashButton_(), //Container
-    trashImage_( Gtk::Stock::DELETE, Gtk::ICON_SIZE_SMALL_TOOLBAR ),
     scrolledWindow_(),
     listStore_(Gtk::ListStore::create(SearchBasketColumnRecord())),
     treeView_(listStore_),
     application_( NULL ),
+    uiManager_(Gtk::UIManager::create()),
+    uiIDTreeView_(uiManager_->add_ui_from_file(uiFile_)),
+    menu_(0),
     signalRendererChanged_()
 {
+    actionGroup_->add(
+        Gtk::Action::create(
+            "ActionSelectAll", Gtk::Stock::SELECT_ALL,
+            _("Select _All"),
+            _("Select all the filters in this list")),
+        Gtk::AccelKey("<control>A"),
+        sigc::mem_fun(*this,
+                      &SearchBasket::on_action_select_all));
+
+    actionGroup_->add(
+        Gtk::Action::create(
+            "ActionRemoveSelected", Gtk::Stock::REMOVE,
+            _("_Remove"),
+            _("Remove the selected filters from this list")),
+        Gtk::AccelKey("Delete"),
+        sigc::mem_fun(*this,
+                      &SearchBasket::on_action_remove_selected));
+
+    uiManager_->insert_action_group(actionGroup_);
+
+    Gtk::Widget * menu = uiManager_->get_widget("/SearchBasketPopup");
+    menu_ = dynamic_cast<Gtk::Menu *>(menu);
+    menu_->accelerate(treeView_);
+
     scrolledWindow_.set_policy(Gtk::POLICY_AUTOMATIC,
                                Gtk::POLICY_AUTOMATIC);
 
@@ -72,6 +102,10 @@ SearchBasket::SearchBasket() throw() :
     SearchBasketColumnRecord tmp;
     treeView_.set_tooltip_column( tmp.get_column_description_num() );
 
+    const Glib::RefPtr<Gtk::TreeSelection> selection
+        = treeView_.get_selection();
+    selection->set_mode(Gtk::SELECTION_MULTIPLE);
+
     scrolledWindow_.add(treeView_);
 
     dockItem_ = gdl_dock_item_new_with_stock(dockItemName_.c_str(),
@@ -81,26 +115,7 @@ SearchBasket::SearchBasket() throw() :
     gtk_container_add(GTK_CONTAINER(dockItem_),
                       GTK_WIDGET(vBox_.gobj()));
 
-    vBox_.pack_start( hBox_, Gtk::PACK_SHRINK, 0 );
-    hBox_.pack_start( clearButton_, Gtk::PACK_SHRINK, 0 );
-    hBox_.pack_start( trashButton_, Gtk::PACK_SHRINK, 0 );
     vBox_.pack_start( scrolledWindow_, Gtk::PACK_EXPAND_WIDGET,0 );
-
-    clearButton_.set_size_request( 32, 32 );
-    clearButton_.add( clearImage_ );
-    clearButton_.set_relief( Gtk::RELIEF_HALF);
-    clearButton_.signal_clicked().connect(
-                    sigc::mem_fun(
-                        *this, &SearchBasket::clear_criterion));
-    clearButton_.set_tooltip_text(_("Clear filters"));
-    trashButton_.set_size_request( 32, 32 );
-    trashButton_.add( trashImage_ );
-    trashButton_.set_relief( Gtk::RELIEF_HALF);
-    trashButton_.signal_clicked().connect(
-                    sigc::mem_fun(
-                        *this, &SearchBasket::remove_selected));
-    trashButton_.set_tooltip_text(_("Clear selected filter"));
-
 
     std::vector<Gtk::TargetEntry> targets;
     targets.push_back(Gtk::TargetEntry("STRING",
@@ -109,6 +124,10 @@ SearchBasket::SearchBasket() throw() :
                                        Gtk::TARGET_SAME_APP, 0));
     treeView_.enable_model_drag_dest(targets, Gdk::ACTION_COPY);
 
+    treeView_.signal_button_press_event().connect(
+        sigc::mem_fun(*this, &SearchBasket::on_button_press_event),
+        false);
+
     treeView_.signal_drag_data_received().connect_notify(
         sigc::mem_fun(
             *this, &SearchBasket::on_drag_data_received));
@@ -116,6 +135,8 @@ SearchBasket::SearchBasket() throw() :
 
 SearchBasket::~SearchBasket() throw()
 {
+    uiManager_->remove_action_group(actionGroup_);
+    uiManager_->remove_ui(uiIDTreeView_);
     treeView_.unset_model();
     //g_object_unref(dockItem_);
 }
@@ -175,6 +196,81 @@ void
 SearchBasket::visit_renderer(SlideshowRenderer & slideshow_renderer)
                              throw()
 {
+}
+
+void
+SearchBasket::on_action_select_all() throw()
+{
+    const Glib::RefPtr<Gtk::TreeSelection> selection
+        = treeView_.get_selection();
+    selection->select_all();
+}
+
+void
+SearchBasket::on_action_remove_selected() throw()
+{
+    const Glib::RefPtr<Gtk::TreeSelection> selection
+        = treeView_.get_selection();
+
+    const TreePathList selected_rows = selection->get_selected_rows();
+
+    // NB: Erase the paths by traversing the list backwards. Otherwise
+    //     on erasing each path the remaining ones will be
+    //     invalidated.
+
+    for (TreePathList::const_reverse_iterator iter
+             = selected_rows.rbegin();
+         selected_rows.rend() != iter;
+         iter++)
+    {
+        const Gtk::TreeModel::iterator model_iter
+            = listStore_->get_iter(*iter);
+        listStore_->erase(model_iter);
+    }
+
+    apply_criterion();
+    return;
+}
+
+bool
+SearchBasket::on_button_press_event(GdkEventButton * event) throw()
+{
+    if (3 == event->button
+        && GDK_BUTTON_PRESS == event->type
+        && false == listStore_->children().empty())
+    {
+        const ActionPtr action = actionGroup_->get_action(
+                                     "ActionRemoveSelected");
+        Gtk::TreeModel::Path path;
+        const bool result = treeView_.get_path_at_pos(
+                                static_cast<gint>(event->x),
+                                static_cast<gint>(event->y),
+                                path);
+
+        if (false == result || true == path.empty())
+        {
+            action->set_visible(false);
+        }
+        else
+        {
+            action->set_visible(true);
+
+            const Glib::RefPtr<Gtk::TreeSelection> selection
+                = treeView_.get_selection();
+
+            if (false == selection->is_selected(path))
+            {
+                selection->unselect_all();
+                selection->select(path);
+                // treeView_.set_cursor(path, 0, false);
+            }
+        }
+
+        menu_->popup(event->button, event->time);
+        return true;
+    }
+
+    return false;
 }
 
 void
@@ -258,31 +354,6 @@ SearchBasket::apply_criterion()
     engine.criteria_changed();
     return;
 
-}
-
-void
-SearchBasket::clear_criterion()
-{
-    listStore_->clear();
-    apply_criterion();
-    return;
-
-}
-
-void
-SearchBasket::remove_selected()
-{
-    Glib::RefPtr<Gtk::TreeSelection> selected
-                                        = treeView_.get_selection();
-
-    if( 0 == selected->count_selected_rows() )
-        return;
-
-    Gtk::TreeModel::iterator item = selected->get_selected();
-    listStore_->erase( item );
-
-    apply_criterion();
-    return;
 }
 
 void
