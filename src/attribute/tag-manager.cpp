@@ -25,7 +25,6 @@
 
 #include "application.h"
 #include "browser-renderer.h"
-#include "console-renderer.h"
 #include "engine.h"
 #include "enlarged-renderer.h"
 #include "i-renderer.h"
@@ -215,12 +214,6 @@ void
 TagManager::visit_renderer(BrowserRenderer & browser_renderer) throw()
 {
     ui_show();
-}
-
-void
-TagManager::visit_renderer(ConsoleRenderer & console_renderer) throw()
-{
-    ui_hide();
 }
 
 void

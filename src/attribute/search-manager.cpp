@@ -27,7 +27,6 @@
 
 #include "application.h"
 #include "browser-renderer.h"
-#include "console-renderer.h"
 #include "engine.h"
 #include "enlarged-renderer.h"
 #include "main-window.h"
@@ -178,13 +177,6 @@ SearchManager::visit_renderer(BrowserRenderer & browser_renderer)
                              throw()
 {
     ui_show();
-}
-
-void
-SearchManager::visit_renderer(ConsoleRenderer & console_renderer)
-                             throw()
-{
-    ui_hide();
 }
 
 void

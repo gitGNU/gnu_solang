@@ -3,8 +3,6 @@ noinst_LTLIBRARIES =	librenderer.la
 librenderer_la_SOURCES = \
 	browser-renderer.cpp \
 	browser-renderer.h \
-	console-renderer.cpp \
-	console-renderer.h \
 	enlarged-renderer.cpp \
 	enlarged-renderer.h \
 	browser-model-column-record.cpp \

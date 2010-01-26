@@ -31,7 +31,6 @@
 #include "browser-model-column-record.h"
 #include "browser-renderer.h"
 //#include "camera-source.h"
-//#include "console-renderer.h"
 #include "content-type-repo.h"
 //#include "date-manager.h"
 #include "directory-destination.h"
@@ -323,9 +322,6 @@ Application::init() throw()
 
     IRendererPtr browser_renderer(new BrowserRenderer());
     rendererRegistry_.add(browser_renderer);
-
-//    IRendererPtr console_renderer(new ConsoleRenderer());
-//    rendererRegistry_.add(console_renderer);
 
     IRendererPtr enlarged_renderer(new EnlargedRenderer());
     rendererRegistry_.add(enlarged_renderer);

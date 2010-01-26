@@ -42,13 +42,6 @@ IRendererSelector::select(BrowserRenderer & browser_renderer,
 }
 
 IRendererPtr
-IRendererSelector::select(ConsoleRenderer & console_renderer,
-                          const IRendererPtr & renderer) throw()
-{
-    return IRendererPtr();
-}
-
-IRendererPtr
 IRendererSelector::select(EditorRenderer & editor_renderer,
                           const IRendererPtr & renderer) throw()
 {

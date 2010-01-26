@@ -24,7 +24,6 @@
 
 #include "application.h"
 #include "browser-renderer.h"
-#include "console-renderer.h"
 #include "engine.h"
 #include "enlarged-renderer.h"
 #include "i-renderer.h"
@@ -122,13 +121,6 @@ PropertyManager::visit_renderer(BrowserRenderer & browser_renderer)
                                 throw()
 {
     ui_show();
-}
-
-void
-PropertyManager::visit_renderer(ConsoleRenderer & console_renderer)
-                                throw()
-{
-    ui_hide();
 }
 
 void

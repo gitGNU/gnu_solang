@@ -25,7 +25,6 @@
 
 #include "application.h"
 #include "browser-renderer.h"
-#include "console-renderer.h"
 #include "directory-storage.h"
 #include "engine.h"
 #include "enlarged-renderer.h"
@@ -177,12 +176,6 @@ void
 Importer::visit_renderer(BrowserRenderer & browser_renderer) throw()
 {
     ui_show();
-}
-
-void
-Importer::visit_renderer(ConsoleRenderer & console_renderer) throw()
-{
-    ui_hide();
 }
 
 void

@@ -26,7 +26,6 @@ namespace Solang
 {
 
 class BrowserRenderer;
-class ConsoleRenderer;
 class EditorRenderer;
 class EnlargedRenderer;
 class SlideshowRenderer;
@@ -40,10 +39,6 @@ class IRendererSelector :
 
         virtual IRendererPtr
         select(BrowserRenderer & browser_renderer,
-               const IRendererPtr & renderer) throw();
-
-        virtual IRendererPtr
-        select(ConsoleRenderer & console_renderer,
                const IRendererPtr & renderer) throw();
 
         virtual IRendererPtr

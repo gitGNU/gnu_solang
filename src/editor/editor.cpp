@@ -226,12 +226,6 @@ Editor::visit_renderer(BrowserRenderer & browser_renderer) throw()
 }
 
 void
-Editor::visit_renderer(ConsoleRenderer & browser_renderer) throw()
-{
-    ui_hide();
-}
-
-void
 Editor::visit_renderer(EnlargedRenderer & editor_renderer) throw()
 {
     ui_show();

@@ -155,12 +155,6 @@ Exporter::visit_renderer(BrowserRenderer & browser_renderer) throw()
 }
 
 void
-Exporter::visit_renderer(ConsoleRenderer & console_renderer) throw()
-{
-    ui_hide();
-}
-
-void
 Exporter::visit_renderer(EnlargedRenderer & enlarged_renderer) throw()
 {
     ui_show();

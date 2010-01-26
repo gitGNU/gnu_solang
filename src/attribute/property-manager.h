@@ -55,9 +55,6 @@ public:
     visit_renderer(BrowserRenderer & browser_renderer) throw();
 
     virtual void
-    visit_renderer(ConsoleRenderer & console_renderer) throw();
-
-    virtual void
     visit_renderer(EnlargedRenderer & enlarged_renderer) throw();
 
     virtual void

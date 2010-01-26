@@ -54,9 +54,6 @@ class Editor :
         visit_renderer(BrowserRenderer & browser_renderer) throw();
 
         virtual void
-        visit_renderer(ConsoleRenderer & browser_renderer) throw();
-
-        virtual void
         visit_renderer(EnlargedRenderer & editor_renderer) throw();
 
         virtual void
