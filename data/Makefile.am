@@ -48,6 +48,7 @@ ui_DATA = \
 	solang-tag-manager.ui \
 	solang-importer.ui \
 	solang-search-basket.ui \
+	solang-search-manager.ui \
 	solang-slideshow.ui \
 	solang-slideshow-renderer.ui \
 	solang-thumbnail-popup.ui

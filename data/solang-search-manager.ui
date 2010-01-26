@@ -1,0 +1,9 @@
+<!--*- xml -*-->
+<ui>
+	<popup name="SearchBasketPopup">
+		<placeholder name="PlaceholderSearchBasketPopup">
+		<menuitem action="ActionSelectAll"/>
+		<menuitem action="ActionRemoveSelected"/>
+                </placeholder>
+	</popup>
+</ui>

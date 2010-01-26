@@ -46,7 +46,7 @@
 #include "photo.h"
 #include "progress-observer.h"
 #include "property-manager.h"
-#include "search-basket.h"
+#include "search-manager.h"
 #include "slideshow-renderer.h"
 #include "tag-manager.h"
 #include "thumbnailer.h"
@@ -290,8 +290,8 @@ Application::init() throw()
     plugins_.insert(std::make_pair("property-manager",
                                    property_manager));
 
-    IPluginPtr search_basket(new SearchBasket());
-    plugins_.insert(std::make_pair("search-basket", search_basket));
+    IPluginPtr search_manager(new SearchManager());
+    plugins_.insert(std::make_pair("search-manager", search_manager));
 
     IPluginPtr tag_manager(new TagManager( ));
     plugins_.insert(std::make_pair("tag-manager", tag_manager));

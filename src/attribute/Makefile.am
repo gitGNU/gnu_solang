@@ -27,6 +27,8 @@ libattribute_la_SOURCES = \
 	search-criterion-repo.h \
 	search-criterion-source.cpp \
 	search-criterion-source.h \
+	search-manager.cpp \
+	search-manager.h \
 	tag.cpp \
 	tag.h \
 	tag-manager.cpp \

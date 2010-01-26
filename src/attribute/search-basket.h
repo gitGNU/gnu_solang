@@ -22,114 +22,34 @@
 #include <string>
 
 #include <gdkmm.h>
-#include <gdl/gdl.h>
-#include <glibmm.h>
 #include <gtkmm.h>
-#include <sigc++/sigc++.h>
 
-#include "plugin.h"
-#include "search-criterion-source.h"
+#include "types.h"
 
 namespace Solang
 {
 
-class Application;
-class RendererRegistry;
-
 class SearchBasket :
-    public Plugin,
-    public sigc::trackable,
-    public SearchCriterionSource
+    public Gtk::TreeView
 {
     public:
-        SearchBasket() throw();
+        SearchBasket(const TreeModelPtr & model) throw();
 
         virtual
         ~SearchBasket() throw();
 
-        virtual void
-        init(Application & application) throw();
-
-        virtual void
-        final(Application & application) throw();
-
-        virtual void
-        visit_renderer(BrowserRenderer & browser_renderer) throw();
-
-        virtual void
-        visit_renderer(ConsoleRenderer & console_renderer) throw();
-
-        virtual void
-        visit_renderer(EnlargedRenderer & enlarged_renderer) throw();
-
-        virtual void
-        visit_renderer(SlideshowRenderer & slideshow_renderer) throw();
-
-        bool
-        add_item_to_list( const Glib::ustring &key );
-
-        virtual void
-        get_criterion(PhotoSearchCriteriaList &) const throw();
+        const UIManagerPtr &
+        get_ui_manager() throw();
 
     protected:
-        void
-        remove_selected();
-
-        void
-        apply_criterion();
-
-        void
-        on_action_select_all() throw();
-
-        void
-        on_action_remove_selected() throw();
-
-        bool
+        virtual bool
         on_button_press_event(GdkEventButton * event) throw();
-
-        void
-        on_drag_data_received(const DragContextPtr & drag_context,
-                              gint x, gint y,
-                              const Gtk::SelectionData & data,
-                              guint info, guint time) throw();
-
-        void
-        on_renderer_changed(RendererRegistry & renderer_registry)
-                            throw();
-
-        void
-        ui_hide() throw();
-
-        void
-        ui_show() throw();
-
-        ActionGroupPtr actionGroup_;
-
-        const std::string dockItemName_;
-
-        const Glib::ustring dockItemTitle_;
-
-        GdlDockItemBehavior dockItemBehaviour_;
-
-        GtkWidget * dockItem_;
-
-        Gtk::VBox vBox_;
-
-        Gtk::ScrolledWindow scrolledWindow_;
-
-        ListStorePtr listStore_;
-
-        Gtk::TreeView treeView_;
-
-        ApplicationPtr application_;
 
         UIManagerPtr uiManager_;
 
-        Gtk::UIManager::ui_merge_id uiIDTreeView_;
+        Gtk::UIManager::ui_merge_id uiID_;
 
         Gtk::Menu * menu_;
-
-        sigc::connection signalRendererChanged_;
 
     private:
         static const std::string uiFile_;

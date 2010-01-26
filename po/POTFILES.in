@@ -6,7 +6,7 @@ src/application/main-window.cpp
 src/attribute/basic-exif-view.cpp
 src/attribute/date-manager.cpp
 src/attribute/property-manager.cpp
-src/attribute/search-basket.cpp
+src/attribute/search-manager.cpp
 src/attribute/tag-manager.cpp
 src/attribute/tag-new-dialog.cpp
 src/common/exif-data.cpp
