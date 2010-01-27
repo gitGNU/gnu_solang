@@ -1,8 +1,2 @@
 data/solang.desktop.in
 src/common/spinner-dialog.cpp
-src/database/database.cpp
-src/database/exifs-table.cpp
-src/database/photos-table.cpp
-src/database/photo-tags-table.cpp
-src/database/tags-table.cpp
-src/database/thumbnails-table.cpp
