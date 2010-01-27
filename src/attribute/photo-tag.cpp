@@ -51,8 +51,7 @@ PhotoTag::get_delete_query() const throw()
                                   "  ?photo nao:hasTag <%1> ."
                                   "}"
                                   "WHERE {"
-                                  "  ?photo nie:isStoredAs ?data ."
-                                  "  ?data nie:url '%2' ."
+                                  "  ?photo nie:url '%2' ."
                                   "}",
                                   tag_->get_urn(), photo_->get_uri());
 }
@@ -64,8 +63,7 @@ PhotoTag::get_save_query() const throw()
                                   "  ?photo nao:hasTag <%1> ."
                                   "} "
                                   "WHERE {"
-                                  "  ?photo nie:isStoredAs ?data ."
-                                  "  ?data nie:url '%2' ."
+                                  "  ?photo nie:url '%2' ."
                                   "}",
                                   tag_->get_urn(), photo_->get_uri());
 }
