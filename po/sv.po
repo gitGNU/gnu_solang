@@ -1,0 +1,606 @@
+# Swedish translation for Solang.
+# Copyright (C) 2010 Free Software Foundation, Inc.
+# This file is distributed under the same license as the solang package.
+# Daniel Nylander <po@danielnylander.se>, 2010.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: solang\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2010-01-27 22:56+0100\n"
+"PO-Revision-Date: 2010-01-27 23:07+0100\n"
+"Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
+"Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../data/solang.desktop.in.in.h:1
+msgid "@PACKAGE_NAME@ Photo Manager"
+msgstr "Fotohanteraren @PACKAGE_NAME@"
+
+#: ../data/solang.desktop.in.in.h:2
+msgid "Organize, enjoy and share your photos"
+msgstr "Organisera, njut av och dela med dig av dina foton"
+
+#: ../data/solang.desktop.in.in.h:3
+msgid "Photo Manager"
+msgstr "Fotohanterare"
+
+#: ../src/application/main-window.cpp:250
+msgid "_Photo"
+msgstr "_Foto"
+
+#: ../src/application/main-window.cpp:259
+#: ../src/renderer/browser-renderer.cpp:131
+msgid "_Edit"
+msgstr "R_edigera"
+
+#: ../src/application/main-window.cpp:264
+#: ../src/renderer/browser-renderer.cpp:136
+msgid "_Add to Export Queue"
+msgstr "_Lägg till i exportkö"
+
+#: ../src/application/main-window.cpp:271
+msgid "_Clear Export Queue"
+msgstr "_Töm exportkö"
+
+#: ../src/application/main-window.cpp:276
+msgid "_View"
+msgstr "_Visa"
+
+#: ../src/application/main-window.cpp:280
+msgid "_Toolbar"
+msgstr "Ver_ktygsrad"
+
+#: ../src/application/main-window.cpp:281
+msgid "Show or hide the toolbar in the current window"
+msgstr "Visa eller dölj verktygsraden i aktuellt fönster"
+
+#: ../src/application/main-window.cpp:287
+msgid "_Statusbar"
+msgstr "_Statusrad"
+
+#: ../src/application/main-window.cpp:288
+msgid "Show or hide the statusbar in the current window"
+msgstr "Visa eller dölj statusraden i aktuellt fönster"
+
+#: ../src/application/main-window.cpp:295
+msgid "_Full Screen"
+msgstr "_Helskärm"
+
+#: ../src/application/main-window.cpp:296
+msgid "Show the current photo in full screen mode"
+msgstr "Visa aktuellt foto i helskärmsläge"
+
+#: ../src/application/main-window.cpp:313
+msgid "_Help"
+msgstr "_Hjälp"
+
+#: ../src/application/main-window.cpp:618
+msgid "A photo manager for GNOME"
+msgstr "En fotohanterare för GNOME"
+
+#: ../src/application/main-window.cpp:668
+msgid "translator-credits"
+msgstr ""
+"Daniel Nylander <po@danielnylander.se>\n"
+"\n"
+"Skicka synpunkter på översättningen till\n"
+"<tp-sv@listor.tp-sv.se>."
+
+#: ../src/application/main-window.cpp:672
+msgid "%1 Website"
+msgstr ""
+
+#: ../src/attribute/basic-exif-view.cpp:93
+msgid "Camera"
+msgstr "Kamera"
+
+#: ../src/attribute/basic-exif-view.cpp:112
+msgid "Exposure time"
+msgstr "Exponeringstid"
+
+#: ../src/attribute/basic-exif-view.cpp:132
+msgid "Flash"
+msgstr "Blixt"
+
+#: ../src/attribute/basic-exif-view.cpp:151
+msgid "F-number"
+msgstr ""
+
+#: ../src/attribute/basic-exif-view.cpp:170
+msgid "ISO speed"
+msgstr "ISO-känslighet"
+
+#: ../src/attribute/basic-exif-view.cpp:189
+msgid "Metering mode"
+msgstr "Mätläge"
+
+#: ../src/attribute/basic-exif-view.cpp:209
+msgid "Focal length"
+msgstr "Brännvidd"
+
+#: ../src/attribute/basic-exif-view.cpp:229
+msgid "White balance"
+msgstr "Vitbalans"
+
+#: ../src/attribute/date-manager.cpp:49
+msgid "Picture Taken Date"
+msgstr ""
+
+#: ../src/attribute/property-manager.cpp:49
+msgid "Properties"
+msgstr "Egenskaper"
+
+#: ../src/attribute/property-manager.cpp:73
+msgid "Basic"
+msgstr ""
+
+#: ../src/attribute/property-manager.cpp:74
+msgid "Histogram"
+msgstr "Histogram"
+
+#: ../src/attribute/search-manager.cpp:52
+msgid "Search"
+msgstr "Sök"
+
+#: ../src/attribute/search-manager.cpp:65
+msgid "Select _All"
+msgstr "Markera _allt"
+
+#: ../src/attribute/search-manager.cpp:66
+msgid "Select all the filters in this list"
+msgstr "Markera alla filter i denna lista"
+
+#: ../src/attribute/search-manager.cpp:74
+msgid "_Remove"
+msgstr "_Ta bort"
+
+#: ../src/attribute/search-manager.cpp:75
+msgid "Remove the selected filters from this list"
+msgstr "Ta bort markerade filter från denna lista"
+
+#: ../src/attribute/tag-manager.cpp:54
+msgid "Tags"
+msgstr "Taggar"
+
+#: ../src/attribute/tag-manager.cpp:100
+msgid "_Tags"
+msgstr "_Taggar"
+
+#: ../src/attribute/tag-manager.cpp:105
+msgid "Create New _Tag..."
+msgstr "Skapa ny _tagg..."
+
+#: ../src/attribute/tag-manager.cpp:112
+msgid "_Edit Selected Tag..."
+msgstr "R_edigera markerad tagg..."
+
+#: ../src/attribute/tag-manager.cpp:119
+msgid "_Delete Selected Tag"
+msgstr "_Ta bort markerad tagg"
+
+#: ../src/attribute/tag-manager.cpp:125
+msgid "_Attach Tag to Selection"
+msgstr "_Fäst tagg till markering"
+
+#: ../src/attribute/tag-manager.cpp:132
+msgid "_Remove Tag From Selection"
+msgstr "_Ta bort tagg från markering"
+
+#: ../src/attribute/tag-new-dialog.cpp:39
+#: ../src/attribute/tag-new-dialog.cpp:69
+msgid "Parent:"
+msgstr "Förälder:"
+
+#: ../src/attribute/tag-new-dialog.cpp:44
+#: ../src/attribute/tag-new-dialog.cpp:74
+msgid "Name:"
+msgstr "Namn:"
+
+#: ../src/attribute/tag-new-dialog.cpp:49
+#: ../src/attribute/tag-new-dialog.cpp:79
+msgid "Description:"
+msgstr "Beskrivning:"
+
+#: ../src/attribute/tag-new-dialog.cpp:56
+msgid "Create New Tag"
+msgstr "Skapa ny tagg"
+
+#: ../src/attribute/tag-new-dialog.cpp:127
+msgid "Select Tag Icon"
+msgstr "Välj taggikon"
+
+#: ../src/common/exif-data.cpp:161
+msgid "Off"
+msgstr "Av"
+
+#: ../src/common/exif-data.cpp:165
+msgid "On"
+msgstr "På"
+
+#: ../src/common/exif-data.cpp:199
+msgid "Average"
+msgstr ""
+
+#: ../src/common/exif-data.cpp:203
+msgid "Center Weighted Average"
+msgstr ""
+
+#: ../src/common/exif-data.cpp:207
+msgid "Spot"
+msgstr ""
+
+#: ../src/common/exif-data.cpp:211
+msgid "Multi-spot"
+msgstr ""
+
+#: ../src/common/exif-data.cpp:215
+msgid "Pattern"
+msgstr ""
+
+#: ../src/common/exif-data.cpp:219
+msgid "Partial"
+msgstr ""
+
+#: ../src/common/exif-data.cpp:235
+msgid "Automatic"
+msgstr "Automatisk"
+
+#: ../src/common/exif-data.cpp:239
+msgid "Manual"
+msgstr "Manuell"
+
+#: ../src/common/histogram-viewer.cpp:37
+msgid "Type"
+msgstr "Typ"
+
+#: ../src/common/histogram-viewer.cpp:42
+msgid "Channels"
+msgstr "Kanaler"
+
+#: ../src/common/histogram-viewer.cpp:67
+msgid "Linear"
+msgstr "Linjär"
+
+#: ../src/common/histogram-viewer.cpp:72
+msgid "Logarithmic"
+msgstr "Logaritmisk"
+
+#: ../src/common/histogram-viewer.cpp:80
+msgid "RGB"
+msgstr "RGB"
+
+#: ../src/common/histogram-viewer.cpp:85
+msgid "Red"
+msgstr "Röd"
+
+#: ../src/common/histogram-viewer.cpp:90
+msgid "Green"
+msgstr "Grön"
+
+#: ../src/common/histogram-viewer.cpp:95
+msgid "Blue"
+msgstr "Blå"
+
+#: ../src/editor/editor.cpp:113
+msgid "T_ools"
+msgstr "Ver_ktyg"
+
+#: ../src/editor/editor.cpp:117
+msgid "_Transform"
+msgstr "_Transformera"
+
+#: ../src/editor/editor.cpp:123
+msgid "Flip _Horizontal"
+msgstr "Vänd _horisontellt"
+
+#: ../src/editor/editor.cpp:124
+msgid "Mirror the photo horizontally"
+msgstr "Spegla fotot horisontellt"
+
+#: ../src/editor/editor.cpp:135
+msgid "Flip _Vertical"
+msgstr "Vänd _vertikalt"
+
+#: ../src/editor/editor.cpp:136
+msgid "Mirror the photo vertically"
+msgstr "Spegla fotot vertikalt"
+
+#: ../src/editor/editor.cpp:147
+msgid "_Rotate Clockwise"
+msgstr ""
+
+#: ../src/editor/editor.cpp:148
+msgid "Rotate the photo 90 degrees to the right"
+msgstr ""
+
+#: ../src/editor/editor.cpp:159
+msgid "Rotate Counterc_lockwise"
+msgstr ""
+
+#: ../src/editor/editor.cpp:160
+msgid "Rotate the photo 90 degrees to the left"
+msgstr ""
+
+#: ../src/editor/flip-horiz-operation.cpp:43
+msgid "Flipping horizontally..."
+msgstr "Vänder horisontellt..."
+
+#: ../src/editor/flip-operation.cpp:57
+msgid "Flipping..."
+msgstr "Vänder..."
+
+#: ../src/editor/flip-vert-operation.cpp:43
+msgid "Flipping vertically..."
+msgstr "Vänder vertikalt..."
+
+#: ../src/editor/rotate-clock-operation.cpp:43
+msgid "Rotating clockwise..."
+msgstr ""
+
+#: ../src/editor/rotate-counter-operation.cpp:43
+msgid "Rotating counterclockwise..."
+msgstr ""
+
+#: ../src/editor/rotate-operation.cpp:55
+msgid "Rotating..."
+msgstr "Roterar..."
+
+#: ../src/exporter/directory-destination.cpp:90
+msgid "Exporting photos"
+msgstr ""
+
+#: ../src/exporter/directory-destination.cpp:178
+msgid "Select Folder"
+msgstr "Välj mapp"
+
+#: ../src/exporter/directory-destination.cpp:187
+msgid "_Folder..."
+msgstr "_Mapp..."
+
+#: ../src/exporter/exporter-dialog.cpp:33
+msgid "Export"
+msgstr "Exportera"
+
+#: ../src/exporter/exporter-dialog.cpp:42
+msgid "_Destination:"
+msgstr "_Mål:"
+
+#: ../src/exporter/exporter-dialog.cpp:44
+msgid "_Detect duplicates"
+msgstr ""
+
+#: ../src/exporter/exporter-dialog.cpp:48
+msgid "_Create an archive"
+msgstr "S_kapa ett arkiv"
+
+#: ../src/exporter/exporter-dialog.cpp:66
+msgid "General"
+msgstr "Allmänt"
+
+#: ../src/exporter/exporter-dialog.cpp:78
+msgid "Options"
+msgstr "Alternativ"
+
+#: ../src/exporter/exporter-dialog.cpp:111
+msgid "_Export"
+msgstr "_Exportera"
+
+#: ../src/renderer/browser-renderer.cpp:144
+#: ../src/renderer/enlarged-renderer.cpp:278
+msgid "_Slideshow"
+msgstr "_Bildspel"
+
+#: ../src/renderer/browser-renderer.cpp:145
+#: ../src/renderer/enlarged-renderer.cpp:279
+msgid "Start a slideshow view of the photos"
+msgstr "Starta ett bildspel av fotona"
+
+#: ../src/renderer/browser-renderer.cpp:154
+msgid "Enlarge or shrink the thumbnails"
+msgstr "Förstora eller förminska miniatyrbilderna"
+
+#: ../src/renderer/browser-renderer.cpp:176
+#: ../src/renderer/enlarged-renderer.cpp:291
+#: ../src/renderer/enlarged-renderer.cpp:424
+#: ../src/renderer/enlarged-renderer.cpp:433
+#: ../src/renderer/enlarged-renderer.cpp:442
+msgid "_Zoom In"
+msgstr "_Zooma in"
+
+#: ../src/renderer/browser-renderer.cpp:177
+msgid "Enlarge the thumbnails"
+msgstr "Förstora miniatyrbilderna"
+
+#: ../src/renderer/browser-renderer.cpp:188
+msgid "_Zoom Out"
+msgstr "_Zooma ut"
+
+#: ../src/renderer/browser-renderer.cpp:189
+msgid "Shrink the thumbnails"
+msgstr "Förminska miniatyrbilderna"
+
+#: ../src/renderer/browser-renderer.cpp:200
+#: ../src/renderer/enlarged-renderer.cpp:286
+msgid "_Go"
+msgstr "_Gå"
+
+#: ../src/renderer/browser-renderer.cpp:205
+msgid "_Previous Page"
+msgstr "_Föregående sida"
+
+#: ../src/renderer/browser-renderer.cpp:206
+msgid "Go to the previous page in the collection"
+msgstr "Gå till föregående sida i samlingen"
+
+#: ../src/renderer/browser-renderer.cpp:208
+#: ../src/renderer/enlarged-renderer.cpp:350
+#: ../src/renderer/slideshow-renderer.cpp:143
+#: ../src/renderer/slideshow-renderer.cpp:187
+msgid "Previous"
+msgstr "Föregående"
+
+#: ../src/renderer/browser-renderer.cpp:220
+msgid "_Next Page"
+msgstr "_Nästa sida"
+
+#: ../src/renderer/browser-renderer.cpp:221
+msgid "Go to the next page in the collection"
+msgstr "Gå till nästa sida i samlingen"
+
+#: ../src/renderer/browser-renderer.cpp:223
+#: ../src/renderer/enlarged-renderer.cpp:364
+#: ../src/renderer/slideshow-renderer.cpp:152
+#: ../src/renderer/slideshow-renderer.cpp:196
+msgid "Next"
+msgstr "Nästa"
+
+#: ../src/renderer/browser-renderer.cpp:234
+msgid "_First Page"
+msgstr "_Första sidan"
+
+#: ../src/renderer/browser-renderer.cpp:235
+msgid "Go to the first page in the collection"
+msgstr "Gå till första sidan i samlingen"
+
+#: ../src/renderer/browser-renderer.cpp:247
+msgid "_Last Page"
+msgstr "S_ista sidan"
+
+#: ../src/renderer/browser-renderer.cpp:248
+msgid "Go to the last page in the collection"
+msgstr "Gå till sista sidan i samlingen"
+
+#: ../src/renderer/enlarged-renderer.cpp:73
+msgid "Enlarged"
+msgstr ""
+
+#: ../src/renderer/enlarged-renderer.cpp:292
+#: ../src/renderer/enlarged-renderer.cpp:425
+#: ../src/renderer/enlarged-renderer.cpp:434
+#: ../src/renderer/enlarged-renderer.cpp:443
+#: ../src/renderer/slideshow-window.cpp:75
+#: ../src/renderer/slideshow-window.cpp:110
+#: ../src/renderer/slideshow-window.cpp:119
+#: ../src/renderer/slideshow-window.cpp:128
+msgid "Enlarge the photo"
+msgstr "Förstora fotot"
+
+#: ../src/renderer/enlarged-renderer.cpp:294
+#: ../src/renderer/slideshow-window.cpp:74
+#: ../src/renderer/slideshow-window.cpp:109
+#: ../src/renderer/slideshow-window.cpp:118
+#: ../src/renderer/slideshow-window.cpp:127
+msgid "In"
+msgstr "In"
+
+#: ../src/renderer/enlarged-renderer.cpp:305
+#: ../src/renderer/enlarged-renderer.cpp:451
+#: ../src/renderer/enlarged-renderer.cpp:460
+msgid "Zoom _Out"
+msgstr "Zooma _ut"
+
+#: ../src/renderer/enlarged-renderer.cpp:306
+#: ../src/renderer/enlarged-renderer.cpp:452
+#: ../src/renderer/enlarged-renderer.cpp:461
+#: ../src/renderer/slideshow-window.cpp:84
+#: ../src/renderer/slideshow-window.cpp:137
+#: ../src/renderer/slideshow-window.cpp:146
+msgid "Shrink the photo"
+msgstr "Förminska fotot"
+
+#: ../src/renderer/enlarged-renderer.cpp:308
+#: ../src/renderer/slideshow-window.cpp:83
+#: ../src/renderer/slideshow-window.cpp:136
+#: ../src/renderer/slideshow-window.cpp:145
+msgid "Out"
+msgstr "Ut"
+
+#: ../src/renderer/enlarged-renderer.cpp:319
+msgid "_Normal Size"
+msgstr "_Normal storlek"
+
+#: ../src/renderer/enlarged-renderer.cpp:320
+#: ../src/renderer/slideshow-window.cpp:93
+msgid "Show the photo at its normal size"
+msgstr "Visa fotot i dess normala storlek"
+
+#: ../src/renderer/enlarged-renderer.cpp:322
+#: ../src/renderer/slideshow-window.cpp:92
+msgid "Normal"
+msgstr "Normal"
+
+#: ../src/renderer/enlarged-renderer.cpp:333
+msgid "Best _Fit"
+msgstr ""
+
+#: ../src/renderer/enlarged-renderer.cpp:334
+#: ../src/renderer/slideshow-window.cpp:102
+msgid "Fit the photo to the window"
+msgstr "Anpassa fotot till fönstret"
+
+#: ../src/renderer/enlarged-renderer.cpp:336
+#: ../src/renderer/slideshow-window.cpp:101
+msgid "Fit"
+msgstr "Anpassa"
+
+#: ../src/renderer/enlarged-renderer.cpp:347
+#: ../src/renderer/enlarged-renderer.cpp:391
+msgid "_Previous Photo"
+msgstr "_Föregående foto"
+
+#: ../src/renderer/enlarged-renderer.cpp:348
+#: ../src/renderer/enlarged-renderer.cpp:392
+#: ../src/renderer/slideshow-renderer.cpp:144
+#: ../src/renderer/slideshow-renderer.cpp:188
+msgid "Go to the previous photo in the collection"
+msgstr "Gå till föregående foto i samlingen"
+
+#: ../src/renderer/enlarged-renderer.cpp:361
+#: ../src/renderer/enlarged-renderer.cpp:400
+msgid "_Next Photo"
+msgstr "_Nästa foto"
+
+#: ../src/renderer/enlarged-renderer.cpp:362
+#: ../src/renderer/enlarged-renderer.cpp:401
+#: ../src/renderer/slideshow-renderer.cpp:153
+#: ../src/renderer/slideshow-renderer.cpp:197
+msgid "Go to the next photo in the collection"
+msgstr "Gå till nästa foto i samlingen"
+
+#: ../src/renderer/enlarged-renderer.cpp:375
+#: ../src/renderer/enlarged-renderer.cpp:408
+msgid "_First Photo"
+msgstr "_Första fotot"
+
+#: ../src/renderer/enlarged-renderer.cpp:376
+#: ../src/renderer/enlarged-renderer.cpp:409
+#: ../src/renderer/slideshow-renderer.cpp:136
+#: ../src/renderer/slideshow-renderer.cpp:180
+msgid "Go to the first photo in the collection"
+msgstr "Gå till första fotot i samlingen"
+
+#: ../src/renderer/enlarged-renderer.cpp:383
+#: ../src/renderer/enlarged-renderer.cpp:416
+msgid "_Last Photo"
+msgstr "S_ista fotot"
+
+#: ../src/renderer/enlarged-renderer.cpp:384
+#: ../src/renderer/enlarged-renderer.cpp:417
+#: ../src/renderer/slideshow-renderer.cpp:161
+#: ../src/renderer/slideshow-renderer.cpp:205
+msgid "Go to the last photo in the collection"
+msgstr "Gå till sista fotot i samlingen"
+
+#: ../src/renderer/slideshow-renderer.cpp:135
+#: ../src/renderer/slideshow-renderer.cpp:179
+msgid "First"
+msgstr "Första"
+
+#: ../src/renderer/slideshow-renderer.cpp:160
+#: ../src/renderer/slideshow-renderer.cpp:204
+msgid "Last"
+msgstr "Sista"
+
