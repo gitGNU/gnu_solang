@@ -1,0 +1,47 @@
+<page xmlns="http://projectmallard.org/1.0/"
+      type="guide"
+      id="index">
+<title><app>Solang</app> Help</title>
+
+  <note style="tip">
+    <p>
+      This guide is created for <app>Solang</app>'s 0.4 series. Since there has been some UI regressions from the 0.3 series, this guide may not cover some features of <app>Solang</app> 0.3.
+    </p>
+  </note>
+
+	<section id="index_UI" style="2column">
+		<title>User Interface</title>
+		<info>
+			<link type="topic" xref="howto_search"/>
+			<link type="topic" xref="photos_by_page"/>
+		</info>
+	</section>
+
+	<section id="index_import" style="2column">
+		<title>Importing photos</title>
+		<info>
+			<link type="topic" xref="import_local"/>
+		</info>
+	</section>
+
+	<section id="index_export" style="2column">
+		<title>Exporting photos</title>
+		<info>
+			<link type="topic" xref="export_folder"/>
+		</info>
+	</section>
+
+	<section id="index_tags" style="2column">
+		<title>Tags</title>
+		<info>
+			<link type="topic" xref="tags_intro"/>
+			<link type="topic" xref="tags_manage"/>
+		</info>
+	</section>
+
+<!--	<section id="index_webservices" style="2column">
+		<title>Using Webservices</title>
+		<info>
+		</info>
+	</section>-->
+</page>

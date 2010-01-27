@@ -1,0 +1,13 @@
+<page xmlns="http://projectmallard.org/1.0/"
+      type="topic"
+      id="intro">
+<info>
+	<link type="guide" xref="index"/>
+	<desc>
+	Introduction to the <app>Solang</app> photos manager.
+	</desc>
+</info>
+<title>Introduction to <app>Solang</app></title>
+<p>Solang is a photo manager for GNOME. It lets you manage your collection of photos by tagging them and searching through them based on various criteria -- tags, EXIF data, dates, etc; and offers a limited set of editing functionalities.</p>
+<p>Under the hood, <app>Solang</app> uses <app>Tracker</app> which allows it to automatically detect all the photos on your computer and publishes the tags all across the desktop.</p>
+</page>

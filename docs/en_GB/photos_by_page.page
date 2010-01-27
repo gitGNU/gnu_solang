@@ -1,0 +1,37 @@
+<page xmlns="http://projectmallard.org/1.0/"
+      type="topic"
+      id="photos_by_page">
+<info>
+	<link type="guide" xref="index_UI"/>
+	<desc>
+	To view more than 50 photos.
+	</desc>
+</info>
+<title>Why can't I see all my pictures ?</title>
+<p><app>Solang</app> only display 50 photos by page, so you can only preview 50 photos at once.</p>
+<p>Hopefully there are multiple pages.</p>
+<p>To go to the next page you can</p>
+<list>
+	<item>
+	<p>Click on the <gui>Next page</gui> button in the <gui>Toolbar</gui>.</p>
+	</item>
+	<item>
+	<p>Press <keyseq><key>Alt</key><key>Page Down</key></keyseq>.</p>
+	</item>
+	<item>
+	<p>Choose <guiseq><gui>Go</gui><gui>Next Page</gui></guiseq> from the <gui>Main Window</gui>.</p>
+	</item>
+</list>
+<p>To go to the previous page you can</p>
+<list>
+	<item>
+	<p>Click on the <gui>Previous page</gui> button in the <gui>Toolbar</gui>.</p>
+	</item>
+	<item>
+	<p>Press <keyseq><key>Alt</key><key>Page Up</key></keyseq>.</p>
+	</item>
+	<item>
+	<p>Choose <guiseq><gui>Go</gui><gui>Previous Page</gui></guiseq> from the <gui>Main Window</gui>.</p>
+	</item>
+</list>
+</page>

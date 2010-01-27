@@ -1,0 +1,17 @@
+<page xmlns="http://projectmallard.org/1.0/"
+      type="topic"
+      id="export_folder">
+<info>
+	<link type="guide" xref="index_export"/>
+	<desc>
+	To export some photos in a archive or a folder.
+	</desc>
+</info>
+<title>Export to Folder</title>
+<p>You can export some photos you have chosen to a folder of your computer.</p>
+
+<p>First you need to add the photos you want to export to the export
+<steps>
+
+</steps>
+</page>
