@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-01-23 04:10+0000\n"
+"POT-Creation-Date: 2010-01-28 04:21+0000\n"
 "PO-Revision-Date: 2010-01-20 19:08+0100\n"
 "Last-Translator: Adrien Beudin <beudbeud@gmail.com>\n"
 "Language-Team: \n"
@@ -98,78 +98,91 @@ msgid "Exposure time"
 msgstr "Temps d'exposition"
 
 #: ../src/attribute/basic-exif-view.cpp:132
+msgid "Flash"
+msgstr "Flash"
+
+#: ../src/attribute/basic-exif-view.cpp:151
 msgid "F-number"
 msgstr "Nombre focal"
 
-#: ../src/attribute/basic-exif-view.cpp:151
+#: ../src/attribute/basic-exif-view.cpp:170
 msgid "ISO speed"
 msgstr "Vitesse ISO"
 
-#: ../src/attribute/basic-exif-view.cpp:170
+#: ../src/attribute/basic-exif-view.cpp:189
 msgid "Metering mode"
 msgstr "Mode de mesure"
 
-#: ../src/attribute/basic-exif-view.cpp:190
+#: ../src/attribute/basic-exif-view.cpp:209
 msgid "Focal length"
 msgstr "Distance focale"
 
-#: ../src/attribute/basic-exif-view.cpp:210
+#: ../src/attribute/basic-exif-view.cpp:229
 msgid "White balance"
 msgstr "Balance des blancs"
 
-#: ../src/attribute/date-manager.cpp:50
+#: ../src/attribute/date-manager.cpp:49
 msgid "Picture Taken Date"
 msgstr "Date de la photo"
 
-#: ../src/attribute/property-manager.cpp:50
+#: ../src/attribute/property-manager.cpp:49
 msgid "Properties"
 msgstr "Propriétés"
 
-#: ../src/attribute/property-manager.cpp:74
+#: ../src/attribute/property-manager.cpp:73
 msgid "Basic"
 msgstr "Base"
 
-#: ../src/attribute/property-manager.cpp:75
+#: ../src/attribute/property-manager.cpp:74
 msgid "Histogram"
 msgstr "Histogramme"
 
-#: ../src/attribute/search-basket.cpp:44
+#: ../src/attribute/search-manager.cpp:52
 msgid "Search"
 msgstr "Recherche"
 
-#: ../src/attribute/search-basket.cpp:95
-msgid "Clear filters"
-msgstr "Enlever le filtre"
+#: ../src/attribute/search-manager.cpp:65
+msgid "Select _All"
+msgstr "Tout _Sélectionner"
 
-#: ../src/attribute/search-basket.cpp:102
-msgid "Clear selected filter"
-msgstr "Enlever le filtre sélectionné"
+#: ../src/attribute/search-manager.cpp:66
+msgid "Select all the filters in this list"
+msgstr ""
 
-#: ../src/attribute/tag-manager.cpp:55
+#: ../src/attribute/search-manager.cpp:74
+msgid "_Remove"
+msgstr "_Supprimer"
+
+#: ../src/attribute/search-manager.cpp:75
+
+msgid "Remove the selected filters from this list"
+msgstr "Supprimer le filtre de selection de la liste"
+
+#: ../src/attribute/tag-manager.cpp:54
 msgid "Tags"
 msgstr "Etiquettes"
 
-#: ../src/attribute/tag-manager.cpp:101
+#: ../src/attribute/tag-manager.cpp:100
 msgid "_Tags"
 msgstr "_Etiquettes"
 
-#: ../src/attribute/tag-manager.cpp:106
+#: ../src/attribute/tag-manager.cpp:105
 msgid "Create New _Tag..."
 msgstr "Créer une nouvelle _Etiquette..."
 
-#: ../src/attribute/tag-manager.cpp:113
+#: ../src/attribute/tag-manager.cpp:112
 msgid "_Edit Selected Tag..."
 msgstr "_Modifier l'étiquette sélectionnée..."
 
-#: ../src/attribute/tag-manager.cpp:120
+#: ../src/attribute/tag-manager.cpp:119
 msgid "_Delete Selected Tag"
 msgstr "_Supprimer l'étiquette sélectionnée"
 
-#: ../src/attribute/tag-manager.cpp:126
+#: ../src/attribute/tag-manager.cpp:125
 msgid "_Attach Tag to Selection"
 msgstr "_Associer l'étiquette à la sélection"
 
-#: ../src/attribute/tag-manager.cpp:133
+#: ../src/attribute/tag-manager.cpp:132
 msgid "_Remove Tag From Selection"
 msgstr "_Supprimer l'étiquette de la sélection"
 
@@ -196,35 +209,43 @@ msgstr "Créer une nouvelle Etiquette"
 msgid "Select Tag Icon"
 msgstr "Selectionner une Icone pour l'etiquette"
 
-#: ../src/common/exif-data.cpp:158
+#: ../src/common/exif-data.cpp:161
+msgid "Off"
+msgstr ""
+
+#: ../src/common/exif-data.cpp:165
+msgid "On"
+msgstr ""
+
+#: ../src/common/exif-data.cpp:199
 msgid "Average"
 msgstr "Moyenne"
 
-#: ../src/common/exif-data.cpp:162
+#: ../src/common/exif-data.cpp:203
 msgid "Center Weighted Average"
 msgstr "Moyenne pondérée au centre"
 
-#: ../src/common/exif-data.cpp:166
+#: ../src/common/exif-data.cpp:207
 msgid "Spot"
 msgstr "Point"
 
-#: ../src/common/exif-data.cpp:170
+#: ../src/common/exif-data.cpp:211
 msgid "Multi-spot"
 msgstr "Multi-point"
 
-#: ../src/common/exif-data.cpp:174
+#: ../src/common/exif-data.cpp:215
 msgid "Pattern"
 msgstr "Motif"
 
-#: ../src/common/exif-data.cpp:178
+#: ../src/common/exif-data.cpp:219
 msgid "Partial"
 msgstr "Partiel"
 
-#: ../src/common/exif-data.cpp:194
+#: ../src/common/exif-data.cpp:235
 msgid "Automatic"
 msgstr "Automatique"
 
-#: ../src/common/exif-data.cpp:198
+#: ../src/common/exif-data.cpp:239
 msgid "Manual"
 msgstr "Manuel"
 
@@ -375,9 +396,8 @@ msgid "Start a slideshow view of the photos"
 msgstr "Démarrer le diaporama"
 
 #: ../src/renderer/browser-renderer.cpp:154
-#, fuzzy
 msgid "Enlarge or shrink the thumbnails"
-msgstr "Agrandir la miniature"
+msgstr "Agrandir ou réduire la miniature"
 
 #: ../src/renderer/browser-renderer.cpp:176
 #: ../src/renderer/enlarged-renderer.cpp:291
@@ -392,7 +412,6 @@ msgid "Enlarge the thumbnails"
 msgstr "Agrandir la miniature"
 
 #: ../src/renderer/browser-renderer.cpp:188
-#, fuzzy
 msgid "_Zoom Out"
 msgstr "Zoom A_rrière"
 
@@ -582,6 +601,12 @@ msgstr "Première"
 msgid "Last"
 msgstr "Dernière"
 
+#~ msgid "Clear filters"
+#~ msgstr "Enlever le filtre"
+
+#~ msgid "Clear selected filter"
+#~ msgstr "Enlever le filtre sélectionné"
+
 #~ msgid "Photos per page"
 #~ msgstr "Photos par page"
 
@@ -612,9 +637,6 @@ msgstr "Dernière"
 #~ msgid "Flip the selected image(s) vertically"
 #~ msgstr "Rotation vertical des images sélectionnées"
 
-#~ msgid "Rotate the selected image(s) clockwise"
-#~ msgstr "Rotation horaire des images sélectionnées"
-
 #~ msgid "Rotate the selected image(s) counter-clockwise"
 #~ msgstr "Rotation anti-horaire des images sélectionnées"
 
@@ -644,9 +666,6 @@ msgstr "Dernière"
 
 #~ msgid "Connected Cameras"
 #~ msgstr "Caméra connecter"
-
-#~ msgid "Select All"
-#~ msgstr "Tout sélectionner"
 
 #~ msgid "Select None"
 #~ msgstr "Annuler Sélection"
