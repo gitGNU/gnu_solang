@@ -1,6 +1,6 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 4; tab-width: 4 -*- */
 /*
- * Copyright (C) 2009 Debarshi Ray <rishi@gnu.org>
+ * Copyright (C) 2009, 2010 Debarshi Ray <rishi@gnu.org>
  * Copyright (C) 2009 Santanu Sinha <santanu.sinha@gmail.com>
  *
  * Solang is free software: you can redistribute it and/or modify it
@@ -41,8 +41,8 @@ namespace Solang
 class Comparator
 {
     public:
-        bool operator()  ( const PhotoSearchCriteriaPtr &lhs,
-                            const PhotoSearchCriteriaPtr &rhs )
+        bool operator()  ( const IPhotoSearchCriteriaPtr &lhs,
+                            const IPhotoSearchCriteriaPtr &rhs )
         {
             return lhs->get_id() < rhs->get_id();
         }
@@ -146,12 +146,13 @@ Database::save_async(const Tag & tag, const SlotAsyncReady & slot)
 }
 
 void
-Database::search_async(const PhotoSearchCriteriaList & criteria,
+Database::search_async(const IPhotoSearchCriteriaList & criteria,
                        const SlotAsyncPhotos & slot) const throw()
 {
     Glib::ustring clauses = "";
 
-    for (PhotoSearchCriteriaList::const_iterator it = criteria.begin();
+    for (IPhotoSearchCriteriaList::const_iterator it
+             = criteria.begin();
          criteria.end() != it;
          it++)
     {

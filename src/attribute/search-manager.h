@@ -66,7 +66,7 @@ class SearchManager :
         add_item_to_list( const Glib::ustring &key );
 
         virtual void
-        get_criterion(PhotoSearchCriteriaList &) const throw();
+        get_criterion(IPhotoSearchCriteriaList &) const throw();
 
     protected:
         void

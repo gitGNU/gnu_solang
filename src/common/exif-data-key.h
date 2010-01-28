@@ -1,5 +1,6 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 4; tab-width: 4 -*- */
 /*
+ * Copyright (C) 2010 Debarshi Ray <rishi@gnu.org>
  * Copyright (C) 2009 Santanu Sinha <santanu.sinha@gmail.com>
  *
  * Solang is free software: you can redistribute it and/or modify it
@@ -19,13 +20,13 @@
 #ifndef SOLANG_EXIF_DATA_KEY_H
 #define SOLANG_EXIF_DATA_KEY_H
 
-#include "photo-search-criteria.h"
+#include "i-photo-search-criteria.h"
 
 namespace Solang
 {
 
 class ExifDataKey :
-    public PhotoSearchCriteria
+    public IPhotoSearchCriteria
 {
     private:
         Glib::ustring title_;

@@ -1,6 +1,6 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 4; tab-width: 4 -*- */
 /*
- * Copyright (C) 2009 Debarshi Ray <rishi@gnu.org>
+ * Copyright (C) 2009, 2010 Debarshi Ray <rishi@gnu.org>
  * Copyright (C) 2009 Santanu Sinha <santanu.sinha@gmail.com>
  *
  * Solang is free software: you can redistribute it and/or modify it
@@ -25,7 +25,7 @@
 
 #include <sigc++/sigc++.h>
 
-#include "photo-search-criteria.h"
+#include "i-photo-search-criteria.h"
 #include "tracker-client.h"
 #include "types.h"
 
@@ -86,7 +86,7 @@ class Database
                    throw();
 
         void
-        search_async(const PhotoSearchCriteriaList & criteria,
+        search_async(const IPhotoSearchCriteriaList & criteria,
                      const SlotAsyncPhotos & slot) const throw();
 
         //Group by year

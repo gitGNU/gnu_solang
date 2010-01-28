@@ -14,10 +14,10 @@ ExifDataKey::get_query_criteria() const throw()
     return Glib::ustring::compose("%1 '%2' .", key_, value_);
 }
 
-PhotoSearchCriteria::ClubbingOperationType
+IPhotoSearchCriteria::ClubbingOperationType
 ExifDataKey::get_clubbing_type() const throw()
 {
-    return PhotoSearchCriteria::CLUB_AND;
+    return IPhotoSearchCriteria::CLUB_AND;
 }
 
 gint32

@@ -92,7 +92,7 @@ class Application :
 
         void
         set_drag_item(const Glib::ustring &, //key
-                      const PhotoSearchCriteriaPtr &) throw();
+                      const IPhotoSearchCriteriaPtr &) throw();
 
     protected:
 
@@ -113,7 +113,7 @@ class Application :
         on_async_search(PhotoList & photos) throw();
 
         void
-        on_criteria_changed(PhotoSearchCriteriaList & criteria)
+        on_criteria_changed(IPhotoSearchCriteriaList & criteria)
                             throw();
 
         void

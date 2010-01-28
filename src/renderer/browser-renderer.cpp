@@ -35,7 +35,6 @@
 #include "i-renderer-selector.h"
 #include "main-window.h"
 #include "photo.h"
-#include "photo-search-criteria.h"
 #include "scale-action.h"
 
 namespace Solang

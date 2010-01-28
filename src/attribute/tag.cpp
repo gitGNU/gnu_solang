@@ -1,5 +1,6 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 4; tab-width: 4 -*- */
 /*
+ * Copyright (C) 2009, 2010 Debarshi Ray <rishi@gnu.org>
  * Copyright (C) 2009 Santanu Sinha <santanu.sinha@gmail.com>
  *
  * Solang is free software: you can redistribute it and/or modify it
@@ -34,7 +35,7 @@ Tag::Tag(const Glib::ustring & name,
          const Glib::ustring & description,
          const std::string & urn) throw() :
     DBObject(),
-    PhotoSearchCriteria(),
+    IPhotoSearchCriteria(),
     name_(name),
     description_(description),
     urn_(urn)
@@ -153,10 +154,10 @@ Tag::set_icon_path(Glib::ustring const & value)
     iconPath_ = value;
 }
 
-PhotoSearchCriteria::ClubbingOperationType
+IPhotoSearchCriteria::ClubbingOperationType
 Tag::get_clubbing_type() const throw()
 {
-    return PhotoSearchCriteria::CLUB_OR;
+    return IPhotoSearchCriteria::CLUB_OR;
 }
 
 gint32

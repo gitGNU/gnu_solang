@@ -1,5 +1,6 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 4; tab-width: 4 -*- */
 /*
+ * Copyright (C) 2010 Debarshi Ray <rishi@gnu.org>
  * Copyright (C) 2009 Santanu Sinha <santanu.sinha@gmail.com>
  *
  * Solang is free software: you can redistribute it and/or modify it
@@ -20,16 +21,16 @@
 #include "config.h"
 #endif // HAVE_CONFIG_H
 
-#include "photo-search-criteria.h"
+#include "i-photo-search-criteria.h"
 
 namespace Solang
 {
 
-PhotoSearchCriteria::PhotoSearchCriteria()
+IPhotoSearchCriteria::IPhotoSearchCriteria()
 {
 }
 
-PhotoSearchCriteria::~PhotoSearchCriteria() throw()
+IPhotoSearchCriteria::~IPhotoSearchCriteria() throw()
 {
 }
 

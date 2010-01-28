@@ -1,6 +1,6 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 4; tab-width: 4 -*- */
 /*
- * Copyright (C) 2009 Debarshi Ray <rishi@gnu.org>
+ * Copyright (C) 2009, 2010 Debarshi Ray <rishi@gnu.org>
  * Copyright (C) 2009 Santanu Sinha <santanu.sinha@gmail.com>
  *
  * Solang is free software: you can redistribute it and/or modify it
@@ -26,10 +26,10 @@
 
 #include "database.h"
 #include "deletion-queue.h"
+#include "i-photo-search-criteria.h"
 #include "i-storage.h"
 #include "non-copyable.h"
 #include "photo.h"
-#include "photo-search-criteria.h"
 #include "search-criterion-repo.h"
 #include "types.h"
 
@@ -96,7 +96,7 @@ class Engine :
                const ProgressObserverPtr & observer) throw();
 
         void
-        search_async(const PhotoSearchCriteriaList & criteria,
+        search_async(const IPhotoSearchCriteriaList & criteria,
                      const Database::SlotAsyncPhotos & slot) const
                      throw();
 
@@ -141,7 +141,7 @@ class Engine :
         Glib::Dispatcher &
         photo_import_end() throw();
 
-        sigc::signal<void, PhotoSearchCriteriaList &> &
+        sigc::signal<void, IPhotoSearchCriteriaList &> &
         signal_criteria_changed() throw();
 
         Glib::Dispatcher &
@@ -189,7 +189,7 @@ class Engine :
 
         Glib::Dispatcher tagAddEnd_;
 
-        sigc::signal<void, PhotoSearchCriteriaList &>
+        sigc::signal<void, IPhotoSearchCriteriaList &>
             criteriaChanged_;
 
         sigc::signal<void> selectionChanged_;

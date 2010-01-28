@@ -33,7 +33,6 @@
 #include "i-renderer-selector.h"
 #include "main-window.h"
 #include "photo.h"
-#include "photo-search-criteria.h"
 #include "pixbuf-maker.h"
 #include "types.h"
 

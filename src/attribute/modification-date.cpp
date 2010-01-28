@@ -1,6 +1,6 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 4; tab-width: 4 -*- */
 /*
- * Copyright (C) 2009 Debarshi Ray <rishi@gnu.org>
+ * Copyright (C) 2009, 2010 Debarshi Ray <rishi@gnu.org>
  * Copyright (C) 2009 Santanu Sinha <santanu.sinha@gmail.com>
  *
  * Solang is free software: you can redistribute it and/or modify it
@@ -36,10 +36,10 @@ ModificationDate::get_query_criteria() const throw()
     return Glib::ustring();
 }
 
-PhotoSearchCriteria::ClubbingOperationType
+IPhotoSearchCriteria::ClubbingOperationType
 ModificationDate::get_clubbing_type() const throw()
 {
-    return PhotoSearchCriteria::CLUB_OR;
+    return IPhotoSearchCriteria::CLUB_OR;
 }
 
 gint32

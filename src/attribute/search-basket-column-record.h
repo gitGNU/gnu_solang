@@ -1,6 +1,6 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 4; tab-width: 4 -*- */
 /*
- * Copyright (C) Debarshi Ray 2009 <rishi@gnu.org>
+ * Copyright (C) Debarshi Ray 2009, 2010 <rishi@gnu.org>
  *
  * Solang is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -49,7 +49,7 @@ class SearchBasketColumnRecord :
         gint
         get_column_description_num() const throw();
 
-        const Gtk::TreeModelColumn<PhotoSearchCriteriaPtr> &
+        const Gtk::TreeModelColumn<IPhotoSearchCriteriaPtr> &
         get_column_criteria() const throw();
 
         gint
@@ -60,7 +60,7 @@ class SearchBasketColumnRecord :
 
         Gtk::TreeModelColumn<Glib::ustring> columnDescription_;
 
-        Gtk::TreeModelColumn<PhotoSearchCriteriaPtr> criteria_;
+        Gtk::TreeModelColumn<IPhotoSearchCriteriaPtr> criteria_;
 
     private:
 };

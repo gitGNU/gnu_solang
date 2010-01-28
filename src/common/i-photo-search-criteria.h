@@ -1,5 +1,6 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 4; tab-width: 4 -*- */
 /*
+ * Copyright (C) 2010 Debarshi Ray <rishi@gnu.org>
  * Copyright (C) 2009 Santanu Sinha <santanu.sinha@gmail.com>
  *
  * Solang is free software: you can redistribute it and/or modify it
@@ -16,8 +17,8 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef SOLANG_PHOTO_SEARCH_CRITERIA_H
-#define SOLANG_PHOTO_SEARCH_CRITERIA_H
+#ifndef SOLANG_I_PHOTO_SEARCH_CRITERIA_H
+#define SOLANG_I_PHOTO_SEARCH_CRITERIA_H
 
 #include <tr1/memory>
 
@@ -29,7 +30,7 @@
 namespace Solang
 {
 
-class PhotoSearchCriteria :
+class IPhotoSearchCriteria :
     public NonCopyable
 {
     public:
@@ -41,11 +42,11 @@ class PhotoSearchCriteria :
                         //clubbed using "OR"
         };
     protected:
-        PhotoSearchCriteria();
+        IPhotoSearchCriteria();
 
     public:
         virtual
-        ~PhotoSearchCriteria() throw();
+        ~IPhotoSearchCriteria() throw();
 
         //Returns SQL formatted string that can be appended
         //in the where clause
@@ -64,9 +65,8 @@ class PhotoSearchCriteria :
 
         virtual Glib::ustring
         get_criteria_icon_path() const throw() = 0;
-
 };
 
 } // namespace Solang
 
-#endif // SOLANG_PHOTO_SEARCH_CRITERIA_H
+#endif // SOLANG_I_PHOTO_SEARCH_CRITERIA_H

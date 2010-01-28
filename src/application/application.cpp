@@ -272,7 +272,7 @@ Application::init() throw()
 {
     engine_.init("");
     engine_.search_async(
-        PhotoSearchCriteriaList(),
+        IPhotoSearchCriteriaList(),
         sigc::mem_fun(*this,
                       &Application::on_async_search));
 
@@ -490,7 +490,7 @@ Application::on_async_search(PhotoList & photos) throw()
 }
 
 void
-Application::on_criteria_changed(PhotoSearchCriteriaList & criteria)
+Application::on_criteria_changed(IPhotoSearchCriteriaList & criteria)
                                  throw()
 {
     engine_.search_async(
@@ -605,7 +605,7 @@ Application::get_drag_drop_map() throw()
 
 void
 Application::set_drag_item(const Glib::ustring & key,
-                const PhotoSearchCriteriaPtr &criteria) throw()
+                const IPhotoSearchCriteriaPtr &criteria) throw()
 {
     //Existing item will be replaced
     //This handles double dragging of same criteria

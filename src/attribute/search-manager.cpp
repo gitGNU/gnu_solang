@@ -275,7 +275,7 @@ SearchManager::add_item_to_list( const Glib::ustring &key )
 
     SearchBasketColumnRecord model_column_record;
 
-    PhotoSearchCriteriaPtr criteria = (*it).second;
+    IPhotoSearchCriteriaPtr criteria = (*it).second;
     Glib::ustring iconPath = criteria->get_criteria_icon_path();
     Glib::ustring description
                     = criteria->get_criteria_description();
@@ -286,7 +286,7 @@ SearchManager::add_item_to_list( const Glib::ustring &key )
                                 current != children.end(); current++)
     {
         Gtk::TreeModel::Row row = (*current);
-        PhotoSearchCriteriaPtr tag
+        IPhotoSearchCriteriaPtr tag
                 = row[ model_column_record.get_column_criteria()];
 
         if( tag->get_criteria_description() == description )
@@ -322,7 +322,7 @@ SearchManager::apply_criterion()
 
 void
 SearchManager::get_criterion(
-                    PhotoSearchCriteriaList &criterion) const throw()
+                    IPhotoSearchCriteriaList &criterion) const throw()
 {
     SearchBasketColumnRecord model_column_record;
     Gtk::TreeModel::Children children = listStore_->children();
@@ -330,7 +330,7 @@ SearchManager::get_criterion(
                                 current != children.end(); current++)
     {
         Gtk::TreeModel::Row row = (*current);
-        PhotoSearchCriteriaPtr tag
+        IPhotoSearchCriteriaPtr tag
                 = row[ model_column_record.get_column_criteria()];
         criterion.push_back( tag );
     }

@@ -41,6 +41,8 @@ libcommon_la_SOURCES = \
 	i-operation.h \
 	i-photo-destination.cpp \
 	i-photo-destination.h \
+	i-photo-search-criteria.cpp \
+	i-photo-search-criteria.h \
 	i-photo-source.cpp \
 	i-photo-source.h \
 	i-plugin.cpp \
@@ -57,8 +59,6 @@ libcommon_la_SOURCES = \
 	operation.h \
 	photo.cpp \
 	photo.h \
-	photo-search-criteria.cpp \
-	photo-search-criteria.h \
 	plugin.cpp \
 	plugin.h \
 	pixbuf-maker.cpp \

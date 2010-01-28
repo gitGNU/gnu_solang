@@ -29,14 +29,14 @@ class SearchCriterionRepo
 {
     private:
         Glib::Mutex mutex_;
-        PhotoSearchCriteriaList criterion_;
+        IPhotoSearchCriteriaList criterion_;
         SearchCriterionSourceList sources_;
 
     public:
         SearchCriterionRepo();
         ~SearchCriterionRepo();
 
-        inline const PhotoSearchCriteriaList &
+        inline const IPhotoSearchCriteriaList &
         get_criterion() const throw();
 
         void
@@ -49,7 +49,7 @@ class SearchCriterionRepo
 };
 
 
-inline const PhotoSearchCriteriaList &
+inline const IPhotoSearchCriteriaList &
 SearchCriterionRepo::get_criterion() const throw()
 {
     return criterion_;

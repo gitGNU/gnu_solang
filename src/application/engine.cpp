@@ -1,6 +1,6 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 4; tab-width: 4 -*- */
 /*
- * Copyright (C) 2009 Debarshi Ray <rishi@gnu.org>
+ * Copyright (C) 2009, 2010 Debarshi Ray <rishi@gnu.org>
  * Copyright (C) 2009 Santanu Sinha <santanu.sinha@gmail.com>
  *
  * Solang is free software: you can redistribute it and/or modify it
@@ -74,7 +74,8 @@ void
 Engine::criteria_changed() throw()
 {
     criterionRepo_.update();
-    PhotoSearchCriteriaList criteria = criterionRepo_.get_criterion();
+    IPhotoSearchCriteriaList criteria
+                                 = criterionRepo_.get_criterion();
     criteriaChanged_.emit(criteria);
 }
 
@@ -190,7 +191,7 @@ Engine::import(const IPhotoSourcePtr & source,
 }
 
 void
-Engine::search_async(const PhotoSearchCriteriaList & criteria,
+Engine::search_async(const IPhotoSearchCriteriaList & criteria,
                      const Database::SlotAsyncPhotos & slot) const
                      throw()
 {
@@ -300,7 +301,7 @@ Engine::selection_changed() throw()
     return selectionChanged_;
 }
 
-sigc::signal<void, PhotoSearchCriteriaList &> &
+sigc::signal<void, IPhotoSearchCriteriaList &> &
 Engine::signal_criteria_changed() throw()
 {
     return criteriaChanged_;

@@ -202,13 +202,14 @@ typedef std::tr1::shared_ptr<Photo> PhotoPtr;
 typedef Photo * UnrefPhotoPtr;
 typedef std::vector<PhotoPtr> PhotoList;
 
-class PhotoSearchCriteria;
-typedef std::tr1::shared_ptr<const PhotoSearchCriteria>
-    ConstPhotoSearchCriteriaPtr;
-typedef std::tr1::shared_ptr<PhotoSearchCriteria>
-    PhotoSearchCriteriaPtr;
-typedef std::vector<PhotoSearchCriteriaPtr> PhotoSearchCriteriaList;
-typedef std::map<Glib::ustring,PhotoSearchCriteriaPtr> DragDropCriteriaMap;
+class IPhotoSearchCriteria;
+typedef std::tr1::shared_ptr<const IPhotoSearchCriteria>
+    ConstIPhotoSearchCriteriaPtr;
+typedef std::tr1::shared_ptr<IPhotoSearchCriteria>
+    IPhotoSearchCriteriaPtr;
+typedef std::vector<IPhotoSearchCriteriaPtr> IPhotoSearchCriteriaList;
+typedef std::map<Glib::ustring, IPhotoSearchCriteriaPtr>
+    DragDropCriteriaMap;
 
 class PixbufMaker;
 typedef std::tr1::shared_ptr<const PixbufMaker> ConstPixbufMakerPtr;
