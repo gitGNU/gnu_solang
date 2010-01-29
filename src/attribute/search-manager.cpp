@@ -29,6 +29,7 @@
 #include "browser-renderer.h"
 #include "engine.h"
 #include "enlarged-renderer.h"
+#include "free-text.h"
 #include "main-window.h"
 #include "search-basket-column-record.h"
 #include "search-manager.h"
@@ -53,6 +54,7 @@ SearchManager::SearchManager() throw() :
     dockItemBehaviour_(GDL_DOCK_ITEM_BEH_NORMAL),
     dockItem_(NULL),
     vBox_( false, 6 ),
+    entry_(),
     scrolledWindow_(),
     listStore_(Gtk::ListStore::create(SearchBasketColumnRecord())),
     searchBasket_(listStore_),
@@ -81,6 +83,8 @@ SearchManager::SearchManager() throw() :
                           &SearchManager::on_action_remove_selected));
     }
 
+    vBox_.pack_start(entry_, Gtk::PACK_SHRINK, 0);
+
     scrolledWindow_.set_policy(Gtk::POLICY_AUTOMATIC,
                                Gtk::POLICY_AUTOMATIC);
 
@@ -103,6 +107,9 @@ SearchManager::SearchManager() throw() :
                       GTK_WIDGET(vBox_.gobj()));
 
     vBox_.pack_start( scrolledWindow_, Gtk::PACK_EXPAND_WIDGET,0 );
+
+    entry_.signal_changed().connect(
+        sigc::mem_fun(*this, &SearchManager::on_entry_changed));
 
     std::vector<Gtk::TargetEntry> targets;
     targets.push_back(Gtk::TargetEntry("STRING",
@@ -239,6 +246,22 @@ SearchManager::on_drag_data_received(
 }
 
 void
+SearchManager::on_entry_changed() throw()
+{
+    static sigc::connection connection;
+
+    connection.disconnect();
+
+    connection
+        = Glib::signal_timeout().connect_seconds(
+              sigc::bind_return(
+                  sigc::mem_fun(*this,
+                                &SearchManager::apply_criterion),
+                  false),
+              1, Glib::PRIORITY_DEFAULT);
+}
+
+void
 SearchManager::on_renderer_changed(
                   RendererRegistry & renderer_registry) throw()
 {
@@ -334,6 +357,14 @@ SearchManager::get_criterion(
                 = row[ model_column_record.get_column_criteria()];
         criterion.push_back( tag );
     }
+
+    if (0 != entry_.get_text_length())
+    {
+        const IPhotoSearchCriteriaPtr free_text(
+            new FreeText(entry_.get_text()));
+        criterion.push_back(free_text);
+    }
+
     return;
 }
 

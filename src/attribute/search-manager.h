@@ -88,6 +88,9 @@ class SearchManager :
                               guint info, guint time) throw();
 
         void
+        on_entry_changed() throw();
+
+        void
         on_renderer_changed(RendererRegistry & renderer_registry)
                             throw();
 
@@ -113,6 +116,8 @@ class SearchManager :
         GtkWidget * dockItem_;
 
         Gtk::VBox vBox_;
+
+        Gtk::Entry entry_;
 
         Gtk::ScrolledWindow scrolledWindow_;
 

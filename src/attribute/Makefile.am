@@ -13,6 +13,8 @@ libattribute_la_SOURCES = \
 	date-view-model-column-record.h \
 	date-view.cpp \
 	date-view.h \
+	free-text.cpp \
+	free-text.h \
 	modification-date.cpp \
 	modification-date.h \
 	photo-tag.cpp \
