@@ -1,6 +1,6 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 4; tab-width: 4 -*- */
 /*
- * Copyright (C) 2009 Debarshi Ray <rishi@gnu.org>
+ * Copyright (C) 2009, 2010 Debarshi Ray <rishi@gnu.org>
  * 
  * Solang is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -113,6 +113,7 @@ ImporterDialog::ImporterDialog(Gtk::Widget & browser,
 
     tagsScrolledWindow_.set_policy(Gtk::POLICY_AUTOMATIC,
                                    Gtk::POLICY_AUTOMATIC);
+    tagsScrolledWindow_.set_shadow_type(Gtk::SHADOW_IN);
     tagsAlignment_.add(tagsScrolledWindow_);
 
     optionsAlignment_.add(optionsVBox2_);

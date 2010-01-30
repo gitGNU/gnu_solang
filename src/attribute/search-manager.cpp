@@ -87,6 +87,7 @@ SearchManager::SearchManager() throw() :
 
     scrolledWindow_.set_policy(Gtk::POLICY_AUTOMATIC,
                                Gtk::POLICY_AUTOMATIC);
+    scrolledWindow_.set_shadow_type(Gtk::SHADOW_IN);
 
     SearchBasketColumnRecord model_column_record;
     searchBasket_.append_column("",

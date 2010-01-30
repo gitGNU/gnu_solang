@@ -135,6 +135,8 @@ TagManager::TagManager() throw() :
 
     scrolledWindow_.set_policy(Gtk::POLICY_AUTOMATIC,
                                Gtk::POLICY_AUTOMATIC);
+    scrolledWindow_.set_shadow_type(Gtk::SHADOW_IN);
+
     scrolledWindow_.add(tagView_);
 #if 0
     tagView_.signal_().connect(

@@ -1,5 +1,6 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 4; tab-width: 4 -*- */
 /*
+ * Copyright (C) 2010 Debarshi Ray <rishi@gnu.org>
  * Copyright (C) 2009 Santanu Sinha <santanu.sinha@gmail.com>
  *
  * Solang is free software: you can redistribute it and/or modify it
@@ -63,6 +64,8 @@ DateManager::DateManager() throw() :
 
     scrolledWindow_.set_policy(Gtk::POLICY_AUTOMATIC,
                                Gtk::POLICY_AUTOMATIC);
+    scrolledWindow_.set_shadow_type(Gtk::SHADOW_IN);
+
     scrolledWindow_.add(dateView_);
 
     vBox_.pack_start( scrolledWindow_, Gtk::PACK_EXPAND_WIDGET,0 );

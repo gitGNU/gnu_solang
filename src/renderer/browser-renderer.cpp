@@ -252,6 +252,7 @@ BrowserRenderer::BrowserRenderer() throw() :
 
     scrolledWindow_.set_policy(Gtk::POLICY_AUTOMATIC,
                                Gtk::POLICY_AUTOMATIC);
+    scrolledWindow_.set_shadow_type(Gtk::SHADOW_IN);
 
     scrolledWindow_.add(thumbnailView_);
     vBox_.pack_start(scrolledWindow_, Gtk::PACK_EXPAND_WIDGET, 0);

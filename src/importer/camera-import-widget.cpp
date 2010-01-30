@@ -1,5 +1,6 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 4; tab-width: 4 -*- */
 /*
+ * Copyright (C) 2010 Debarshi Ray <rishi@gnu.org>
  * Copyright (C) 2009 Santanu Sinha <santanu.sinha@gmail.com>
  *
  * Solang is free software: you can redistribute it and/or modify it
@@ -453,6 +454,7 @@ CameraImportWidget::CameraImportWidget(GPhotoContext &context)
     getPhotos_.set_label(_("Load Pictures"));
     photos_.set_policy(
             Gtk::POLICY_AUTOMATIC, Gtk::POLICY_AUTOMATIC );
+    photos_.set_shadow_type(Gtk::SHADOW_IN);
     cameraPhotos_.set_model( picturesModel_ );
     const TreeSelectionPtr refTreeSelection
                                 = cameraPhotos_.get_selection();

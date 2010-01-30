@@ -1,6 +1,6 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 4; tab-width: 4 -*- */
 /*
- * Copyright (C) 2009 Debarshi Ray <rishi@gnu.org>
+ * Copyright (C) 2009, 2010 Debarshi Ray <rishi@gnu.org>
  *
  * exif-manager.cpp is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -66,6 +66,8 @@ PropertyManager::PropertyManager() throw() :
 
     basicInfo_.set_policy(Gtk::POLICY_AUTOMATIC,
                                Gtk::POLICY_AUTOMATIC);
+    basicInfo_.set_shadow_type(Gtk::SHADOW_IN);
+
     basicInfo_.add(basicExifView_);
 
     histBox_.pack_start( histogram_, Gtk::PACK_SHRINK, 6 );
