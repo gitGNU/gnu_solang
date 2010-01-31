@@ -1,0 +1,606 @@
+# Copyright (C) 2009 solang COPYRIGHT HOLDER
+# This file is distributed under the same license as the solang package.
+#
+# Andrej Žnidaršič <andrej.znidarsic@gmail.com>
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: solang\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=solang&component=General\n"
+"POT-Creation-Date: 2010-01-27 22:58+0000\n"
+"PO-Revision-Date: 2010-01-31 15:59+0100\n"
+"Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
+"Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n%100==4 ? 3 : 0);\n"
+"X-Poedit-Language: Slovenian\n"
+"X-Poedit-Country: SLOVENIA\n"
+"X-Poedit-SourceCharset: utf-8\n"
+
+#: ../data/solang.desktop.in.in.h:1
+msgid "@PACKAGE_NAME@ Photo Manager"
+msgstr "@PACKAGE_NAME@  upravljalnik fotografij"
+
+#: ../data/solang.desktop.in.in.h:2
+msgid "Organize, enjoy and share your photos"
+msgstr "Urejajte, občudujte in kažite vaše fotografije"
+
+#: ../data/solang.desktop.in.in.h:3
+msgid "Photo Manager"
+msgstr "Upravljalnik fotografij"
+
+#: ../src/application/main-window.cpp:250
+msgid "_Photo"
+msgstr "_Fotografija"
+
+#: ../src/application/main-window.cpp:259
+#: ../src/renderer/browser-renderer.cpp:131
+msgid "_Edit"
+msgstr "_Uredi"
+
+#: ../src/application/main-window.cpp:264
+#: ../src/renderer/browser-renderer.cpp:136
+msgid "_Add to Export Queue"
+msgstr "_Dodaj v čakalno vrsto izvoza"
+
+#: ../src/application/main-window.cpp:271
+msgid "_Clear Export Queue"
+msgstr "_Počisti čakalno vrsto izvoza"
+
+#: ../src/application/main-window.cpp:276
+msgid "_View"
+msgstr "_Pogled"
+
+#: ../src/application/main-window.cpp:280
+msgid "_Toolbar"
+msgstr "_Orodna vrstica"
+
+#: ../src/application/main-window.cpp:281
+msgid "Show or hide the toolbar in the current window"
+msgstr "Pokaži ali skrij orodno vrstico v trenutnem oknu"
+
+#: ../src/application/main-window.cpp:287
+msgid "_Statusbar"
+msgstr "_Vrstica stanja"
+
+#: ../src/application/main-window.cpp:288
+msgid "Show or hide the statusbar in the current window"
+msgstr "Pokaži ali skrij vrstico stanja v trenutnem oknu"
+
+#: ../src/application/main-window.cpp:295
+msgid "_Full Screen"
+msgstr "_Cel zaslon"
+
+#: ../src/application/main-window.cpp:296
+msgid "Show the current photo in full screen mode"
+msgstr "Pokaži trenutno fotografijo v celozaslonskem načinu"
+
+#: ../src/application/main-window.cpp:313
+msgid "_Help"
+msgstr "Pomo_č"
+
+#: ../src/application/main-window.cpp:618
+msgid "A photo manager for GNOME"
+msgstr "Upravljalnik fotografij za GNOME"
+
+#: ../src/application/main-window.cpp:668
+msgid "translator-credits"
+msgstr "Andrej Žnidaršič <andrej.znidarsic@gmail.com>"
+
+#: ../src/application/main-window.cpp:672
+msgid "%1 Website"
+msgstr "Spletišče %1"
+
+#: ../src/attribute/basic-exif-view.cpp:93
+msgid "Camera"
+msgstr "Fotoaparat"
+
+#: ../src/attribute/basic-exif-view.cpp:112
+msgid "Exposure time"
+msgstr "Čas osvetlitve"
+
+#: ../src/attribute/basic-exif-view.cpp:132
+msgid "Flash"
+msgstr "Flash"
+
+#: ../src/attribute/basic-exif-view.cpp:151
+msgid "F-number"
+msgstr "F-število"
+
+#: ../src/attribute/basic-exif-view.cpp:170
+msgid "ISO speed"
+msgstr "Hitrost ISO"
+
+#: ../src/attribute/basic-exif-view.cpp:189
+msgid "Metering mode"
+msgstr "Način merjenja"
+
+#: ../src/attribute/basic-exif-view.cpp:209
+msgid "Focal length"
+msgstr "Goriščna razdalja"
+
+#: ../src/attribute/basic-exif-view.cpp:229
+msgid "White balance"
+msgstr "Ravnotežje bele barve"
+
+#: ../src/attribute/date-manager.cpp:49
+msgid "Picture Taken Date"
+msgstr "Datum zajema fotografije"
+
+#: ../src/attribute/property-manager.cpp:49
+msgid "Properties"
+msgstr "Lastnosti"
+
+#: ../src/attribute/property-manager.cpp:73
+msgid "Basic"
+msgstr "Osnovno"
+
+#: ../src/attribute/property-manager.cpp:74
+msgid "Histogram"
+msgstr "Histogram"
+
+#: ../src/attribute/search-manager.cpp:52
+msgid "Search"
+msgstr "Iskanje"
+
+#: ../src/attribute/search-manager.cpp:65
+msgid "Select _All"
+msgstr "Izberi _vse"
+
+#: ../src/attribute/search-manager.cpp:66
+msgid "Select all the filters in this list"
+msgstr "Izbor vseh predmetov v tem seznamu"
+
+#: ../src/attribute/search-manager.cpp:74
+msgid "_Remove"
+msgstr "_Odstrani"
+
+#: ../src/attribute/search-manager.cpp:75
+msgid "Remove the selected filters from this list"
+msgstr "Odstranitev izbranih filtrov iz tega seznama"
+
+#: ../src/attribute/tag-manager.cpp:54
+msgid "Tags"
+msgstr "Oznake"
+
+#: ../src/attribute/tag-manager.cpp:100
+msgid "_Tags"
+msgstr "_Oznake"
+
+#: ../src/attribute/tag-manager.cpp:105
+msgid "Create New _Tag..."
+msgstr "Ustvari _novo oznako ..."
+
+#: ../src/attribute/tag-manager.cpp:112
+msgid "_Edit Selected Tag..."
+msgstr "_Uredi izbrano oznako ..."
+
+#: ../src/attribute/tag-manager.cpp:119
+msgid "_Delete Selected Tag"
+msgstr "_Izbriši izbrano oznako"
+
+#: ../src/attribute/tag-manager.cpp:125
+msgid "_Attach Tag to Selection"
+msgstr "_Pripni oznako izboru"
+
+#: ../src/attribute/tag-manager.cpp:132
+msgid "_Remove Tag From Selection"
+msgstr "_Odstrani oznako iz izbora"
+
+#: ../src/attribute/tag-new-dialog.cpp:39
+#: ../src/attribute/tag-new-dialog.cpp:69
+msgid "Parent:"
+msgstr "Nadrejeni predmet:"
+
+#: ../src/attribute/tag-new-dialog.cpp:44
+#: ../src/attribute/tag-new-dialog.cpp:74
+msgid "Name:"
+msgstr "Ime:"
+
+#: ../src/attribute/tag-new-dialog.cpp:49
+#: ../src/attribute/tag-new-dialog.cpp:79
+msgid "Description:"
+msgstr "Opis:"
+
+#: ../src/attribute/tag-new-dialog.cpp:56
+msgid "Create New Tag"
+msgstr "Ustvari novo oznako"
+
+#: ../src/attribute/tag-new-dialog.cpp:127
+msgid "Select Tag Icon"
+msgstr "Izbor ikone oznake"
+
+#: ../src/common/exif-data.cpp:161
+msgid "Off"
+msgstr "Izključeno"
+
+#: ../src/common/exif-data.cpp:165
+msgid "On"
+msgstr "Vključeno"
+
+#: ../src/common/exif-data.cpp:199
+msgid "Average"
+msgstr "Povprečje"
+
+#: ../src/common/exif-data.cpp:203
+msgid "Center Weighted Average"
+msgstr "Središči obteženo povprečje"
+
+#: ../src/common/exif-data.cpp:207
+msgid "Spot"
+msgstr "Točka"
+
+#: ../src/common/exif-data.cpp:211
+msgid "Multi-spot"
+msgstr "Več točk"
+
+#: ../src/common/exif-data.cpp:215
+msgid "Pattern"
+msgstr "Vzorec"
+
+#: ../src/common/exif-data.cpp:219
+msgid "Partial"
+msgstr "Delno"
+
+#: ../src/common/exif-data.cpp:235
+msgid "Automatic"
+msgstr "Samodejno"
+
+#: ../src/common/exif-data.cpp:239
+msgid "Manual"
+msgstr "Ročno"
+
+#: ../src/common/histogram-viewer.cpp:37
+msgid "Type"
+msgstr "Vrsta"
+
+#: ../src/common/histogram-viewer.cpp:42
+msgid "Channels"
+msgstr "Kanali"
+
+#: ../src/common/histogram-viewer.cpp:67
+msgid "Linear"
+msgstr "Linearna"
+
+#: ../src/common/histogram-viewer.cpp:72
+msgid "Logarithmic"
+msgstr "Logaritemska"
+
+#: ../src/common/histogram-viewer.cpp:80
+msgid "RGB"
+msgstr "RGB"
+
+#: ../src/common/histogram-viewer.cpp:85
+msgid "Red"
+msgstr "Rdeča"
+
+#: ../src/common/histogram-viewer.cpp:90
+msgid "Green"
+msgstr "Zelena"
+
+#: ../src/common/histogram-viewer.cpp:95
+msgid "Blue"
+msgstr "Modra"
+
+#: ../src/editor/editor.cpp:113
+msgid "T_ools"
+msgstr "_Orodja"
+
+#: ../src/editor/editor.cpp:117
+msgid "_Transform"
+msgstr "_Preoblikuj"
+
+#: ../src/editor/editor.cpp:123
+msgid "Flip _Horizontal"
+msgstr "Zrcali _vodoravno"
+
+#: ../src/editor/editor.cpp:124
+msgid "Mirror the photo horizontally"
+msgstr "Zrcali fotografijo vodoravno"
+
+#: ../src/editor/editor.cpp:135
+msgid "Flip _Vertical"
+msgstr "Zrcali _navpično"
+
+#: ../src/editor/editor.cpp:136
+msgid "Mirror the photo vertically"
+msgstr "Zrcali fotografijo navpično"
+
+#: ../src/editor/editor.cpp:147
+msgid "_Rotate Clockwise"
+msgstr "Zavrti v _smeri urinega kazalca"
+
+#: ../src/editor/editor.cpp:148
+msgid "Rotate the photo 90 degrees to the right"
+msgstr "Vrtenje fotografije 90 stopinj v desno"
+
+#: ../src/editor/editor.cpp:159
+msgid "Rotate Counterc_lockwise"
+msgstr "Zavrti v _nasproti smeri urinega kazalca"
+
+#: ../src/editor/editor.cpp:160
+msgid "Rotate the photo 90 degrees to the left"
+msgstr "Vrtenje fotografije za 90 stopinj v levo"
+
+#: ../src/editor/flip-horiz-operation.cpp:43
+msgid "Flipping horizontally..."
+msgstr "Zrcaljenje vodoravno ..."
+
+#: ../src/editor/flip-operation.cpp:57
+msgid "Flipping..."
+msgstr "Zrcaljenje ..."
+
+#: ../src/editor/flip-vert-operation.cpp:43
+msgid "Flipping vertically..."
+msgstr "Zrcaljenje navpično ..."
+
+#: ../src/editor/rotate-clock-operation.cpp:43
+msgid "Rotating clockwise..."
+msgstr "Vrtenje v smeri urinega kazalca ..."
+
+#: ../src/editor/rotate-counter-operation.cpp:43
+msgid "Rotating counterclockwise..."
+msgstr "Vrtenje v nasprotni smeri urinega kazalca ..."
+
+#: ../src/editor/rotate-operation.cpp:55
+msgid "Rotating..."
+msgstr "Vrtenje ..."
+
+#: ../src/exporter/directory-destination.cpp:90
+msgid "Exporting photos"
+msgstr "Izvažanje fotografij"
+
+#: ../src/exporter/directory-destination.cpp:178
+msgid "Select Folder"
+msgstr "Izbor mape"
+
+#: ../src/exporter/directory-destination.cpp:187
+msgid "_Folder..."
+msgstr "_Mapa ..."
+
+#: ../src/exporter/exporter-dialog.cpp:33
+msgid "Export"
+msgstr "Izvozi"
+
+#: ../src/exporter/exporter-dialog.cpp:42
+msgid "_Destination:"
+msgstr "_Cilj:"
+
+#: ../src/exporter/exporter-dialog.cpp:44
+msgid "_Detect duplicates"
+msgstr "_Zaznaj dvojnike"
+
+#: ../src/exporter/exporter-dialog.cpp:48
+msgid "_Create an archive"
+msgstr "Ustvari _arhiv"
+
+#: ../src/exporter/exporter-dialog.cpp:66
+msgid "General"
+msgstr "Splošno"
+
+#: ../src/exporter/exporter-dialog.cpp:78
+msgid "Options"
+msgstr "Možnosti"
+
+#: ../src/exporter/exporter-dialog.cpp:111
+msgid "_Export"
+msgstr "_Izvozi"
+
+#: ../src/renderer/browser-renderer.cpp:144
+#: ../src/renderer/enlarged-renderer.cpp:278
+msgid "_Slideshow"
+msgstr "_Diaprojekcija"
+
+#: ../src/renderer/browser-renderer.cpp:145
+#: ../src/renderer/enlarged-renderer.cpp:279
+msgid "Start a slideshow view of the photos"
+msgstr "Začetek ogleda diaprojekcije fotografij "
+
+#: ../src/renderer/browser-renderer.cpp:154
+msgid "Enlarge or shrink the thumbnails"
+msgstr "Povečaj ali skrči sličice"
+
+#: ../src/renderer/browser-renderer.cpp:176
+#: ../src/renderer/enlarged-renderer.cpp:291
+#: ../src/renderer/enlarged-renderer.cpp:424
+#: ../src/renderer/enlarged-renderer.cpp:433
+#: ../src/renderer/enlarged-renderer.cpp:442
+msgid "_Zoom In"
+msgstr "Pov_ečaj"
+
+#: ../src/renderer/browser-renderer.cpp:177
+msgid "Enlarge the thumbnails"
+msgstr "Povečanje sličic"
+
+#: ../src/renderer/browser-renderer.cpp:188
+msgid "_Zoom Out"
+msgstr "Po_manjšaj"
+
+#: ../src/renderer/browser-renderer.cpp:189
+msgid "Shrink the thumbnails"
+msgstr "Skrčenje sličic"
+
+#: ../src/renderer/browser-renderer.cpp:200
+#: ../src/renderer/enlarged-renderer.cpp:286
+msgid "_Go"
+msgstr "Po_jdi"
+
+#: ../src/renderer/browser-renderer.cpp:205
+msgid "_Previous Page"
+msgstr "_Predhodna stran"
+
+#: ../src/renderer/browser-renderer.cpp:206
+msgid "Go to the previous page in the collection"
+msgstr "Pojdi na predhodno stran v zbirki"
+
+#: ../src/renderer/browser-renderer.cpp:208
+#: ../src/renderer/enlarged-renderer.cpp:350
+#: ../src/renderer/slideshow-renderer.cpp:143
+#: ../src/renderer/slideshow-renderer.cpp:187
+msgid "Previous"
+msgstr "Predhodna"
+
+#: ../src/renderer/browser-renderer.cpp:220
+msgid "_Next Page"
+msgstr "_Naslednja stran"
+
+#: ../src/renderer/browser-renderer.cpp:221
+msgid "Go to the next page in the collection"
+msgstr "Pojdi na naslednjo stran v zbirki"
+
+#: ../src/renderer/browser-renderer.cpp:223
+#: ../src/renderer/enlarged-renderer.cpp:364
+#: ../src/renderer/slideshow-renderer.cpp:152
+#: ../src/renderer/slideshow-renderer.cpp:196
+msgid "Next"
+msgstr "Naslednja"
+
+#: ../src/renderer/browser-renderer.cpp:234
+msgid "_First Page"
+msgstr "P_rva stran"
+
+#: ../src/renderer/browser-renderer.cpp:235
+msgid "Go to the first page in the collection"
+msgstr "Pojdi na prvo stran v zbirki"
+
+#: ../src/renderer/browser-renderer.cpp:247
+msgid "_Last Page"
+msgstr "_Zadnja stran"
+
+#: ../src/renderer/browser-renderer.cpp:248
+msgid "Go to the last page in the collection"
+msgstr "Pojdi na zadnjo stran v zbirki"
+
+#: ../src/renderer/enlarged-renderer.cpp:73
+msgid "Enlarged"
+msgstr "Povečana"
+
+#: ../src/renderer/enlarged-renderer.cpp:292
+#: ../src/renderer/enlarged-renderer.cpp:425
+#: ../src/renderer/enlarged-renderer.cpp:434
+#: ../src/renderer/enlarged-renderer.cpp:443
+#: ../src/renderer/slideshow-window.cpp:75
+#: ../src/renderer/slideshow-window.cpp:110
+#: ../src/renderer/slideshow-window.cpp:119
+#: ../src/renderer/slideshow-window.cpp:128
+msgid "Enlarge the photo"
+msgstr "Povečaj fotografijo"
+
+#: ../src/renderer/enlarged-renderer.cpp:294
+#: ../src/renderer/slideshow-window.cpp:74
+#: ../src/renderer/slideshow-window.cpp:109
+#: ../src/renderer/slideshow-window.cpp:118
+#: ../src/renderer/slideshow-window.cpp:127
+msgid "In"
+msgstr "Povečaj"
+
+#: ../src/renderer/enlarged-renderer.cpp:305
+#: ../src/renderer/enlarged-renderer.cpp:451
+#: ../src/renderer/enlarged-renderer.cpp:460
+msgid "Zoom _Out"
+msgstr "Po_manjšaj"
+
+#: ../src/renderer/enlarged-renderer.cpp:306
+#: ../src/renderer/enlarged-renderer.cpp:452
+#: ../src/renderer/enlarged-renderer.cpp:461
+#: ../src/renderer/slideshow-window.cpp:84
+#: ../src/renderer/slideshow-window.cpp:137
+#: ../src/renderer/slideshow-window.cpp:146
+msgid "Shrink the photo"
+msgstr "Skrči forografijo"
+
+#: ../src/renderer/enlarged-renderer.cpp:308
+#: ../src/renderer/slideshow-window.cpp:83
+#: ../src/renderer/slideshow-window.cpp:136
+#: ../src/renderer/slideshow-window.cpp:145
+msgid "Out"
+msgstr "Pomanjšaj"
+
+#: ../src/renderer/enlarged-renderer.cpp:319
+msgid "_Normal Size"
+msgstr "Običaj_na velikost"
+
+#: ../src/renderer/enlarged-renderer.cpp:320
+#: ../src/renderer/slideshow-window.cpp:93
+msgid "Show the photo at its normal size"
+msgstr "Pokaži fotografijo v običajni velikosti"
+
+#: ../src/renderer/enlarged-renderer.cpp:322
+#: ../src/renderer/slideshow-window.cpp:92
+msgid "Normal"
+msgstr "Običajna"
+
+#: ../src/renderer/enlarged-renderer.cpp:333
+msgid "Best _Fit"
+msgstr "Najboljša _prilagoditev"
+
+#: ../src/renderer/enlarged-renderer.cpp:334
+#: ../src/renderer/slideshow-window.cpp:102
+msgid "Fit the photo to the window"
+msgstr "Prilagajanje fotografije oknu"
+
+#: ../src/renderer/enlarged-renderer.cpp:336
+#: ../src/renderer/slideshow-window.cpp:101
+msgid "Fit"
+msgstr "Prilagodi"
+
+#: ../src/renderer/enlarged-renderer.cpp:347
+#: ../src/renderer/enlarged-renderer.cpp:391
+msgid "_Previous Photo"
+msgstr "_Predhodna fotografija"
+
+#: ../src/renderer/enlarged-renderer.cpp:348
+#: ../src/renderer/enlarged-renderer.cpp:392
+#: ../src/renderer/slideshow-renderer.cpp:144
+#: ../src/renderer/slideshow-renderer.cpp:188
+msgid "Go to the previous photo in the collection"
+msgstr "Pojdi na predhodno fotografijo v zbirki"
+
+#: ../src/renderer/enlarged-renderer.cpp:361
+#: ../src/renderer/enlarged-renderer.cpp:400
+msgid "_Next Photo"
+msgstr "_Naslednja fotografija"
+
+#: ../src/renderer/enlarged-renderer.cpp:362
+#: ../src/renderer/enlarged-renderer.cpp:401
+#: ../src/renderer/slideshow-renderer.cpp:153
+#: ../src/renderer/slideshow-renderer.cpp:197
+msgid "Go to the next photo in the collection"
+msgstr "Pojdi na naslednjo fotografijo v zbirki"
+
+#: ../src/renderer/enlarged-renderer.cpp:375
+#: ../src/renderer/enlarged-renderer.cpp:408
+msgid "_First Photo"
+msgstr "_Prva fotografija"
+
+#: ../src/renderer/enlarged-renderer.cpp:376
+#: ../src/renderer/enlarged-renderer.cpp:409
+#: ../src/renderer/slideshow-renderer.cpp:136
+#: ../src/renderer/slideshow-renderer.cpp:180
+msgid "Go to the first photo in the collection"
+msgstr "Pojdi na prvo fotografijo v zbirki"
+
+#: ../src/renderer/enlarged-renderer.cpp:383
+#: ../src/renderer/enlarged-renderer.cpp:416
+msgid "_Last Photo"
+msgstr "_Zadnja fotografija"
+
+#: ../src/renderer/enlarged-renderer.cpp:384
+#: ../src/renderer/enlarged-renderer.cpp:417
+#: ../src/renderer/slideshow-renderer.cpp:161
+#: ../src/renderer/slideshow-renderer.cpp:205
+msgid "Go to the last photo in the collection"
+msgstr "Pojdi na zadnjo fotografijo v zbirki"
+
+#: ../src/renderer/slideshow-renderer.cpp:135
+#: ../src/renderer/slideshow-renderer.cpp:179
+msgid "First"
+msgstr "Prva"
+
+#: ../src/renderer/slideshow-renderer.cpp:160
+#: ../src/renderer/slideshow-renderer.cpp:204
+msgid "Last"
+msgstr "Zadnja"
+
