@@ -2,15 +2,14 @@
 # Spanish translation for solang.
 # Copyright (C) 2010 solang's COPYRIGHT HOLDER
 # This file is distributed under the same license as the solang package.
-#
-# Jorge González <jorgegonz@svn.gnome.org>, 2010, 2010.
+# Jorge González <jorgegonz@svn.gnome.org>, 2010.
 msgid ""
 msgstr ""
 "Project-Id-Version: solang.po.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=solang&component=General\n"
-"POT-Creation-Date: 2010-01-31 15:02+0000\n"
-"PO-Revision-Date: 2010-01-31 18:06+0100\n"
+"POT-Creation-Date: 2010-01-31 17:08+0000\n"
+"PO-Revision-Date: 2010-02-01 07:39+0100\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -75,7 +74,7 @@ msgstr "Pantalla _completa"
 
 #: ../src/application/main-window.cpp:296
 msgid "Show the current photo in full screen mode"
-msgstr ""
+msgstr "Mostrar la foto actual en modo a pantalla completa"
 
 #: ../src/application/main-window.cpp:313
 msgid "_Help"
@@ -115,7 +114,7 @@ msgstr "Velocidad ISO"
 
 #: ../src/attribute/basic-exif-view.cpp:189
 msgid "Metering mode"
-msgstr ""
+msgstr "Modo de medición"
 
 #: ../src/attribute/basic-exif-view.cpp:209
 msgid "Focal length"
@@ -127,7 +126,7 @@ msgstr "Balance de blancos"
 
 #: ../src/attribute/date-manager.cpp:50
 msgid "Picture Taken Date"
-msgstr ""
+msgstr "Fecha de toma de la imagen"
 
 #: ../src/attribute/property-manager.cpp:49
 msgid "Properties"
@@ -151,7 +150,7 @@ msgstr "Seleccionar _todo"
 
 #: ../src/attribute/search-manager.cpp:68
 msgid "Select all the filters in this list"
-msgstr ""
+msgstr "Seleccionar todos los filtros en esta lista"
 
 #: ../src/attribute/search-manager.cpp:76
 msgid "_Remove"
@@ -159,7 +158,7 @@ msgstr "_Quitar"
 
 #: ../src/attribute/search-manager.cpp:77
 msgid "Remove the selected filters from this list"
-msgstr ""
+msgstr "Quitar los filtros seleccionados de esta lista"
 
 #: ../src/attribute/tag-manager.cpp:54
 msgid "Tags"
