@@ -2,7 +2,7 @@
 <dock-layout>
     <layout name="__default__">
         <dock name="__dock_1" floating="no" width="-1" height="-1" floatx="0" floaty="0">
-            <paned orientation="horizontal" locked="no" position="216">
+            <paned orientation="horizontal" locked="no" position="200">
                 <paned orientation="vertical" locked="no" position="426">
                     <notebook orientation="vertical" locked="no" page="2">
                         <item name="date-dock-item" orientation="vertical" locked="no"/>
