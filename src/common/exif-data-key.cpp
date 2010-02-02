@@ -29,7 +29,7 @@ ExifDataKey::get_id() const throw()
 Glib::ustring
 ExifDataKey::get_criteria_description() const throw()
 {
-    return title_ + ": " + value_;
+    return title_;
 }
 
 Glib::ustring

@@ -132,6 +132,7 @@ BasicExifView::populate(const ExifData& data) throw()
         const Glib::ustring flash_desc = _("Flash");
         const ExifDataKeyPtr key(new ExifDataKey(
                                      flash_desc,
+                                     flash_data,
                                      "nmm:flash",
                                      data.get_flash_enum()));
 
@@ -189,6 +190,7 @@ BasicExifView::populate(const ExifData& data) throw()
         const Glib::ustring metering_mode_desc = _("Metering mode");
         const ExifDataKeyPtr key(new ExifDataKey(
                                      metering_mode_desc,
+                                     metering_mode_data,
                                      "nmm:meteringMode",
                                      data.get_metering_mode_enum()));
 
@@ -229,6 +231,7 @@ BasicExifView::populate(const ExifData& data) throw()
         const Glib::ustring white_balance_desc = _("White balance");
         const ExifDataKeyPtr key(new ExifDataKey(
                                      white_balance_desc,
+                                     white_balance_data,
                                      "nmm:whiteBalance",
                                      data.get_white_balance_enum()));
 

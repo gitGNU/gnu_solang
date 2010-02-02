@@ -35,9 +35,19 @@ class ExifDataKey :
 
     public:
         ExifDataKey( const Glib::ustring &title,
+                     const Glib::ustring & title_secondary,
                      const Glib::ustring & key,
                      const Glib::ustring & value )
-            :title_( title ),
+            :title_( title + ": " + title_secondary),
+            key_( key ),
+            value_( value )
+        {
+        }
+
+        ExifDataKey( const Glib::ustring &title,
+                     const Glib::ustring & key,
+                     const Glib::ustring & value )
+            :title_( title + ": " + value),
             key_( key ),
             value_( value )
         {
