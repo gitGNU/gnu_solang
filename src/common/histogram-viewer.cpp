@@ -1,5 +1,6 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 4; tab-width: 4 -*- */
 /*
+ * Copyright (C) 2010 Debarshi Ray <rishi@gnu.org>
  * Copyright (C) 2009 Santanu Sinha <santanu.sinha@gmail.com>
  *
  * Solang is free software: you can redistribute it and/or modify it
@@ -64,12 +65,12 @@ HistogramViewer::HistogramViewer( bool autoupdate )
     {
         Gtk::TreeModel::Row row = *(typeStore_->append());
         row[ typeCols_.type_ ] = Histogram::LINEAR;
-        row[ typeCols_.name_ ] =  _("Linear") ;
+        row[ typeCols_.name_ ] =  C_("Scale", "Linear") ;
     }
     {
         Gtk::TreeModel::Row row = *(typeStore_->append());
         row[ typeCols_.type_ ] = Histogram::LOGARITHMIC;
-        row[ typeCols_.name_ ] =  _("Logarithmic") ;
+        row[ typeCols_.name_ ] =  C_("Scale", "Logarithmic") ;
     }
     cmbType_.set_active( 0 );
 

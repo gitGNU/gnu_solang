@@ -71,7 +71,7 @@ SlideshowWindow::SlideshowWindow() throw() :
     actionGroup_->add(
         Gtk::Action::create(
             "ActionViewSlideshowZoomIn", Gtk::Stock::ZOOM_IN,
-            _("In"),
+            C_("Zoom", "In"),
             _("Enlarge the photo")),
         Gtk::AccelKey("<control>plus"),
         sigc::mem_fun(*this,
@@ -80,7 +80,7 @@ SlideshowWindow::SlideshowWindow() throw() :
     actionGroup_->add(
         Gtk::Action::create(
             "ActionViewSlideshowZoomOut", Gtk::Stock::ZOOM_OUT,
-            _("Out"),
+            C_("Zoom", "Out"),
             _("Shrink the photo")),
         Gtk::AccelKey("<control>minus"),
         sigc::mem_fun(*this,
@@ -89,7 +89,7 @@ SlideshowWindow::SlideshowWindow() throw() :
     actionGroup_->add(
         Gtk::Action::create(
             "ActionViewSlideshowNormalSize", Gtk::Stock::ZOOM_100,
-            _("Normal"),
+            C_("Zoom", "Normal"),
             _("Show the photo at its normal size")),
         Gtk::AccelKey("<control>0"),
         sigc::mem_fun(*this,
@@ -98,7 +98,7 @@ SlideshowWindow::SlideshowWindow() throw() :
     actionGroup_->add(
         Gtk::Action::create(
             "ActionViewSlideshowBestFit", Gtk::Stock::ZOOM_FIT,
-            _("Fit"),
+            C_("Zoom", "Fit"),
             _("Fit the photo to the window")),
         sigc::mem_fun(*this,
                       &SlideshowWindow::on_action_view_best_fit));
@@ -106,7 +106,7 @@ SlideshowWindow::SlideshowWindow() throw() :
     actionGroup_->add(
         Gtk::Action::create(
             "AccelViewSlideshowZoomIn", Gtk::StockID(),
-            _("In"),
+            C_("Zoom", "In"),
             _("Enlarge the photo")),
         Gtk::AccelKey("plus"),
         sigc::mem_fun(*this,
@@ -115,7 +115,7 @@ SlideshowWindow::SlideshowWindow() throw() :
     actionGroup_->add(
         Gtk::Action::create(
             "AccelViewSlideshowZoomIn1", Gtk::StockID(),
-            _("In"),
+            C_("Zoom", "In"),
             _("Enlarge the photo")),
         Gtk::AccelKey("KP_Add"),
         sigc::mem_fun(*this,
@@ -124,7 +124,7 @@ SlideshowWindow::SlideshowWindow() throw() :
     actionGroup_->add(
         Gtk::Action::create(
             "AccelViewSlideshowZoomIn2", Gtk::StockID(),
-            _("In"),
+            C_("Zoom", "In"),
             _("Enlarge the photo")),
         Gtk::AccelKey("equal"),
         sigc::mem_fun(*this,
@@ -133,7 +133,7 @@ SlideshowWindow::SlideshowWindow() throw() :
     actionGroup_->add(
         Gtk::Action::create(
             "AccelViewSlideshowZoomOut", Gtk::StockID(),
-            _("Out"),
+            C_("Zoom", "Out"),
             _("Shrink the photo")),
         Gtk::AccelKey("minus"),
         sigc::mem_fun(*this,
@@ -142,7 +142,7 @@ SlideshowWindow::SlideshowWindow() throw() :
     actionGroup_->add(
         Gtk::Action::create(
             "AccelViewSlideshowZoomOut1", Gtk::StockID(),
-            _("Out"),
+            C_("Zoom", "Out"),
             _("Shrink the photo")),
         Gtk::AccelKey("KP_Subtract"),
         sigc::mem_fun(*this,

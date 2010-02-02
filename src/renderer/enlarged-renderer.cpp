@@ -69,7 +69,7 @@ EnlargedRenderer::EnlargedRenderer() throw() :
     actionGroup_(0),
     uiID_(0),
     dockItemName_("enlarged-dock-item"),
-    dockItemTitle_(_("Enlarged")),
+    dockItemTitle_(C_("Mode or view", "Enlarged")),
     dockItemBehaviour_(GDL_DOCK_ITEM_BEH_NO_GRIP),
     dockItem_(NULL),
     imageView_(0),
@@ -290,7 +290,7 @@ EnlargedRenderer::create_action_group() throw()
             _("_Zoom In"),
             _("Enlarge the photo"));
 
-        action->property_short_label().set_value(_("In"));
+        action->property_short_label().set_value(C_("Zoom", "In"));
         action->property_is_important().set_value(true);
         actionGroup_->add(
             action, Gtk::AccelKey("<control>plus"),
@@ -304,7 +304,7 @@ EnlargedRenderer::create_action_group() throw()
             _("Zoom _Out"),
             _("Shrink the photo"));
 
-        action->property_short_label().set_value(_("Out"));
+        action->property_short_label().set_value(C_("Zoom", "Out"));
         action->property_is_important().set_value(true);
         actionGroup_->add(
             action, Gtk::AccelKey("<control>minus"),
@@ -318,7 +318,8 @@ EnlargedRenderer::create_action_group() throw()
             _("_Normal Size"),
             _("Show the photo at its normal size"));
 
-        action->property_short_label().set_value(_("Normal"));
+        action->property_short_label().set_value(
+                                           C_("Zoom", "Normal"));
         action->property_is_important().set_value(true);
         actionGroup_->add(
             action, Gtk::AccelKey("<control>0"),
@@ -332,7 +333,7 @@ EnlargedRenderer::create_action_group() throw()
             _("Best _Fit"),
             _("Fit the photo to the window"));
 
-        action->property_short_label().set_value(_("Fit"));
+        action->property_short_label().set_value(C_("Zoom", "Fit"));
         action->property_is_important().set_value(true);
         actionGroup_->add(
             action,
@@ -346,7 +347,8 @@ EnlargedRenderer::create_action_group() throw()
             _("_Previous Photo"),
             _("Go to the previous photo in the collection"));
 
-        action->property_short_label().set_value(_("Previous"));
+        action->property_short_label().set_value(
+            C_("Navigation", "Previous"));
         action->property_is_important().set_value(true);
         actionGroup_->add(
             action, Gtk::AccelKey("<alt>Left"),
@@ -360,7 +362,8 @@ EnlargedRenderer::create_action_group() throw()
             _("_Next Photo"),
             _("Go to the next photo in the collection"));
 
-        action->property_short_label().set_value(_("Next"));
+        action->property_short_label().set_value(
+            C_("Navigation", "Next"));
         action->property_is_important().set_value(true);
         actionGroup_->add(
             action, Gtk::AccelKey("<alt>Right"),

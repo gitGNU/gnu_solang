@@ -76,7 +76,7 @@ ImporterDialog::ImporterDialog(Gtk::Widget & browser,
     generalLabel_.set_use_markup(true);
     {
         Glib::ustring markup = "<b>";
-        markup += _("General");
+        markup += C_("A group of UI controls", "General");
         markup += "</b>";
         generalLabel_.set_markup(markup);
     }
@@ -100,7 +100,7 @@ ImporterDialog::ImporterDialog(Gtk::Widget & browser,
     optionsLabel_.set_use_markup(true);
     {
         Glib::ustring markup = "<b>";
-        markup += _("Options");
+        markup += C_("A group of UI controls", "Options");
         markup += "</b>";
         optionsLabel_.set_markup(markup);
     }

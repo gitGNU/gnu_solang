@@ -132,7 +132,7 @@ SlideshowRenderer::create_action_group() throw()
     actionGroup_->add(
         Gtk::Action::create(
             "ActionGoSlideshowFirstPhoto", Gtk::Stock::GOTO_FIRST,
-            _("First"),
+            C_("Navigation", "First"),
             _("Go to the first photo in the collection")),
         Gtk::AccelKey("<alt>Home"),
         sigc::mem_fun(*this, &SlideshowRenderer::on_action_go_first));
@@ -140,7 +140,7 @@ SlideshowRenderer::create_action_group() throw()
     actionGroup_->add(
         Gtk::Action::create(
             "ActionGoSlideshowPreviousPhoto", Gtk::Stock::GO_BACK,
-            _("Previous"),
+            C_("Navigation", "Previous"),
             _("Go to the previous photo in the collection")),
         Gtk::AccelKey("<alt>Left"),
         sigc::mem_fun(*this,
@@ -149,7 +149,7 @@ SlideshowRenderer::create_action_group() throw()
     actionGroup_->add(
         Gtk::Action::create(
             "ActionGoSlideshowNextPhoto", Gtk::Stock::GO_FORWARD,
-            _("Next"),
+            C_("Navigation", "Next"),
             _("Go to the next photo in the collection")),
         Gtk::AccelKey("<alt>Right"),
         sigc::mem_fun(*this, &SlideshowRenderer::on_action_go_next));
@@ -157,7 +157,7 @@ SlideshowRenderer::create_action_group() throw()
     actionGroup_->add(
         Gtk::Action::create(
             "ActionGoSlideshowLastPhoto", Gtk::Stock::GOTO_LAST,
-            _("Last"),
+            C_("Navigation", "Last"),
             _("Go to the last photo in the collection")),
         Gtk::AccelKey("<alt>End"),
         sigc::mem_fun(*this, &SlideshowRenderer::on_action_go_last));
@@ -176,7 +176,7 @@ SlideshowRenderer::create_action_group() throw()
     actionGroup_->add(
         Gtk::Action::create(
             "AccelGoSlideshowFirstPhoto", Gtk::StockID(),
-            _("First"),
+            C_("Navigation", "First"),
             _("Go to the first photo in the collection")),
         Gtk::AccelKey("Home"),
         sigc::mem_fun(*this, &SlideshowRenderer::on_action_go_first));
@@ -184,7 +184,7 @@ SlideshowRenderer::create_action_group() throw()
     actionGroup_->add(
         Gtk::Action::create(
             "AccelGoSlideshowPreviousPhoto", Gtk::StockID(),
-            _("Previous"),
+            C_("Navigation", "Previous"),
             _("Go to the previous photo in the collection")),
         Gtk::AccelKey("Left"),
         sigc::mem_fun(*this,
@@ -193,7 +193,7 @@ SlideshowRenderer::create_action_group() throw()
     actionGroup_->add(
         Gtk::Action::create(
             "AccelGoSlideshowNextPhoto", Gtk::StockID(),
-            _("Next"),
+            C_("Navigation", "Next"),
             _("Go to the next photo in the collection")),
         Gtk::AccelKey("Right"),
         sigc::mem_fun(*this, &SlideshowRenderer::on_action_go_next));
@@ -201,7 +201,7 @@ SlideshowRenderer::create_action_group() throw()
     actionGroup_->add(
         Gtk::Action::create(
             "AccelGoSlideshowLastPhoto", Gtk::StockID(),
-            _("Last"),
+            C_("Navigation", "Last"),
             _("Go to the last photo in the collection")),
         Gtk::AccelKey("End"),
         sigc::mem_fun(*this, &SlideshowRenderer::on_action_go_last));

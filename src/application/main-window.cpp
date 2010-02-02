@@ -665,12 +665,14 @@ MainWindow::on_action_help_about() throw()
         about_dialog.set_logo(logo);
     }
 
+    // Translators: Put your names here.
     about_dialog.set_translator_credits(_("translator-credits"));
+
     about_dialog.set_version(_(PACKAGE_VERSION));
     about_dialog.set_website(websiteURL);
-    about_dialog.set_website_label(Glib::ustring::compose(
-                                       _("%1 Website"),
-                                       PACKAGE_NAME));
+    about_dialog.set_website_label(
+        Glib::ustring::compose(C_("Project website", "%1 Website"),
+                               PACKAGE_NAME));
     about_dialog.set_wrap_license(false);
     about_dialog.set_url_hook(
         sigc::mem_fun(*this,

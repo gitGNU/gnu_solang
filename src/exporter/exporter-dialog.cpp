@@ -1,6 +1,6 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 4; tab-width: 4 -*- */
 /*
- * Copyright (C) 2009 Debarshi Ray <rishi@gnu.org>
+ * Copyright (C) 2009, 2010 Debarshi Ray <rishi@gnu.org>
  *
  * Solang is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -63,7 +63,7 @@ ExporterDialog::ExporterDialog(Gtk::Widget & browser,
     generalLabel_.set_use_markup(true);
     {
         Glib::ustring markup = "<b>";
-        markup += _("General");
+        markup += C_("A group of UI controls", "General");
         markup += "</b>";
         generalLabel_.set_markup(markup);
     }
@@ -75,7 +75,7 @@ ExporterDialog::ExporterDialog(Gtk::Widget & browser,
     optionsLabel_.set_use_markup(true);
     {
         Glib::ustring markup = "<b>";
-        markup += _("Options");
+        markup += C_("A group of UI controls", "Options");
         markup += "</b>";
         optionsLabel_.set_markup(markup);
     }

@@ -158,11 +158,11 @@ ExifData::set_flash(const Glib::ustring & flash) throw()
 {
     if (flashOff_ == flash)
     {
-        flash_ = _("Off");
+        flash_ = C_("Flash", "Off");
     }
     else if (flashOn_ == flash)
     {
-        flash_ = _("On");
+        flash_ = C_("Flash", "On");
     }
     else
     {
@@ -196,27 +196,28 @@ ExifData::set_metering_mode(const Glib::ustring & metering_mode)
 {
     if (meteringModeAverage_ == metering_mode)
     {
-        meteringMode_ = _("Average");
+        meteringMode_ = C_("Metering mode", "Average");
     }
     else if (meteringModeCenterWeightedAverage_ == metering_mode)
     {
-        meteringMode_ = _("Center Weighted Average");
+        meteringMode_ = C_("Metering mode",
+                           "Center Weighted Average");
     }
     else if (meteringModeSpot_ == metering_mode)
     {
-        meteringMode_ = _("Spot");
+        meteringMode_ = C_("Metering mode", "Spot");
     }
     else if (meteringModeMultiSpot_ == metering_mode)
     {
-        meteringMode_ = _("Multi-spot");
+        meteringMode_ = C_("Metering mode", "Multi-spot");
     }
     else if (meteringModePattern_ == metering_mode)
     {
-        meteringMode_ = _("Pattern");
+        meteringMode_ = C_("Metering mode", "Pattern");
     }
     else if (meteringModePartial_ == metering_mode)
     {
-        meteringMode_ = _("Partial");
+        meteringMode_ = C_("Metering mode", "Partial");
     }
     else
     {
@@ -232,11 +233,11 @@ ExifData::set_white_balance(const Glib::ustring & white_balance)
 {
     if (whiteBalanceAuto_ == white_balance)
     {
-        whiteBalance_ = _("Automatic");
+        whiteBalance_ = C_("White balance", "Automatic");
     }
     else if (whiteBalanceManual_ == white_balance)
     {
-        whiteBalance_ = _("Manual");
+        whiteBalance_ = C_("White balance", "Manual");
     }
     else
     {

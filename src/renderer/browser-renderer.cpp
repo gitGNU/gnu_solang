@@ -204,7 +204,8 @@ BrowserRenderer::BrowserRenderer() throw() :
             _("_Previous Page"),
             _("Go to the previous page in the collection"));
 
-        action->property_short_label().set_value(_("Previous"));
+        action->property_short_label().set_value(
+            C_("Navigation", "Previous"));
         action->property_is_important().set_value(true);
         action->set_sensitive(false);
         actionGroup_->add(
@@ -219,7 +220,8 @@ BrowserRenderer::BrowserRenderer() throw() :
             _("_Next Page"),
             _("Go to the next page in the collection"));
 
-        action->property_short_label().set_value(_("Next"));
+        action->property_short_label().set_value(
+            C_("Navigation", "Next"));
         action->property_is_important().set_value(true);
         actionGroup_->add(
             action, Gtk::AccelKey("<alt>Page_Down"),
