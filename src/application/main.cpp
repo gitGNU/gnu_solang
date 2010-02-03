@@ -33,6 +33,7 @@
 #endif // ENABLE_NLS
 
 #include "application.h"
+#include "types.h"
 
 int
 main(int argc, char *argv[])
@@ -48,6 +49,11 @@ main(int argc, char *argv[])
     Glib::set_application_name(_(PACKAGE_NAME));
 
     Gtk::Main kit(argc, argv, true);
+
+    const Solang::IconThemePtr icon_theme = Gtk::IconTheme::get_default();
+    icon_theme->append_search_path(
+                    PACKAGE_DATA_DIR G_DIR_SEPARATOR_S "icons");
+
     Solang::Application application(argc, argv);
 
     application.init();

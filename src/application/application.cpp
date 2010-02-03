@@ -407,6 +407,8 @@ Application::add_icons() throw()
     iconFactory_->add(Gtk::StockID(PACKAGE_TARNAME"-slideshow-play"),
                       icon_set_slideshow_play);
     iconFactory_->add_default();
+
+    Gtk::Window::set_default_icon_name(PACKAGE_TARNAME);
 }
 
 void
