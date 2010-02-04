@@ -2,17 +2,24 @@
       type="topic"
       id="howto_search">
 <info>
-	<link type="guide" xref="index_UI"/>
+	<link type="guide" xref="index_questions"/>
 	<desc>
 	Filters your photos.
 	</desc>
 </info>
 <title>How do I use the search function ?</title>
-<p><app>Solang</app> uses a powerful yet hard to understand search function.</p>
-<p>Actually you have to drag and drop one or more filters to the <gui>Search Basket</gui>. <app>Solang</app> will display only photos that correspond to all the filters you have chosen. Today only tags are filters.</p>
-<list>
-<item><p>To add a filter drag a tag from the <gui>Tag List</gui> to the <gui>Search Basket</gui>.</p></item>
-<item><p>To remove all the filters, click on the <gui>Clear filters</gui> button.</p></item>
-<item><p>To remove one filter, click on the filter in the <gui>Search Basket</gui> you want to remove and click on the <gui>Clear selected filters</gui> button.</p></item>
-</list>
+
+  <p><app>Solang</app> uses a powerful yet hard to understand search function.</p>
+  <p>Actually you have to drag and drop one or more filters to the <gui>Search Basket</gui>. <app>Solang</app> will display only photos that correspond to all the filters you have chosen. Today only tags are filters.</p>
+  <list>
+    <item><p>To add a filter drag a tag from the <gui>Tag List</gui> to the <gui>Search Basket</gui>.</p></item>
+    <item><p>To remove all the filters, click on the <gui>Clear filters</gui> button.</p></item>
+    <item><p>To remove one filter, click on the filter in the <gui>Search Basket</gui> you want to remove and click on the <gui>Clear selected filters</gui> button.</p></item>
+  </list>
+
+  <p>What's more you can use the <gui>Free text search</gui> entry to filter photos name.</p>
+  <steps>
+  <item><p>Write the text you want to search in the <gui>Free text search</gui> entry</p></item>
+  <item><p>Press <key>Enter</key></p></item>
+  </steps>
 </page>

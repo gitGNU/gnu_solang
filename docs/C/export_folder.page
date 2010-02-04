@@ -7,19 +7,24 @@
 	To export photos in a archive or a folder.
 	</desc>
 </info>
-<title>Export to Folder</title>
+<title>How do I export photos ?</title>
 <p>You can export photos to a directory of your computer.</p>
 
-<p>First you have to add the photos you want to export to the export queue.</p>
+<p>First you have to add the photos you want to export to the export queue. There are many ways to add a photo to the Export Queue.</p>
+<steps>
+	<item>
+	<p>Right-click on a photo.</p>
+	</item>
+	<item>
+	<p>Choose <gui>Add to Export Queue</gui>.</p>
+	</item>
+</steps>
 <steps>
 	<item>
 	<p>Select one or more photos you want to export.</p>
 	</item>
 	<item>
 	<p>Choose <guiseq><gui>Edit</gui><gui>Add to Export Queue</gui></guiseq>.</p>
-	</item>
-	<item>
-	<p>You can change the page and do the steps again until you have added all the photos you want to the Export Queue.</p>
 	</item>
 </steps>
 

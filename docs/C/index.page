@@ -9,18 +9,12 @@
     </p>
   </note>
 
-	<section id="index_UI" style="2column">
-		<title>User Interface</title>
+	<section id="index_questions" style="2column">
+		<title>General Questions</title>
 		<info>
 			<link type="topic" xref="howto_search"/>
 			<link type="topic" xref="photos_by_page"/>
-		</info>
-	</section>
-
-	<section id="index_import" style="2column">
-		<title>Importing photos</title>
-		<info>
-			<link type="topic" xref="import_local"/>
+			<link type="topic" xref="import"/>
 		</info>
 	</section>
 

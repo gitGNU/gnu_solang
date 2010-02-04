@@ -1,13 +1,16 @@
 <page xmlns="http://projectmallard.org/1.0/"
-      type="topic"
-      id="import_local">
+      type="guide"
+      id="import">
 <info>
-	<link type="guide" xref="index_import"/>
+	<link type="guide" xref="index_questions"/>
 	<desc>
-	Import photos from your computer's hard drive.
+	To view your photos in <app>Solang</app>.
 	</desc>
 </info>
-<title>Import photos from a hard drive</title>
+<title>How do I import photos ?</title>
 <p>With <app>Solang</app> you don't need to import photos from your hard drive.</p>
 <p>Indeed <app>Solang</app> uses Tracker to get the list of your photos; so don't worry about importing the new photos you've got from your camera : It's automatically here.</p>
+
+<!-- add links to help for importers here -->
+
 </page>
