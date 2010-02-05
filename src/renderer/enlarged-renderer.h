@@ -27,6 +27,7 @@
 #include <sigc++/sigc++.h>
 
 #include "i-renderer.h"
+#include "plugin.h"
 #include "thumbnail-view.h"
 #include "types.h"
 
@@ -35,6 +36,7 @@ namespace Solang
 
 class EnlargedRenderer :
     public IRenderer,
+    public Plugin,
     public sigc::trackable
 {
     public:
@@ -47,13 +49,22 @@ class EnlargedRenderer :
         init(Application & application) throw();
 
         virtual void
+        final(Application & application) throw();
+
+        virtual void
+        visit_renderer(BrowserRenderer & browser_renderer) throw();
+
+        virtual void
+        visit_renderer(EnlargedRenderer & enlarged_renderer) throw();
+
+        virtual void
+        visit_renderer(SlideshowRenderer & slideshow_renderer) throw();
+
+        virtual void
         render(const PhotoPtr & photo) throw();
 
         virtual void
         render(const PhotoList & photos) throw();
-
-        virtual void
-        final(Application & application) throw();
 
         void
         on_scroll_event(GdkScrollDirection direction) throw();

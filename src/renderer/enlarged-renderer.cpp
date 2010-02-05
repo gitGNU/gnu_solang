@@ -62,6 +62,7 @@ image_view_on_scroll_event(GtkImageView * view,
 
 EnlargedRenderer::EnlargedRenderer() throw() :
     IRenderer(),
+    Plugin(),
     sigc::trackable(),
     application_(NULL),
     firstUse_(true),
@@ -114,7 +115,66 @@ void
 EnlargedRenderer::init(Application & application) throw()
 {
     application_ = &application;
+
+    RendererRegistry & renderer_registry
+        = application.get_renderer_registry();
+    renderer_registry.add(this);
+
     // initialized_.emit(*this);
+}
+
+void
+EnlargedRenderer::final(Application & application) throw()
+{
+    if (true == firstUse_)
+    {
+        return;
+    }
+
+    MainWindow & main_window = application.get_main_window();
+    const UIManagerPtr & ui_manager = main_window.get_ui_manager();
+
+    if (0 != uiID_)
+    {
+        ui_manager->remove_action_group(actionGroup_);
+        ui_manager->remove_ui(uiID_);
+        uiID_ = 0;
+    }
+
+    actionGroup_.reset();
+
+    signalMainWindowStateEvent_.disconnect();
+    signalListStoreChangeEnd_.disconnect();
+    signalSwitchPage_.disconnect();
+
+    main_window.undock_object_center(GDL_DOCK_OBJECT(dockItem_));
+
+    pageNum_ = -1;
+    firstUse_ = true;
+
+    RendererRegistry & renderer_registry
+        = application.get_renderer_registry();
+    renderer_registry.remove(this);
+
+    // finalized_.emit(*this);
+}
+
+void
+EnlargedRenderer::visit_renderer(BrowserRenderer & browser_renderer)
+                                 throw()
+{
+}
+
+void
+EnlargedRenderer::visit_renderer(EnlargedRenderer & enlarged_renderer)
+                                 throw()
+{
+}
+
+void
+EnlargedRenderer::visit_renderer(SlideshowRenderer & slideshow_renderer)
+                                 throw()
+{
 }
 
 void
@@ -228,38 +288,6 @@ EnlargedRenderer::on_pixbuf_maker_async_ready(
 void
 EnlargedRenderer::render(const PhotoList & photos) throw()
 {
-}
-
-void
-EnlargedRenderer::final(Application & application) throw()
-{
-    if (true == firstUse_)
-    {
-        return;
-    }
-
-    MainWindow & main_window = application.get_main_window();
-    const UIManagerPtr & ui_manager = main_window.get_ui_manager();
-
-    if (0 != uiID_)
-    {
-        ui_manager->remove_action_group(actionGroup_);
-        ui_manager->remove_ui(uiID_);
-        uiID_ = 0;
-    }
-
-    actionGroup_.reset();
-
-    signalMainWindowStateEvent_.disconnect();
-    signalListStoreChangeEnd_.disconnect();
-    signalSwitchPage_.disconnect();
-
-    main_window.undock_object_center(GDL_DOCK_OBJECT(dockItem_));
-
-    pageNum_ = -1;
-    firstUse_ = true;
-
-    // finalized_.emit(*this);
 }
 
 void

@@ -43,6 +43,7 @@ static const std::string uiFile
 
 SlideshowRenderer::SlideshowRenderer() throw() :
     IRenderer(),
+    Plugin(),
     sigc::trackable(),
     application_(0),
     firstUse_(true),
@@ -63,6 +64,45 @@ void
 SlideshowRenderer::init(Application & application) throw()
 {
     application_ = &application;
+
+    RendererRegistry & renderer_registry
+        = application.get_renderer_registry();
+    renderer_registry.add(this);
+}
+
+void
+SlideshowRenderer::final(Application & application) throw()
+{
+    if (true == firstUse_)
+    {
+        return;
+    }
+
+    slideshowWindow_.reset();
+    actionGroup_.reset();
+    firstUse_ = true;
+
+    RendererRegistry & renderer_registry
+        = application.get_renderer_registry();
+    renderer_registry.remove(this);
+}
+
+void
+SlideshowRenderer::visit_renderer(BrowserRenderer & browser_renderer)
+                                  throw()
+{
+}
+
+void
+SlideshowRenderer::visit_renderer(
+                       EnlargedRenderer & enlarged_renderer) throw()
+{
+}
+
+void
+SlideshowRenderer::visit_renderer(
+                       SlideshowRenderer & slideshow_renderer) throw()
+{
 }
 
 void
@@ -106,19 +146,6 @@ SlideshowRenderer::render(const PhotoPtr & photo) throw()
 void
 SlideshowRenderer::render(const PhotoList & photos) throw()
 {
-}
-
-void
-SlideshowRenderer::final(Application & application) throw()
-{
-    if (true == firstUse_)
-    {
-        return;
-    }
-
-    slideshowWindow_.reset();
-    actionGroup_.reset();
-    firstUse_ = true;
 }
 
 void

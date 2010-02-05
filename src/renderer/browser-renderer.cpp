@@ -66,6 +66,7 @@ static const std::string uiFileThumbnail
 
 BrowserRenderer::BrowserRenderer() throw() :
     IRenderer(),
+    Plugin(),
     sigc::trackable(),
     application_(NULL),
     iconFactory_(Gtk::IconFactory::create()),
@@ -305,6 +306,10 @@ BrowserRenderer::init(Application & application) throw()
 {
     application_ = &application;
 
+    RendererRegistry & renderer_registry
+        = application.get_renderer_registry();
+    renderer_registry.add(this);
+
     const ListStorePtr & list_store = application.get_list_store();
 
     treeModelFilter_ = Gtk::TreeModelFilter::create(list_store);
@@ -361,16 +366,6 @@ BrowserRenderer::init(Application & application) throw()
 }
 
 void
-BrowserRenderer::render(const PhotoPtr & photo) throw()
-{
-}
-
-void
-BrowserRenderer::render(const PhotoList & photos) throw()
-{
-}
-
-void
 BrowserRenderer::final(Application & application) throw()
 {
     signalItemActivated_.disconnect();
@@ -391,7 +386,39 @@ BrowserRenderer::final(Application & application) throw()
 
     treeModelFilter_.reset();
 
+    RendererRegistry & renderer_registry
+        = application.get_renderer_registry();
+    renderer_registry.remove(this);
+
     // finalized_.emit(*this);
+}
+
+void
+BrowserRenderer::visit_renderer(BrowserRenderer & browser_renderer)
+                                throw()
+{
+}
+
+void
+BrowserRenderer::visit_renderer(EnlargedRenderer & enlarged_renderer)
+                                throw()
+{
+}
+
+void
+BrowserRenderer::visit_renderer(SlideshowRenderer & slideshow_renderer)
+                                throw()
+{
+}
+
+void
+BrowserRenderer::render(const PhotoPtr & photo) throw()
+{
+}
+
+void
+BrowserRenderer::render(const PhotoList & photos) throw()
+{
 }
 
 void

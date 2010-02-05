@@ -1,6 +1,6 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 4; tab-width: 4 -*- */
 /*
- * Copyright (C) 2009 Debarshi Ray <rishi@gnu.org>
+ * Copyright (C) 2009, 2010 Debarshi Ray <rishi@gnu.org>
  *
  * Solang is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -26,6 +26,7 @@
 #include <sigc++/sigc++.h>
 
 #include "i-renderer.h"
+#include "plugin.h"
 #include "types.h"
 
 namespace Solang
@@ -33,6 +34,7 @@ namespace Solang
 
 class SlideshowRenderer :
     public IRenderer,
+    public Plugin,
     public sigc::trackable
 {
     public:
@@ -45,13 +47,22 @@ class SlideshowRenderer :
         init(Application & application) throw();
 
         virtual void
+        final(Application & application) throw();
+
+        virtual void
+        visit_renderer(BrowserRenderer & browser_renderer) throw();
+
+        virtual void
+        visit_renderer(EnlargedRenderer & enlarged_renderer) throw();
+
+        virtual void
+        visit_renderer(SlideshowRenderer & slideshow_renderer) throw();
+
+        virtual void
         render(const PhotoPtr & photo) throw();
 
         virtual void
         render(const PhotoList & photos) throw();
-
-        virtual void
-        final(Application & application) throw();
 
         virtual PhotoList
         get_current_selection() throw();

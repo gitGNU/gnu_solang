@@ -1,6 +1,6 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 4; tab-width: 4 -*- */
 /*
- * Copyright (C) 2009 Debarshi Ray <rishi@gnu.org>
+ * Copyright (C) 2009, 2010 Debarshi Ray <rishi@gnu.org>
  *
  * Solang is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -38,16 +38,13 @@ class RendererRegistry
         ~RendererRegistry() throw();
 
         void
-        init(Application & application) throw();
-
-        void
-        final(Application & application) throw();
-
-        void
         add(const IRendererPtr & renderer) throw();
 
         IRendererPtr
         get_current() throw();
+
+        void
+        remove(const IRendererPtr & renderer) throw();
 
         void
         set_current(const IRendererPtr & renderer) throw();

@@ -310,21 +310,19 @@ Application::init() throw()
 //    IPluginPtr flickr_importer(new Importer(flickr_source, false));
 //    plugins_.push_back(flickr_importer);
 
-    std::for_each(plugins_.begin(), plugins_.end(),
-                  Initializer<IPluginPtr>(this));
-
     // Renderers.
 
-    IRendererPtr browser_renderer(new BrowserRenderer());
-    rendererRegistry_.add(browser_renderer);
+    IPluginPtr browser_renderer(new BrowserRenderer());
+    plugins_.push_back(browser_renderer);
 
-    IRendererPtr enlarged_renderer(new EnlargedRenderer());
-    rendererRegistry_.add(enlarged_renderer);
+    IPluginPtr enlarged_renderer(new EnlargedRenderer());
+    plugins_.push_back(enlarged_renderer);
 
-    IRendererPtr slideshow_renderer(new SlideshowRenderer());
-    rendererRegistry_.add(slideshow_renderer);
+    IPluginPtr slideshow_renderer(new SlideshowRenderer());
+    plugins_.push_back(slideshow_renderer);
 
-    rendererRegistry_.init(*this);
+    std::for_each(plugins_.begin(), plugins_.end(),
+                  Initializer<IPluginPtr>(this));
 
     const IRendererPtr renderer
         = rendererRegistry_.select<BrowserRenderer>();
@@ -355,8 +353,6 @@ Application::final() throw()
 {
     engine_.final();
     mainWindow_.final(*this);
-
-    rendererRegistry_.final(*this);
 
     std::for_each(plugins_.rbegin(), plugins_.rend(),
                   Finalizer<IPluginPtr>(this));

@@ -1,6 +1,6 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 4; tab-width: 4 -*- */
 /*
- * Copyright (C) 2009 Debarshi Ray <rishi@gnu.org>
+ * Copyright (C) 2009, 2010 Debarshi Ray <rishi@gnu.org>
  *
  * Solang is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -37,16 +37,10 @@ class IRenderer :
         ~IRenderer() throw() = 0;
 
         virtual void
-        init(Application & application) throw() = 0;
-
-        virtual void
         render(const PhotoPtr & photo) throw() = 0;
 
         virtual void
         render(const PhotoList & photos) throw() = 0;
-
-        virtual void
-        final(Application & application) throw() = 0;
 
         virtual PhotoList
         get_current_selection() throw() = 0;
