@@ -111,8 +111,8 @@ ThumbnailView::configure(gint thumbnail_renderer_width,
     set_orientation(Gtk::ORIENTATION_VERTICAL);
     set_selection_mode(Gtk::SELECTION_MULTIPLE);
     set_spacing(0);
-    set_column_spacing(6);
-    set_row_spacing(6);
+    set_column_spacing(1);
+    set_row_spacing(1);
     set_has_tooltip(true);
 
     actionGroup_->add(Gtk::Action::create("ActionOpenWithMenu",

@@ -133,8 +133,8 @@ CellRendererThumbnail::render_vfunc(
 {
     if (0 == property_pixbuf().get_value())
     {
-        create_thumbnail(cell_area.get_height() - 12,
-                         cell_area.get_width() - 12);
+        create_thumbnail(cell_area.get_height() - 6,
+                         cell_area.get_width() - 6);
     }
 
     if (0 == (flags & (Gtk::CELL_RENDERER_SELECTED

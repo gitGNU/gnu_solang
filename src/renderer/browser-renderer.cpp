@@ -47,15 +47,15 @@ static const guint initialZoomValue
                          + (higherZoomValue - lowerZoomValue) / 2;
 static const guint stepZoomValue = 5;
 
-static const gint thumbnailRendererWidth = 168;
-static const gint thumbnailRendererHeight = 130;
+static const gint thumbnailRendererWidth = 156;
+static const gint thumbnailRendererHeight = 118;
 
 static const double ratioWidth
-    = static_cast<double>(thumbnailRendererWidth - 12)
-      / static_cast<double>(initialZoomValue);
+                        = static_cast<double>(thumbnailRendererWidth)
+                          / static_cast<double>(initialZoomValue);
 static const double ratioHeight
-    = static_cast<double>(thumbnailRendererHeight - 12)
-      / static_cast<double>(initialZoomValue);
+                        = static_cast<double>(thumbnailRendererHeight)
+                          / static_cast<double>(initialZoomValue);
 
 static const std::string uiFile
     = PACKAGE_DATA_DIR"/"PACKAGE_TARNAME"/ui/"
@@ -777,17 +777,17 @@ BrowserRenderer::reload() throw()
 void
 BrowserRenderer::set_thumbnail_size() throw()
 {
-    const guint thumbnail_width
+    const guint thumbnail_renderer_width
                     = static_cast<guint>(
                           ratioWidth
                           * static_cast<double>(zoomValue_));
-    const guint thumbnail_height
+    const guint thumbnail_renderer_height
                     = static_cast<guint>(
                           ratioHeight
                           * static_cast<double>(zoomValue_));
 
-    thumbnailView_.set_thumbnail_width(thumbnail_width + 6);
-    thumbnailView_.set_thumbnail_height(thumbnail_height + 6);
+    thumbnailView_.set_thumbnail_width(thumbnail_renderer_width);
+    thumbnailView_.set_thumbnail_height(thumbnail_renderer_height);
 }
 
 void
