@@ -102,19 +102,17 @@ Glib::ustring
 Photo::get_exif_data_query() const throw()
 {
     return Glib::ustring::compose(
-        "SELECT ?camera ?exposure ?flash ?fn ?focal ?iso ?metering"
-        "       ?white "
+        "SELECT nmm:camera(?photo)"
+        "       nmm:exposureTime(?photo)"
+        "       nmm:flash(?photo)"
+        "       nmm:fnumber(?photo)"
+        "       nmm:focalLength(?photo)"
+        "       nmm:isoSpeed(?photo)"
+        "       nmm:meteringMode(?photo)"
+        "       nmm:whiteBalance(?photo) "
         "WHERE {"
         "  ?photo a nmm:Photo ;"
         "  nie:url '%1' ."
-        "  OPTIONAL { ?photo nmm:camera ?camera . }"
-        "  OPTIONAL { ?photo nmm:exposureTime ?exposure . }"
-        "  OPTIONAL { ?photo nmm:flash ?flash . }"
-        "  OPTIONAL { ?photo nmm:fnumber ?fn . }"
-        "  OPTIONAL { ?photo nmm:focalLength ?focal . }"
-        "  OPTIONAL { ?photo nmm:isoSpeed ?iso . }"
-        "  OPTIONAL { ?photo nmm:meteringMode ?metering . }"
-        "  OPTIONAL { ?photo nmm:whiteBalance ?white . }"
         "}",
         uri_);
 }
