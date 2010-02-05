@@ -1,6 +1,6 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 4; tab-width: 4 -*- */
 /*
- * Copyright (C) 2009 Debarshi Ray <rishi@gnu.org>
+ * Copyright (C) 2009, 2010 Debarshi Ray <rishi@gnu.org>
  *
  * Solang is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -19,6 +19,7 @@
 #ifndef SOLANG_MAIN_WINDOW_H
 #define SOLANG_MAIN_WINDOW_H
 
+#include <string>
 #include <vector>
 
 #include <gdl/gdl.h>
@@ -162,6 +163,17 @@ class MainWindow :
         std::vector<DockObjectPtr> dockObjectsCenter_;
 
     private:
+        static const std::string artistsFile_;
+
+        static const std::string authorsFile_;
+
+        static const std::string copyingFile_;
+
+        static const std::string layoutFile_;
+
+        static const std::string uiFile_;
+
+        static const Glib::ustring websiteURL_;
 };
 
 } // namespace Solang

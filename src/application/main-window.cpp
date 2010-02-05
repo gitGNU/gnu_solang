@@ -22,7 +22,6 @@
 
 #include <algorithm>
 #include <functional>
-#include <string>
 
 #include <giomm.h>
 #include <glibmm/i18n.h>
@@ -34,20 +33,6 @@
 
 namespace Solang
 {
-
-static const std::string artistsFile = PACKAGE_DOC_DIR"/ARTISTS";
-static const std::string authorsFile = PACKAGE_DOC_DIR"/AUTHORS";
-static const std::string copyingFile = PACKAGE_DOC_DIR"/COPYING";
-
-static const std::string layoutFile
-    = PACKAGE_DATA_DIR"/"PACKAGE_TARNAME"/"
-          PACKAGE_TARNAME"-layout.xml";
-
-static const std::string uiFile
-    = PACKAGE_DATA_DIR"/"PACKAGE_TARNAME"/ui/"PACKAGE_TARNAME".ui";
-
-static const Glib::ustring websiteURL
-    = "http://projects.gnome.org/solang";
 
 class Docker :
     public std::unary_function<DockObjectPtr const &, void>
@@ -187,6 +172,29 @@ DockHider::operator()(DockObjectPtr const & dock_object) throw()
     gdl_dock_item_hide_item(GDL_DOCK_ITEM(dock_object));
 }
 
+const std::string MainWindow::artistsFile_
+    = PACKAGE_DOC_DIR G_DIR_SEPARATOR_S "ARTISTS";
+
+const std::string MainWindow::authorsFile_
+    = PACKAGE_DOC_DIR G_DIR_SEPARATOR_S "AUTHORS";
+
+const std::string MainWindow::copyingFile_
+    = PACKAGE_DOC_DIR G_DIR_SEPARATOR_S "COPYING";
+
+const std::string MainWindow::layoutFile_
+                      = PACKAGE_DATA_DIR G_DIR_SEPARATOR_S
+                        PACKAGE_TARNAME G_DIR_SEPARATOR_S
+                        PACKAGE_TARNAME"-layout.xml";
+
+const std::string MainWindow::uiFile_
+                      = PACKAGE_DATA_DIR G_DIR_SEPARATOR_S
+                        PACKAGE_TARNAME G_DIR_SEPARATOR_S
+                        "ui" G_DIR_SEPARATOR_S
+                        PACKAGE_TARNAME".ui";
+
+const Glib::ustring MainWindow::websiteURL_
+                        = "http://projects.gnome.org/solang";
+
 MainWindow::MainWindow() throw() :
     Gtk::Window(Gtk::WINDOW_TOPLEVEL),
     application_(),
@@ -195,7 +203,7 @@ MainWindow::MainWindow() throw() :
                                             __FILE__,
                                             __LINE__))),
     uiManager_(Gtk::UIManager::create()),
-    uiID_(uiManager_->add_ui_from_file(uiFile)),
+    uiID_(uiManager_->add_ui_from_file(uiFile_)),
     vBox_(false, 0),
     spinnerToolItem_(),
     hBox_(false, 6),
@@ -379,7 +387,7 @@ MainWindow::init(Application & application) throw()
 
     const bool result = gdl_dock_layout_load_from_file(
                             GDL_DOCK_LAYOUT(layout_),
-                            layoutFile.c_str());
+                            layoutFile_.c_str());
 
     if (true == result)
     {
@@ -387,7 +395,7 @@ MainWindow::init(Application & application) throw()
     }
     else
     {
-        g_warning("%s: File not found", layoutFile.c_str());
+        g_warning("%s: File not found", layoutFile_.c_str());
     }
 }
 
@@ -519,7 +527,7 @@ MainWindow::on_action_help_about() throw()
     about_dialog.set_transient_for(*this);
 
     DataInputStreamPtr fin;
-    FilePtr file = Gio::File::create_for_path(artistsFile);
+    FilePtr file = Gio::File::create_for_path(artistsFile_);
 
     try
     {
@@ -553,7 +561,7 @@ MainWindow::on_action_help_about() throw()
         about_dialog.set_artists(artists);
     }
 
-    file = Gio::File::create_for_path(authorsFile);
+    file = Gio::File::create_for_path(authorsFile_);
 
     try
     {
@@ -590,7 +598,7 @@ MainWindow::on_action_help_about() throw()
     about_dialog.set_copyright(
         "Copyright \xc2\xa9 2009 - 2010 The " PACKAGE_NAME " authors");
 
-    file = Gio::File::create_for_path(copyingFile);
+    file = Gio::File::create_for_path(copyingFile_);
 
     try
     {
@@ -620,7 +628,7 @@ MainWindow::on_action_help_about() throw()
     about_dialog.set_translator_credits(_("translator-credits"));
 
     about_dialog.set_version(_(PACKAGE_VERSION));
-    about_dialog.set_website(websiteURL);
+    about_dialog.set_website(websiteURL_);
     about_dialog.set_website_label(
         Glib::ustring::compose(C_("Project website", "%1 Website"),
                                PACKAGE_NAME));
@@ -734,14 +742,14 @@ MainWindow::on_action_view_full_screen(
         {
             g_warning("%s: File not found", layout_file.c_str());
 
-            if (false == Glib::file_test(layoutFile,
+            if (false == Glib::file_test(layoutFile_,
                                          Glib::FILE_TEST_EXISTS))
             {
-                g_warning("%s: File not found", layoutFile.c_str());
+                g_warning("%s: File not found", layoutFile_.c_str());
                 return;
             }
 
-            layout_file = layoutFile;
+            layout_file = layoutFile_;
         }
 
         const bool result = gdl_dock_layout_load_from_file(
