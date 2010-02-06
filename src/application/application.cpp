@@ -55,7 +55,7 @@ namespace Solang
 
 template<typename T>
 class Initializer :
-    public std::unary_function<std::pair<const std::string, T> &, void>
+    public std::unary_function<T &, void>
 {
     public:
         Initializer(Application * const & application) throw();
@@ -68,7 +68,7 @@ class Initializer :
         operator=(const Initializer<T> & source) throw();
 
         void
-        operator()(std::pair<const std::string, T> & x) throw();
+        operator()(T & x) throw();
 
     protected:
         Application * application_;
@@ -76,14 +76,14 @@ class Initializer :
 
 template<typename T>
 Initializer<T>::Initializer(Application * const & application) throw() :
-    std::unary_function<std::pair<const std::string, T> &, void>(),
+    std::unary_function<T &, void>(),
     application_(application)
 {
 }
 
 template<typename T>
 Initializer<T>::Initializer(const Initializer<T> & source) throw() :
-    std::unary_function<std::pair<const std::string, T> &, void>(source),
+    std::unary_function<T &, void>(source),
     application_(source.application_)
 {
 }
@@ -99,8 +99,7 @@ Initializer<T>::operator=(const Initializer<T> & source) throw()
 {
     if (this != &source)
     {
-        std::unary_function<std::pair<const std::string, T> &, void>
-            ::operator=(source);
+        std::unary_function<T &, void>::operator=(source);
         application_ = source.application_;
     }
 
@@ -109,14 +108,14 @@ Initializer<T>::operator=(const Initializer<T> & source) throw()
 
 template<typename T>
 void
-Initializer<T>::operator()(std::pair<const std::string, T> & x) throw()
+Initializer<T>::operator()(T & x) throw()
 {
-    x.second->init(*application_);
+    x->init(*application_);
 }
 
 template<typename T>
 class Finalizer :
-    public std::unary_function<std::pair<const std::string, T> &, void>
+    public std::unary_function<T &, void>
 {
     public:
         Finalizer(Application * const & application) throw();
@@ -129,7 +128,7 @@ class Finalizer :
         operator=(const Finalizer<T> & source) throw();
 
         void
-        operator()(std::pair<const std::string, T> & x) throw();
+        operator()(T & x) throw();
 
     protected:
         Application * application_;
@@ -137,14 +136,14 @@ class Finalizer :
 
 template<typename T>
 Finalizer<T>::Finalizer(Application * const & application) throw() :
-    std::unary_function<std::pair<const std::string, T> &, void>(),
+    std::unary_function<T &, void>(),
     application_(application)
 {
 }
 
 template<typename T>
 Finalizer<T>::Finalizer(const Finalizer<T> & source) throw() :
-    std::unary_function<std::pair<const std::string, T> &, void>(source),
+    std::unary_function<T &, void>(source),
     application_(source.application_)
 {
 }
@@ -160,8 +159,7 @@ Finalizer<T>::operator=(const Finalizer<T> & source) throw()
 {
     if (this != &source)
     {
-        std::unary_function<std::pair<const std::string, T> &, void>
-            ::operator=(source);
+        std::unary_function<T &, void>::operator=(source);
         application_ = source.application_;
     }
 
@@ -170,9 +168,9 @@ Finalizer<T>::operator=(const Finalizer<T> & source) throw()
 
 template<typename T>
 void
-Finalizer<T>::operator()(std::pair<const std::string, T> & x) throw()
+Finalizer<T>::operator()(T & x) throw()
 {
-    x.second->final(*application_);
+    x->final(*application_);
 }
 
 Application::Application(int & argc, char ** & argv) throw() :
@@ -283,37 +281,34 @@ Application::init() throw()
 //                                   date_manager));
 
     IPluginPtr editor(new Editor());
-    plugins_.insert(std::make_pair("editor", editor));
+    plugins_.push_back(editor);
 
     IPluginPtr property_manager(new PropertyManager());
-    plugins_.insert(std::make_pair("property-manager",
-                                   property_manager));
+    plugins_.push_back(property_manager);
 
     IPluginPtr search_manager(new SearchManager());
-    plugins_.insert(std::make_pair("search-manager", search_manager));
+    plugins_.push_back(search_manager);
 
     IPluginPtr tag_manager(new TagManager( ));
-    plugins_.insert(std::make_pair("tag-manager", tag_manager));
+    plugins_.push_back(tag_manager);
 
     IPhotoDestinationPtr directory_destination(
                              new DirectoryDestination());
     IPluginPtr directory_exporter(new Exporter(directory_destination,
                                                true));
-    plugins_.insert(std::make_pair("directory-exporter",
-                                   directory_exporter));
+    plugins_.push_back(directory_exporter);
 
 //    IPhotoSourcePtr directory_source(new DirectorySource());
 //    IPluginPtr directory_importer(new Importer(directory_source, true));
-//    plugins_.insert(std::make_pair("directory-importer",
-//                                   directory_importer));
+//    plugins_.push_back(directory_importer);
 
 //    IPhotoSourcePtr camera_source(new CameraSource());
 //    IPluginPtr camera_importer(new Importer(camera_source, false));
-//    plugins_.insert(std::make_pair("camera-importer", camera_importer));
+//    plugins_.push_back(camera_importer);
 
 //    IPhotoSourcePtr flickr_source(new FlickrSource());
 //    IPluginPtr flickr_importer(new Importer(flickr_source, false));
-//    plugins_.insert(std::make_pair("flickr-importer", flickr_importer));
+//    plugins_.push_back(flickr_importer);
 
     std::for_each(plugins_.begin(), plugins_.end(),
                   Initializer<IPluginPtr>(this));
@@ -363,7 +358,7 @@ Application::final() throw()
 
     rendererRegistry_.final(*this);
 
-    std::for_each(plugins_.begin(), plugins_.end(),
+    std::for_each(plugins_.rbegin(), plugins_.rend(),
                   Finalizer<IPluginPtr>(this));
     plugins_.clear();
 }

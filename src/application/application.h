@@ -138,7 +138,7 @@ class Application :
 
         Gtk::TreeModel::iterator listStoreIter_;
 
-        std::map<std::string, IPluginPtr> plugins_;
+        IPluginList plugins_;
 
         RendererRegistry rendererRegistry_;
 

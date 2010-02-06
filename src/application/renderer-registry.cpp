@@ -170,7 +170,7 @@ RendererRegistry::init(Application & application) throw()
 void
 RendererRegistry::final(Application & application) throw()
 {
-    std::for_each(renderers_.begin(), renderers_.end(),
+    std::for_each(renderers_.rbegin(), renderers_.rend(),
                   Finalizer<IRendererPtr>(&application));
 }
 

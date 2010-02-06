@@ -183,6 +183,7 @@ typedef std::vector<IPhotoSourcePtr> IPhotoSourceList;
 class IPlugin;
 typedef std::tr1::shared_ptr<const IPlugin> ConstIPluginPtr;
 typedef std::tr1::shared_ptr<IPlugin> IPluginPtr;
+typedef std::vector<IPluginPtr> IPluginList;
 
 class IRenderer;
 typedef std::tr1::shared_ptr<const IRenderer> ConstIRendererPtr;
