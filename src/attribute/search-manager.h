@@ -38,7 +38,6 @@ class RendererRegistry;
 
 class SearchManager :
     public Plugin,
-    public sigc::trackable,
     public SearchCriterionSource
 {
     public:

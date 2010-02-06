@@ -67,7 +67,6 @@ static const std::string uiFileThumbnail
 BrowserRenderer::BrowserRenderer() throw() :
     IRenderer(),
     Plugin(),
-    sigc::trackable(),
     application_(NULL),
     iconFactory_(Gtk::IconFactory::create()),
     actionGroup_(Gtk::ActionGroup::create(
@@ -334,11 +333,6 @@ BrowserRenderer::init(Application & application) throw()
 
     ui_manager->insert_action_group(actionGroup_);
 
-    signalInitEnd_
-        = application.init_end().connect(
-              sigc::mem_fun(*this,
-                            &BrowserRenderer::on_init_end));
-
     // NB: This should not be done in the constructor because if
     //     'false == application_' then the handler will crash.
     //     Better safe than sorry.
@@ -385,6 +379,8 @@ BrowserRenderer::final(Application & application) throw()
     }
 
     treeModelFilter_.reset();
+
+    main_window.undock_object_center(GDL_DOCK_OBJECT(dockItem_));
 
     RendererRegistry & renderer_registry
         = application.get_renderer_registry();
@@ -541,12 +537,6 @@ BrowserRenderer::on_action_view_slideshow() throw()
 
     slideshow_renderer->present();
     slideshow_renderer->render(photo);
-}
-
-void
-BrowserRenderer::on_init_end(Application & application) throw()
-{
-    signalInitEnd_.disconnect();
 }
 
 void

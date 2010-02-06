@@ -38,8 +38,7 @@ namespace Solang
 
 class BrowserRenderer :
     public IRenderer,
-    public Plugin,
-    public sigc::trackable
+    public Plugin
 {
     public:
         BrowserRenderer() throw();
@@ -67,9 +66,6 @@ class BrowserRenderer :
 
         virtual void
         render(const PhotoList & photos) throw();
-
-        void
-        on_init_end(Application & application) throw();
 
         void
         on_selection_changed() throw();

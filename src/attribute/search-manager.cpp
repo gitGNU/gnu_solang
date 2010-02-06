@@ -43,7 +43,6 @@ const std::string SearchManager::uiFile_
 
 SearchManager::SearchManager() throw() :
     Plugin(),
-    sigc::trackable(),
     actionGroup_(Gtk::ActionGroup::create(
                      Glib::ustring::compose("%1:%2",
                                             __FILE__,

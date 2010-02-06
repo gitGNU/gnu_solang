@@ -63,7 +63,6 @@ image_view_on_scroll_event(GtkImageView * view,
 EnlargedRenderer::EnlargedRenderer() throw() :
     IRenderer(),
     Plugin(),
-    sigc::trackable(),
     application_(NULL),
     firstUse_(true),
     iconFactory_(Gtk::IconFactory::create()),

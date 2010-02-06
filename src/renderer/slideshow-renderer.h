@@ -34,8 +34,7 @@ namespace Solang
 
 class SlideshowRenderer :
     public IRenderer,
-    public Plugin,
-    public sigc::trackable
+    public Plugin
 {
     public:
         SlideshowRenderer() throw();

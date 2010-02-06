@@ -36,8 +36,7 @@ namespace Solang
 
 class EnlargedRenderer :
     public IRenderer,
-    public Plugin,
-    public sigc::trackable
+    public Plugin
 {
     public:
         EnlargedRenderer() throw();

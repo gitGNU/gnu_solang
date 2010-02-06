@@ -44,7 +44,6 @@ static const std::string uiFile
 SlideshowRenderer::SlideshowRenderer() throw() :
     IRenderer(),
     Plugin(),
-    sigc::trackable(),
     application_(0),
     firstUse_(true),
     actionGroup_(0),
