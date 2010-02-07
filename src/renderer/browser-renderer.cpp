@@ -635,6 +635,16 @@ BrowserRenderer::on_limits_changed() throw()
 
     status_pop();
     status_push();
+
+    const Gtk::TreeModel::Children children
+                                       = treeModelFilter_->children();
+    if (true == children.empty())
+    {
+        return;
+    }
+
+    thumbnailView_.select_path(treeModelFilter_->get_path(
+                                   children.begin()));
 }
 
 void
