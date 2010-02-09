@@ -35,13 +35,13 @@
 
   <steps>
     <item>
-      <p>From the <gui>main</gui> window, select then or more photos you want to tag.</p>
+      <p>From the <gui>main</gui> window, select one or more photos you want to tag.</p>
     </item>
     <item>
       <p>In the <gui>Tag List</gui>, click on the tag you want to attach to these photos.</p>
     </item>
     <item>
-      <p>Choose <guiseq><gui>Tags</gui><gui>Attach Tag to Selection</gui></guiseq> or press <keyseq><key>Ctrl</key><key>T</key></keyseq> to attach the tag with these photos.</p>
+      <p>Choose <guiseq><gui>Tags</gui><gui>Attach Tag to Selection</gui></guiseq> or press <keyseq><key>Ctrl</key><key>T</key></keyseq> to attach the tag to these photos.</p>
     </item>
   </steps>
   </section>
@@ -72,7 +72,7 @@
 
   <steps>
     <item>
-      <p>From the <gui>main</gui> window, select then or more photos you want to untag.</p>
+      <p>From the <gui>main</gui> window, select one or more photos you want to untag.</p>
     </item>
     <item>
       <p>In the <gui>Tag List</gui>, click on the tag you want to remove from these photos.</p>
