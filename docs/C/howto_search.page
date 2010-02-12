@@ -7,9 +7,8 @@
 	Filters your photos.
 	</desc>
 </info>
-<title>How do I use the search function ?</title>
+<title>How do I use the search function?</title>
 
-  <p><app>Solang</app> uses a powerful yet hard to understand search function.</p>
   <p>Actually you have to drag and drop one or more filters to the <gui>Search Basket</gui>. <app>Solang</app> will display only photos that correspond to all the filters you have chosen. Today only tags are filters.</p>
   <list>
     <item><p>To add a filter drag a tag from the <gui>Tag List</gui> to the <gui>Search Basket</gui>.</p></item>

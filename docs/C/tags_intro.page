@@ -2,14 +2,13 @@
       type="topic"
       id="tags_intro">
 <info>
-	<link type="guide" xref="index_tags"/>
 	<desc>
 	An introduction to tags
 	</desc>
 </info>
-<title>What's a tag ?</title>
-<p>Tags are keyword or terms you can associate with a document. You may have already seen it in weblogs.</p>
-<p><app>Solang</app> uses tags to help you organizing your photos. You can use tags to organize your pictures the way you want !</p>
+<title>What's a tag?</title>
+<p>Tags are keyword you can use to label and organize your photos. You may have already seen it in weblogs.</p>
+<p><app>Solang</app> uses tags to help you organizing your photos. In fact, you can use tags to organize your photos the way you want!</p>
 <p>For example, some people uses tags to create "albums" of their holiday photos.
 Some others use tags to show what friends are in their photos, to view only photos from one geographical place or distinguish the photos they have modified.</p>
 <p><app>Solang</app> allows you to use tags as filters to view only photos that have some tags attached to them.</p>

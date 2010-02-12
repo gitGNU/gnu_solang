@@ -1,0 +1,105 @@
+<page xmlns="http://projectmallard.org/1.0/"
+      type="topic"
+      id="keys">
+<info>
+	<desc>
+	You are going to love your keyboard.
+	</desc>
+</info>
+<title>Keyboard shortcuts</title>
+
+<section id="keys_view">
+<title>View</title>
+<table shade="rows" rules="cols" frame="top bottom">
+    <tr>
+    <td><p>Fullscreen</p></td> <td><p>Go to fullscreen mode and go back to windowed mode.</p></td>
+    <td><p><key>F11</key></p></td>
+    </tr>
+    <tr>
+    <td><p>Slideshow</p></td> <td><p>Go to slideshow mode.</p></td>
+    <td><p><key>F5</key></p></td>
+    </tr>
+    <tr>
+    <td><p>Zoom In</p></td> <td><p>Enlarge the picture or the thumbnails.</p></td>
+    <td><p><keyseq><key>Ctrl</key><key>+</key></keyseq></p></td>
+    </tr>
+    <tr>
+    <td><p>Zoom Out</p></td> <td><p>Reduce the size of the picture or the thumbnails.</p></td>
+    <td><p><keyseq><key>Ctrl</key><key>-</key></keyseq></p></td>
+    </tr>
+    <tr>
+    <td><p>Normal size</p></td> <td><p>Display image in its normal size (only in <gui>Enlarged mode</gui>).</p></td>
+    <td><p><keyseq><key>Ctrl</key><key>0</key></keyseq></p></td>
+    </tr>
+</table>
+</section>
+
+<section id="keys_tags">
+<title>Tags</title>
+<table shade="rows" rules="cols" frame="top bottom">
+    <tr>
+    <td><p>Attach Tag to Selection</p></td> <td><p>Attach the selected tag to the selected photos.</p></td>
+    <td><p><keyseq><key>Ctrl</key><key>T</key></keyseq></p></td>
+    </tr>
+</table>
+</section>
+
+<!--<section id="keys_tools"> note to reviewers : saving is not implemented at the time so it may be a good idea not to give user bad surprises
+<title>Tools</title>
+<table shade="rows" rules="cols" frame="top bottom">
+    <tr>
+    <td><p>Rotate Clockwise</p></td> <td><p>Rotate the selected photos clockwise.</p></td>
+    <td><p><keyseq><key>Ctrl</key><key>R</key></keyseq></p></td>
+    </tr>
+    <tr>
+    <td><p>Rotate Counterclockwise</p></td> <td><p>Rotate the selected photos clockwise.</p></td>
+    <td><p><keyseq><key>Shift</key><key>Ctrl</key><key>R</key></keyseq></p></td>
+    </tr>
+</table>
+</section>-->
+
+<section id="keys_navigation_browser">
+<title>Navigation (In <gui>Browser mode</gui>)</title>
+<table shade="rows" rules="cols" frame="top bottom">
+    <tr>
+    <td><p>Previous Page</p></td> <td><p>Go to the previous page.</p></td>
+    <td><p><keyseq><key>Alt</key><key>Left</key></keyseq></p></td>
+    </tr>
+    <tr>
+    <td><p>Next Page</p></td> <td><p>Go to the next page.</p></td>
+    <td><p><keyseq><key>Alt</key><key>Right</key></keyseq></p></td>
+    </tr>
+    <tr>
+    <td><p>First Page</p></td> <td><p>Go to the first page.</p></td>
+    <td><p><keyseq><key>Alt</key><key>Home</key></keyseq></p></td>
+    </tr>
+    <tr>
+    <td><p>Last Page</p></td> <td><p>Go to the last page.</p></td>
+    <td><p><keyseq><key>Alt</key><key>End</key></keyseq></p></td>
+    </tr>
+</table>
+</section>
+
+<section id="keys_navigation_enlarged">
+<title>Navigation (In <gui>Enlarged mode</gui>)</title>
+<table shade="rows" rules="cols" frame="top bottom">
+    <tr>
+    <td><p>Previous Photo</p></td> <td><p>Go to the previous photo.</p></td>
+    <td><p><keyseq><key>Alt</key><key>Left</key></keyseq></p></td>
+    </tr>
+    <tr>
+    <td><p>Next Photo</p></td> <td><p>Go to the next photo.</p></td>
+    <td><p><keyseq><key>Alt</key><key>Right</key></keyseq></p></td>
+    </tr>
+    <tr>
+    <td><p>First Photo</p></td> <td><p>Go to the first photo.</p></td>
+    <td><p><keyseq><key>Alt</key><key>Home</key></keyseq></p></td>
+    </tr>
+    <tr>
+    <td><p>Last Photo</p></td> <td><p>Go to the last photo.</p></td>
+    <td><p><keyseq><key>Alt</key><key>End</key></keyseq></p></td>
+    </tr>
+</table>
+</section>
+
+</page>

@@ -3,11 +3,12 @@
       id="tags_manage">
 <info>
 	<link type="guide" xref="index_tags"/>
+	<link type="topic" xref="tags_intro"/>
 	<desc>
-	Create, delete and attach tags to photos.
+	Create, modify and delete tags.
 	</desc>
 </info>
-<title>How do I use tags ?</title>
+<title>Manage your tags</title>
 
 <section id="create_tag" style="task">
   <title>Create a tag</title>
@@ -28,26 +29,9 @@
   </steps>
   </section>
 
-<section id="attach_tag" style="task">
-  <title>Attach a tag to photos.</title>
 
-  <p>You can attach a tag to one or more photos at once.</p>
-
-  <steps>
-    <item>
-      <p>From the <gui>main</gui> window, select one or more photos you want to tag.</p>
-    </item>
-    <item>
-      <p>In the <gui>Tag List</gui>, click on the tag you want to attach to these photos.</p>
-    </item>
-    <item>
-      <p>Choose <guiseq><gui>Tags</gui><gui>Attach Tag to Selection</gui></guiseq> or press <keyseq><key>Ctrl</key><key>T</key></keyseq> to attach the tag to these photos.</p>
-    </item>
-  </steps>
-  </section>
-
-<section id="create_tag" style="task">
-  <title>Modify a tag</title>
+<section id="modify_tag" style="task">
+  <title>Modify a Tag</title>
 
   <p>You can modify the name and the description of a tag.</p>
 
@@ -61,24 +45,6 @@
     </item>
     <item>
       <p>Press <gui>OK</gui> to save the modifications of the tag.</p>
-    </item>
-  </steps>
-  </section>
-
-<section id="remove_tag" style="task">
-  <title>Remove a tag from photos.</title>
-
-  <p>You can remove a tag from one or more photos at once.</p>
-
-  <steps>
-    <item>
-      <p>From the <gui>main</gui> window, select one or more photos you want to untag.</p>
-    </item>
-    <item>
-      <p>In the <gui>Tag List</gui>, click on the tag you want to remove from these photos.</p>
-    </item>
-    <item>
-      <p>Choose <guiseq><gui>Tags</gui><gui>Remove Tag From Selection</gui></guiseq> to remove the tag from these photos.</p>
     </item>
   </steps>
   </section>
