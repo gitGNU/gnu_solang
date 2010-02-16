@@ -8,6 +8,17 @@
 	</desc>
 </info>
 <title>Introduction to <app>Solang</app></title>
-<p>Solang is a photo manager for GNOME. It lets you manage your collection of photos by tagging them and searching through them based on various criteria -- tags, EXIF data, dates, etc; and offers a limited set of editing functionalities.</p>
-<p>Under the hood, <app>Solang</app> uses <app>Tracker</app> which allows it to automatically detect all the photos on your computer and publishes the tags all across the desktop.</p>
+<p><app>Solang</app> is a photo manager for the GNOME desktop. It lets you manage your collection of photos by tagging them and searching through them based on various criteria -- tags, EXIF data, dates.</p>
+<p>You don't need to care about importing your photos to view them, as soon as you add photos to your computer you can enjoy them right into <app>Solang</app>.</p>
+<p>If your photos are the wrong way around you can rotate them or flip them in one clic.</p>
+<p>You can enjoy your photos with your friends thanks to the slideshow feature and the fullscreen mode.</p>
+
+  <figure>
+    <title><gui>Main</gui> window</title>
+    <desc><app>Solang</app> main window</desc>
+    <media type="image" src="figures/main-window.png" mime="image/png" style="right">
+      <p><app>Solang</app> main window.</p>
+    </media>
+  </figure>
+
 </page>
