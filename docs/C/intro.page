@@ -6,6 +6,11 @@
 	<desc>
 	Introduction to the <app>Solang</app> photos manager.
 	</desc>
+	<credit type="author">
+		<name>Florent Thévenet</name>
+		<email>feuloren@free.fr</email>
+	</credit>
+	<include href="legal.xml" xmlns="http://www.w3.org/2001/XInclude"/>
 </info>
 <title>Introduction to <app>Solang</app></title>
 <p><app>Solang</app> is a photo manager for the GNOME desktop. It lets you manage your collection of photos by tagging them and searching through them based on various criteria -- tags, EXIF data, dates.</p>

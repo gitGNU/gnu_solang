@@ -5,6 +5,11 @@
 	<desc>
 	An introduction to tags
 	</desc>
+	<credit type="author">
+		<name>Florent Thévenet</name>
+		<email>feuloren@free.fr</email>
+	</credit>
+	<include href="legal.xml" xmlns="http://www.w3.org/2001/XInclude"/>
 </info>
 <title>What's a tag?</title>
 <p>Tags are keyword you can use to label and organize your photos. You may have already seen it in weblogs.</p>

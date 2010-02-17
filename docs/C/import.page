@@ -6,6 +6,11 @@
 	<desc>
 	To view your photos in <app>Solang</app>.
 	</desc>
+	<credit type="author">
+		<name>Florent Thévenet</name>
+		<email>feuloren@free.fr</email>
+	</credit>
+	<include href="legal.xml" xmlns="http://www.w3.org/2001/XInclude"/>
 </info>
 <title>I can't see any photos</title>
 <p>Solang only displays photos that are indexed by the <app>Tracker search tool</app>, if you don't see your photos Tracker may not be running or your photos may not be indexed. To make sure Tracker indexes your photos use the <app>Search tool preferences</app> from the <gui>System</gui> menu.</p>

@@ -1,6 +1,15 @@
 <page xmlns="http://projectmallard.org/1.0/"
       type="guide"
       id="index">
+
+<info>
+	<credit type="author">
+		<name>Florent Thévenet</name>
+		<email>feuloren@free.fr</email>
+	</credit>
+	<include href="legal.xml" xmlns="http://www.w3.org/2001/XInclude"/>
+</info>
+
 <title><app>Solang</app> Help</title>
 
   <note style="tip">

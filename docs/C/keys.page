@@ -5,6 +5,11 @@
 	<desc>
 	You are going to love your keyboard.
 	</desc>
+	<credit type="author">
+		<name>Florent Thévenet</name>
+		<email>feuloren@free.fr</email>
+	</credit>
+	<include href="legal.xml" xmlns="http://www.w3.org/2001/XInclude"/>
 </info>
 <title>Keyboard shortcuts</title>
 

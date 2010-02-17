@@ -6,6 +6,11 @@
 	<desc>
 	To view more than 50 photos.
 	</desc>
+	<credit type="author">
+		<name>Florent Thévenet</name>
+		<email>feuloren@free.fr</email>
+	</credit>
+	<include href="legal.xml" xmlns="http://www.w3.org/2001/XInclude"/>
 </info>
 <title>I don't see all my photos.</title>
 <p><app>Solang</app> only display 50 photos by page, so you can only preview 50 photos at once.</p>

@@ -6,6 +6,11 @@
 	<desc>
 	To copy photos in a archive or a folder.
 	</desc>
+	<credit type="author">
+		<name>Florent Thévenet</name>
+		<email>feuloren@free.fr</email>
+	</credit>
+	<include href="legal.xml" xmlns="http://www.w3.org/2001/XInclude"/>
 </info>
 <title>Archive your photos</title>
 <p>You can copy photos to a directory of your computer or put them in a archive.</p>
