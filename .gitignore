@@ -8,11 +8,13 @@ autom4te.cache
 config.*
 configure
 depcomp
+gnome-doc-utils.make
 install-sh
 libtool
 ltmain.sh
 missing
 mkinstalldirs
+omf.make
 org-freedesktop-thumbnails-thumbnailer1-dbus-bindings.h
 solang
 solang-marshal.c
@@ -20,6 +22,7 @@ solang-marshal.h
 stamp-h1
 stamp-it
 stamp-solang-marshal.h
+xmldocs.make
 .deps
 .intltool-merge-cache
 .libs
