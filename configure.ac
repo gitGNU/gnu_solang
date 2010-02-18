@@ -12,6 +12,7 @@ AC_PROG_CXX
 AC_PROG_CC
 AC_HEADER_STDC
 
+GNOME_DOC_INIT([0.18.0])
 
 IT_PROG_INTLTOOL([0.35.0])
 
@@ -55,6 +56,7 @@ data/icons/48x48/Makefile
 data/icons/96x96/Makefile
 data/icons/128x128/Makefile
 data/icons/scalable/Makefile
+help/Makefile
 src/Makefile
 src/application/Makefile
 src/attribute/Makefile

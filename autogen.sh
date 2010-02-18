@@ -6,6 +6,7 @@ test -z "$srcdir" && srcdir=.
 
 PKG_NAME="Solang"
 
+USE_COMMON_DOC_BUILD=yes
 USE_GNOME2_MACROS=1
 
 (test -f $srcdir/configure.ac) || {
