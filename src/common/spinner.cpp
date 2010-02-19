@@ -321,26 +321,21 @@ class CacheData :
         IconThemePtr iconTheme_;
 
         ImagesList images_;
-
-        sigc::connection signalChanged_;
 };
 
 CacheData::CacheData(const ScreenPtr & screen) throw() :
     sigc::trackable(),
     screen_(screen),
     iconTheme_(Gtk::IconTheme::get_for_screen(screen)),
-    images_(LAST_ICON_SIZE),
-    signalChanged_()
+    images_(LAST_ICON_SIZE)
 {
-    signalChanged_
-        = iconTheme_->signal_changed().connect(
-              sigc::mem_fun(*this,
-                            &CacheData::unload));
+    iconTheme_->signal_changed().connect(
+        sigc::mem_fun(*this,
+                      &CacheData::unload));
 }
 
 CacheData::~CacheData() throw()
 {
-    signalChanged_.disconnect();
     unload();
 }
 
