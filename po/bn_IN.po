@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-01-08 04:05+0000\n"
-"PO-Revision-Date: 2010-01-08 11:47+0530\n"
+"PO-Revision-Date: 2010-02-19 12:00+0530\n"
 "Last-Translator: sankarshan mukhopadhyay <sankarshan@fedoraproject.org>\n"
 "Language-Team: anubad@lists.ankur.org.in\n"
 "Language: en\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Virtaal 0.5.0\n"
+"X-Generator: Virtaal 0.5.1\n"
 
 #: ../data/solang.desktop.in.in.h:1
 msgid "@PACKAGE_NAME@ Photo Manager"
@@ -23,7 +23,7 @@ msgstr "@PACKAGE_NAME@ Photo Manager"
 
 #: ../data/solang.desktop.in.in.h:2
 msgid "Organize, enjoy and share your photos"
-msgstr ""
+msgstr "আপনার ছবিগুলি গুছিয়ে নিন, আনন্দ নিন ও অন্যদের দেখান"
 
 #: ../data/solang.desktop.in.in.h:3
 msgid "Photo Manager"
@@ -31,7 +31,7 @@ msgstr "ছবি ম্যানেজার"
 
 #: ../src/application/engine.cpp:324
 msgid "Updating path information"
-msgstr ""
+msgstr "পথ সম্পর্কে তথ্য আপডেট করা হচ্ছে"
 
 #: ../src/application/main-window.cpp:250
 msgid "_Photo"
@@ -94,15 +94,15 @@ msgstr "সঙ্কর্ষণ মুখোপাধ্যায়"
 
 #: ../src/application/main-window.cpp:666
 msgid "%1 Website"
-msgstr ""
+msgstr "%1 ওয়েবসাইট"
 
 #: ../src/attribute/date-manager.cpp:51
 msgid "Picture Taken Date"
-msgstr ""
+msgstr "যেদিন ছবিটি তোলা হয়েছে"
 
 #: ../src/attribute/property-manager.cpp:51
 msgid "Properties"
-msgstr ""
+msgstr "বৈশিষ্ট্য"
 
 #: ../src/attribute/property-manager.cpp:75
 msgid "Basic"
@@ -119,15 +119,15 @@ msgstr "অনুসন্ধান করুন"
 
 #: ../src/attribute/search-basket.cpp:49
 msgid "Auto"
-msgstr ""
+msgstr "সয়ংক্রিয়"
 
 #: ../src/attribute/search-basket.cpp:101
 msgid "Apply filters"
-msgstr ""
+msgstr "ফিল্টার প্রয়োগ করুন"
 
 #: ../src/attribute/search-basket.cpp:108
 msgid "Clear filters"
-msgstr ""
+msgstr "ফিল্টার সরিয়ে ফেলুন"
 
 #: ../src/attribute/search-basket.cpp:115
 msgid "Clear selected filter"
@@ -173,16 +173,16 @@ msgstr "নাম:"
 
 #: ../src/attribute/tag-new-dialog.cpp:49
 #: ../src/attribute/tag-new-dialog.cpp:79
-msgid "Description:"
-msgstr "বর্ণনা:"
+msgid "Description"
+msgstr "বর্ণনা"
 
 #: ../src/attribute/tag-new-dialog.cpp:56
 msgid "Create New Tag"
-msgstr ""
+msgstr "নতুন ট্যাগ তৈরী করুন"
 
 #: ../src/attribute/tag-new-dialog.cpp:127
 msgid "Select Tag Icon"
-msgstr ""
+msgstr "ট্যাগের আইকন বেছে নিন"
 
 #: ../src/common/histogram-viewer.cpp:37
 msgid "Type"
@@ -194,7 +194,7 @@ msgstr "চ্যানেল"
 
 #: ../src/common/histogram-viewer.cpp:67
 msgid "Linear"
-msgstr ""
+msgstr "লিনিয়ার"
 
 #: ../src/common/histogram-viewer.cpp:72
 msgid "Logarithmic"
