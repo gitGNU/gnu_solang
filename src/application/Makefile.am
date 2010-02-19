@@ -21,6 +21,7 @@ solang_LDADD = \
 	$(top_builddir)/src/attribute/libattribute.la \
 	$(top_builddir)/src/editor/libeditor.la \
 	$(top_builddir)/src/common/libcommon.la \
+	$(BRASERO_LIBS) \
 	$(DBUS_LIBS) \
 	$(GTKIMAGEVIEW_LIBS) \
 	$(GTKMM_LIBS) \
@@ -43,6 +44,7 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/exporter \
 	-I$(top_srcdir)/src/renderer \
 	$(SOLANG_CFLAGS) \
+	$(BRASERO_CFLAGS) \
 	$(DBUS_CFLAGS) \
 	$(GTKIMAGEVIEW_CFLAGS) \
 	$(GTKMM_CFLAGS) \

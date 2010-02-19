@@ -35,6 +35,7 @@ if test x"$DBUS_BINDING_TOOL" = x"no"; then
 fi
 
 PKG_CHECK_MODULES(BABL, [babl])
+PKG_CHECK_MODULES(BRASERO, [libbrasero-burn >= 2.28.3])
 PKG_CHECK_MODULES(DBUS, [dbus-glib-1])
 PKG_CHECK_MODULES(GDL, [gdl-1.0])
 PKG_CHECK_MODULES(GEGLMM, [geglmm >= 0.1.0])
