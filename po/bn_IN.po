@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-01-08 04:05+0000\n"
-"PO-Revision-Date: 2010-02-19 12:00+0530\n"
+"PO-Revision-Date: 2010-02-19 12:38+0530\n"
 "Last-Translator: sankarshan mukhopadhyay <sankarshan@fedoraproject.org>\n"
 "Language-Team: anubad@lists.ankur.org.in\n"
 "Language: en\n"
@@ -206,15 +206,15 @@ msgstr "RGB"
 
 #: ../src/common/histogram-viewer.cpp:85
 msgid "Red"
-msgstr ""
+msgstr "লাল"
 
 #: ../src/common/histogram-viewer.cpp:90
 msgid "Green"
-msgstr ""
+msgstr "সবুজ"
 
 #: ../src/common/histogram-viewer.cpp:95
 msgid "Blue"
-msgstr ""
+msgstr "নীল"
 
 #: ../src/database/database.cpp:139
 msgid "Saving objects"
@@ -231,7 +231,7 @@ msgstr ""
 #: ../src/edit-engine/brightness-operation.cpp:52
 #: ../src/editor/brightness-widget.cpp:21
 msgid "Brightness"
-msgstr ""
+msgstr "উজ্জ্বলতার মাপ"
 
 #: ../src/edit-engine/brightness-operation.cpp:58
 msgid "Brighten image"
@@ -340,7 +340,7 @@ msgstr "সংরক্ষণ করুন (_S)"
 
 #: ../src/editor/flip-widget.cpp:16
 msgid "Flip"
-msgstr ""
+msgstr "পাল্টে ফেলুন"
 
 #: ../src/editor/flip-widget.cpp:33
 msgid "Horizontal"
@@ -360,15 +360,15 @@ msgstr "ঘড়ির কাঁটা অনুরূপ"
 
 #: ../src/editor/rotate-widget.cpp:39
 msgid "Counter-Clockwise"
-msgstr ""
+msgstr "ঘড়ির কাঁটার বিপরীত দিকে"
 
 #: ../src/editor/save-photos-window.cpp:28
 msgid "Unsaved Photos"
-msgstr ""
+msgstr "অসংরক্ষীত ছবি"
 
 #: ../src/editor/save-photos-window.cpp:30
 msgid "Unsaved photos"
-msgstr ""
+msgstr "অসংরক্ষীত ছবি"
 
 #: ../src/editor/save-photos-window.cpp:43
 #: ../src/importer/camera-import-widget.cpp:411
@@ -395,7 +395,7 @@ msgstr ""
 #: ../src/exporter/directory-destination.cpp:203
 #: ../src/importer/directory-source.cpp:196
 msgid "_Folder..."
-msgstr ""
+msgstr "ফোল্ডার...(_F)"
 
 #: ../src/exporter/exporter-dialog.cpp:33
 msgid "Export"
