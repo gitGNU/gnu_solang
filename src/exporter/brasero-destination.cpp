@@ -73,7 +73,6 @@ BraseroDestination::export_photo(
     brasero_track_data_cfg_add(braseroTrackDataCfg_,
                                photo->get_uri().c_str(),
                                0);
-    observer->receive_event_notifiation();
 }
 
 void
@@ -87,8 +86,12 @@ BraseroDestination::export_photos(
         return;
     }
 
-    observer->set_event_description(_("Exporting Photos"));
-    observer->set_num_events(photos.size());
+    if (0 != observer)
+    {
+        observer->set_event_description(_("Exporting photos"));
+        observer->set_num_events(photos.size());
+        observer->set_current_events(0);
+    }
 
     braseroSessionCfg_ = brasero_session_cfg_new();
     brasero_burn_session_set_burner(
@@ -107,10 +110,20 @@ BraseroDestination::export_photos(
     for (it = photos.begin(); photos.end() != it; it++)
     {
         export_photo(*it, observer);
+
+        if (0 != observer)
+        {
+            observer->receive_event_notifiation();
+        }
     }
 
     g_object_unref(braseroTrackDataCfg_);
     braseroTrackDataCfg_ = 0;
+
+    if (0 != observer)
+    {
+        observer->reset();
+    }
 
     braseroBurnBegin_.emit();
 }
