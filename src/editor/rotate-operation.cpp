@@ -21,9 +21,11 @@
 #endif // HAVE_CONFIG_H
 
 #include <geglmm.h>
+#include <geglmm/buffer.h>
 #include <glibmm/i18n.h>
 
 #include "rotate-operation.h"
+#include "utils.h"
 
 namespace Solang
 {
@@ -56,11 +58,15 @@ RotateOperation::get_description() const throw()
 }
 
 NodePtr
-RotateOperation::get_node(const NodePtr & root) const throw()
+RotateOperation::get_node(const BufferPtr & buffer,
+                          const NodePtr & root) const throw()
 {
-    const NodePtr operation = root->new_child("operation",
-                                              "gegl:rotate");
-    gegl_node_set(operation->gobj(),
+    const NodePtr operation = Gegl::Node::create();
+    operation->set("format", babl_format("RGB u8"));
+
+    const NodePtr rotate = root->new_child("operation",
+                                           "gegl:rotate");
+    gegl_node_set(rotate->gobj(),
                   "origin-x", originX_,
                   "origin-y", originY_,
                   "filter", filter_.c_str(),
@@ -68,6 +74,46 @@ RotateOperation::get_node(const NodePtr & root) const throw()
                   "lanczos-width", lanczosWidth_,
                   "degrees", degrees_,
                   NULL);
+
+    const Gegl::Rectangle & extent = buffer->get_extent();
+    const gint height = extent.gobj()->height;
+    const gint width = extent.gobj()->width;
+
+    gint translate_x;
+    gint translate_y;
+
+    if (is_equal(-90.0, degrees_)) // clockwise
+    {
+        translate_x = height;
+        translate_y = 0;
+    }
+    else if (is_equal(90.0, degrees_)) // counter-clockwise
+    {
+        translate_x = 0;
+        translate_y = width;
+    }
+
+    const NodePtr translate = operation->new_child("operation",
+                                                   "gegl:translate");
+    gegl_node_set(translate->gobj(),
+                  "filter", "nearest",
+                  "x", static_cast<gdouble>(translate_x),
+                  "y", static_cast<gdouble>(translate_y),
+                  NULL);
+
+    const NodePtr crop = operation->new_child("operation",
+                                              "gegl:crop");
+    gegl_node_set(crop->gobj(),
+                  "x", 0.0,
+                  "y", 0.0,
+                  "width", static_cast<gdouble>(height),
+                  "height", static_cast<gdouble>(width),
+                  NULL);
+
+    const NodePtr input = operation->get_input_proxy("input");
+    const NodePtr output = operation->get_output_proxy("output");
+
+    input->link(rotate)->link(translate)->link(crop)->link(output);
 
     return operation;
 }

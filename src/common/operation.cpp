@@ -65,7 +65,7 @@ Operation::apply(const BufferPtr & buffer,
                   "buffer", buffer->gobj(),
                   NULL);
 
-    const NodePtr operation = get_node(root);
+    const NodePtr operation = get_node(buffer, root);
 
     const NodePtr buffer_sink = root->new_child("operation",
                                                 "gegl:buffer-sink");

@@ -54,7 +54,8 @@ class FlipOperation :
 
     protected:
         virtual NodePtr
-        get_node(const NodePtr & root) const throw();
+        get_node(const BufferPtr & buffer, const NodePtr & root) const
+                 throw();
 
         void
         set_hard_edges(bool hard_edges) throw();

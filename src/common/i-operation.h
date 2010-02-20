@@ -62,7 +62,8 @@ class IOperation :
         IOperation() throw();
 
         virtual NodePtr
-        get_node(const NodePtr & root) const throw() = 0;
+        get_node(const BufferPtr & buffer, const NodePtr & root) const
+                 throw() = 0;
 
     private:
 };

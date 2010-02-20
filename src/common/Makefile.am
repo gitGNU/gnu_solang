@@ -85,7 +85,9 @@ libcommon_la_SOURCES = \
 	thumbnailer.h \
 	thumbnailer-proxy.cpp \
 	thumbnailer-proxy.h \
-	types.h
+	types.h \
+	utils.cpp \
+	utils.h
 
 AM_CPPFLAGS = \
 	-DPACKAGE_LOCALE_DIR=\""${datadir}/locale"\" \
