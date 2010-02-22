@@ -85,7 +85,7 @@ msgstr "Florent Thévenet <feuloren@free.fr>, 2010."
 #: ../src/application/main-window.cpp:633
 msgctxt "Project website"
 msgid "%1 Website"
-msgstr ""
+msgstr "Site Internet %1"
 
 #: ../src/attribute/basic-exif-view.cpp:93
 msgid "Camera"
