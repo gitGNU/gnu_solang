@@ -163,10 +163,9 @@ Database::search_async(const IPhotoSearchCriteriaList & criteria,
 
     const Glib::ustring query
         = Glib::ustring::compose(
-              "SELECT ?photo ?mime "
+              "SELECT nie:url(?photo) nie:mimeType(?photo) "
               "WHERE {"
-              "  ?photo a nmm:Photo ;"
-              "  nie:mimeType ?mime ."
+              "  ?photo a nmm:Photo ."
               "  %1"
               "}",
               clauses);
