@@ -119,7 +119,7 @@ msgstr "Режим измерения"
 
 #: ../src/attribute/basic-exif-view.cpp:211
 msgid "Focal length"
-msgstr ""
+msgstr "Фокусное расстояние"
 
 #: ../src/attribute/basic-exif-view.cpp:231
 msgid "White balance"
@@ -127,7 +127,7 @@ msgstr "Баланс белого"
 
 #: ../src/attribute/date-manager.cpp:50
 msgid "Picture Taken Date"
-msgstr ""
+msgstr "Дата создания фотографии"
 
 #: ../src/attribute/property-manager.cpp:49
 msgid "Properties"
@@ -245,22 +245,22 @@ msgstr ""
 #: ../src/common/exif-data.cpp:216
 msgctxt "Metering mode"
 msgid "Pattern"
-msgstr ""
+msgstr "Шаблон"
 
 #: ../src/common/exif-data.cpp:220
 msgctxt "Metering mode"
 msgid "Partial"
-msgstr ""
+msgstr "Частично"
 
 #: ../src/common/exif-data.cpp:236
 msgctxt "White balance"
 msgid "Automatic"
-msgstr ""
+msgstr "Автоматически"
 
 #: ../src/common/exif-data.cpp:240
 msgctxt "White balance"
 msgid "Manual"
-msgstr ""
+msgstr "Вручную"
 
 #: ../src/common/histogram-viewer.cpp:38
 msgid "Type"
@@ -306,7 +306,7 @@ msgstr "_Преобразование"
 
 #: ../src/editor/editor.cpp:123
 msgid "Flip _Horizontal"
-msgstr ""
+msgstr "_Горизонтальное отражение"
 
 #: ../src/editor/editor.cpp:124
 msgid "Mirror the photo horizontally"
@@ -314,7 +314,7 @@ msgstr "Отразить фотографию горизонтально"
 
 #: ../src/editor/editor.cpp:135
 msgid "Flip _Vertical"
-msgstr ""
+msgstr "_Вертикальное отражение"
 
 #: ../src/editor/editor.cpp:136
 msgid "Mirror the photo vertically"
@@ -322,7 +322,7 @@ msgstr "Отразить фотографию вертикально"
 
 #: ../src/editor/editor.cpp:147
 msgid "_Rotate Clockwise"
-msgstr ""
+msgstr "Вращать по _часовой стрелке"
 
 #: ../src/editor/editor.cpp:148
 msgid "Rotate the photo 90 degrees to the right"
@@ -330,7 +330,7 @@ msgstr "Вращение на 90 градусов вправо"
 
 #: ../src/editor/editor.cpp:159
 msgid "Rotate Counterc_lockwise"
-msgstr ""
+msgstr "Вращать про_тив часовой стрелки"
 
 #: ../src/editor/editor.cpp:160
 msgid "Rotate the photo 90 degrees to the left"
@@ -338,23 +338,23 @@ msgstr "Вращение на 90 градусов влево"
 
 #: ../src/editor/flip-horiz-operation.cpp:43
 msgid "Flipping horizontally..."
-msgstr ""
+msgstr "Горизонтальное отражение..."
 
 #: ../src/editor/flip-operation.cpp:59
 msgid "Flipping..."
-msgstr ""
+msgstr "Отражение..."
 
 #: ../src/editor/flip-vert-operation.cpp:43
 msgid "Flipping vertically..."
-msgstr ""
+msgstr "Вертикальное отражение..."
 
 #: ../src/editor/rotate-clock-operation.cpp:43
 msgid "Rotating clockwise..."
-msgstr ""
+msgstr "Вращение по часовой стрелке..."
 
 #: ../src/editor/rotate-counter-operation.cpp:43
 msgid "Rotating counterclockwise..."
-msgstr ""
+msgstr "Вращение против часовой стрелки..."
 
 #: ../src/editor/rotate-operation.cpp:57
 msgid "Rotating..."
@@ -400,7 +400,7 @@ msgstr "_Создать архив"
 #: ../src/exporter/exporter-dialog.cpp:66
 msgctxt "A group of UI controls"
 msgid "General"
-msgstr ""
+msgstr "Основные"
 
 #: ../src/exporter/exporter-dialog.cpp:78
 msgctxt "A group of UI controls"
@@ -423,7 +423,7 @@ msgstr "Запустить просмотр в виде слайдшоу для 
 
 #: ../src/renderer/browser-renderer.cpp:153
 msgid "Enlarge or shrink the thumbnails"
-msgstr ""
+msgstr "Увеличить или уменьшить размер эскизов"
 
 #: ../src/renderer/browser-renderer.cpp:175
 #: ../src/renderer/enlarged-renderer.cpp:317
@@ -435,7 +435,7 @@ msgstr "_Приблизить"
 
 #: ../src/renderer/browser-renderer.cpp:176
 msgid "Enlarge the thumbnails"
-msgstr ""
+msgstr "Увеличить размер эскизов"
 
 #: ../src/renderer/browser-renderer.cpp:187
 msgid "_Zoom Out"
@@ -443,12 +443,12 @@ msgstr "_Отдалить"
 
 #: ../src/renderer/browser-renderer.cpp:188
 msgid "Shrink the thumbnails"
-msgstr ""
+msgstr "Уменьшить размер эскизов"
 
 #: ../src/renderer/browser-renderer.cpp:199
 #: ../src/renderer/enlarged-renderer.cpp:312
 msgid "_Go"
-msgstr ""
+msgstr "П_ерейти"
 
 #: ../src/renderer/browser-renderer.cpp:204
 msgid "_Previous Page"
@@ -536,7 +536,7 @@ msgstr "_Отдалить"
 #: ../src/renderer/slideshow-window.cpp:137
 #: ../src/renderer/slideshow-window.cpp:146
 msgid "Shrink the photo"
-msgstr ""
+msgstr "Уменьшить фотографию"
 
 #: ../src/renderer/enlarged-renderer.cpp:334
 #: ../src/renderer/slideshow-window.cpp:83
@@ -563,18 +563,18 @@ msgstr "Оригинал"
 
 #: ../src/renderer/enlarged-renderer.cpp:360
 msgid "Best _Fit"
-msgstr ""
+msgstr "Наилучшее _размещение"
 
 #: ../src/renderer/enlarged-renderer.cpp:361
 #: ../src/renderer/slideshow-window.cpp:102
 msgid "Fit the photo to the window"
-msgstr ""
+msgstr "Разместить фотографию в окне"
 
 #: ../src/renderer/enlarged-renderer.cpp:363
 #: ../src/renderer/slideshow-window.cpp:101
 msgctxt "Zoom"
 msgid "Fit"
-msgstr ""
+msgstr "Разместить"
 
 #: ../src/renderer/enlarged-renderer.cpp:374
 #: ../src/renderer/enlarged-renderer.cpp:420
@@ -622,16 +622,16 @@ msgstr "П_оследняя фотография"
 #: ../src/renderer/slideshow-renderer.cpp:187
 #: ../src/renderer/slideshow-renderer.cpp:231
 msgid "Go to the last photo in the collection"
-msgstr "Перейти к полсдней фотографии в коллекции"
+msgstr "Перейти к последней фотографии в коллекции"
 
 #: ../src/renderer/slideshow-renderer.cpp:161
 #: ../src/renderer/slideshow-renderer.cpp:205
 msgctxt "Navigation"
 msgid "First"
-msgstr ""
+msgstr "Первый"
 
 #: ../src/renderer/slideshow-renderer.cpp:186
 #: ../src/renderer/slideshow-renderer.cpp:230
 msgctxt "Navigation"
 msgid "Last"
-msgstr ""
+msgstr "Последний"
