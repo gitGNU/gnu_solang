@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Solang\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-02-24 04:09+0000\n"
-"PO-Revision-Date: 2010-02-24 21:10+0800\n"
+"PO-Revision-Date: 2010-02-24 21:17+0800\n"
 "Last-Translator: Cheng-Chia Tseng <pswo10680@gmail.com>\n"
 "Language-Team: chinese-l10n <chinese-l10n@googlegroups.com>\n"
 "MIME-Version: 1.0\n"
@@ -109,7 +109,7 @@ msgstr "閃光"
 
 #: ../src/attribute/basic-exif-view.cpp:152
 msgid "F-number"
-msgstr ""
+msgstr "F 值"
 
 #: ../src/attribute/basic-exif-view.cpp:171
 msgid "ISO speed"
@@ -117,7 +117,7 @@ msgstr "ISO 速度"
 
 #: ../src/attribute/basic-exif-view.cpp:190
 msgid "Metering mode"
-msgstr "量測模式"
+msgstr "測光模式"
 
 #: ../src/attribute/basic-exif-view.cpp:211
 msgid "Focal length"
@@ -237,12 +237,12 @@ msgstr "中央側重平均"
 #: ../src/common/exif-data.cpp:208
 msgctxt "Metering mode"
 msgid "Spot"
-msgstr "單點式"
+msgstr "單點"
 
 #: ../src/common/exif-data.cpp:212
 msgctxt "Metering mode"
 msgid "Multi-spot"
-msgstr "多點式"
+msgstr "多點"
 
 #: ../src/common/exif-data.cpp:216
 msgctxt "Metering mode"
